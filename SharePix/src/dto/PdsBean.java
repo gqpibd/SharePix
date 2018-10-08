@@ -1,0 +1,143 @@
+package dto;
+
+//	DROP TABLE PICPDS
+//	CASCADE CONSTRAINTS;
+//
+//	CREATE TABLE PICPDS(
+//	   SEQ NUMBER(10) NOT NULL PRIMARY KEY,
+//	   ID VARCHAR2(50) NOT NULL,
+//	   CATEGORY VARCHAR2(100) NOT NULL,
+//	   TAGS VARCHAR2(500),
+//	   UPLOADDATE DATE NOT NULL,
+//	   FILENAME VARCHAR2(50) NOT NULL,
+//	   READCOUNT NUMBER(10) NOT NULL,
+//	   DOWNCOUNT VARCHAR2(10) NOT NULL,
+//	   CONSTRAINT fk_picpds_id FOREIGN KEY(ID) REFERENCES MEMBER(ID)
+//	);
+//
+//	DROP SEQUENCE PICPDS_SEQ;
+//	
+//	CREATE SEQUENCE PICPDS_SEQ
+//	START WITH 1
+//	INCREMENT BY 1;
+
+import java.util.Arrays;
+
+public class PdsBean {
+
+	private int seq;
+	private String id;
+	private String category;
+	private String[] tags;
+	private String uploadDate;
+	private String fileName;
+	private int readCount;
+	private int downCount;
+	private int likeCount;
+	private int replyCount;
+
+	public PdsBean() { }
+
+	public PdsBean(int seq, String id, String category, String[] tags, String uploadDate, String fileName, int readCount,
+			int downCount, int likeCount, int replyCount) {
+		super();
+		this.seq = seq;
+		this.id = id;
+		this.category = category;
+		this.tags = tags;
+		this.uploadDate = uploadDate;
+		this.fileName = fileName;
+		this.readCount = readCount;
+		this.downCount = downCount;
+		this.likeCount = likeCount;
+		this.replyCount = replyCount;
+	}
+
+	public int getSeq() {
+		return seq;
+	}
+
+	public void setSeq(int seq) {
+		this.seq = seq;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public String[] getTags() {
+		return tags;
+	}
+
+	public void setTags(String[] tags) {
+		this.tags = tags;
+	}
+
+	public String getUploadDate() {
+		return uploadDate;
+	}
+
+	public void setUploadDate(String uploadDate) {
+		this.uploadDate = uploadDate;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public int getReadCount() {
+		return readCount;
+	}
+
+	public void setReadCount(int readCount) {
+		this.readCount = readCount;
+	}
+
+	public int getDownCount() {
+		return downCount;
+	}
+
+	public void setDownCount(int downCount) {
+		this.downCount = downCount;
+	}
+
+	public int getLikeCount() {
+		return likeCount;
+	}
+
+	public void setLikeCount(int likeCount) {
+		this.likeCount = likeCount;
+	}
+
+	public int getReplyCount() {
+		return replyCount;
+	}
+
+	public void setReplyCount(int replyCount) {
+		this.replyCount = replyCount;
+	}
+
+	@Override
+	public String toString() {
+		return "PdsDto [seq=" + seq + ", id=" + id + ", category=" + category + ", tags=" + Arrays.toString(tags)
+				+ ", uploadDate=" + uploadDate + ", fileName=" + fileName + ", readCount=" + readCount + ", downCount="
+				+ downCount + ", likeCount=" + likeCount + ", replyCount=" + replyCount + "]";
+	}
+	
+}
