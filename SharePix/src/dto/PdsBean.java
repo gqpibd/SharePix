@@ -35,11 +35,12 @@ public class PdsBean {
 	private int downCount;
 	private int likeCount;
 	private int replyCount;
+	private String fSaveName;
 
 	public PdsBean() { }
 
 	public PdsBean(int seq, String id, String category, String[] tags, String uploadDate, String fileName, int readCount,
-			int downCount, int likeCount, int replyCount) {
+			int downCount, int likeCount, int replyCount, String fSaveName) {
 		super();
 		this.seq = seq;
 		this.id = id;
@@ -51,6 +52,7 @@ public class PdsBean {
 		this.downCount = downCount;
 		this.likeCount = likeCount;
 		this.replyCount = replyCount;
+		this.fSaveName = fSaveName;
 	}
 
 	public int getSeq() {
@@ -133,11 +135,19 @@ public class PdsBean {
 		this.replyCount = replyCount;
 	}
 
+	public String getfSaveName() {
+		return fSaveName;
+	}
+
+	public void setfSaveName(String fSaveName) {
+		this.fSaveName = fSaveName;
+	}
+
 	@Override
 	public String toString() {
-		return "PdsDto [seq=" + seq + ", id=" + id + ", category=" + category + ", tags=" + Arrays.toString(tags)
+		return "PdsBean [seq=" + seq + ", id=" + id + ", category=" + category + ", tags=" + Arrays.toString(tags)
 				+ ", uploadDate=" + uploadDate + ", fileName=" + fileName + ", readCount=" + readCount + ", downCount="
-				+ downCount + ", likeCount=" + likeCount + ", replyCount=" + replyCount + "]";
+				+ downCount + ", likeCount=" + likeCount + ", replyCount=" + replyCount + ", fSaveName=" + fSaveName
+				+ "]";
 	}
-	
 }

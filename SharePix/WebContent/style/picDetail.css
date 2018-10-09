@@ -1,0 +1,206 @@
+@charset "UTF-8";
+
+/* * {
+  outline: none;
+  box-sizing: border-box;
+}
+ */
+html {
+  font-size: 100%;
+}
+
+body {
+  height: 100%;
+  padding: 1rem;
+  background-color: #f6f5f1;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-family: -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", Roboto, Oxygen, Ubuntu, "Helvetica Neue", sans-serif;
+  background-image: linear-gradient(45deg, #4f5068 0%, #4f5068 100%);
+}
+@media screen and (min-width: 55em) {
+  body {
+    height: 100vh;
+    margin: 0;
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  -webkit-font-smoothing: antialiased;
+}
+
+p, span, ul, li {
+  color: #2d4338;
+  font-weight: 100;
+  /* -webkit-font-smoothing: subpixel-antialiased; */
+  font-size: 1rem;
+}
+  
+.main {
+  position: relative;
+  left: 0;
+  right: 0;
+  border-radius: 0;
+  width: 100%;
+  overflow: hidden;
+  max-width: 1220px;  
+  /* min-width: 450px; */
+  margin: 1rem auto;
+  background-color: #f5f7f6;
+  box-shadow: 5px 5px 72px rgba(30, 46, 50, 0.5);
+  color: #040605;
+}
+@media screen and (min-width: 55em) {
+  .main {
+    /* margin: auto; */
+    top: 5%;
+  }
+}
+
+.left {
+  width: 100%;
+  margin: 0 auto;
+  float: none;
+  background: linear-gradient(120deg, #eff3f3, #e1e7e8);
+  padding-bottom: 0.7rem;
+}
+
+@media screen and (min-width: 55em) {
+  .left {
+    position: absolute;
+    width: 70%;
+    float: left;
+    margin-bottom: 0;
+  }
+}
+
+.left .content {
+  padding: 2rem 1.5rem 2rem 4rem;
+  color: #040605;
+}
+
+.left__heading {
+  font-size: 2.2rem;
+  font-weight: bold;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-bottom: 3rem;
+  margin-top: 1rem;
+}
+.heading__heading span {
+  float: right;
+  font-weight: 300;
+}
+
+.rightbar {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: stretch;
+  width: 100%;
+  float: none;
+  min-height: 580px;
+  height: 100%;
+  font-size: 12px;
+  padding: 0.8rem 0 1rem 1rem;
+}
+@media screen and (min-width: 55em) {
+  .rightbar {
+    width: 30%;
+    float: right;
+  }
+}
+
+a{
+	color: black;
+	text-decoration: none;
+}
+.tag {
+	background-color: #ededed;
+	-moz-border-radius: 17px;
+	-webkit-border-radius: 17px;
+	border-radius: 17px;
+	border: 1px solid #dcdcdc;
+	display: inline-block;
+	cursor: pointer;
+	color: #777777;
+	font-family: Arial;
+	font-size: 19px;
+	padding: 6px 29px;
+	text-decoration: none;
+}
+
+.tag:hover {
+	background-color: #dfdfdf;
+}
+
+.img {
+	max-width: 100%;
+	height: auto;
+}
+.profile {
+    width: 100px; 
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-left: 10px;
+}
+
+.download {
+	-moz-box-shadow:inset 0px 1px 0px 0px #97c4fe;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #97c4fe;
+	box-shadow:inset 0px 1px 0px 0px #97c4fe;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #3d94f6), color-stop(1, #1e62d0));
+	background:-moz-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
+	background:-webkit-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
+	background:-o-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
+	background:-ms-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
+	background:linear-gradient(to bottom, #3d94f6 5%, #1e62d0 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#3d94f6', endColorstr='#1e62d0',GradientType=0);
+	background-color:#3d94f6;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #337fed;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:7px 76px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #1570cd;
+	outline:none; /* 포커스 되었을 때 아웃라인 없앰 */
+}
+.download:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #1e62d0), color-stop(1, #3d94f6));
+	background:-moz-linear-gradient(top, #1e62d0 5%, #3d94f6 100%);
+	background:-webkit-linear-gradient(top, #1e62d0 5%, #3d94f6 100%);
+	background:-o-linear-gradient(top, #1e62d0 5%, #3d94f6 100%);
+	background:-ms-linear-gradient(top, #1e62d0 5%, #3d94f6 100%);
+	background:linear-gradient(to bottom, #1e62d0 5%, #3d94f6 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#1e62d0', endColorstr='#3d94f6',GradientType=0);
+	background-color:#1e62d0;
+}
+/* 프로필 사진 보여주는 다른 방식 */
+/* .profile-container{
+	display: inline-block;
+	 position: relative;
+}
+
+.bottomleft {
+	position: absolute;
+	margin-left : 10px;
+	left: 0;
+	bottom: 0
+}
+.profile-text{
+	display: inline-block;
+	font-size: 20px;
+}
+
+.profile-img{
+	display: block;
+  	width: 100%;
+  	height: auto;
+} */
