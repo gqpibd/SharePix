@@ -12,12 +12,13 @@ html {
 body {
   height: 100%;
   padding: 1rem;
-  background-color: #f6f5f1;
+  /* background-color: #f6f5f1; */
+  background-color: #ffffff;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   font-family: -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", Roboto, Oxygen, Ubuntu, "Helvetica Neue", sans-serif;
-  background-image: linear-gradient(45deg, #4f5068 0%, #4f5068 100%);
-}
+  /* background-image: linear-gradient(45deg, #4f5068 0%, #4f5068 100%); */
+} 
 @media screen and (min-width: 55em) {
   body {
     height: 100vh;
@@ -29,13 +30,13 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-font-smoothing: antialiased;
 }
 
-p, span, ul, li {
+p, span, ul, li{
   color: #2d4338;
   font-weight: 100;
-  /* -webkit-font-smoothing: subpixel-antialiased; */
+  -webkit-font-smoothing: subpixel-antialiased;
   font-size: 1rem;
 }
-  
+/*   
 .main {
   position: relative;
   left: 0;
@@ -44,16 +45,31 @@ p, span, ul, li {
   width: 100%;
   overflow: hidden;
   max-width: 1220px;  
-  /* min-width: 450px; */
+  min-width: 450px;
   margin: 1rem auto;
   background-color: #f5f7f6;
   box-shadow: 5px 5px 72px rgba(30, 46, 50, 0.5);
   color: #040605;
+} */
+.main {
+  position: relative;
+  left: 0;
+  right: 0;
+  border-radius: 0;
+  width: 100%;   
+  max-width: 1320px;   
+  margin: 1rem auto;
+  background-color: #f5f7f6;
+  box-shadow: 5px 5px 72px rgba(30, 46, 50, 0.5);
+  color: #040605;
+  overflow:hidden;
+  
 }
 @media screen and (min-width: 55em) {
   .main {
-    /* margin: auto; */
+    margin: auto;
     top: 5%;
+    overflow: visible;
   }
 }
 
@@ -102,6 +118,7 @@ p, span, ul, li {
   height: 100%;
   font-size: 12px;
   padding: 0.8rem 0 1rem 1rem;
+  background: #ffffff;
 }
 @media screen and (min-width: 55em) {
   .rightbar {
@@ -182,6 +199,56 @@ a{
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#1e62d0', endColorstr='#3d94f6',GradientType=0);
 	background-color:#1e62d0;
 }
+/* 좋아요 버튼 */
+.btn-like {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #7892c2), color-stop(1, #476e9e));
+	background:-moz-linear-gradient(top, #7892c2 5%, #476e9e 100%);
+	background:-webkit-linear-gradient(top, #7892c2 5%, #476e9e 100%);
+	background:-o-linear-gradient(top, #7892c2 5%, #476e9e 100%);
+	background:-ms-linear-gradient(top, #7892c2 5%, #476e9e 100%);
+	background:linear-gradient(to bottom, #7892c2 5%, #476e9e 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#7892c2', endColorstr='#476e9e',GradientType=0);
+	background-color:#7892c2;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:11px 23px;
+	text-decoration:none;
+	text-shadow:0px -1px 0px #283966;
+	outline:none; /* 포커스 되었을 때 아웃라인 없앰 */	
+}
+.btn-like:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #476e9e), color-stop(1, #7892c2));
+	background:-moz-linear-gradient(top, #476e9e 5%, #7892c2 100%);
+	background:-webkit-linear-gradient(top, #476e9e 5%, #7892c2 100%);
+	background:-o-linear-gradient(top, #476e9e 5%, #7892c2 100%);
+	background:-ms-linear-gradient(top, #476e9e 5%, #7892c2 100%);
+	background:linear-gradient(to bottom, #476e9e 5%, #7892c2 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#476e9e', endColorstr='#7892c2',GradientType=0);
+	background-color:#476e9e;
+}
+.btn-like:active {
+	position:relative;
+	top:1px;
+}
+
+textarea {
+	width:90%;
+	resize: none;
+	overflow-y: hidden; /* prevents scroll bar flash */
+	/* padding: 1em; */ /* prevents text jump on Enter keypress */	
+	line-height: 1.1;
+	border-radius: 10px;
+	outline:none; /* 포커스 되었을 때 아웃라인 없앰 */	
+}
+
+
 /* 프로필 사진 보여주는 다른 방식 */
 /* .profile-container{
 	display: inline-block;
