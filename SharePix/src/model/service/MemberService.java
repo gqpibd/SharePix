@@ -1,6 +1,8 @@
-package model;
+package model.service;
 
 import dto.MemberBean;
+import model.MemberManager;
+import model.iMemberManager;
 
 public class MemberService {
 

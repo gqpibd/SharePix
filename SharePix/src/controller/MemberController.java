@@ -11,7 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dto.MemberBean;
-import model.MemberService;
+import model.service.MemberService;
+
 
 public class MemberController extends HttpServlet {
 

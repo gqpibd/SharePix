@@ -16,7 +16,7 @@
 		<h2 class="left__heading">
 			태그
 		</h2>
-			사진
+			<img src="images/1.jpg"></img>
 	</aside> 
 	<section class="rightbar"> 
 	
