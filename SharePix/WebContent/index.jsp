@@ -27,57 +27,15 @@ body {
 
 </head>
 <body>
-<!-- 
-login화면
-회원가입
-ID확인
-BBS 답변게시판
-Calendar 일정관리
-Pds 자료실
- -->
  
 <h1>Login</h1>
 <p>환영합니다</p>
 
 <div class="center">
-<!-- 
-<form action="login.jsp" method="post">
-<div style="padding: 50px 0 0 100px;">
-<div id="login-box">
-
-<table border="1">
-<tr>
-	<td>아이디</td>
-	<td>
-		<input type="text" name="id" size="20">
-	</td>
-</tr>
-<tr>
-	<td>패스워드</td>
-	<td>
-		<input type="password" name="pwd" size="20">
-	</td>
-</tr>
-
-<tr>
-	<td colspan="2">
-		<input type="submit" value="로그인">
-		<button type="button" onclick="location.href='regi.jsp'">회원가입</button>
-	</td>
-</tr>
-</table>
-
-<a href="regi.jsp">회원가입</a>
-
-</div>
-</div>
-</form> -->
 
 <form method="post" action="MemberController">
 <div style="padding: 100px 0 0 250px;">
 <div id="login-box">
-<!-- <h2>Login Page</h2>
-Please provide your credential to use this website -->
 <h2>로그인 페이지</h2>
 이 웹 사이트를 사용하려면 로그인해 주십시오.
 <input type="hidden" name="command" value="loginAf">

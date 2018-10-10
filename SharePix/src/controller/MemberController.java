@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dto.MemberBean;
 import model.MemberService;
@@ -39,10 +40,27 @@ public class MemberController extends HttpServlet {
 		System.out.println("doProcess로  들어온 command : " + command);		
 		MemberService service = MemberService.getInstance();
 		
-		if(command.equals("addUserPage")){		// 회원가입으로 이동
+		HttpSession session = req.getSession();
+		
+		
+		if(command.equals("logout")){		
 			System.out.println("command = " + command + " 들어옴");	// 확인용
 			
-			dispatch("addUserPage.jsp", req, resp);;
+			session.invalidate();
+			
+			resp.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = resp.getWriter();
+			
+			out.println("<script>alert('안녕히 가십시오'); location.href='./index.jsp';</script>");
+			 
+			out.flush();
+			
+			return;
+			
+		}else if(command.equals("addUserPage")){		// 회원가입으로 이동
+			System.out.println("command = " + command + " 들어옴");	// 확인용
+			
+			dispatch("addUserPage.jsp", req, resp);
 		}else if(command.equals("loginAf")) {	// 로그인 버튼 눌렀을 시 아이디 비밀번호 맞으면 페이지로 이동
 			
 			System.out.println("command = " + command + " 들어옴");	// 확인용
@@ -52,11 +70,22 @@ public class MemberController extends HttpServlet {
 			
 			MemberBean dto = service.manager.loginAf(id, pwd);
 			
-			if (dto != null) {// 로그인해서 dto가 db로부터 찾아졌을 때
+			System.out.println("loginAf로부터 반환되는 dto = " + dto.toString());
+			
+			if (dto != null && !dto.getId().equals("")) {// 로그인해서 dto가 db로부터 찾아졌을 때
+				session.setAttribute("login", dto);
+				session.setMaxInactiveInterval(30*60);
 				
-				dispatch("loginAf.jsp", req, resp);	// 세션에 저장하러 jsp로 이동해야
+				// 자바에서 alert 사용하기 위해  / TODO:혹은 session 에 담긴 mem이 null 일 때 로그인하라고 반환시 사용
+				resp.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = resp.getWriter();
 				
-			}else if(dto == null) {
+				out.println("<script>alert('안녕하세요." + dto.getName() + "님'); location.href='main.jsp';</script>");
+				 
+				out.flush();
+				
+			}else if(dto == null || dto.getId().equals("")) {
+				
 				// 자바에서 alert 사용하기 위해  / TODO:혹은 session 에 담긴 mem이 null 일 때 로그인하라고 반환시 사용
 				resp.setContentType("text/html; charset=UTF-8");
 				PrintWriter out = resp.getWriter();
@@ -66,12 +95,28 @@ public class MemberController extends HttpServlet {
 				out.flush();
 			}
 			
-		} else if(command.equals("myPage")) {	// 마이페이지로 이동
+			return;
+		}  	
+		
+		Object ologin = session.getAttribute("login");
+		MemberBean mem = null;
+
+		if(ologin == null){	
+			resp.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = resp.getWriter();
+			
+			out.println("<script>alert('로그인 해주십시오'); location.href='./index.jsp';</script>");
+			 
+			out.flush();
+			
+			return;
+		} else {
+			mem = (MemberBean)ologin;
+		}
+		
+		if(command.equals("myPage")) {	// 마이페이지로 이동
 			System.out.println("command = " + command + " 들어옴");	// 확인용
 			dispatch("./myPage.jsp", req, resp);
-		} else if(command.equals("logout")){
-			System.out.println("command = " + command + "  들어옴");	// 확인용
-			dispatch("./logout.jsp", req, resp);
 		} else if(command.equals("userUpdatePage")){
 			System.out.println("command = " + command + "  들어옴");	// 확인용
 			dispatch("./userUpdatePage.jsp", req, resp);
@@ -92,7 +137,14 @@ public class MemberController extends HttpServlet {
 		    MemberBean dto = new MemberBean(id, name, pwd, email, phone, -1);
 		    
 			if(service.manager.updateUser(dto)) {	//	update가 되면 true 반환
-				dispatch("./userUpdateAf.jsp", req, resp);
+				resp.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = resp.getWriter();
+				
+				out.println("<script>alert('정보가 수정되었습니다.'); location.href='./userUpdatePage.jsp';</script>");
+				 
+				out.flush();
+				
+				
 			}else {
 				resp.setContentType("text/html; charset=UTF-8");
 				PrintWriter out = resp.getWriter();

@@ -90,7 +90,6 @@ public class MemberManager implements iMemberManager {
 									   rs.getInt(i++));		//AUTH
 				
 				
-				System.out.println("loginAf로부터 반환되는 dto = " + dto.toString());
 			}
 			
 		} catch (SQLException e) {

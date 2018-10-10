@@ -63,7 +63,7 @@ public class PdsManager implements iPdsManager {
 			
 			rs = psmt.executeQuery();
 			
-			f(rs.next()) {
+			/*f(rs.next()) {
 				int i = 1;
 				dto = new PdsBean(rs.getInt(i++),		// seq
 								  rs.getString(i++),	//	id
@@ -74,7 +74,7 @@ public class PdsManager implements iPdsManager {
 								  rs.getInt(i++),		// readcount
 								  rs.getInt(i++),		// downcount
 								  likeCount, replyCount);
-			}
+			}*/
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

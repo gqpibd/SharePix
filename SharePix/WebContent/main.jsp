@@ -24,7 +24,7 @@ if(ologin == null){
 
 mem = (MemberBean)ologin;
 
-//System.out.println("mem.toString() = " + mem.toString()); // 잘 출력됨.
+System.out.println("mem.toString() = " + mem.toString()); // 잘 출력됨.
 %>
 <h2>main.jsp</h2>
 
