@@ -6,10 +6,10 @@ public class MemberService {
 
 	private static MemberService custUserService = null;
 	
-	public iMemberManager dao;
+	public iMemberManager manager;
 
 	private MemberService() {
-		dao = new MemberManager();
+		manager = new MemberManager();
 	}
 
 	public static MemberService getInstance() {
@@ -22,7 +22,11 @@ public class MemberService {
 	////////////////////////////////////
 	
 	public MemberBean loginAf(String id, String pwd) {
-		return dao.loginAf(id, pwd);
+		return manager.loginAf(id, pwd);
+	}
+	
+	public boolean updateUser(MemberBean dto) {
+		return manager.updateUser(dto);
 	}
 	
 }

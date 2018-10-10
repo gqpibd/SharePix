@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>userUpdate</title>
+<title>Insert title here</title>
 </head>
 <body>
 <%
@@ -23,8 +23,16 @@ if(ologin == null){
 }
 
 mem = (MemberBean)ologin;
-%>
-<h2><%=mem.getName()%>님의 userUpdate</h2>
 
+/////////////////////////
+
+
+
+%>
+<h2>userUpdateAf.jsp</h2>
+<script type="text/javascript">
+alert("수정되었습니다.");
+location.href = "userUpdatePage.jsp";
+</script>
 </body>
 </html>

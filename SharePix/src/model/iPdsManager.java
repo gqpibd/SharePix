@@ -1,5 +1,9 @@
 package model;
 
-public interface iPdsManager {
+import dto.PdsBean;
 
+public interface iPdsManager {
+	
+	public PdsBean getMyPageCount(String id);
+	
 }

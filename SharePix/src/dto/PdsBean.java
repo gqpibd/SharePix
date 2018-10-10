@@ -1,6 +1,7 @@
 package dto;
 
 //	DROP TABLE PICPDS
+
 //	CASCADE CONSTRAINTS;
 //
 //	CREATE TABLE PICPDS(

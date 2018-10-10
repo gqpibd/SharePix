@@ -26,7 +26,7 @@ if(mem != null && !mem.getId().equals("")){
 	session.setMaxInactiveInterval(30*60);
 %>
 	<script type="text/javascript">
-	alert("안녕하세요 <%=mem.getId() %> 님");
+	alert("안녕하세요 <%=mem.getName() %> 님");
 	location.href = "main.jsp";
 	</script>	
 <%
