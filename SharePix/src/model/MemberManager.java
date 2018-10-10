@@ -13,11 +13,7 @@ import dto.MemberBean;
 public class MemberManager implements iMemberManager {
 
 	public MemberManager() {
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+		DBConnection.initConnection();
 	}
 	
 	/////////////////////////////////////////////////////
@@ -60,14 +56,15 @@ public class MemberManager implements iMemberManager {
 			
 			if(rs.next()) {
 				int i = 1;
-				dto = new MemberBean(rs.getString(i++),
-									   rs.getString(i++),
-									   rs.getString(i++),
-									   rs.getString(i++),
-									   rs.getString(i++),
-									   rs.getInt(i++));
+				dto = new MemberBean(  rs.getString(i++),		//id
+									   rs.getString(i++),	//NAME
+									   rs.getString(i++),	//PWD
+									   rs.getString(i++),	//EMAIL
+									   rs.getString(i++),	//PHONE
+									   rs.getInt(i++));		//AUTH
 				
-				System.out.println("dto = " + dto.toString());
+				
+				System.out.println("loginAf로부터 반환되는 dto = " + dto.toString());
 			}
 			
 		} catch (SQLException e) {
@@ -78,6 +75,44 @@ public class MemberManager implements iMemberManager {
 		
 		return dto;
 	}
+
+	@Override
+	public boolean updateUser(MemberBean dto) {
+		
+		String sql  = " UPDATE MEMBER "
+					+ " SET PWD=?, NAME=?, EMAIL=?, PHONE=? "
+					+ " WHERE ID=? ";
+		
+		System.out.println("dto.toString() = " + dto.toString());
+		int count = 0;
+		
+		Connection conn = null; 
+		PreparedStatement psmt = null;
+		
+		try {
+			System.out.println("1/6 updateUser success");
+			psmt = conn.prepareStatement(sql);
+			System.out.println("2/6 updateUser success");
+			psmt.setString(1, dto.getPassword());
+			psmt.setString(2, dto.getName());
+			psmt.setString(3, dto.getEmail());
+			psmt.setString(4, dto.getPhone());
+			psmt.setString(5, dto.getId());
+			
+			System.out.println("3/6 updateUser success");
+			count = psmt.executeUpdate();
+			System.out.println("4/6 updateUser success");
+		} catch (SQLException e) {
+			System.out.println("updateUser Fail");
+			e.printStackTrace();
+		} finally {
+			DBClose.close( psmt, conn, null);
+		}
+		
+		return count > 0 ? true : false;
+	}
+	
+	
 	
 	
 	

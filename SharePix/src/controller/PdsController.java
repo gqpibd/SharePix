@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dto.PdsBean;
-import model.iPdsManager;
 import model.service.PdsService;
 
 public class PdsController extends HttpServlet {

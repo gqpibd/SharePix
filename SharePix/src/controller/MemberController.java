@@ -51,7 +51,7 @@ public class MemberController extends HttpServlet {
 			String id = req.getParameter("id");
 			String pwd = req.getParameter("pwd");
 			
-			MemberBean dto = service.dao.loginAf(id, pwd);
+			MemberBean dto = service.manager.loginAf(id, pwd);
 			
 			if (dto != null) {// 로그인해서 dto가 db로부터 찾아졌을 때
 				
@@ -75,7 +75,33 @@ public class MemberController extends HttpServlet {
 			dispatch("./logout.jsp", req, resp);
 		} else if(command.equals("userUpdatePage")){
 			System.out.println("command = " + command + "  들어옴");	// 확인용
-			dispatch("./userUpdate.jsp", req, resp);
+			dispatch("./userUpdatePage.jsp", req, resp);
+		} else if(command.equals("userUpdateAf")) {
+			System.out.println("command = " + command + "  들어옴");	// 확인용
+			
+			String id			= req.getParameter("id");
+			String name 		= req.getParameter("name");
+		    String pwd 			= req.getParameter("pwd");
+		    String email 		= req.getParameter("email");
+		    String str_Phone1 	= req.getParameter("phone1");
+		    String str_Phone2 	= req.getParameter("phone2");
+		    String str_Phone3 	= req.getParameter("phone3");
+		    String introduce 	= req.getParameter("introduce"); // TODO: 아직 컬럼 안 만들어서 아직 안 넣었음
+		    
+		    String phone = str_Phone1 + "-" + str_Phone2 + "-" + str_Phone3; // 번호 사이에 - 넣기
+		    
+		    MemberBean dto = new MemberBean(id, name, pwd, email, phone, -1);
+		    
+			if(service.manager.updateUser(dto)) {	//	update가 되면 true 반환
+				dispatch("./userUpdateAf.jsp", req, resp);
+			}else {
+				resp.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = resp.getWriter();
+				
+				out.println("<script>alert('수정 실패'); location.href='./userUpdatePage.jsp';</script>");
+				 
+				out.flush();
+			}
 		}
 	}
 	

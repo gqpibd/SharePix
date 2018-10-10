@@ -5,8 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<title>main</title>
+<title>Insert title here</title>
 </head>
 <body>
 <%
@@ -25,24 +24,15 @@ if(ologin == null){
 
 mem = (MemberBean)ologin;
 
-//System.out.println("mem.toString() = " + mem.toString()); // 잘 출력됨.
+/////////////////////////
+
+
+
 %>
-<h2>main.jsp</h2>
-
-<form action="MemberController" method="get">
-<input type="hidden" name="command" value="myPage">
-<input type="submit" value="개인 페이지">
-</form>
-
-<a href="MemberController?command=logout">로그아웃</a>
-<img src="images/test.jpg" onclick="veiwDetail(this)" seq="1">
+<h2>userUpdateAf.jsp</h2>
 <script type="text/javascript">
-	function veiwDetail(img) {
-		var seq = $(img).attr("seq")
-		console.log(seq);
-		location.href="PdsController?command=detailview&seq=" + seq;
-	}
+alert("수정되었습니다.");
+location.href = "userUpdatePage.jsp";
 </script>
-
 </body>
 </html>

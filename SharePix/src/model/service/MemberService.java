@@ -6,25 +6,25 @@ import model.iMemberManager;
 
 public class MemberService {
 
-	private static MemberService custUserService = null;
+	private static MemberService mService = null;
 	
-	public iMemberManager dao;
+	public iMemberManager manager;
 
 	private MemberService() {
-		dao = new MemberManager();
+		manager = new MemberManager();
 	}
 
 	public static MemberService getInstance() {
-		if (custUserService == null) {
-			custUserService = new MemberService();
+		if (mService == null) {
+			mService = new MemberService();
 		}
-		return custUserService;
+		return mService;
 	}
 	
 	////////////////////////////////////
 	
 	public MemberBean loginAf(String id, String pwd) {
-		return dao.loginAf(id, pwd);
+		return manager.loginAf(id, pwd);
 	}
 	
 }
