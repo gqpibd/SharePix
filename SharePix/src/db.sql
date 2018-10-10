@@ -41,9 +41,15 @@ CREATE TABLE PDSREPLY(
 );
 
 insert into PDSREPLY
-values (1, PDSREPLY_PDSSEQ.nextval, 'dh2', '퍼가요', null, sysdate, 0)
+values (1, PDSREPLY_PDSSEQ.nextval, 'dh2', '퍼가요', null, sysdate, 0);
 insert into PDSREPLY
-values (1, PDSREPLY_PDSSEQ.nextval, 'dh', '네', 1, sysdate, 0)
+values (1, PDSREPLY_PDSSEQ.nextval, 'dh', '네', 1, sysdate, 0);
+insert into PDSREPLY
+values (1, PDSREPLY_PDSSEQ.nextval, 'dh2', '감사합니다', 1, sysdate, 0);
+insert into PDSREPLY
+values (1, PDSREPLY_PDSSEQ.nextval, 'dh2', '감사합니다', NULL, sysdate, 0);
+insert into PDSREPLY
+values (1, PDSREPLY_PDSSEQ.nextval, 'dh', '네', NULL, sysdate, 0);
 
 DROP SEQUENCE PDSREPLY_PDSSEQ;
 
@@ -56,6 +62,9 @@ DROP SEQUENCE PDSREPLY_RESEQ;
 CREATE SEQUENCE PDSREPLY_RESEQ
 START WITH 1
 INCREMENT BY 1;
+
+SELECT * FROM PDSREPLY WHERE PDSSEQ = 1 ORDER BY REREF ASC, RESEQ ASC 
+SELECT * FROM PDSREPLY  
 
 ---------------------------------------------------- PDSLIKE
 DROP TABLE PDSLIKE
