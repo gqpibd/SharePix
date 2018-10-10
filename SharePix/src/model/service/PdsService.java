@@ -19,4 +19,8 @@ public class PdsService {
 	public PdsBean getPdsDetail(int seq) {
 		return pDao.getPdsDetail(seq);		
 	}
+
+	public PdsBean getSearchPds(String keyword) {
+		return pDao.getSearchPds(keyword);
+	}
 }

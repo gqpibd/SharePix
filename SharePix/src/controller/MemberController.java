@@ -53,9 +53,10 @@ public class MemberController extends HttpServlet {
 			
 			MemberBean dto = service.manager.loginAf(id, pwd);
 			
-			if (dto != null) {// 로그인해서 dto가 db로부터 찾아졌을 때
-				
-				dispatch("loginAf.jsp", req, resp);	// 세션에 저장하러 jsp로 이동해야
+			if (dto != null) {// 로그인해서 dto가 db로부터 찾아졌을 때				
+				req.getSession().setAttribute("login", dto); // 세션에 로그인 아이디를 저장하고
+				req.getSession().setMaxInactiveInterval(30*60);
+				dispatch("main.jsp", req, resp);	// 메인화면으로 이동
 				
 			}else if(dto == null) {
 				// 자바에서 alert 사용하기 위해  / TODO:혹은 session 에 담긴 mem이 null 일 때 로그인하라고 반환시 사용

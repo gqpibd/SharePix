@@ -154,6 +154,7 @@ a{
 	max-width: 100%;
 	height: auto;
 }
+
 .profile {
     width: 100px; 
     height: 100px;
@@ -162,6 +163,44 @@ a{
     margin-left: 10px;
 }
 
+.reply{ /* 댓글 하나가 한 덩어리로 묶인다. */
+	position: relative;
+}
+
+.list_reply li {
+    overflow: hidden;
+    position: relative;
+    padding: 23px 20px 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.re_reply { /* 대댓 */
+    margin-left: 60px;
+}
+
+.re-img{ /* 댓글 프로필 */	
+    float: left;
+    width: 33px;
+    height: 33px;
+    border-radius: 33px;
+    margin: 0;
+}
+
+.reply_content {
+    display: block;
+    float: none;
+    padding: 0 28px 0 40px;
+}
+
+.nickname {
+    font-size: 13px;
+    overflow: visible;
+    margin: 0px 5px 2px 0;
+    vertical-align: top;
+    white-space: normal;
+    display: block;
+    font-weight: bold;
+}
 .download {
 	-moz-box-shadow:inset 0px 1px 0px 0px #97c4fe;
 	-webkit-box-shadow:inset 0px 1px 0px 0px #97c4fe;
@@ -242,7 +281,7 @@ textarea {
 	width:90%;
 	resize: none;
 	overflow-y: hidden; /* prevents scroll bar flash */
-	/* padding: 1em; */ /* prevents text jump on Enter keypress */	
+	padding: 0.7em;  /* prevents text jump on Enter keypress */	
 	line-height: 1.1;
 	border-radius: 10px;
 	outline:none; /* 포커스 되었을 때 아웃라인 없앰 */	
@@ -271,3 +310,41 @@ textarea {
   	width: 100%;
   	height: auto;
 } */
+
+/* 슬라이더 */
+
+.selectSize {
+  text-align: center;
+  font-weight: bold;
+  font-size: 3em;
+  width: 300px;
+  height: 80px;
+  line-height: 60px;
+  margin: 40px auto;
+  letter-spacing: -0.07em;
+  text-shadow: white 2px 2px 2px;
+}
+input[type="range"] {
+  display: block;
+  -webkit-appearance: none;
+  background-color: #bdc3c7;
+  width: 300px;
+  height: 5px;
+  border-radius: 5px;
+  margin: 0 auto;
+  outline: 0;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background-color: #e74c3c;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid white;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+​ input[type="range"]::-webkit-slider-thumb:hover {
+  background-color: white;
+  border: 2px solid #e74c3c;
+}

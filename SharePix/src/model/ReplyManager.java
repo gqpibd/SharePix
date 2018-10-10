@@ -15,7 +15,10 @@ public class ReplyManager implements iReplyManager {
 	
 	@Override	
 	public List<ReplyBean> getReplyList(int seq){
-									  
+		String sql =  " SELECT * FROM PDSREPLY "
+				+ " WHERE PDSSEQ = ? "
+				+ " ORDER BY REREF ASC, RESEQ ASC "; 
+		
 		Connection conn = null;
 		PreparedStatement psmt = null;
 		ResultSet rs = null;
@@ -24,34 +27,14 @@ public class ReplyManager implements iReplyManager {
 		
 		try {
 			conn = DBConnection.getConnection();
-			System.out.println("1/6 getReplyList Success");
-			// pdsseq, reseq, id, content, reref, wdate, del
-			String totalSql = " SELECT COUNT(SEQ) "
-							+ " FROM PDSREPLY "
-							+ " WHERE PDSSEQ = ?";
-			
-			psmt = conn.prepareStatement(totalSql);
-			psmt.setInt(1, seq);
-			rs = psmt.executeQuery();
-			
-			int totalCount=0;
-			if(rs.next()) {
-				totalCount = rs.getInt(1); // 검색된 글의 총 갯수
-			}			
-			System.out.println("총 댓글 수 :" + totalCount);
-			
-			psmt.close();
-			rs.close();
-			
-			String sql =  " SELECT * FROM PDSREPLY "
-						+ " WHERE PDSSEQ = ? "
-						+ " ORDER BY REREF ASC, RESEQ ASC "; 
+			System.out.println("1/6 getReplyList Success");			
 			
 			psmt = conn.prepareStatement(sql);
-			System.out.println("2/6 getBbsPagingList Success");
+			psmt.setInt(1, seq);
+			System.out.println("2/6 getReplyList Success");
 			
 			rs = psmt.executeQuery();
-			System.out.println("3/6 getBbsPagingList Success");
+			System.out.println("3/6 getReplyList Success");
 			
 			while(rs.next()) {
 				String content = "";
@@ -60,19 +43,21 @@ public class ReplyManager implements iReplyManager {
 				}else {
 					content = rs.getString("content");
 				}
+				String wdate = rs.getString("WDATE");
+				wdate = wdate.substring(0,wdate.lastIndexOf('.'));
 				// pdsseq, reseq, id, content, reref, wdate, del
 				ReplyBean bean = new ReplyBean(
 											  rs.getInt("PDSSEQ"),
 											  rs.getInt("RESEQ"),
 											  rs.getString("ID"),
-											  rs.getString("CONTENT"),
+											  content,
 											  rs.getInt("REREF"),
-											  rs.getString("WDATE"),
+											  wdate,
 											  rs.getInt("DEL")
 											  );
 				replyList.add(bean);
 			}
-			System.out.println("4/6 getBbsPagingList Success");			
+			System.out.println("4/6 getReplyList Success");			
 			
 			
 		} catch (SQLException e) {
@@ -80,6 +65,6 @@ public class ReplyManager implements iReplyManager {
 		} finally {		
 			DBClose.close(psmt, conn, rs);
 		}			  
-		return null;
-		}
+		return replyList;
+	}
 }

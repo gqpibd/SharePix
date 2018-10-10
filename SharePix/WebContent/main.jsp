@@ -1,3 +1,4 @@
+<%@page import="controller.PdsController"%>
 <%@page import="dto.MemberBean"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -29,13 +30,19 @@ mem = (MemberBean)ologin;
 %>
 <h2>main.jsp</h2>
 
+<form action="PdsController" method="get">
+   <input type="hidden" name="command" value="keyword">
+   <input type="text" name="tags" > 
+   <input type="submit" value="검색">
+</form>
+
 <form action="MemberController" method="get">
 <input type="hidden" name="command" value="myPage">
 <input type="submit" value="개인 페이지">
 </form>
 
-<a href="MemberController?command=logout">로그아웃</a>
-<img src="images/test.jpg" onclick="veiwDetail(this)" seq="1">
+<a href="MemberController?command=logout">로그아웃</a><br>
+<img src="<%=PdsController.PATH%>test.jpg" onclick="veiwDetail(this)" seq="1" width="200">
 <script type="text/javascript">
 	function veiwDetail(img) {
 		var seq = $(img).attr("seq")

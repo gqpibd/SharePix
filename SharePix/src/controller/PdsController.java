@@ -13,7 +13,7 @@ import model.service.PdsService;
 
 public class PdsController extends HttpServlet {
 	
-	public static final String PATH = "images/"; 
+	public static final String PATH = "images/pictures/"; 
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -36,7 +36,13 @@ public class PdsController extends HttpServlet {
 			System.out.println(pds);
 			req.setAttribute("pds", pds);
 			dispatch("picDetail.jsp", req, resp);			
-		}
+		}else if(command.equalsIgnoreCase("keyword")){
+	         String keyword = req.getParameter("tags");
+	         System.out.println(keyword);
+	         PdsBean pds = PdsService.getInstance().getSearchPds(keyword);
+	         System.out.println(pds);
+	         req.setAttribute("pds", pds);
+	      }
 	}
 	
 	public void dispatch(String urls, HttpServletRequest req, HttpServletResponse resp)
