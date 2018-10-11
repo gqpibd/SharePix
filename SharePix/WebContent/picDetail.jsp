@@ -1,3 +1,5 @@
+<%@page import="model.service.PdsService"%>
+<%@page import="model.iPdsManager"%>
 <%@page import="java.io.File"%>
 <%@page import="controller.ReplyController"%>
 <%@page import="model.service.ReplyService"%>
@@ -10,13 +12,24 @@
 	pageEncoding="UTF-8"%>
 <%
 	PdsBean pds = (PdsBean) request.getAttribute("pds");
-	// 로그인 아이디 받아서
-	// 좋아요 한거면 채워진 하트 보여주기
-	MemberBean ologin = (MemberBean) session.getAttribute("login");
 	
-	//String id = ologin.getId();
+	// 로그인 아이디 받아서
+	// 기본적으로 비워진 하트임
+	String like = "images/icons/like_empty.png";
 	// 아이디 확인하고 받아서 like 확인하고 이미지 넣기
-	String like = "images/icons/like_empty.png";	
+	MemberBean ologin = (MemberBean) session.getAttribute("login");
+	boolean isLike = false;
+	PdsService pService = null;
+	if(ologin!=null){
+		String id = ologin.getId();
+		int seq = pds.getSeq();
+		pService = PdsService.getInstance();
+		isLike = pService.checkPdsLike(id, seq);
+		if(isLike){
+			like = "images/icons/like_fill.png";
+		}
+	}
+	
 	// 댓글목록 
 	ReplyService rService = ReplyService.getInstance();
 	List<ReplyBean> reList = rService.getReplyList(pds.getSeq());
@@ -28,6 +41,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>상세 화면</title>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://scripts.sirv.com/sirv.js"></script>
 <link rel="stylesheet" href="style/picDetail.css"> 
 </head>
 <body>
@@ -44,10 +58,10 @@
 				<% } %>
 			</h2>
 			<div class="wrapper">				
-				<img src="<%=PdsController.PATH %><%=pds.getfSaveName()%>" class="img" id="pdsImg"></img>
-							
+				<img src="<%=PdsController.PATH %><%=pds.getfSaveName()%>" class="img" id="pdsImg"></img>							
 			</div>
-			<button onclick="doLike()" class="btn-like"><img src="<%=like %>" width="15" id="like">&nbsp;&nbsp; <font size="3"><%=pds.getLikeCount()%></font></button><br>
+			<button onclick="doLike()" class="btn-like"><img src="<%=like %>" width="15" id="like">&nbsp;&nbsp; <span id="likeCount"><font size="3"><%=pds.getLikeCount()%></font></span></button><br>
+			<input type="hidden" id="ajax_hidden">
 			<p><img src="images/icons/re_down.png" width="30" id="replyToggle">&nbsp;&nbsp;댓글&nbsp;<%=pds.getReplyCount() %>&nbsp;개</p>
 			
 			<ul id="replies" class="list_reply">
@@ -65,7 +79,8 @@
 						<img src="<%=src%>" class="profile re-img" width="10" onerror="this.src='<%=srcError%>'" >
 						<span class="reply_content">
 							<span class="nickname"><%=re.getId()%>  <font style="size: 1px; color:graytext;"><%=re.getWdate() %></font></span>
-							<span><%=re.getContent() %></span><br>							
+							<span><%=re.getContent() %></span><br>
+							<button name="re_<%=re.getReRef()%>" onclick="addReply(this)" id="<%=re.getReSeq()%>">답변</button>							
 						</span>
 					</li>
 					<%
@@ -77,10 +92,10 @@
 			</ul>
 			 
 			<div class="wrap" align="center">
-				<textarea id="writeReply" placeholder="댓글을 작성해 주세요"></textarea>
-			</div>
-			<div align=right style="padding:10px" >
-				<button class="btn-like">등록</button>
+				<textarea id="new_reply_content" placeholder="댓글을 작성해 주세요"></textarea>			
+				<div align=right style="padding:10px" >
+					<button class="btn-like" id="new_reply">등록</button>
+				</div>
 			</div>
 		</section> 
 		
@@ -98,12 +113,9 @@
 				</div>
 			</div> --%>
 			<img src="images/icons/down.png" width="20"><font size="5">&nbsp;&nbsp;<%=pds.getDownCount()%></font><br>
-			<div align="center">
-			<form id="input-form" role="form" method="post" name="f" action="https://img-resize.com/resize" enctype="multipart/form-data">
-					
+			<div align="center">		
 				
 				<button class="download" onclick="doDownload()">다운로드</button>
-			</form>
 			</div>
 					
 			<div class="selectSize"></div>
@@ -114,6 +126,7 @@
 		</main>
 
 	<script type="text/javascript">	
+		var like = <%=isLike%>;
 	  	var width = document.getElementById("pdsImg").naturalWidth;
 	  	var height = document.getElementById("pdsImg").naturalHeight;
 	  	
@@ -122,31 +135,70 @@
 	
 		var rangeValue = function(){			
 		  var rate = elem.value;
-		  width = Math.round(width  * (rate/100));
-		  height = Math.round(height  * (rate/100));
+		  width = Math.round(document.getElementById("pdsImg").naturalWidth  * (rate/100));
+		  height = Math.round(document.getElementById("pdsImg").naturalHeight  * (rate/100));
 		  var target = document.querySelector('.selectSize');
 		  target.innerHTML = width + " x " + height;
 		}
 	
 		elem.addEventListener("input", rangeValue);
 	
-		function doLike(){ // 좋아요 눌렀을 때
-			var src = $("#like").attr("src");
-			if(src=="images/icons/like_empty.png"){
-				$("#like").attr("src",'images/icons/like_fill.png');
+		function doLike(){ // 좋아요 눌렀을 때			
+			<%if(ologin == null){	%>
+				alert("로그인해 주십시오");	
+				location.href="index.jsp";
+			<%		
 			}else{
-				$("#like").attr("src","images/icons/like_empty.png");
-			}			
+				System.out.println(isLike);
+				%>				
+				$.ajax({
+					url:"PdsController", // 접근대상
+					type:"get",		// 데이터 전송 방식
+					data:"command=likeChange&like=" + like + "&id=<%=ologin.getId()%>&seq=<%=pds.getSeq()%>", // 전송할 데이터
+					success:function(data, status, xhr){
+						/* console.log(data); */
+						like = $("#ajax_hidden").html(data).find("like").text();
+						var count = $("#ajax_hidden").html(data).find("count").text();
+						if(like == "false"){
+							$("#like").attr("src",'images/icons/like_empty.png');
+							$("#likeCount").text(count);
+						}else{
+							$("#like").attr("src",'images/icons/like_fill.png');
+							$("#likeCount").text(count);
+						}
+					},
+					error:function(){ // 또는					 
+						console.log("통신실패!");
+					}
+				});				
+				<%				
+			}%>
 		}
 		
 		
 		function doDownload(){ // 다운로드 눌렀을 때
 			 
-			<input type="hidden" id="percentage" name="op" value="percentage"> 
-			축소 비율 <input id="percent"	name="percent" size="3" value="25"> 
-			<input type="submit" value="올리기">
+			
 		}
-		$("#replies").hide();
+		
+		function addReply(re_btn){                                                   
+			var name = $(re_btn).attr('name');
+			var selector = "[name='" + name +"']";
+			console.log(selector);
+			console.log($(selector).last());
+			$("#re_wrtie").remove();
+			
+			var element = "<div class='wrap' align='center' id='re_wrtie'>";
+			element += "<textarea id='writeReply' placeholder='댓글을 작성해 주세요'></textarea>";
+			element += "<div align=right style='padding:10px' >"
+			element += "<button class='btn-like'>등록</button>"
+			element += "<button class='btn-like'>취소</button></div></div>";
+			$(selector).last().parent().parent().after(element);
+			                                                                         
+		}                                                                            
+		                                                                             
+		// 답변 보기/ 숨기기                                                                
+		$("#replies").hide();                                                        
 		$(document).ready(function(){
 			
 			$("#replyToggle").click(function(){
@@ -166,6 +218,31 @@
 	      });
 	      $('.wrap').find( 'textarea' ).keyup();
 		});
+		
+		// 새 답글 추가
+		$("#new_reply").click(function() {
+			var content = $("#new_reply_content").val();
+			$.ajax({
+				url:"PdsController", // 접근대상
+				type:"get",		// 데이터 전송 방식
+				data:"command=addReply&id=<%=ologin.getId()%>&pdsseq=<%=pds.getSeq()%>", // 전송할 데이터
+				datatype : 'json',
+				success:function(data, status, xhr){
+					/* console.log(data); */
+					like = $("#ajax_hidden").html(data).find("date").text();
+					var count = $("#ajax_hidden").html(data).find("count").text();
+					$.each(json, function (i, item) { // i는 iterator, item은 각 아이템
+						$("body").prepend(i + " version : " + item.version + " codename : " + item.codename + "<br>");
+					});
+				},
+				error:function(){ // 또는					 
+					console.log("통신실패!");
+				}
+			});
+			
+			
+		});
+		
 		
 	</script>
 

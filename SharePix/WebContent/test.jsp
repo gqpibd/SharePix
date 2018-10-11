@@ -1,26 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div class="upload-wrapper">
+  <label for="upload" class="upload-label">
+    <p>✨UPLOAD IMAGE ✨</p>
+    <img class="upload-imgBtn" src="https://uploads.codesandbox.io/uploads/user/1dcc6c5f-ac13-4c27-b2e3-32ade1d213e9/2Go1-photo.svg">
+  </label>
+</div>
+<!-- fileReader를 통해 읽은 파일을 넣는 부분 -->
+<div class="image-preview"></div>
+<input type="file" accept="image/*" id="upload" class="image-upload" style="display:none;" multiple>
 
-<!DOCTYPE html>
 
-<meta charset="utf-8">
-
-<title>Dropzone simple example</title>
-
-
-<!--
-  DO NOT SIMPLY COPY THOSE LINES. Download the JS and CSS files from the
-  latest release (https://github.com/enyo/dropzone/releases/latest), and
-  host them yourself!
--->
-<script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
-<link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
-<script src="./js/dropzone.js"></script>
-
-
-<form action="/images/pictures" method="post" enctype="multipart/form-data"  class="dropzone">
-
-  <div class="fallback">
-    <input name="file" type="file" multiple />
-  </div>
-</form>
+<script type="text/javascript"></script>
+</body>
+</html>

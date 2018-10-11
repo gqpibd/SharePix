@@ -8,4 +8,10 @@ public interface iPdsManager {
 
 	public PdsBean getSearchPds(String keyword);
 
+	public boolean checkPdsLike(String id, int pdsSeq);
+
+	public boolean chageLike(String id, int pdsSeq, boolean isLike);
+
+	public int getLikeCount(int pdsSeq);
+
 }

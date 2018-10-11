@@ -23,4 +23,16 @@ public class PdsService {
 	public PdsBean getSearchPds(String keyword) {
 		return pDao.getSearchPds(keyword);
 	}
+
+	public boolean checkPdsLike(String id, int pdsSeq) {
+		return pDao.checkPdsLike(id,pdsSeq);
+	}
+	
+	public void chageLike(String id, int pdsSeq, boolean isLike) {
+		pDao.chageLike(id,pdsSeq,isLike);
+	}
+	
+	public int getLikeCount(int pdsSeq) {
+		return pDao.getLikeCount(pdsSeq);
+	}
 }

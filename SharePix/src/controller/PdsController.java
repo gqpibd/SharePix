@@ -36,13 +36,25 @@ public class PdsController extends HttpServlet {
 			System.out.println(pds);
 			req.setAttribute("pds", pds);
 			dispatch("picDetail.jsp", req, resp);			
-		}else if(command.equalsIgnoreCase("keyword")){
-	         String keyword = req.getParameter("tags");
-	         System.out.println(keyword);
-	         PdsBean pds = PdsService.getInstance().getSearchPds(keyword);
-	         System.out.println(pds);
-	         req.setAttribute("pds", pds);
-	      }
+		} else if (command.equalsIgnoreCase("keyword")) {
+			String keyword = req.getParameter("tags");
+			System.out.println(keyword);
+			PdsBean pds = PdsService.getInstance().getSearchPds(keyword);
+			System.out.println(pds);
+			req.setAttribute("pds", pds);
+		} else if(command.equalsIgnoreCase("likeChange")) {
+			boolean like = Boolean.parseBoolean(req.getParameter("like"));
+			String id = req.getParameter("id");
+			int seq = Integer.parseInt(req.getParameter("seq"));
+			System.out.println("like:"+like);
+			System.out.println("id:"+id);
+			System.out.println("seq:"+seq);
+			PdsService.getInstance().chageLike(id, seq, !like); // like 상태 바꿔줌
+			int count = PdsService.getInstance().getLikeCount(seq);
+			resp.getWriter().write("<like>" +!like +"</like><count>" + count +"</count>");
+			System.out.println("count:" + count);
+			//req.setAttribute("pds", pds);
+		}
 	}
 	
 	public void dispatch(String urls, HttpServletRequest req, HttpServletResponse resp)
