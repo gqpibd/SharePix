@@ -18,6 +18,9 @@
 	String like = "images/icons/like_empty.png";
 	// 아이디 확인하고 받아서 like 확인하고 이미지 넣기
 	MemberBean ologin = (MemberBean) session.getAttribute("login");
+	if(ologin==null){
+		System.out.println("유저 없음");
+	}
 	boolean isLike = false;
 	PdsService pService = null;
 	if(ologin!=null){
@@ -77,11 +80,17 @@
 						<li class="reply re_reply">
 					<%} %>
 						<img src="<%=src%>" class="profile re-img" width="10" onerror="this.src='<%=srcError%>'" >
-						<span class="reply_content">
-							<span class="nickname"><%=re.getId()%>  <font style="size: 1px; color:graytext;"><%=re.getWdate() %></font></span>
+						<div class="reply_content">
+							
+							<span class="nickname"><%=re.getId()%>
+							<% if(re.getId().equals(pds.getId())){ %>
+							<img src="images/icons/writer.png" width="60" style="vertical-align: middle">
+							<%} %>  
+							</span>
 							<span><%=re.getContent() %></span><br>
-							<button name="re_<%=re.getReRef()%>" onclick="addReply(this)" id="<%=re.getReSeq()%>">답변</button>							
-						</span>
+							<font style="font-size: 3px; color:graytext;"><%=re.getWdate() %></font><br>
+							<button name="<%=re.getReRef()%>" onclick="addReply(this)" id="<%=re.getReSeq()%>" toWhom="<%=re.getId()%>">답변</button>							
+						</div>
 					</li>
 					<%
 				} }else{%>
@@ -91,12 +100,17 @@
 				<%} %>
 			</ul>
 			 
-			<div class="wrap" align="center">
-				<textarea id="new_reply_content" placeholder="댓글을 작성해 주세요"></textarea>			
-				<div align=right style="padding:10px" >
-					<button class="btn-like" id="new_reply">등록</button>
+			<form action="ReplyController">
+				<input type="hidden" name="command" value="addReply">
+				<input type="hidden" name="id" value="<%=ologin.getId() %>">
+				<input type="hidden" name="pdsSeq" value="<%=pds.getSeq() %>">
+				<div class="wrap" align="center">
+					<textarea id="new_reply_content" placeholder="댓글을 작성해 주세요" name="content"></textarea>			
+					<div align=right style="padding:10px">
+						<button class="btn-like" id="new_reply" type="submit">등록</button>
+					</div>
 				</div>
-			</div>
+			</form>
 		</section> 
 		
 		<!-- 오른쪽 프로필이랑 다운로드 부분 -->
@@ -104,14 +118,7 @@
 		<div style="margin: 10px">
 			<p>
 				<img src="images/profiles/<%=pds.getId()%>.png" width="100" class="profile" align="middle">
-				<%=pds.getId()%></p>
-			<%-- 프로필 사진 보여주는 다른 방식  --%>
-			<%-- <div class="profile-container">
-				<img src="images/profiles/<%=pds.getId()%>.png" class="profile-img">
-				<div class="bottomleft">
-					<h2 class="profile-text"><%=pds.getId()%></h2>
-				</div>
-			</div> --%>
+				<%=pds.getId()%></p>			
 			<img src="images/icons/down.png" width="20"><font size="5">&nbsp;&nbsp;<%=pds.getDownCount()%></font><br>
 			<div align="center">		
 				
@@ -181,18 +188,25 @@
 			
 		}
 		
-		function addReply(re_btn){                                                   
+		function addReply(re_btn){            
+			$("#rere_wrtie").remove();
 			var name = $(re_btn).attr('name');
-			var selector = "[name='" + name +"']";
-			console.log(selector);
-			console.log($(selector).last());
-			$("#re_wrtie").remove();
+			var toWhom = $(re_btn).attr('toWhom');
+			var selector = "[name='" + name +"']";		
 			
-			var element = "<div class='wrap' align='center' id='re_wrtie'>";
-			element += "<textarea id='writeReply' placeholder='댓글을 작성해 주세요'></textarea>";
-			element += "<div align=right style='padding:10px' >"
-			element += "<button class='btn-like'>등록</button>"
-			element += "<button class='btn-like'>취소</button></div></div>";
+			var element ="<div class='wrap' align='center' id='rere_write'>";
+			element +=		"<form action='ReplyController'>"; 
+			element +=			"<input type='hidden' name='command' value='addReply'>";
+			element +=			"<input type='hidden' name='id' value='<%=ologin.getId() %>'>";
+			element +=			"<input type='hidden' name='pdsSeq' value='<%=pds.getSeq() %>'>";
+			element +=			"<input type='hidden' name='refSeq' value=" + name + ">";
+			element += 			"<input type='hidden' name='toWhom' value=" + toWhom + ">";
+			element += 			"<textarea id='writeReply' placeholder='"+toWhom+"님에게 댓글 작성' name='content'></textarea>";
+			element += 			"<div align=right style='padding:10px' >";
+			element += 			"<button class='btn-like' type='submit'>등록</button>";
+			element +=			"</div>";
+			element +=		"</form>";
+			element +=	"</div>";
 			$(selector).last().parent().parent().after(element);
 			                                                                         
 		}                                                                            
@@ -217,33 +231,7 @@
 	        $(this).height( this.scrollHeight );
 	      });
 	      $('.wrap').find( 'textarea' ).keyup();
-		});
-		
-		// 새 답글 추가
-		$("#new_reply").click(function() {
-			var content = $("#new_reply_content").val();
-			$.ajax({
-				url:"PdsController", // 접근대상
-				type:"get",		// 데이터 전송 방식
-				data:"command=addReply&id=<%=ologin.getId()%>&pdsseq=<%=pds.getSeq()%>", // 전송할 데이터
-				datatype : 'json',
-				success:function(data, status, xhr){
-					/* console.log(data); */
-					like = $("#ajax_hidden").html(data).find("date").text();
-					var count = $("#ajax_hidden").html(data).find("count").text();
-					$.each(json, function (i, item) { // i는 iterator, item은 각 아이템
-						$("body").prepend(i + " version : " + item.version + " codename : " + item.codename + "<br>");
-					});
-				},
-				error:function(){ // 또는					 
-					console.log("통신실패!");
-				}
-			});
-			
-			
-		});
-		
-		
+		});		
 	</script>
 
 </body>

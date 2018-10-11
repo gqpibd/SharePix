@@ -67,4 +67,50 @@ public class ReplyManager implements iReplyManager {
 		}			  
 		return replyList;
 	}
+
+	@Override
+	public boolean addReply(String id, String content, int pdsSeq, int refSeq) {
+		String sql = "";
+			
+		Connection conn = null;
+		PreparedStatement psmt = null; 
+		int count=0;
+
+		try {
+			
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 addReply Success");
+			
+			// PDSSEQ, RESEQ, ID, CONTENT, REREF, WDATE, DEL
+			if (refSeq > 0) { // 새 댓글일 때
+				sql = " INSERT INTO PDSREPLY "
+					+ " VALUES (?, PDSREPLY_RESEQ.NEXTVAL, ?, ?, ?, SYSDATE, 0) ";
+				psmt = conn.prepareStatement(sql);
+				psmt.setInt(1, pdsSeq);
+				psmt.setString(2, id);
+				psmt.setString(3, content);
+				psmt.setInt(4, refSeq);
+			}else { // 대댓일 때
+				sql = " INSERT INTO PDSREPLY "
+						+ " VALUES (?, PDSREPLY_RESEQ.NEXTVAL, ?, ?, PDSREPLY_RESEQ.CURRVAL, SYSDATE, 0) ";
+					psmt = conn.prepareStatement(sql);
+					psmt.setInt(1, pdsSeq);
+					psmt.setString(2, id);
+					psmt.setString(3, content);
+			}
+			
+			System.out.println("2/6 addReply Success");
+
+			count = psmt.executeUpdate();
+			System.out.println("3/6 addReply Success");
+
+			
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, null);
+		}
+		return count > 0 ? true : false;
+	}
 }

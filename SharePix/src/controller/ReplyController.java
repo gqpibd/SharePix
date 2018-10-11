@@ -35,6 +35,22 @@ public class ReplyController extends HttpServlet {
 			System.out.println(pds);
 			req.setAttribute("pds", pds);
 			dispatch("picDetail.jsp", req, resp);			
+		}else if(command.equalsIgnoreCase("addReply")){
+			String id = req.getParameter("id");
+			int  pdsSeq = Integer.parseInt(req.getParameter("pdsSeq"));
+			String reRefStr = req.getParameter("refSeq");
+			int refSeq = 0;
+			if(reRefStr!=null) {
+				refSeq = Integer.parseInt(reRefStr);
+			}
+			String content = req.getParameter("content");
+			
+			boolean isS = ReplyService.getInstance().addReply(id,content,pdsSeq,refSeq);
+			if(isS) {
+				System.out.println("댓글 등록 성공");
+				resp.sendRedirect("PdsController?command=detailview&seq=" + pdsSeq);
+			}
+			
 		}
 	}
 	
