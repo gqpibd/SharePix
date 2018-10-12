@@ -192,4 +192,33 @@ public class ReplyManager implements iReplyManager {
 		}			  
 		return re;
 	}
+	@Override
+	public boolean updateReply(int reSeq, String content) {
+		String sql = " UPDATE PDSREPLY "
+				   + " SET CONTENT = ? "
+				   + " WHERE RESEQ = ? ";
+		
+		Connection conn = null;
+		PreparedStatement psmt = null; 
+		int count=0;
+
+		try {			
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 updateReply Success");
+			
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, content);			
+			psmt.setInt(2, reSeq);			
+			
+			System.out.println("2/6 updateReply Success");
+
+			count = psmt.executeUpdate();
+			System.out.println("3/6 updateReply Success");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, null);
+		}
+		return count > 0 ? true : false;
+	}
 }

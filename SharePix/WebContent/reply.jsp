@@ -35,12 +35,14 @@ String pdsSeq = request.getParameter("getSeq");
 String id = request.getParameter("id");
 String content = request.getParameter("content");
 String reSeq = request.getParameter("reSeq");
+String pdsSeq = request.getParameter("pdsSeq");
 %>
 <li class='reply'>
 	<div class='wrap' align='center'>
 		<form action='ReplyController'>
 			<input type='hidden' name='command' value='updateReply'>
 			<input type='hidden' name='reSeq' value=<%=reSeq%>>
+			<input type='hidden' name='pdsSeq' value=<%=pdsSeq%>>
 			<div style='padding-left: 30px' align='left'>
 				<img src='images/profiles/<%=id%>.png' width='10'
 					class='profile re-img' align='middle'
@@ -56,7 +58,7 @@ String reSeq = request.getParameter("reSeq");
 		</form>
 	</div>
 </li>
-<%}else if(command.equals("reply")){	
+<%}else if(command.equals("cancel")){	
 	String loginId = request.getParameter("loginId");
 	String pdsWriter = request.getParameter("pdsWriter");
 	int reSeq = Integer.parseInt(request.getParameter("reSeq"));

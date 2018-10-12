@@ -14,4 +14,6 @@ public interface iReplyManager {
 
 	public ReplyBean getReply(int reSeq);
 
+	public boolean updateReply(int reSeq, String content);
+
 }

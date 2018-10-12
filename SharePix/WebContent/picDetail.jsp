@@ -23,8 +23,9 @@
 	}
 	boolean isLike = false;
 	PdsService pService = null;
+	String id = "";
 	if(ologin!=null){
-		String id = ologin.getId();
+		id = ologin.getId();
 		int seq = pds.getSeq();
 		pService = PdsService.getInstance();
 		isLike = pService.checkPdsLike(id, seq);
@@ -210,11 +211,11 @@
 		}
 		
 		// 취소
-		function cancel(item,reSeq) {		
+		function cancel(item,reSeq) {
 			$.ajax({
 				url:"reply.jsp", // 접근대상
 				type:"get",		// 데이터 전송 방식
-				data:"command=reply&loginId=<%=ologin.getId()%>&pdsWriter=<%=pds.getId()%>&reSeq="+reSeq, 
+				data:"command=cancel&loginId=<%=id%>&pdsWriter=<%=pds.getId()%>&reSeq="+reSeq, 
 				success:function(data, status, xhr){
 					//console.log(data.trim());
 					console.log($(this).parents().eq(5));
@@ -243,42 +244,15 @@
 			$.ajax({
 				url:"reply.jsp", // 접근대상
 				type:"get",		// 데이터 전송 방식
-				data:"command=modify&id=<%=ologin.getId()%>&content="+content +"&reSeq="+reSeq, 
+				data:"command=modify&id=<%=id%>&pdsSeq=<%=pds.getSeq()%>&content="+content +"&reSeq="+reSeq, 
 				success:function(data, status, xhr){
 					console.log(data.trim());
-					//$(selector).parent().parent().parent().hide();
 					$(selector).parents().eq(2).replaceWith(data.trim());
-					//$(selector).parent().parent().parent().after(data.trim());
 				},
 				error:function(){ // 또는					 
 					console.log("통신실패!");
 				}
-			});	
-			
-			
-			
-			<%-- console.log(reSeq);
-			var selector = "label[id='" + reSeq +"']";
-			var id = '<%=ologin.getId()%>';
-			var content = $("#content_"+reSeq).text();
-			console.log(content);
-			
-			var element ="<li class='reply'><div class='wrap' align='center' id='rere_write'>";
-			element +=		"<form action='ReplyController'>"; 
-			element +=			"<input type='hidden' name='command' value='updateReply'>";
-			element += 			"<input type='hidden' name='reSeq' value=" + reSeq + ">";
-			element += 			"<div style='padding-left : 30px' align='left'>";
-			element += 			"<img src='images/profiles/" + id + ".png' width='10' class='profile re-img' align='middle' onerror=\"this.src='images/profiles/default.png'\">";
-			element += 			"<span class='nickname'>" + id + "</span></p>";
-			element += 			"<textarea id='writeReply' name='content'>"+ content +"</textarea>";
-			element += 			"<div align=right style='padding:10px' >";
-			element += 			"<button class='btn-like' type='submit'>수정</button>";
-			element += 			"<button class='btn-like' type='button'>취소</button>";
-			element +=			"</div>";
-			element +=		"</form>";
-			element +=	"</div></li>";
-			$(selector).parent().parent().parent().hide();
-			$(selector).parent().parent().parent().replaceWith(element).trigger("create");			 --%>
+			});			
 		}
 		
 		function addReply(re_btn){       
@@ -286,11 +260,11 @@
 			var name = $(re_btn).attr('name');
 			var toWhom = $(re_btn).attr('toWhom');
 			var selector = "[name='" + name +"']";
-			
+						
 			$.ajax({
 				url:"reply.jsp", // 접근대상
 				type:"get",		// 데이터 전송 방식
-				data:"command=rere&id=<%=ologin.getId()%>&seq=<%=pds.getSeq()%>&toWhom="+toWhom, 
+				data:"command=rere&id=<%=id%>&seq=<%=pds.getSeq()%>&toWhom="+toWhom, 
 				success:function(data, status, xhr){
 					console.log(data);
 					$(selector).last().parent().parent().after(data).trigger("create");
@@ -300,32 +274,6 @@
 				}
 			});	
 		
-			
-			<%-- $("#rere_write").remove();
-			var name = $(re_btn).attr('name');
-			var toWhom = $(re_btn).attr('toWhom');
-			var selector = "[name='" + name +"']";
-			var id = '<%=ologin.getId() %>';
-			var pdsSeq = '<%=pds.getSeq() %>';
-			
-			var element ="<div class='wrap' align='center' id='rere_write'>";
-			element +=		"<form action='ReplyController'>"; 
-			element +=			"<input type='hidden' name='command' value='addReply'>";
-			element +=			"<input type='hidden' name='id' value=" + id + ">";
-			element +=			"<input type='hidden' name='pdsSeq' value=" + pdsSeq + ">";
-			element +=			"<input type='hidden' name='refSeq' value=" + name + ">";
-			element += 			"<input type='hidden' name='toWhom' value=" + toWhom + ">";
-			element += 			"<div style='padding-left : 30px' align='left'>";
-			element += 			"<img src='images/profiles/" + id + ".png' width='10' class='profile re-img' align='middle' onerror=\"this.src='images/profiles/default.png'\">";
-			element += 			"<span class='nickname'>" + id + "</span></p>";
-			element += 			"<textarea id='writeReply' placeholder='"+toWhom+"님에게 댓글 작성' name='content'></textarea>";
-			element += 			"<div align=right style='padding:10px' >";
-			element += 			"<button class='btn-like' type='submit'>등록</button>";
-			element +=			"</div>";
-			element +=		"</form>";
-			element +=	"</div>";
-			$(selector).last().parent().parent().after(element).trigger("create"); --%>
-			                                                                         
 		}                                                                            
 		                                                                             
 		// 답변 보기/ 숨기기                                                                
