@@ -21,12 +21,6 @@ package dto;
 //	START WITH 1
 //	INCREMENT BY 1;
 
-//CREATE VIEW PDSALL (SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT)
-//AS
-//SELECT DISTINCT P.SEQ, P.ID, P.CATEGORY, P.TAGS, P.UPLOADDATE, P.FILENAME, P.READCOUNT, P.DOWNCOUNT, P.FSAVENAME,
-//      (SELECT COUNT(*) FROM PDSLIKE, PICPDS WHERE PICPDS.SEQ = PDSLIKE.PDSSEQ),
-//      (SELECT COUNT(*) FROM PDSREPLY, PICPDS WHERE PICPDS.SEQ = PDSREPLY.PDSSEQ)
-//FROM PDSLIKE, PICPDS P, PDSREPLY
 
 import java.io.Serializable;
 
@@ -44,20 +38,17 @@ public class PdsBean implements Serializable {
 	private String category;
 	private String[] tags;
 	private String uploadDate;
-	
 	private String fileName;
 	private int readCount;
 	private int downCount;
-	private String fileSaveName;
 	private int likeCount;
-	
 	private int replyCount;
-	////////////////////
+	private String fSaveName;
 
 	public PdsBean() { }
 
-	public PdsBean(int seq, String id, String category, String[] tags, String uploadDate, String fileName,
-			int readCount, int downCount, String fileSaveName, int likeCount, int replyCount) {
+	public PdsBean(int seq, String id, String category, String[] tags, String uploadDate, String fileName, int readCount,
+			int downCount, int likeCount, int replyCount, String fSaveName) {
 		super();
 		this.seq = seq;
 		this.id = id;
@@ -67,70 +58,43 @@ public class PdsBean implements Serializable {
 		this.fileName = fileName;
 		this.readCount = readCount;
 		this.downCount = downCount;
-		this.fileSaveName = fileSaveName;
 		this.likeCount = likeCount;
 		this.replyCount = replyCount;
+		this.fSaveName = fSaveName;
 	}
 
-	/**
-	 * @return the seq
-	 */
 	public int getSeq() {
 		return seq;
 	}
 
-	/**
-	 * @param seq the seq to set
-	 */
 	public void setSeq(int seq) {
 		this.seq = seq;
 	}
 
-	/**
-	 * @return the id
-	 */
 	public String getId() {
 		return id;
 	}
 
-	/**
-	 * @param id the id to set
-	 */
 	public void setId(String id) {
 		this.id = id;
 	}
 
-	/**
-	 * @return the category
-	 */
 	public String getCategory() {
 		return category;
 	}
 
-	/**
-	 * @param category the category to set
-	 */
 	public void setCategory(String category) {
 		this.category = category;
 	}
 
-	/**
-	 * @return the tags
-	 */
 	public String[] getTags() {
 		return tags;
 	}
 
-	/**
-	 * @param tags the tags to set
-	 */
 	public void setTags(String[] tags) {
 		this.tags = tags;
 	}
 
-	/**
-	 * @return the uploadDate
-	 */
 	public String getUploadDate() {
 		return uploadDate;
 	}
@@ -163,18 +127,10 @@ public class PdsBean implements Serializable {
 		this.downCount = downCount;
 	}
 
-	public String getFileSaveName() {
-		return fileSaveName;
-	}
-
-	public void setFileSaveName(String fileSaveName) {
-		this.fileSaveName = fileSaveName;
-	}
-
 	public int getLikeCount() {
 		return likeCount;
 	}
- 
+
 	public void setLikeCount(int likeCount) {
 		this.likeCount = likeCount;
 	}
@@ -187,17 +143,19 @@ public class PdsBean implements Serializable {
 		this.replyCount = replyCount;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
+	public String getfSaveName() {
+		return fSaveName;
+	}
+
+	public void setfSaveName(String fSaveName) {
+		this.fSaveName = fSaveName;
+	}
+
 	@Override
 	public String toString() {
 		return "PdsBean [seq=" + seq + ", id=" + id + ", category=" + category + ", tags=" + Arrays.toString(tags)
 				+ ", uploadDate=" + uploadDate + ", fileName=" + fileName + ", readCount=" + readCount + ", downCount="
-				+ downCount + ", fileSaveName=" + fileSaveName + ", likeCount=" + likeCount + ", replyCount="
-				+ replyCount + "]";
+				+ downCount + ", likeCount=" + likeCount + ", replyCount=" + replyCount + ", fSaveName=" + fSaveName
+				+ "]";
 	}
-	
-	
-	
 }

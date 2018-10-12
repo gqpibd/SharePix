@@ -50,6 +50,62 @@ public class ReplyBean {
 		this.del = del;
 	}
 
+	public int getPdsSeq() {
+		return pdsSeq;
+	}
+
+	public void setPdsSeq(int pdsSeq) {
+		this.pdsSeq = pdsSeq;
+	}
+
+	public int getReSeq() {
+		return reSeq;
+	}
+
+	public void setReSeq(int reSeq) {
+		this.reSeq = reSeq;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public int getReRef() {
+		return reRef;
+	}
+
+	public void setReRef(int reRef) {
+		this.reRef = reRef;
+	}
+
+	public String getWdate() {
+		return wdate;
+	}
+
+	public void setWdate(String wdate) {
+		this.wdate = wdate;
+	}
+
+	public int getDel() {
+		return del;
+	}
+
+	public void setDel(int del) {
+		this.del = del;
+	}
+
 	@Override
 	public String toString() {
 		return "ReplyDto [pdsSeq=" + pdsSeq + ", reSeq=" + reSeq + ", id=" + id + ", content=" + content + ", reRef="

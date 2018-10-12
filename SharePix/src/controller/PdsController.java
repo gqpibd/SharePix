@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,9 +8,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.PdsService;
+import dto.PdsBean;
+import model.service.PdsService;
 
 public class PdsController extends HttpServlet {
+	
+	public static final String PATH = "images/pictures/"; 
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -24,22 +26,41 @@ public class PdsController extends HttpServlet {
 	}
 
 	public void doProcess(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.setCharacterEncoding("utf-8");
-		resp.setContentType("text/html; charset=UTF-8");
-		
-		// 현재 시간 출력인데 편의상 쓰는 거라 지워도 됨	///////////////
-		req.setCharacterEncoding("utf-8");
-		Date now = new Date();
-		System.out.println("--- pdsControl 시간 : " + now);
-		///////////////////////////////////////////////////
-		
+		System.out.println("PdsController 들어옴");
 		String command = req.getParameter("command");
-		System.out.println("Pds / doProcess로  들어온 command : " + command);
-		PdsService service = PdsService.getInstance();
+		System.out.println("command:" + command);
+		if(command.equalsIgnoreCase("detailview")) {
+			int seq = Integer.parseInt(req.getParameter("seq"));
+			System.out.println(seq);
+			PdsBean pds = PdsService.getInstance().getPdsDetail(seq);
+			System.out.println(pds);
+			req.setAttribute("pds", pds);
+			dispatch("picDetail.jsp", req, resp);			
+		} else if (command.equalsIgnoreCase("keyword")) {
+			String keyword = req.getParameter("tags");
+			System.out.println(keyword);
+			PdsBean pds = PdsService.getInstance().getSearchPds(keyword);
+			System.out.println(pds);
+			req.setAttribute("pds", pds);
+		} else if(command.equalsIgnoreCase("likeChange")) {
+			boolean like = Boolean.parseBoolean(req.getParameter("like"));
+			String id = req.getParameter("id");
+			int seq = Integer.parseInt(req.getParameter("seq"));
+			System.out.println("like:"+like);
+			System.out.println("id:"+id);
+			System.out.println("seq:"+seq);
+			PdsService.getInstance().chageLike(id, seq, !like); // like 상태 바꿔줌
+			int count = PdsService.getInstance().getLikeCount(seq);
+			resp.getWriter().write("<like>" +!like +"</like><count>" + count +"</count>");
+			resp.getWriter().flush();
+			System.out.println("count:" + count);
+			//req.setAttribute("pds", pds);
+		}
 	}
 	
-	public void dispatch( String urls, HttpServletRequest req, HttpServletResponse resp ) throws ServletException, IOException { 
-		RequestDispatcher dispatch = req.getRequestDispatcher(urls); // urls : 어디로 갈지
+	public void dispatch(String urls, HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		RequestDispatcher dispatch = req.getRequestDispatcher(urls);
 		dispatch.forward(req, resp);
 	}
 		

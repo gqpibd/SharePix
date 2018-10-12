@@ -1,6 +1,6 @@
+<%@page import="model.service.PdsService"%>
 <%@page import="java.util.List"%>
 <%@page import="dto.PdsBean"%>
-<%@page import="model.PdsService"%>
 <%@page import="model.MemberService"%>
 <%@page import="dto.MemberBean"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -37,6 +37,9 @@ int totalDownCount = 0;
 int totalLikeCount = 0; 
 int totalReplyCount = 0;
 int totalReadCount = 0;
+if(list == null){
+	System.out.println("list null");
+}
 for (int i = 0; i < list.size(); i++) {
 	PdsBean dto = list.get(i);
 	
@@ -44,6 +47,8 @@ for (int i = 0; i < list.size(); i++) {
 	totalLikeCount += dto.getLikeCount();
 	totalReplyCount += dto.getReplyCount();
 	totalReadCount += dto.getReadCount();
+	
+	
 }
 
 //편의로 그냥 쓰고 있음(삭제예정)
@@ -63,7 +68,7 @@ if(pds == null){
 %>
 
 <h2><%=mem.getName()%>의 myPage.jsp</h2>	<!-- 출력 확인 -->
-<img alt="" src="./image/<%=pds.getFileSaveName()%>" style="width: 50px">프로필 사진<br>
+<img alt="" src="./image/<%=pds.getfSaveName()%>" style="width: 50px">프로필 사진<br>
 <h1 style="font-size:32px;padding-top:25px"><%=mem.getName()%></h1>
 
  <div id="stats" style="max-height:22px;overflow:hidden;padding:0 15px">

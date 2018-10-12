@@ -1,47 +1,20 @@
 package model;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import db.DBClose;
+import db.DBConnection;
 import dto.PdsBean;
 
 public class PdsManager implements iPdsManager {
 	
 	public PdsManager() {
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public Connection getConnection() throws SQLException {
-		String url = "jdbc:oracle:thin:@183.99.33.240:1521:xe";
-		String user = "hr";
-		String pass = "hr";
-
-		Connection conn = DriverManager.getConnection(url, user, pass);
-
-		return conn;
-	}
-	
-	public void close(Connection conn, PreparedStatement psmt, ResultSet rs) {
-		try {
-			if (rs != null) {
-				rs.close();
-			} else if (psmt != null) {
-				psmt.close();
-			} else if (conn != null) {
-				conn.close();
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		DBConnection.initConnection();
 	}
 	
 	@Override
@@ -59,7 +32,7 @@ public class PdsManager implements iPdsManager {
 		PdsBean dto = null;
 		
 		try {
-			conn = getConnection();
+			conn = DBConnection.getConnection();
 			System.out.println("1/6 getMyPdsAll success");
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, id);
@@ -76,13 +49,12 @@ public class PdsManager implements iPdsManager {
 								  rs.getString(3),    	// CATEGORY
 								  tag,        
 								  rs.getString(5),  	// uploaddate
-								  
 								  rs.getString(6),    // filename     
 								  rs.getInt(7),   	        // readcount    
 								  rs.getInt(8),   	        // downcount    
-								  rs.getString(9),	        // fileSaveName 
-								  rs.getInt(10),    	        	// likeCount
-								  rs.getInt(11));
+								  rs.getInt(10),    	// likeCount
+								  rs.getInt(11),		//replyCount
+								  rs.getString(9));		// fileSaveName
 
 				System.out.println("getMyPdsAll 로부터 나오는 dto " + dto.toString());
 			}
@@ -92,10 +64,226 @@ public class PdsManager implements iPdsManager {
 			System.out.println("getMyPdsAll fail");
 			e.printStackTrace();
 		} finally {
-			close(conn, psmt, rs);
+			DBClose.close(psmt, conn, rs);
 		}
 		
 		return dto;
+	}
+	 @Override
+	   public PdsBean getSearchPds(String keyword) {
+	      String sql = " SELECT SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT "
+	            + " FROM PDSALL "
+	            + " WHERE (CATEGORY LIKE ? OR TAGS LIKE ?) ";   
+
+	      Connection conn = null;
+	      PreparedStatement psmt = null;
+	      ResultSet rs = null;
+
+	      PdsBean pds = null; // 결과를 저장할 목록
+
+	      try {
+	         conn = DBConnection.getConnection();
+	         System.out.println("1/6 getPdsDetail Success");
+
+	         psmt = conn.prepareStatement(sql);
+	         psmt.setString(1, "%" + keyword +"%");
+	         psmt.setString(2, "%" + keyword +"%");
+	         System.out.println("2/6 getPdsDetail Success");
+
+	         rs = psmt.executeQuery();
+	         System.out.println("3/6 getPdsDetail Success");
+	         
+	         if (rs.next()) {
+	            String regdate = rs.getString("UPLOADDATE");
+	            regdate = regdate.substring(0, regdate.lastIndexOf('.'));
+	            // SEQ, ID, TITLE, CONTENT, FILENAME, READCOUNT, DOWNCOUNT, REGDATE
+	            pds = new PdsBean(rs.getInt("SEQ"), 
+	                          rs.getString("ID"), 
+	                          rs.getString("CATEGORY"), 
+	                          rs.getString("TAGS").substring(1).split("#"),
+	                          regdate, 
+	                          rs.getString("FILENAME"), 
+	                          rs.getInt("READCOUNT"), 
+	                          rs.getInt("DOWNCOUNT"), 
+	                          rs.getInt("LIKECOUNT"),
+	                          rs.getInt("REPLYCOUNT"),
+	                          rs.getString("FSAVENAME")
+	                          );
+	         }
+	         System.out.println("4/6 getPdsDetail Success");
+
+	      } catch (SQLException e) {
+	         e.printStackTrace();
+	         System.out.println("getPdsDetail Fail");
+	      } finally {
+	         DBClose.close(psmt, conn, rs);
+	      }
+	      return pds;
+	   }
+	@Override
+	public PdsBean getPdsDetail(int seq) {
+		// SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT
+		String sql = " SELECT SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT "
+				+ " FROM PDSALL " + " WHERE SEQ = ? ";
+
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+
+		PdsBean pds = null; // 결과를 저장할 목록
+
+		try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 getPdsDetail Success");
+
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, seq);
+			System.out.println("2/6 getPdsDetail Success");
+
+			rs = psmt.executeQuery();
+			System.out.println("3/6 getPdsDetail Success");
+			
+			if (rs.next()) {
+				String regdate = rs.getString("UPLOADDATE");
+				regdate = regdate.substring(0, regdate.lastIndexOf('.'));
+				// SEQ, ID, TITLE, CONTENT, FILENAME, READCOUNT, DOWNCOUNT, REGDATE
+				pds = new PdsBean(rs.getInt("SEQ"), 
+								  rs.getString("ID"), 
+								  rs.getString("CATEGORY"), 
+								  rs.getString("TAGS").substring(1).split("#"),
+								  regdate, 
+								  rs.getString("FILENAME"), 
+								  rs.getInt("READCOUNT"), 
+								  rs.getInt("DOWNCOUNT"), 
+								  rs.getInt("LIKECOUNT"),
+								  rs.getInt("REPLYCOUNT"),
+								  rs.getString("FSAVENAME")
+								  );
+			}
+			System.out.println("4/6 getPdsDetail Success");
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("getPdsDetail Fail");
+		} finally {
+			DBClose.close(psmt, conn, rs);
+		}
+		return pds;
+	}
+
+	@Override
+	public boolean checkPdsLike(String id, int pdsSeq) {
+		String sql = " SELECT * "
+				   + " FROM PDSLIKE " 
+				   + " WHERE PDSSEQ = ? AND ID = ?";
+
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+
+
+		try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 checkPdsLike Success");
+
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, pdsSeq);
+			psmt.setString(2, id);
+			System.out.println("2/6 checkPdsLike Success");
+
+			rs = psmt.executeQuery();
+			System.out.println("3/6 checkPdsLike Success");
+
+			if (rs.next()) {
+				System.out.println("있음");
+				return true;
+			}
+			System.out.println("없음");
+			System.out.println("4/6 checkPdsLike Success");
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("checkPdsLike Fail");
+		} finally {
+			DBClose.close(psmt, conn, rs);
+		}
+		return false;
+	}
+
+	@Override
+	public boolean chageLike(String id, int pdsSeq, boolean isLike) {
+		String sql = "";
+		if(isLike) { // 좋아요를 누르면 row 추가
+			sql = " INSERT INTO PDSLIKE "
+				+ " VALUES (?, ?) ";
+		}else {
+			sql = " DELETE FROM PDSLIKE "
+				+ " WHERE PDSSEQ = ? AND ID = ? " ;
+		}
+
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		
+		int count=0;
+
+		try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 chageLike Success");
+
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, pdsSeq);
+			psmt.setString(2, id);
+			System.out.println("2/6 chageLike Success");
+
+			count = psmt.executeUpdate();
+			System.out.println("3/6 chageLike Success");
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("chageLike Fail");
+		} finally {
+			DBClose.close(psmt, conn, null);
+		}
+		return count > 0 ? true : false;
+	}
+	
+	
+	@Override
+	public int getLikeCount(int pdsSeq) {
+		String sql = " SELECT count(*) "
+				   + " FROM PDSLIKE " 
+				   + " WHERE PDSSEQ = ? ";
+
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		
+		int count = 0;
+
+		try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 getLikeCount Success");
+
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, pdsSeq);
+			System.out.println("2/6 getLikeCount Success");
+
+			rs = psmt.executeQuery();
+			System.out.println("3/6 getLikeCount Success");
+
+			if (rs.next()) {
+				count = rs.getInt(1);
+			}
+			System.out.println("4/6 getLikeCount Success");
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("getLikeCount Fail");
+		} finally {
+			DBClose.close(psmt, conn, rs);
+		}
+		return count;
+		
 	}
 
 	@Override
@@ -115,7 +303,7 @@ public class PdsManager implements iPdsManager {
 		PdsBean dto = null;
 		
 		try {
-			conn = getConnection();
+			conn = DBConnection.getConnection();
 			System.out.println("1/6 getMyPdsAllList success");
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, id);
@@ -128,17 +316,17 @@ public class PdsManager implements iPdsManager {
 				String[] tag = rs.getString(4).substring(1).split("#");
 				
 				dto = new PdsBean(rs.getInt(1),          	// seq
-								  rs.getString(2),        //	id
-								  rs.getString(3),    	// CATEGORY
-								  tag,        
-								  rs.getString(5),  	// uploaddate
-								  
-								  rs.getString(6),    // filename     
-								  rs.getInt(7),   	        // readcount    
-								  rs.getInt(8),   	        // downcount    
-								  rs.getString(9),	        // fileSaveName 
-								  rs.getInt(10),    	        	// likeCount
-								  rs.getInt(11));
+						  rs.getString(2),        //	id
+						  rs.getString(3),    	// CATEGORY
+						  tag,        
+						  rs.getString(5),  	// uploaddate
+						  rs.getString(6),    // filename     
+						  rs.getInt(7),   	        // readcount    
+						  rs.getInt(8),   	        // downcount    
+						  rs.getInt(10),    	// likeCount
+						  rs.getInt(11),		//replyCount
+						  rs.getString(9));		// fileSaveName
+				
 				list.add(dto);
 				
 			}
@@ -149,13 +337,9 @@ public class PdsManager implements iPdsManager {
 			System.out.println("getMyPdsAllList fail");
 			e.printStackTrace();
 		} finally {
-			close(conn, psmt, rs);
+			DBClose.close(psmt, conn, rs);
 		}
 		
 		return list;
 	}
-	
-	
-
-	
 }

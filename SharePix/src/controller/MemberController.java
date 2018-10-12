@@ -12,7 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dto.MemberBean;
-import model.MemberService;
+import model.service.MemberService;
+
 
 public class MemberController extends HttpServlet {
 
@@ -38,7 +39,7 @@ public class MemberController extends HttpServlet {
 		
 		String command = req.getParameter("command");
 		System.out.println("Member / doProcess로  들어온 command : " + command);		
-		MemberService memService = MemberService.getInstance();
+		model.MemberService memService = model.MemberService.getInstance();
 		
 		// 오류 나서 session 지역변수로 뺐
 		HttpSession session = req.getSession();
@@ -157,8 +158,6 @@ public class MemberController extends HttpServlet {
 				out.flush();
 			}
 		}
-		
-
 	}
 	
 	public void dispatch( String urls, HttpServletRequest req, HttpServletResponse resp ) throws ServletException, IOException { 

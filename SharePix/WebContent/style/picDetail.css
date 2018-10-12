@@ -1,0 +1,322 @@
+@charset "UTF-8";
+
+body {
+  padding: 1rem;
+  /* background-color: #f6f5f1; */
+  background-color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-family: -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", Roboto, Oxygen, Ubuntu, "Helvetica Neue", sans-serif;
+  /* background-image: linear-gradient(45deg, #4f5068 0%, #4f5068 100%); */
+} 
+@media screen and (min-width: 55em) {
+  body {
+    height: 100vh;
+    margin: 0;
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  -webkit-font-smoothing: antialiased;
+}
+
+p, span, ul, li{
+  color: #2d4338;
+  font-weight: 100;
+  -webkit-font-smoothing: subpixel-antialiased;
+  font-size: 1rem;
+}
+
+.main {
+  position: relative;
+  left: 0;
+  right: 0;
+  border-radius: 0;
+  width: 100%;   
+  max-width: 1320px;   
+  margin: 1rem auto;
+  background-color: #f5f7f6;
+  box-shadow: 5px 5px 72px rgba(30, 46, 50, 0.5);
+  color: #040605;
+  overflow:hidden;
+  
+}
+@media screen and (min-width: 55em) {
+  .main {
+    margin: auto;
+    top: 5%;
+    overflow: visible;
+  }
+}
+
+.left {
+  width: 100%;
+  margin: 0 auto;
+  float: none;
+  background: linear-gradient(120deg, #eff3f3, #e1e7e8);
+  padding-bottom: 0.7rem;
+}
+
+@media screen and (min-width: 55em) {
+  .left {
+    position: absolute;
+    width: 70%;
+    float: left;
+    margin-bottom: 0;
+  }
+}
+
+.left .content {
+  padding: 2rem 1.5rem 2rem 4rem;
+  color: #040605;
+}
+
+.left__heading {
+  font-size: 2.2rem;
+  font-weight: bold;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-bottom: 3rem;
+  margin-top: 1rem;
+}
+.heading__heading span {
+  float: right;
+  font-weight: 300;
+}
+
+.rightbar {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: stretch;
+  width: 100%;
+  float: none;
+  min-height: 580px;
+  height: 100%;
+  font-size: 12px;
+  padding: 0.8rem 0 1rem 1rem;
+  background: #ffffff;
+}
+@media screen and (min-width: 55em) {
+  .rightbar {
+    width: 30%;
+    float: right;
+  }
+}
+
+a{
+	color: black;
+	text-decoration: none;
+}
+.tag {
+	background-color: #ededed;
+	-moz-border-radius: 17px;
+	-webkit-border-radius: 17px;
+	border-radius: 17px;
+	border: 1px solid #dcdcdc;
+	display: inline-block;
+	cursor: pointer;
+	color: #777777;
+	font-family: Arial;
+	font-size: 19px;
+	padding: 6px 29px;
+	text-decoration: none;
+}
+
+.tag:hover {
+	background-color: #dfdfdf;
+}
+
+.img {
+	max-width: 100%;
+	height: auto;
+}
+
+.profile {
+    width: 100px; 
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-left: 10px;
+}
+
+.more{
+	position: relative;
+	float: right;
+}
+
+.reply{ /* 댓글 하나가 한 덩어리로 묶인다. */
+	position: relative;
+}
+
+.list_reply li {
+    overflow: hidden;
+    position: relative;
+    padding: 23px 20px 10px;
+    border-bottom: 1px solid #fff;
+    width : 90%;
+}
+
+.re_reply { /* 대댓 */
+    margin-left: 60px;
+}
+
+.re-img{ /* 댓글 프로필 */	
+    float: left;
+    width: 33px;
+    height: 33px;
+    border-radius: 33px;
+    margin: 5px;
+    vertical-align: middle;
+}
+
+.reply_content {
+    display: block;
+    float: none;
+    padding: 0 28px 0 40px;
+}
+
+.nickname {
+    font-size: 13px;
+    overflow: visible;
+    margin: 0px 5px 2px 0;
+    vertical-align: top;
+    white-space: normal;
+    display: block;
+    font-weight: bold;
+}
+.download {
+	-moz-box-shadow:inset 0px 1px 0px 0px #97c4fe;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #97c4fe;
+	box-shadow:inset 0px 1px 0px 0px #97c4fe;
+	background:linear-gradient(to bottom, #3d94f6 5%, #1e62d0 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#3d94f6', endColorstr='#1e62d0',GradientType=0);
+	background-color:#3d94f6;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #337fed;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:7px 76px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #1570cd;
+	outline:none; /* 포커스 되었을 때 아웃라인 없앰 */
+}
+.download:hover {
+	background:linear-gradient(to bottom, #1e62d0 5%, #3d94f6 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#1e62d0', endColorstr='#3d94f6',GradientType=0);
+	background-color:#1e62d0;
+}
+/* 좋아요 버튼 */
+.btn-like {
+	background:linear-gradient(to bottom, #7892c2 5%, #476e9e 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#7892c2', endColorstr='#476e9e',GradientType=0);
+	background-color:#7892c2;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:11px 23px;
+	text-decoration:none;
+	text-shadow:0px -1px 0px #283966;
+	outline:none; /* 포커스 되었을 때 아웃라인 없앰 */	
+}
+.btn-like:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #476e9e), color-stop(1, #7892c2));
+	background:linear-gradient(to bottom, #476e9e 5%, #7892c2 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#476e9e', endColorstr='#7892c2',GradientType=0);
+	background-color:#476e9e;
+}
+.btn-like:active {
+	position:relative;
+	top:1px;
+}
+
+textarea {
+	margin-top: 10px;
+	width:90%;
+	resize: none;
+	overflow-y: hidden; /* prevents scroll bar flash */
+	padding: 0.7em;  /* prevents text jump on Enter keypress */	
+	line-height: 1.1;
+	border-radius: 10px;
+	outline:none; /* 포커스 되었을 때 아웃라인 없앰 */	
+}
+
+/* 슬라이더 */
+
+.selectSize {
+  text-align: center;
+  font-weight: bold;
+  font-size: 3em;
+  width: 300px;
+  height: 80px;
+  line-height: 60px;
+  margin: 40px auto;
+  letter-spacing: -0.07em;
+  text-shadow: white 2px 2px 2px;
+}
+input[type="range"] {
+  display: block;
+  -webkit-appearance: none;
+  background-color: #bdc3c7;
+  width: 300px;
+  height: 5px;
+  border-radius: 5px;
+  margin: 0 auto;
+  outline: 0;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background-color: #e74c3c;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid white;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+​
+input[type="range"]::-webkit-slider-thumb:hover {
+  background-color: white;
+  border: 2px solid #e74c3c;
+}
+
+/*----------------툴팁----------------*/
+.tooltip {
+    position: absolute;
+    right:0;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext{
+    visibility: hidden;
+    width: 80px;
+    background-color: white;
+    text-align: center;
+    border-radius: 5px;
+    padding: 3px 0;
+    
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    top: -5px;
+    right: 105%;
+}
+
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+/*------------------------------------*/
