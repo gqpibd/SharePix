@@ -60,6 +60,7 @@ public class ReplyController extends HttpServlet {
 			if(isS) {
 				System.out.println("댓글 삭제 성공");				
 			}*/
+			/**/
 			
 		}
 	}
