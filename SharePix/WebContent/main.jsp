@@ -8,24 +8,6 @@
 <title>main</title>
 </head>
 <body>
-<%
-Object ologin = session.getAttribute("login");
-MemberBean mem = null;
-
-if(ologin == null){	
-	%>	
-	<script type="text/javascript">
-	alert("로그인 해 주십시오.");
-	location.href = "./index.jsp";
-	</script>
-	<%
-	return;
-}
-
-mem = (MemberBean)ologin;
-
-System.out.println("mem.toString() = " + mem.toString()); // 잘 출력됨.
-%>
 <h2>main.jsp</h2>
 
 <form action="MemberController" method="get">

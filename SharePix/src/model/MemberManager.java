@@ -59,6 +59,46 @@ public class MemberManager implements iMemberManager {
 	/////////////////////////////////////////////////////
 	
 	@Override
+	public MemberBean getUserInfo(String id) {
+		
+		String sql  = " SELECT ID, PWD, NAME, EMAIL, PHONE, AUTH "
+					+ " FROM MEMBER "
+					+ " WHERE ID = ? "; 
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		
+		MemberBean dto = null;
+		
+		try {
+			conn = getConnection();
+			System.out.println("1/6 getIdInfo success");
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+			
+			rs = psmt.executeQuery();
+			
+			if (rs.next()) {
+				dto = new MemberBean(	rs.getString(1),
+										rs.getString(2),
+										rs.getString(3),
+										rs.getString(4),
+										rs.getString(5),
+										rs.getInt(6));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(conn, psmt, rs);
+		}
+		
+		
+		return dto;
+	}
+	
+	@Override
 	public MemberBean loginAf(String id, String pwd) {
 		
 		String sql  = " SELECT ID, NAME, PWD, EMAIL, PHONE, AUTH "
@@ -73,12 +113,15 @@ public class MemberManager implements iMemberManager {
 		
 		try {
 			conn = getConnection();
+			System.out.println("1/6 loginAf success");
 			psmt = conn.prepareStatement(sql);
+			System.out.println("2/6 loginAf success");
 			
 			psmt.setString(1, id);
 			psmt.setString(2, pwd);
 			
 			rs = psmt.executeQuery();
+			System.out.println("3/6 loginAf success");
 			
 			if(rs.next()) {
 				int i = 1;
@@ -88,18 +131,19 @@ public class MemberManager implements iMemberManager {
 									   rs.getString(i++),	//EMAIL
 									   rs.getString(i++),	//PHONE
 									   rs.getInt(i++));		//AUTH
-				
-				
 			}
+			System.out.println("4/6 loginAf success");
 			
-		} catch (SQLException e) {
+		} catch (Exception e) {
+			System.out.println("loginAf Fail");
 			e.printStackTrace();
 		} finally {
 			close(conn, psmt, rs);
 		}
-		
 		return dto;
 	}
+
+	
 
 	@Override
 	public boolean updateUser(MemberBean dto) {
@@ -108,7 +152,7 @@ public class MemberManager implements iMemberManager {
 					+ " SET PWD=?, NAME=?, EMAIL=?, PHONE=? "
 					+ " WHERE ID=? ";
 		
-		System.out.println("dto.toString() = " + dto.toString());
+		System.out.println("(in updateUser) dto.toString() = " + dto.toString());
 		int count = 0;
 		
 		Connection conn = null; 

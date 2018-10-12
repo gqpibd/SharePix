@@ -4,7 +4,7 @@ import dto.MemberBean;
 
 public class MemberService {
 
-	private static MemberService custUserService = null;
+	private static MemberService memberService = null;
 	
 	public iMemberManager manager;
 
@@ -13,10 +13,10 @@ public class MemberService {
 	}
 
 	public static MemberService getInstance() {
-		if (custUserService == null) {
-			custUserService = new MemberService();
+		if (memberService == null) {
+			memberService = new MemberService();
 		}
-		return custUserService;
+		return memberService;
 	}
 	
 	////////////////////////////////////
@@ -27,6 +27,10 @@ public class MemberService {
 	
 	public boolean updateUser(MemberBean dto) {
 		return manager.updateUser(dto);
+	}
+	
+	public MemberBean getUserInfo(String id) {
+		return manager.getUserInfo(id);
 	}
 	
 }
