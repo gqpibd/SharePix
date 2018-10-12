@@ -58,8 +58,9 @@
 				%>
 					<span class="tag">#<%=pds.getTags()[i] %></span>
 				<% } %>
-			</h2>
-			<div class="wrapper">				
+			</h2>		
+			
+			<div class="wrapper" align=center>				
 				<img src="<%=PdsController.PATH %><%=pds.getfSaveName()%>" class="img" id="pdsImg"></img>							
 			</div>
 			<button onclick="doLike()" class="btn-like"><img src="<%=like %>" width="15" id="like">&nbsp;&nbsp; <span id="likeCount"><font size="3"><%=pds.getLikeCount()%></font></span></button><br>
@@ -68,45 +69,44 @@
 			
 			<ul id="replies" class="list_reply">
 				<% if(reList!=null){
-				for(ReplyBean re : reList){
-					String src = "images/profiles/"+re.getId()+".png";
-					String srcError="images/profiles/default.png";
-					
-					%>
-					<%-- <%if(re.getReSeq() == re.getReRef()){%>
-					<li class="reply">
-					<%}else{ %>
-						<li class="reply re_reply">
-					<%} %> --%>
-					<li class="reply">
-					<%if(re.getReSeq() != re.getReRef()){%> <!-- 대댓일 때 표시 -->
-						<img src="images/icons/rere.png" style=" float: left; width: 20px; margin-right:13px">
-					<%}%>
-					<% if(ologin!=null && re.getId().equals(ologin.getId())){ %> <!-- 작성자일 때 수정, 삭제 가능하게 -->  
-							<div class="tooltip" align="right">																		
-								<img src="images/icons/more.png" width="3px" align="right" class="more">							
-								<span class="tooltiptext">
-									<label onclick="modify(this)" class="aTag">수정</label><br>
-									<label onclick="deleteReply(<%=re.getReSeq()%>)" class="aTag">삭제</label><br>
-								</span>
-							</div>
-					<%}%>
-						<img src="<%=src%>" class="profile re-img" width="10" onerror="this.src='<%=srcError%>'" >
-						<div class="reply_content">
-							
-							<span class="nickname"><%=re.getId()%>
-							<% if(re.getId().equals(pds.getId())){ %>
-								<img src="images/icons/writer.png" width="60" style="vertical-align: middle">
-							<%}%>
-							</span>
-							
-							<span><%=re.getContent() %></span><br>
-							<font style="font-size: 3px; color:graytext;"><%=re.getWdate() %></font><br>
-							<button name="<%=re.getReRef()%>" onclick="addReply(this)" id="<%=re.getReSeq()%>" toWhom="<%=re.getId()%>">답변</button>							
-						</div>
-					</li>
-					<%
-				} }else{%>
+					for(ReplyBean re : reList){
+						String src = "images/profiles/"+re.getId()+".png";
+						String srcError="images/profiles/default.png";						
+						%>												
+						<li class="reply">
+						<%if(re.getReSeq() != re.getReRef()){%> <!-- 대댓일 때 표시 -->
+							<img src="images/icons/rere.png" style=" float: left; width: 20px; margin-right:13px">
+						<%}
+						  if(re.getDel() == 1){%>
+							<div class="reply_content">삭제된 댓글입니다</div>
+						<%}else{ // 댓글 표시
+							if(ologin!=null && re.getId().equals(ologin.getId())){ %> <!-- 작성자일 때 수정, 삭제 가능하게 -->  
+								<div class="tooltip" align="right">																		
+									<img src="images/icons/more.png" width="3px" align="right" class="more">							
+									<span class="tooltiptext">									
+										<label onclick="modify('<%=re.getReSeq()%>')" id="<%=re.getReSeq()%>" class="aTg">수정</label><br>
+										<label onclick="deleteReply(<%=re.getReSeq()%>)" class="aTag">삭제</label><br>
+									</span>
+								</div>
+						   <%}%>
+								<img src="<%=src%>" class="profile re-img" width="10" onerror="this.src='<%=srcError%>'" >
+								<div class="reply_content">								
+									<span class="nickname"><%=re.getId()%>
+									<% if(re.getId().equals(pds.getId())){ %>
+										<img src="images/icons/writer.png" width="60" style="vertical-align: middle">
+									<%}%>
+									</span>								
+									<span id="content_<%=re.getReSeq()%>"><%=re.getContent() %></span><br>
+									<font style="font-size: 3px; color:graytext;"><%=re.getWdate() %></font><br>
+									<%if(ologin!=null){ %>
+									<button name="<%=re.getReRef()%>" onclick="addReply(this)" id="<%=re.getReSeq()%>" toWhom="<%=re.getId()%>">답변</button>
+									<%} %>							
+								</div>
+							</li>
+							<%	
+						}
+					}		  
+				}else{%>
 					<li>
 						등록된 댓글이 없습니다. 첫 번째 댓글을 남겨주세요
 					</li>
@@ -209,15 +209,99 @@
 			
 		}
 		
+		// 취소
+		function cancel(item,reSeq) {		
+			$.ajax({
+				url:"reply.jsp", // 접근대상
+				type:"get",		// 데이터 전송 방식
+				data:"command=reply&loginId=<%=ologin.getId()%>&pdsWriter=<%=pds.getId()%>&reSeq="+reSeq, 
+				success:function(data, status, xhr){
+					//console.log(data.trim());
+					console.log($(this).parents().eq(5));
+					$(item).parents().eq(4).replaceWith(data.trim());
+				},
+				error:function(){ // 또는					 
+					console.log("통신실패!");
+				}
+			});	
+		}
+		
+		// 댓글 삭제
 		function deleteReply(reSeq) {
 			var check = confirm("정말 삭제하시겠습니까?");			
 			if (check) {
-				location.href = "ReplyController?command=delete&reSeq=" + reSeq;
+				location.href = "ReplyController?command=delete&reSeq=" + reSeq + "&pdsSeq=" + <%=pds.getSeq()%>;
 			}
 		}
 		
-		function addReply(re_btn){            
+		// 댓글 수정
+		function modify(reSeq){ 			
+			console.log(reSeq);
+			var selector = "label[id='" + reSeq +"']";			
+			var content = $("#content_"+reSeq).text();			
+			
+			$.ajax({
+				url:"reply.jsp", // 접근대상
+				type:"get",		// 데이터 전송 방식
+				data:"command=modify&id=<%=ologin.getId()%>&content="+content +"&reSeq="+reSeq, 
+				success:function(data, status, xhr){
+					console.log(data.trim());
+					//$(selector).parent().parent().parent().hide();
+					$(selector).parents().eq(2).replaceWith(data.trim());
+					//$(selector).parent().parent().parent().after(data.trim());
+				},
+				error:function(){ // 또는					 
+					console.log("통신실패!");
+				}
+			});	
+			
+			
+			
+			<%-- console.log(reSeq);
+			var selector = "label[id='" + reSeq +"']";
+			var id = '<%=ologin.getId()%>';
+			var content = $("#content_"+reSeq).text();
+			console.log(content);
+			
+			var element ="<li class='reply'><div class='wrap' align='center' id='rere_write'>";
+			element +=		"<form action='ReplyController'>"; 
+			element +=			"<input type='hidden' name='command' value='updateReply'>";
+			element += 			"<input type='hidden' name='reSeq' value=" + reSeq + ">";
+			element += 			"<div style='padding-left : 30px' align='left'>";
+			element += 			"<img src='images/profiles/" + id + ".png' width='10' class='profile re-img' align='middle' onerror=\"this.src='images/profiles/default.png'\">";
+			element += 			"<span class='nickname'>" + id + "</span></p>";
+			element += 			"<textarea id='writeReply' name='content'>"+ content +"</textarea>";
+			element += 			"<div align=right style='padding:10px' >";
+			element += 			"<button class='btn-like' type='submit'>수정</button>";
+			element += 			"<button class='btn-like' type='button'>취소</button>";
+			element +=			"</div>";
+			element +=		"</form>";
+			element +=	"</div></li>";
+			$(selector).parent().parent().parent().hide();
+			$(selector).parent().parent().parent().replaceWith(element).trigger("create");			 --%>
+		}
+		
+		function addReply(re_btn){       
 			$("#rere_write").remove();
+			var name = $(re_btn).attr('name');
+			var toWhom = $(re_btn).attr('toWhom');
+			var selector = "[name='" + name +"']";
+			
+			$.ajax({
+				url:"reply.jsp", // 접근대상
+				type:"get",		// 데이터 전송 방식
+				data:"command=rere&id=<%=ologin.getId()%>&seq=<%=pds.getSeq()%>&toWhom="+toWhom, 
+				success:function(data, status, xhr){
+					console.log(data);
+					$(selector).last().parent().parent().after(data).trigger("create");
+				},
+				error:function(){ // 또는					 
+					console.log("통신실패!");
+				}
+			});	
+		
+			
+			<%-- $("#rere_write").remove();
 			var name = $(re_btn).attr('name');
 			var toWhom = $(re_btn).attr('toWhom');
 			var selector = "[name='" + name +"']";
@@ -240,7 +324,7 @@
 			element +=			"</div>";
 			element +=		"</form>";
 			element +=	"</div>";
-			$(selector).last().parent().parent().after(element).trigger("create");
+			$(selector).last().parent().parent().after(element).trigger("create"); --%>
 			                                                                         
 		}                                                                            
 		                                                                             
@@ -256,7 +340,7 @@
 					}
 				});
 			});
-			
+
 			// textarea 자동 크기 조절			
 			// 동적으로 생성된 태그에 이벤트를 적용하기 위해서는 $(document).on()으로 해줘야 한다.
 			// $(".wrap").on('keyup', 'textarea',function(e){ --> 이렇게 하면 원래 있던 태그에만 적용됨

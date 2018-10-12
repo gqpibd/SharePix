@@ -55,13 +55,14 @@ public class ReplyController extends HttpServlet {
 			}
 			resp.sendRedirect("PdsController?command=detailview&seq=" + pdsSeq);			
 		}else if(command.equalsIgnoreCase("delete")) {
+			int  pdsSeq = Integer.parseInt(req.getParameter("pdsSeq"));
 			int  reSeq = Integer.parseInt(req.getParameter("reSeq"));
-			/*boolean isS = ReplyService.getInstance().addReply(id,content,pdsSeq,refSeq);
+			boolean isS = ReplyService.getInstance().deleteReply(reSeq);
+			
 			if(isS) {
 				System.out.println("댓글 삭제 성공");				
-			}*/
-			/**/
-			
+			}		
+			resp.sendRedirect("PdsController?command=detailview&seq=" + pdsSeq);
 		}
 	}
 	

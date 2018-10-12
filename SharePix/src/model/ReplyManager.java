@@ -13,6 +13,9 @@ import dto.ReplyBean;
 
 public class ReplyManager implements iReplyManager {
 	
+	public ReplyManager() {
+		DBConnection.initConnection();
+	}
 	@Override	
 	public List<ReplyBean> getReplyList(int seq){
 		String sql =  " SELECT * FROM PDSREPLY "
@@ -112,5 +115,81 @@ public class ReplyManager implements iReplyManager {
 			DBClose.close(psmt, conn, null);
 		}
 		return count > 0 ? true : false;
+	}
+
+	@Override
+	public boolean deleteReply(int reSeq) {
+		String sql = " UPDATE PDSREPLY "
+				   + " SET DEL = 1 "
+				   + " WHERE RESEQ = ? ";
+		
+		Connection conn = null;
+		PreparedStatement psmt = null; 
+		int count=0;
+
+		try {			
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 deleteReply Success");
+			
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, reSeq);			
+			
+			System.out.println("2/6 deleteReply Success");
+
+			count = psmt.executeUpdate();
+			System.out.println("3/6 deleteReply Success");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, null);
+		}
+		return count > 0 ? true : false;
+	}
+	
+	@Override
+	public ReplyBean getReply(int reSeq) {
+		String sql =  " SELECT * FROM PDSREPLY "
+					+ " WHERE reSeq = ? ";
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		
+		ReplyBean re = null;
+		
+		try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 getReply Success");			
+			
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, reSeq);
+			System.out.println("2/6 getReply Success");
+			
+			rs = psmt.executeQuery();
+			System.out.println("3/6 getReply Success");
+			
+			if(rs.next()) {
+				String wdate = rs.getString("WDATE");
+				if(wdate.lastIndexOf('.')>0) {
+					wdate = wdate.substring(0,wdate.lastIndexOf('.'));
+				}
+				// pdsseq, reseq, id, content, reref, wdate, del
+				re = new ReplyBean(
+								  rs.getInt("PDSSEQ"),
+								  rs.getInt("RESEQ"),
+								  rs.getString("ID"),
+								  rs.getString("content"),
+								  rs.getInt("REREF"),
+								  wdate,
+								  rs.getInt("DEL")
+								  );
+			}
+			System.out.println("4/6 getReply Success");					
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {		
+			DBClose.close(psmt, conn, rs);
+		}			  
+		return re;
 	}
 }

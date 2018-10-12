@@ -10,4 +10,8 @@ public interface iReplyManager {
 
 	public boolean addReply(String id, String content, int pdsSeq, int refSeq);
 
+	public boolean deleteReply(int reSeq);
+
+	public ReplyBean getReply(int reSeq);
+
 }

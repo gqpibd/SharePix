@@ -151,7 +151,7 @@ a{
 .list_reply li {
     overflow: hidden;
     position: relative;
-    padding: 23px 20px 10px;
+    padding: 10px 20px 10px;
     border-bottom: 1px solid #fff;
     width : 90%;
 }
@@ -273,7 +273,7 @@ input[type="range"] {
   height: 5px;
   border-radius: 5px;
   margin: 0 auto;
-  outline: 0;
+  outline: 0;  
 }
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
@@ -296,7 +296,6 @@ input[type="range"]::-webkit-slider-thumb:hover {
     position: absolute;
     right:0;
     display: inline-block;
-    border-bottom: 1px dotted black;
 }
 
 .tooltip .tooltiptext{
@@ -318,5 +317,4 @@ input[type="range"]::-webkit-slider-thumb:hover {
 .tooltip:hover .tooltiptext {
     visibility: visible;
 }
-
-/*------------------------------------*/
+/*----------------토글----------------*/
