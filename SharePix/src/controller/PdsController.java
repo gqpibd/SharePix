@@ -52,6 +52,7 @@ public class PdsController extends HttpServlet {
 			PdsService.getInstance().chageLike(id, seq, !like); // like 상태 바꿔줌
 			int count = PdsService.getInstance().getLikeCount(seq);
 			resp.getWriter().write("<like>" +!like +"</like><count>" + count +"</count>");
+			resp.getWriter().flush();
 			System.out.println("count:" + count);
 			//req.setAttribute("pds", pds);
 		}

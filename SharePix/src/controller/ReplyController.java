@@ -39,17 +39,27 @@ public class ReplyController extends HttpServlet {
 			String id = req.getParameter("id");
 			int  pdsSeq = Integer.parseInt(req.getParameter("pdsSeq"));
 			String reRefStr = req.getParameter("refSeq");
+			String toWhom = req.getParameter("toWhom");
 			int refSeq = 0;
 			if(reRefStr!=null) {
 				refSeq = Integer.parseInt(reRefStr);
 			}
 			String content = req.getParameter("content");
+			if(toWhom!=null) {
+				content = "@"+toWhom + " " + content;
+			}
 			
 			boolean isS = ReplyService.getInstance().addReply(id,content,pdsSeq,refSeq);
 			if(isS) {
-				System.out.println("댓글 등록 성공");
-				resp.sendRedirect("PdsController?command=detailview&seq=" + pdsSeq);
+				System.out.println("댓글 등록 성공");				
 			}
+			resp.sendRedirect("PdsController?command=detailview&seq=" + pdsSeq);			
+		}else if(command.equalsIgnoreCase("delete")) {
+			int  reSeq = Integer.parseInt(req.getParameter("reSeq"));
+			/*boolean isS = ReplyService.getInstance().addReply(id,content,pdsSeq,refSeq);
+			if(isS) {
+				System.out.println("댓글 삭제 성공");				
+			}*/
 			
 		}
 	}

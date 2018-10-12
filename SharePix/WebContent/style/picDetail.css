@@ -1,16 +1,6 @@
 @charset "UTF-8";
 
-/* * {
-  outline: none;
-  box-sizing: border-box;
-}
- */
-html {
-  font-size: 100%;
-}
-
 body {
-  height: 100%;
   padding: 1rem;
   /* background-color: #f6f5f1; */
   background-color: #ffffff;
@@ -36,21 +26,7 @@ p, span, ul, li{
   -webkit-font-smoothing: subpixel-antialiased;
   font-size: 1rem;
 }
-/*   
-.main {
-  position: relative;
-  left: 0;
-  right: 0;
-  border-radius: 0;
-  width: 100%;
-  overflow: hidden;
-  max-width: 1220px;  
-  min-width: 450px;
-  margin: 1rem auto;
-  background-color: #f5f7f6;
-  box-shadow: 5px 5px 72px rgba(30, 46, 50, 0.5);
-  color: #040605;
-} */
+
 .main {
   position: relative;
   left: 0;
@@ -163,6 +139,11 @@ a{
     margin-left: 10px;
 }
 
+.more{
+	position: relative;
+	float: right;
+}
+
 .reply{ /* 댓글 하나가 한 덩어리로 묶인다. */
 	position: relative;
 }
@@ -171,7 +152,8 @@ a{
     overflow: hidden;
     position: relative;
     padding: 23px 20px 10px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #fff;
+    width : 90%;
 }
 
 .re_reply { /* 대댓 */
@@ -183,7 +165,8 @@ a{
     width: 33px;
     height: 33px;
     border-radius: 33px;
-    margin: 0;
+    margin: 5px;
+    vertical-align: middle;
 }
 
 .reply_content {
@@ -205,11 +188,6 @@ a{
 	-moz-box-shadow:inset 0px 1px 0px 0px #97c4fe;
 	-webkit-box-shadow:inset 0px 1px 0px 0px #97c4fe;
 	box-shadow:inset 0px 1px 0px 0px #97c4fe;
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #3d94f6), color-stop(1, #1e62d0));
-	background:-moz-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
-	background:-webkit-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
-	background:-o-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
-	background:-ms-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
 	background:linear-gradient(to bottom, #3d94f6 5%, #1e62d0 100%);
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#3d94f6', endColorstr='#1e62d0',GradientType=0);
 	background-color:#3d94f6;
@@ -229,22 +207,12 @@ a{
 	outline:none; /* 포커스 되었을 때 아웃라인 없앰 */
 }
 .download:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #1e62d0), color-stop(1, #3d94f6));
-	background:-moz-linear-gradient(top, #1e62d0 5%, #3d94f6 100%);
-	background:-webkit-linear-gradient(top, #1e62d0 5%, #3d94f6 100%);
-	background:-o-linear-gradient(top, #1e62d0 5%, #3d94f6 100%);
-	background:-ms-linear-gradient(top, #1e62d0 5%, #3d94f6 100%);
 	background:linear-gradient(to bottom, #1e62d0 5%, #3d94f6 100%);
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#1e62d0', endColorstr='#3d94f6',GradientType=0);
 	background-color:#1e62d0;
 }
 /* 좋아요 버튼 */
 .btn-like {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #7892c2), color-stop(1, #476e9e));
-	background:-moz-linear-gradient(top, #7892c2 5%, #476e9e 100%);
-	background:-webkit-linear-gradient(top, #7892c2 5%, #476e9e 100%);
-	background:-o-linear-gradient(top, #7892c2 5%, #476e9e 100%);
-	background:-ms-linear-gradient(top, #7892c2 5%, #476e9e 100%);
 	background:linear-gradient(to bottom, #7892c2 5%, #476e9e 100%);
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#7892c2', endColorstr='#476e9e',GradientType=0);
 	background-color:#7892c2;
@@ -264,10 +232,6 @@ a{
 }
 .btn-like:hover {
 	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #476e9e), color-stop(1, #7892c2));
-	background:-moz-linear-gradient(top, #476e9e 5%, #7892c2 100%);
-	background:-webkit-linear-gradient(top, #476e9e 5%, #7892c2 100%);
-	background:-o-linear-gradient(top, #476e9e 5%, #7892c2 100%);
-	background:-ms-linear-gradient(top, #476e9e 5%, #7892c2 100%);
 	background:linear-gradient(to bottom, #476e9e 5%, #7892c2 100%);
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#476e9e', endColorstr='#7892c2',GradientType=0);
 	background-color:#476e9e;
@@ -287,30 +251,6 @@ textarea {
 	border-radius: 10px;
 	outline:none; /* 포커스 되었을 때 아웃라인 없앰 */	
 }
-
-
-/* 프로필 사진 보여주는 다른 방식 */
-/* .profile-container{
-	display: inline-block;
-	 position: relative;
-}
-
-.bottomleft {
-	position: absolute;
-	margin-left : 10px;
-	left: 0;
-	bottom: 0
-}
-.profile-text{
-	display: inline-block;
-	font-size: 20px;
-}
-
-.profile-img{
-	display: block;
-  	width: 100%;
-  	height: auto;
-} */
 
 /* 슬라이더 */
 
@@ -350,3 +290,33 @@ input[type="range"]::-webkit-slider-thumb:hover {
   background-color: white;
   border: 2px solid #e74c3c;
 }
+
+/*----------------툴팁----------------*/
+.tooltip {
+    position: absolute;
+    right:0;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext{
+    visibility: hidden;
+    width: 80px;
+    background-color: white;
+    text-align: center;
+    border-radius: 5px;
+    padding: 3px 0;
+    
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    top: -5px;
+    right: 105%;
+}
+
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+/*------------------------------------*/
