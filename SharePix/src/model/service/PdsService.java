@@ -35,4 +35,9 @@ public class PdsService {
 	public int getLikeCount(int pdsSeq) {
 		return pDao.getLikeCount(pdsSeq);
 	}
+
+	public boolean increaseDowncount(int pdsSeq) {
+		return pDao.increaseDowncount(pdsSeq);
+		
+	}
 }

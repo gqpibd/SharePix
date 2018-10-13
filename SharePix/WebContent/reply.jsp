@@ -8,16 +8,17 @@
 <%if(command.equals("rere")){ 
 String id = request.getParameter("id");
 String toWhom = request.getParameter("toWhom");
-String pdsSeq = request.getParameter("getSeq");
+String pdsSeq = request.getParameter("pdsSeq");
+String reRef = request.getParameter("reRef");
 %>
 <li class='reply' id='rere_write'>
 	<div class='wrap' align='center'>
 		<form action='ReplyController'>
 			<input type='hidden' name='command' value='addReply'> 
-			<input type='hidden' name='id' value=" + id + "> 
-			<input type='hidden' name='pdsSeq' value=" + pdsSeq + "> 
-			<input type='hidden' name='refSeq' value=" + name + "> 
-			<input type='hidden' name='toWhom' value=" + toWhom + ">
+			<input type='hidden' name='id' value="<%=id%>"> 
+			<input type='hidden' name='pdsSeq' value="<%=pdsSeq%>"> 
+			<input type='hidden' name='refSeq' value="<%=reRef%>"> 
+			<input type='hidden' name='toWhom' value="<%=toWhom%>">
 			<div style='padding-left: 30px' align='left'>
 				<img src='images/profiles/<%=id%>.png' width='10'
 					class='profile re-img' align='middle'
@@ -31,7 +32,7 @@ String pdsSeq = request.getParameter("getSeq");
 		</form>
 	</div>
 </li>
-<%}else if(command.equals("modify")){
+<%}else if(command.equals("modify")){ //수정
 String id = request.getParameter("id");
 String content = request.getParameter("content");
 String reSeq = request.getParameter("reSeq");

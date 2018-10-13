@@ -45,11 +45,11 @@ public class ReplyController extends HttpServlet {
 				refSeq = Integer.parseInt(reRefStr);
 			}
 			String content = req.getParameter("content");
-			if(toWhom!=null) {
-				content = "@"+toWhom + " " + content;
+			if(toWhom==null) {
+				toWhom="";
 			}
 			
-			boolean isS = ReplyService.getInstance().addReply(id,content,pdsSeq,refSeq);
+			boolean isS = ReplyService.getInstance().addReply(id,toWhom,content,pdsSeq,refSeq);
 			if(isS) {
 				System.out.println("댓글 등록 성공");				
 			}

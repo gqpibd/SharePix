@@ -14,4 +14,6 @@ public interface iPdsManager {
 
 	public int getLikeCount(int pdsSeq);
 
+	public boolean increaseDowncount(int pdsSeq);
+
 }

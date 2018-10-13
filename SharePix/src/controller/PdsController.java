@@ -54,7 +54,17 @@ public class PdsController extends HttpServlet {
 			resp.getWriter().write("<like>" +!like +"</like><count>" + count +"</count>");
 			resp.getWriter().flush();
 			System.out.println("count:" + count);
-			//req.setAttribute("pds", pds);
+		} else if(command.equalsIgnoreCase("increaseDowncount")) {
+			int seq = Integer.parseInt(req.getParameter("pdsSeq"));
+			boolean isS = PdsService.getInstance().increaseDowncount(seq);
+			
+			if(isS) {
+				System.out.println("다운로드 수 증가");
+			}
+			
+			PdsBean pds = PdsService.getInstance().getPdsDetail(seq);			
+			req.setAttribute("pds", pds);
+			dispatch("picDetail.jsp", req, resp);			
 		}
 	}
 	
