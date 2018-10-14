@@ -4,10 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import db.DBClose;
 import db.DBConnection;
 import dto.PdsBean;
+import dto.ReplyBean;
 
 public class PdsManager implements iPdsManager {
 
@@ -238,6 +241,58 @@ public class PdsManager implements iPdsManager {
 			DBClose.close(psmt, conn, null);
 		}
 		return count > 0 ? true : false;
+	}
+
+	@Override
+	public List<PdsBean> myLikePdsList(String id) {
+		String sql =  " SELECT P.SEQ, P.ID, P.CATEGORY, P.TAGS, P.UPLOADDATE, P.FILENAME, P.READCOUNT, P.DOWNCOUNT, P.FSAVENAME, P.LIKECOUNT, P.REPLYCOUNT " + 
+					  " FROM PDSALL P, PDSLIKE " + 
+					  " WHERE P.SEQ = PDSLIKE.PDSSEQ AND PDSLIKE.ID = ? ";
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		
+		List<PdsBean> list = new ArrayList<>(); // 검색 결과를 저장할 목록
+		
+		try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 myLikePdsList Success");			
+			
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+			System.out.println("2/6 myLikePdsList Success");
+			
+			rs = psmt.executeQuery();
+			System.out.println("3/6 myLikePdsList Success");
+			
+			while(rs.next()) {
+				String regdate = rs.getString("UPLOADDATE");
+				regdate = regdate.substring(0, regdate.lastIndexOf('.'));
+				
+				// SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT			
+				PdsBean bean = new PdsBean(
+										rs.getInt("SEQ"), 
+										rs.getString("ID"), 
+										rs.getString("CATEGORY"),
+										rs.getString("TAGS").substring(1).split("#"), 
+										regdate, 
+										rs.getString("FILENAME"),
+										rs.getInt("READCOUNT"), 
+										rs.getInt("DOWNCOUNT"), 
+										rs.getInt("LIKECOUNT"), 
+										rs.getInt("REPLYCOUNT"),
+										rs.getString("FSAVENAME")
+								);
+				list.add(bean);
+			}
+			System.out.println("4/6 myLikePdsList Success");		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {		
+			DBClose.close(psmt, conn, rs);
+		}			  
+		return list;
 	}
 
 }

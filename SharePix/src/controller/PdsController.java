@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -54,17 +55,12 @@ public class PdsController extends HttpServlet {
 			resp.getWriter().write("<like>" +!like +"</like><count>" + count +"</count>");
 			resp.getWriter().flush();
 			System.out.println("count:" + count);
-		} else if(command.equalsIgnoreCase("increaseDowncount")) {
-			int seq = Integer.parseInt(req.getParameter("pdsSeq"));
-			boolean isS = PdsService.getInstance().increaseDowncount(seq);
+		} else if(command.equalsIgnoreCase("myLikePdsList")) {
+			String id = req.getParameter("id");
+			List<PdsBean> list = PdsService.getInstance().myLikePdsList(id); // 즐겨찾기한 사진들을 모아서 보여줌
+			req.setAttribute("list", list);
+			dispatch("myLikes.jsp", req, resp);			
 			
-			if(isS) {
-				System.out.println("다운로드 수 증가");
-			}
-			
-			PdsBean pds = PdsService.getInstance().getPdsDetail(seq);			
-			req.setAttribute("pds", pds);
-			dispatch("picDetail.jsp", req, resp);			
 		}
 	}
 	

@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import controller.PdsController;
+import dto.PdsBean;
+import model.service.PdsService;
 
 public class FileManager extends HttpServlet {
 
@@ -39,13 +42,14 @@ public class FileManager extends HttpServlet {
 	public void doProcess(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String command = req.getParameter("command");
 		System.out.println("filemanager command : " + command);
+		
 		if (command.equalsIgnoreCase("download")) {
+			boolean success= false;
 			int rate = Integer.parseInt(req.getParameter("rate"));
 			String filename = req.getParameter("filename");
 			String fsavename = req.getParameter("fsavename");
-			String pdsSeq = req.getParameter("pdsSeq");
-			System.out.println(rate + " " + filename + " " + fsavename);
-			
+			int pdsSeq = Integer.parseInt(req.getParameter("pdsSeq"));
+			System.out.println(rate + " " + filename + " " + fsavename);			
 			BufferedOutputStream out = new BufferedOutputStream(resp.getOutputStream());
 			try {
 				
@@ -58,6 +62,7 @@ public class FileManager extends HttpServlet {
 				
 				if(rate != 100) {
 					filePath = ImageResize.resize(filePath,rate);
+					filename = filePath.substring(filePath.lastIndexOf("\\"));
 				}
 				File f = new File(filePath);
 				System.out.println("파일경로:" + filePath);
@@ -83,8 +88,7 @@ public class FileManager extends HttpServlet {
 					fileInput.close();
 					out.flush();
 					
-					// 다운로드에 성공하면 다운로드 수를 증가시켜 주자
-					resp.sendRedirect("PdsController?command=increaseDowncount&seq=" + pdsSeq);			
+					success=true;		
 				} else {
 					System.out.println("파일이 존재하지 않습니다.");
 				}
@@ -96,7 +100,11 @@ public class FileManager extends HttpServlet {
 					out.close();
 				}
 			}
+			if(success) {
+				 PdsService.getInstance().increaseDowncount(pdsSeq);
+			}			
 		}
 	}
+	
 
 }

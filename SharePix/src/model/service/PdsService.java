@@ -1,5 +1,7 @@
 package model.service;
 
+import java.util.List;
+
 import dto.PdsBean;
 import model.PdsManager;
 import model.iPdsManager;
@@ -37,7 +39,10 @@ public class PdsService {
 	}
 
 	public boolean increaseDowncount(int pdsSeq) {
-		return pDao.increaseDowncount(pdsSeq);
-		
+		return pDao.increaseDowncount(pdsSeq);		
+	}
+
+	public List<PdsBean> myLikePdsList(String id) {
+		return pDao.myLikePdsList(id);
 	}
 }

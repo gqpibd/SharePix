@@ -56,9 +56,19 @@
 	</form>
 
 	<form action="MemberController" method="get">
-		<input type="hidden" name="command" value="myPage"> <input
-			type="submit" value="개인 페이지">
+		<input type="hidden" name="command" value="myPage"> 
+		<input type="submit" value="개인 페이지">
 	</form>
+	<% if(ologin!=null){ %>
+	<form action="PdsController" method="get" id="likes">
+		<input type="hidden" name="command" value="myLikePdsList"> 
+		
+		<input type="hidden" name="id" value="<%=((MemberBean)ologin).getId()%>">
+		 
+		<input type="submit" value="즐겨찾기"> 
+	</form>
+	<%} %>
+	
 	<a href="MemberController?command=logout">로그아웃</a><br> 
 	<div class="container">
 		<div class="item">	<img class="img" name="item" src="<%=PdsController.PATH%>수원화성.jpg"onclick="veiwDetail(this)" seq="1" height="200"> </div>

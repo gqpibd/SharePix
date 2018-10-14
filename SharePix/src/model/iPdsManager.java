@@ -1,5 +1,7 @@
 package model;
 
+import java.util.List;
+
 import dto.PdsBean;
 
 public interface iPdsManager {
@@ -15,5 +17,7 @@ public interface iPdsManager {
 	public int getLikeCount(int pdsSeq);
 
 	public boolean increaseDowncount(int pdsSeq);
+
+	public List<PdsBean> myLikePdsList(String id);
 
 }
