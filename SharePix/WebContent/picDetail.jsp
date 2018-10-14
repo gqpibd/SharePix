@@ -13,6 +13,8 @@
 <%
 	PdsBean pds = (PdsBean) request.getAttribute("pds");
 
+	List<PdsBean> list = (List<PdsBean>) request.getAttribute("list");
+
 	// 로그인 아이디 받아서
 	// 기본적으로 비워진 하트임
 	String like = "images/icons/like_empty.png";
@@ -46,7 +48,9 @@
 <title>상세 화면</title>
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="js/jquery.row-grid.min.js"></script>
 <link rel="stylesheet" href="style/picDetail.css">
+<link rel="stylesheet" href="style/imageArrange.css">
 </head>
 <body>
 	<main class="main">
@@ -72,7 +76,7 @@
 			<img src="<%=like%>" width="15" id="like">&nbsp;&nbsp; 
 			<span id="likeCount"><font size="3"><%=pds.getLikeCount()%></font></span>
 		</button>
-		<br> <input type="hidden" id="ajax_hidden"> <!-- ajax용 임시 태크 -->
+		<br> <input type="hidden" id="ajax_hidden"> <!-- ajax용 임시 태크 -->		
 		<p> <!-- 댓글 창 숨기기/보기 버튼 -->
 			<img src="images/icons/re_down.png" width="30" id="replyToggle">&nbsp;&nbsp;댓글&nbsp;<%=pds.getReplyCount()%>&nbsp;개
 		</p>
@@ -127,7 +131,7 @@
 				<li>등록된 댓글이 없습니다. 첫 번째 댓글을 남겨주세요</li>
 			<%}%>
 		</ul>
-
+		
 		<div class="wrap" align="center">
 			<% if (ologin == null) { %> <!-- 로그인 상태가 아니면 -->
 				댓글을 작성하려면 <a href="index.jsp"><b>로그인</b></a>해주세요
@@ -178,6 +182,17 @@
 
 			<div class="selectSize"></div> <!-- 사이즈 선택 슬라이더 -->
 			<input type="range" min="20" max="100" step="20" value="100">
+			<!-- 추천 사진들(카테고리로 추천함) -->
+			<div class="container" align="center">
+				<p>이런 사진은 어때요?</p>				
+				 
+				<%for(PdsBean bean : list){ %>
+				<div class="item">	
+					<img src="<%=PdsController.PATH%><%=bean.getfSaveName()%>" onclick="veiwDetail(<%=bean.getSeq()%>)" height="300"> 
+				</div>
+				<%} %>
+			</div>
+			
 		</div>
 	</section>
 	</main>
@@ -232,26 +247,6 @@
 		
 			elem.addEventListener("input", rangeValue);
 		
-		
-		<%-- var downBtn = document.getElementById("downBtn");
-		downBtn.addEventListener('click', function(e){ // 다운로드 눌렀을 때
-			// 사이즈 조절				
-			var image = new Image(); // 새로운 이미지를 생성한다.
-			image.src=document.getElementById("pdsImg").src;
-			var canvas=document.createElement("canvas");
-			var context=canvas.getContext("2d");
-			canvas.width=width; // 변경할 크기
-			canvas.height=height; // 변경할 크기
-			context.drawImage(image,0, 0, image.width, image.height, 0, 0, canvas.width, canvas.height);
-			document.getElementById("downloadImg").src = canvas.toDataURL();
-		
-			//var image = document.getElementById("downloadImg").src.replace("image/png", "image/octet-stream");  // here is the most important part because if you dont replace you will get a DOM 18 exception.
-			image = document.getElementById("downloadImg").src.replace("image/png", "image/octet-stream");
-			
-			
-			downBtn.href=image; // it will save locally
-			location.href="PdsController?command=increaseDowncount&pdsSeq=<%=pds.getSeq()%>";}); --%>
-   	 	
 		// 취소
 		function cancel(item,reSeq) {
 			$.ajax({
@@ -330,17 +325,31 @@
 				});
 			});
 	
-			// textarea 자동 크기 조절			
-			// 동적으로 생성된 태그에 이벤트를 적용하기 위해서는 $(document).on()으로 해줘야 한다.
-			// $(".wrap").on('keyup', 'textarea',function(e){ --> 이렇게 하면 원래 있던 태그에만 적용됨
-			$(document).on('keyup', 'textarea',".wrap",function(e){
-				$(this).css('height', 'auto' );
-				$(this).height( this.scrollHeight );
-			});
+		// textarea 자동 크기 조절			
+		// 동적으로 생성된 태그에 이벤트를 적용하기 위해서는 $(document).on()으로 해줘야 한다.
+		// $(".wrap").on('keyup', 'textarea',function(e){ --> 이렇게 하면 원래 있던 태그에만 적용됨
+		$(document).on('keyup', 'textarea',".wrap",function(e){
+			$(this).css('height', 'auto' );
+			$(this).height( this.scrollHeight );
+		});
 		$('.wrap').find( 'textarea' ).keyup();
 		
-			
-	});
+		
+	});			
+	</script>
+	
+	<script type="text/javascript">
+		//추천 이미지 배열
+		$(document).ready(function() {
+		  var options = {minMargin: 5, maxMargin: 15, itemSelector: ".item", firstItemClass: "first-item"};
+		  $(".container").rowGrid(options);
+		});
+		
+		
+		function veiwDetail(seq) {
+			console.log(seq);
+			location.href="PdsController?command=detailview&seq=" + seq;
+		}		
 	</script>
 
 </body>

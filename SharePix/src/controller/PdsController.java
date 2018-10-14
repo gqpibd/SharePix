@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -35,6 +36,14 @@ public class PdsController extends HttpServlet {
 			System.out.println(seq);
 			PdsBean pds = PdsService.getInstance().getPdsDetail(seq);
 			System.out.println(pds);
+			
+			// 추천피드
+			List<PdsBean> list = PdsService.getInstance().relatedList(pds.getCategory(),seq); // 같은 카테고리의 사진들을 모아서 보여줌
+			System.out.println(list.size());
+					
+			
+			req.setAttribute("list", list);
+			
 			req.setAttribute("pds", pds);
 			dispatch("picDetail.jsp", req, resp);			
 		} else if (command.equalsIgnoreCase("keyword")) {
@@ -59,9 +68,9 @@ public class PdsController extends HttpServlet {
 			String id = req.getParameter("id");
 			List<PdsBean> list = PdsService.getInstance().myLikePdsList(id); // 즐겨찾기한 사진들을 모아서 보여줌
 			req.setAttribute("list", list);
-			dispatch("myLikes.jsp", req, resp);			
+			dispatch("myLikes.jsp", req, resp);	
 			
-		}
+		} 
 	}
 	
 	public void dispatch(String urls, HttpServletRequest req, HttpServletResponse resp)

@@ -20,4 +20,6 @@ public interface iPdsManager {
 
 	public List<PdsBean> myLikePdsList(String id);
 
+	public List<PdsBean> relatedList(String category);
+
 }

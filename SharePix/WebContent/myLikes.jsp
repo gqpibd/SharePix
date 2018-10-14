@@ -4,8 +4,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	List<PdsBean> list = (List<PdsBean>) request.getAttribute("list");   
+	List<PdsBean> list = (List<PdsBean>) request.getAttribute("list");
 	System.out.println(list.size());
+	String hStr = request.getParameter("height");
+	int height = 380;
+	if(hStr!=null){
+		height = Integer.parseInt(hStr);
+	}
+	System.out.println(height);
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -15,44 +21,14 @@
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="js/jquery.row-grid.min.js"></script>
-<style type="text/css">
-.container {
-  background: #eee;
-}
-/* clearfix */
-.container:before,
-.container:after {
-    content: "";
-    display: table;
-}
-.container:after {
-    clear: both;
-}
 
-.item {
-  float: left;
-  margin-bottom: 10px; 
-}
-.item img {
-  max-width: 100%;
-  max-height: 100%;
-  vertical-align: bottom;
-}
-.first-item {
-  clear: both;
-}
-/* remove margin bottom on last row */
-.last-row, .last-row ~ .item {
-  margin-bottom: 0;
-}
-
-</style>
+<link rel="stylesheet" href="style/imageArrange.css">
 </head>
 <body>
 	<div class="container">
 		<%for(PdsBean pds : list){ %>
 		<div class="item">	
-			<img class="img" name="item" src="<%=PdsController.PATH%><%=pds.getfSaveName()%>" onclick="veiwDetail(<%=pds.getSeq()%>)" height="200"> 
+			<img class="img" name="item" src="<%=PdsController.PATH%><%=pds.getfSaveName()%>" onclick="veiwDetail(<%=pds.getSeq()%>)" height="<%=height%>"> 
 		</div>
 		<%} %>
 	</div>

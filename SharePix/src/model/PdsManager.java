@@ -294,5 +294,67 @@ public class PdsManager implements iPdsManager {
 		}			  
 		return list;
 	}
+	
+	@Override
+	public List<PdsBean> relatedList(String category) {
+		/*String sql =  " SELECT RNUM, SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT " + 
+				      " FROM ( " +
+				      		 " SELECT ROWNUM as rnum, SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT " + 
+				      		 " FROM " + 
+				      		 	" (SELECT SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT " + 
+				      		     " FROM PDSALL "+ 
+				      		     " WHERE CATEGORY = ? " + 
+				      		     " ORDER BY UPLOADDATE DESC) " + 
+				      	   " ) " +
+				      " WHERE RNUM>=1 AND RNUM <=6 ";*/
+		String sql =  " SELECT SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT "
+				    + " FROM PDSALL "
+				   +  " WHERE CATEGORY = ? ";
+	
+	Connection conn = null;
+	PreparedStatement psmt = null;
+	ResultSet rs = null;
+	
+	List<PdsBean> list = new ArrayList<>(); // 검색 결과를 저장할 목록
+	
+	try {
+		conn = DBConnection.getConnection();
+		System.out.println("1/6 relatedList Success");			
+		
+		psmt = conn.prepareStatement(sql);
+		psmt.setString(1, category);
+		System.out.println("2/6 relatedList Success");
+		
+		rs = psmt.executeQuery();
+		System.out.println("3/6 relatedList Success");
+		
+		while(rs.next()) {
+			String regdate = rs.getString("UPLOADDATE");
+			regdate = regdate.substring(0, regdate.lastIndexOf('.'));
+			
+			// SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT			
+			PdsBean bean = new PdsBean(
+									rs.getInt("SEQ"), 
+									rs.getString("ID"), 
+									rs.getString("CATEGORY"),
+									rs.getString("TAGS").substring(1).split("#"), 
+									regdate, 
+									rs.getString("FILENAME"),
+									rs.getInt("READCOUNT"), 
+									rs.getInt("DOWNCOUNT"), 
+									rs.getInt("LIKECOUNT"), 
+									rs.getInt("REPLYCOUNT"),
+									rs.getString("FSAVENAME")
+							);
+			list.add(bean);
+			}
+			System.out.println("4/6 relatedList Success");		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {		
+			DBClose.close(psmt, conn, rs);
+		}			  
+		return list;
+	}
 
 }
