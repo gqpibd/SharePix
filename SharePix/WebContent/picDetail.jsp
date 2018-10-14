@@ -44,6 +44,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>상세 화면</title>
+
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <link rel="stylesheet" href="style/picDetail.css">
 </head>
@@ -159,9 +160,20 @@
 				<%=pds.getId()%>
 			</p>
 			<img src="images/icons/down.png" width="20"><font size="5">&nbsp;&nbsp;<%=pds.getDownCount()%></font><br> <!-- 다운로드 수 -->
-			<div align="center">
-				<a href="#" class="download" id="downBtn"  download="my-file-name.png">다운로드</a>
+			<%-- <div align="center">
+				<a href="#" class="download" id="downBtn"  download="<%=pds.getFileName()%>">다운로드</a>
 				<img  id="downloadImg" name="imgData" width="0"></img>				
+			</div> --%>
+			
+			<div align="center">
+				<form action="FileController">
+					<input type="hidden" name="command" value="download">
+					<input type="hidden" name="rate" value="100">
+					<input type="hidden" name="pdsSeq" value="<%=pds.getSeq()%>">
+					<input type="hidden" name="fsavename" value="<%=pds.getfSaveName()%>">
+					<input type="hidden" name="filename" value="<%=pds.getFileName()%>">
+					<input class="download" type="submit" value="다운로드">					
+				</form>				
 			</div>
 
 			<div class="selectSize"></div> <!-- 사이즈 선택 슬라이더 -->
@@ -171,54 +183,7 @@
 	</main>
 
 	<script type="text/javascript">	
-		$(document).ready(function () {
-			// 기본 다운로드 크기를 지정해준다.
-			var image = new Image(); // 새로운 이미지를 생성한다.
-			image.src=document.getElementById("pdsImg").src;
-			var canvas=document.createElement("canvas");
-			var context=canvas.getContext("2d");
-			canvas.width=image.width;
-			canvas.height=image.height;
-			context.drawImage(image,0, 0, image.width, image.height, 0, 0, canvas.width, canvas.height);
-			document.getElementById("downloadImg").src = canvas.toDataURL();
-				
-			var like = <%=isLike%>;
-			var OriginWidth = document.getElementById("pdsImg").naturalWidth;
-			var OriginHeight = document.getElementById("pdsImg").naturalHeight;
-		  	var width = OriginWidth;
-		  	var height = OriginHeight;
-	  	
-			document.querySelector('.selectSize').innerHTML = width + " x " + height;
-			var elem = document.querySelector('input[type="range"]');
-		
-			var rangeValue = function(){
-				var rate = elem.value;
-				width = Math.round(OriginWidth  * (rate/100));
-				height = Math.round(OriginHeight  * (rate/100));
-				var target = document.querySelector('.selectSize');
-				target.innerHTML = width + " x " + height;
-				
-				// 사이즈 조절				
-				var image = new Image(); // 새로운 이미지를 생성한다.
-				image.src=document.getElementById("pdsImg").src;
-				var canvas=document.createElement("canvas");
-				var context=canvas.getContext("2d");
-				canvas.width=width; // 변경할 크기
-				canvas.height=height; // 변경할 크기
-				context.drawImage(image,0, 0, image.width, image.height, 0, 0, canvas.width, canvas.height);
-				document.getElementById("downloadImg").src = canvas.toDataURL();
-			}
-		
-			elem.addEventListener("input", rangeValue);
-		});
-		
-		var downBtn = document.getElementById("downBtn");
-		downBtn.addEventListener('click', function(e){ // 다운로드 눌렀을 때
-			var image = document.getElementById("downloadImg").src.replace("image/png", "image/octet-stream");  // here is the most important part because if you dont replace you will get a DOM 18 exception.
-			downBtn.href=image; // it will save locally
-			location.href="PdsController?command=increaseDowncount&pdsSeq=<%=pds.getSeq()%>";
-   	 	});
-		
+		var like = '<%=isLike%>';
 		function doLike(){ // 좋아요 눌렀을 때			
 			<%if (ologin == null) {%>
 				alert("로그인해 주십시오");	
@@ -228,7 +193,7 @@
 				$.ajax({
 					url:"PdsController", // 접근대상
 					type:"get",		// 데이터 전송 방식
-					data:"command=likeChange&like=" + like + "&id=<%=ologin.getId()%>&seq=<%=pds.getSeq()%>", // 전송할 데이터
+					data:"command=likeChange&like="+like+"&id=<%=id%>&seq=<%=pds.getSeq()%>", // 전송할 데이터
 					success:function(data, status, xhr){
 						/* console.log(data); */
 						like = $("#ajax_hidden").html(data).find("like").text();
@@ -247,7 +212,46 @@
 				});				
 				<%}%>
 		}
+		$(document).ready(function () {						
+			var OriginWidth = document.getElementById("pdsImg").naturalWidth; // 원본 이미지 사이즈
+			var OriginHeight = document.getElementById("pdsImg").naturalHeight; // 원본 이미지 사이즈
+		  	var width = OriginWidth; // 다운받을 이미지 사이즈
+		  	var height = OriginHeight; // 다운받을 이미지 사이즈
+	  	
+			document.querySelector('.selectSize').innerHTML = width + " x " + height;
+			var elem = document.querySelector('input[type="range"]');
 		
+			var rangeValue = function(){
+				var rate = elem.value;
+				width = Math.round(OriginWidth  * (rate/100));
+				height = Math.round(OriginHeight  * (rate/100));
+				var target = document.querySelector('.selectSize');
+				target.innerHTML = width + " x " + height;
+				$("input[name='rate']").val(rate);
+			}
+		
+			elem.addEventListener("input", rangeValue);
+		
+		
+		<%-- var downBtn = document.getElementById("downBtn");
+		downBtn.addEventListener('click', function(e){ // 다운로드 눌렀을 때
+			// 사이즈 조절				
+			var image = new Image(); // 새로운 이미지를 생성한다.
+			image.src=document.getElementById("pdsImg").src;
+			var canvas=document.createElement("canvas");
+			var context=canvas.getContext("2d");
+			canvas.width=width; // 변경할 크기
+			canvas.height=height; // 변경할 크기
+			context.drawImage(image,0, 0, image.width, image.height, 0, 0, canvas.width, canvas.height);
+			document.getElementById("downloadImg").src = canvas.toDataURL();
+		
+			//var image = document.getElementById("downloadImg").src.replace("image/png", "image/octet-stream");  // here is the most important part because if you dont replace you will get a DOM 18 exception.
+			image = document.getElementById("downloadImg").src.replace("image/png", "image/octet-stream");
+			
+			
+			downBtn.href=image; // it will save locally
+			location.href="PdsController?command=increaseDowncount&pdsSeq=<%=pds.getSeq()%>";}); --%>
+   	 	
 		// 취소
 		function cancel(item,reSeq) {
 			$.ajax({
@@ -315,8 +319,7 @@
 		}                                                                            
 		                                                                             
 		// 답변 보기/ 숨기기                                                                
-		$("#replies").hide();                                                        
-		$(document).ready(function(){
+		$("#replies").hide();           
 			$("#replyToggle").click(function(){
 				$("#replies").slideToggle("fast",function(){
 					if($("#replyToggle").attr("src") == "images/icons/re_down.png"){
@@ -326,7 +329,7 @@
 					}
 				});
 			});
-
+	
 			// textarea 자동 크기 조절			
 			// 동적으로 생성된 태그에 이벤트를 적용하기 위해서는 $(document).on()으로 해줘야 한다.
 			// $(".wrap").on('keyup', 'textarea',function(e){ --> 이렇게 하면 원래 있던 태그에만 적용됨
@@ -334,9 +337,10 @@
 				$(this).css('height', 'auto' );
 				$(this).height( this.scrollHeight );
 			});
-			$('.wrap').find( 'textarea' ).keyup();
-				
-		});			
+		$('.wrap').find( 'textarea' ).keyup();
+		
+			
+	});
 	</script>
 
 </body>
