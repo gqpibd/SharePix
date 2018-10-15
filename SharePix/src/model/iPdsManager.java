@@ -24,4 +24,10 @@ public interface iPdsManager {
 	public List<PdsBean> getSearchPdsNull();
 
 	public List<PdsBean> getPdsPagingList(PagingBean paging, String keyword);
+	
+	public boolean writePds(PdsBean pds);
+	
+	public boolean delPDS(int seq);
+
+	public boolean updatePDS(PdsBean pds);
 }

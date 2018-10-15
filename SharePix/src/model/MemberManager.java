@@ -93,13 +93,12 @@ public class MemberManager implements iMemberManager {
 			System.out.println("3/6 loginAf success");
 			
 			if(rs.next()) {
-				int i = 1;
-				dto = new MemberBean(  rs.getString(i++),		//id
-									   rs.getString(i++),	//NAME
-									   rs.getString(i++),	//PWD
-									   rs.getString(i++),	//EMAIL
-									   rs.getString(i++),	//PHONE
-									   rs.getInt(i++));		//AUTH
+				dto = new MemberBean(  rs.getString(1),		//id
+									   rs.getString(2),	//NAME
+									   rs.getString(3),	//PWD
+									   rs.getString(4),	//EMAIL
+									   rs.getString(5),	//PHONE
+									   rs.getInt(6));		//AUTH
 			}
 			System.out.println("4/6 loginAf success");
 			

@@ -473,4 +473,113 @@ public class PdsManager implements iPdsManager {
 		return pdslist;
 		
 	}
+	
+	@Override
+	public boolean writePds(PdsBean pds) {
+		
+		String sql = " INSERT INTO PICPDS( "
+				+ " SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME) "
+				+ " VALUES(PICPDS_SEQ.NEXTVAL, ?,?,?,SYSDATE,?,0,0,?) ";
+		
+		String tagStr ="";
+		
+		for (int i = 0; i < pds.getTags().length; i++) {
+			tagStr += "#" + pds.getTags()[i]; 
+		}
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		
+		int count = 0;
+		
+		try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 writePds Success");
+			
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, pds.getId());
+			psmt.setString(2, pds.getCategory());
+			psmt.setString(3, tagStr);
+			psmt.setString(4, pds.getFileName());
+			psmt.setString(5, pds.getfSaveName());
+			
+			System.out.println("2/6 writePds Success");
+			
+			count = psmt.executeUpdate();
+			System.out.println("3/6 writePds Success");
+			
+		} catch (Exception e) {
+			System.out.println("writePds Fail");
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, null);			
+		}		
+		
+		return count>0?true:false;
+	}
+
+	
+	@Override
+	public boolean delPDS(int seq) {
+		int count=0;
+		String sql=" DELETE FROM PDS  " +
+				" WHERE  SEQ = ? " ;
+		Connection conn=null;
+		PreparedStatement psmt=null;
+		
+		try {
+			conn=DBConnection.getConnection();
+			System.out.println("2/6 S deletePDS");
+			psmt=conn.prepareStatement(sql);
+			
+			int i=1;
+			psmt.setInt(i++, seq );
+			System.out.println("3/6 S deletePDS");
+			
+			count=psmt.executeUpdate();
+			System.out.println("4/6 S deletePDS");
+			
+		} catch (Exception e) {
+			System.out.println("F deletePDS");
+		}finally{
+			DBClose.close(psmt, conn, null);
+		}
+		return count>0?true:false;
+	}
+
+	@Override
+	public boolean updatePDS(PdsBean pds) {
+
+		String sql = " UPDATE PDS "
+				+ " SET CATEGORY=?, TAGS=?"
+				+ " WHERE SEQ=? ";
+		String tagStr ="";
+		
+		for (int i = 0; i < pds.getTags().length; i++) {
+			tagStr += "#" + pds.getTags()[i]; 
+		}
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		
+		int count = 0;
+		
+		try {
+			conn=DBConnection.getConnection();
+			psmt = conn.prepareStatement(sql);
+			
+			psmt.setString(1, pds.getCategory().trim());
+			psmt.setString(2, tagStr);
+			psmt.setInt(3, pds.getSeq());
+			
+			count = psmt.executeUpdate();
+			
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		} finally{
+			DBClose.close(psmt, conn, null);			
+		}
+		
+		return count>0?true:false;
+	}
 }

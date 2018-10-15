@@ -17,7 +17,7 @@ public class DBConnection {
 		}
 	}
 
-	public static Connection getConnection() throws SQLException { // 183.99.33.240
+	public static Connection getConnection() throws SQLException { // 183.99.33.240 // 127.0.0.1 (혼자 쓸 때)
 		Connection conn = null;
 		conn = DriverManager.getConnection("jdbc:oracle:thin:@183.99.33.240:1521:xe", "hr", "hr");
 		System.out.println("DB Connection Success!!");

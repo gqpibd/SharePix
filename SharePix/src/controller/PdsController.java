@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -29,8 +30,9 @@ public class PdsController extends HttpServlet {
 		System.out.println("PdsController 들어옴");
 		String command = req.getParameter("command");
 		System.out.println("command:" + command);
+		int seq=0;
 		if(command.equalsIgnoreCase("detailview")) {
-			int seq = Integer.parseInt(req.getParameter("seq"));
+			seq = Integer.parseInt(req.getParameter("seq"));
 			System.out.println(seq);
 			PdsBean pds = PdsService.getInstance().getPdsDetail(seq);
 			System.out.println(pds);
@@ -45,7 +47,7 @@ public class PdsController extends HttpServlet {
 		} else if(command.equalsIgnoreCase("likeChange")) {
 			boolean like = Boolean.parseBoolean(req.getParameter("like"));
 			String id = req.getParameter("id");
-			int seq = Integer.parseInt(req.getParameter("seq"));
+			seq = Integer.parseInt(req.getParameter("seq"));
 			System.out.println("like:"+like);
 			System.out.println("id:"+id);
 			System.out.println("seq:"+seq);
@@ -55,6 +57,29 @@ public class PdsController extends HttpServlet {
 			resp.getWriter().flush();
 			System.out.println("count:" + count);
 			//req.setAttribute("pds", pds);
+		} else if(command.equals("pdsUpdatePage")){
+			System.out.println("command = " + command + "  들어옴");	// 확인용
+			dispatch("./pdsUpdatePage.jsp", req, resp);
+		} else if(command.equals("pdsUpdateAf")) {
+			System.out.println("command = " + command + "  들어옴");	// 확인용
+			
+			String category			= req.getParameter("category");
+			String tags 		= req.getParameter("tags");
+			    
+		    PdsBean dto = new PdsBean(category, tags);
+		    dto.setSeq(seq);
+		    
+			if(PdsService.getInstance().updatePDS(dto)) {	//	update가 되면 true 반환
+				dispatch("./pdsUpdateAf.jsp", req, resp);
+			}else {
+				resp.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = resp.getWriter();
+				
+				out.println("<script>alert('수정 실패'); location.href='./pdsUpdatePage.jsp';</script>");
+				 
+				out.flush();
+			}
+			dispatch("picDetail.jsp", req, resp);			
 		}
 	}
 	

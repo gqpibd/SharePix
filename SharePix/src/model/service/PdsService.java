@@ -44,4 +44,20 @@ public class PdsService {
 	public List<PdsBean> getMyPdsAllList(String id){
 		return pDao.getMyPdsAllList(id);
 	}
+	
+	public boolean writePds(PdsBean pds) {
+		return false;
+	}
+	
+	public PdsBean delPDS(int seq) {
+		return pDao.getPdsDetail(seq);
+	}
+	
+	public PdsBean updatePDS(int seq, String category, String tags) {
+		return pDao.getPdsDetail(seq);
+	}
+
+	public boolean updatePDS(PdsBean dto) {
+		return pDao.updatePDS(dto);
+	}
 }
