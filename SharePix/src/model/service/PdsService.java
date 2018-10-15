@@ -1,5 +1,6 @@
 package model.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dto.PdsBean;
@@ -37,6 +38,42 @@ public class PdsService {
 	public int getLikeCount(int pdsSeq) {
 		return pDao.getLikeCount(pdsSeq);
 	}
+	
+	public boolean increaseDowncount(int pdsSeq) {
+		return pDao.increaseDowncount(pdsSeq);		
+	}
+
+	public List<PdsBean> myLikePdsList(String id) {
+		return pDao.myLikePdsList(id);
+	}
+
+	public List<PdsBean> relatedList(String category, int seq) {
+		List<PdsBean> list = pDao.relatedList(category); // 일단 관련있는 목록을 다 가져오자
+		
+		int size = 6; // 그 중 최대 6개만 골라낼거야
+		if(list.size() < size) {
+			size = list.size();
+		}
+		System.out.println(size);
+		boolean temp[] = new boolean[size];
+		List<PdsBean> selectedList = new ArrayList<PdsBean>();
+		int count =0 ;
+		while(true) {
+			int num = (int)(Math.random()*size);
+			if(temp[num]==false) {
+				if(list.get(num).getSeq() != seq) { // 지금 보고 있는 사진은 빼야됨
+					selectedList.add(list.get(num));
+					temp[num] = true;
+				}
+				count++;
+			}
+			if(count == size) {
+				break;
+			}			
+		}	
+		return selectedList;
+	}
+	
 	public PdsBean getMyPdsAll(String id) {
 		return pDao.getMyPdsAll(id);
 	}

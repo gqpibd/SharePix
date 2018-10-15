@@ -22,9 +22,20 @@ public class ReplyService {
 		return rManager.getReplyList(seq);
 	}
 
-	public boolean addReply(String id, String content, int pdsSeq, int refSeq) {
-		return rManager.addReply(id,content,pdsSeq,refSeq);
-		
+	public boolean addReply(String id, String toWhom, String content,  int pdsSeq, int refSeq) {
+		return rManager.addReply(id,toWhom,content,pdsSeq,refSeq);		
+	}
+
+	public boolean deleteReply(int reSeq) {
+		return rManager.deleteReply(reSeq);
+	}
+	
+	public ReplyBean getReply(int reSeq) {
+		return rManager.getReply(reSeq);
+	}
+
+	public boolean updateReply(int reSeq, String content) {		
+		return rManager.updateReply(reSeq, content);
 	}
 
 }

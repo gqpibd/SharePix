@@ -51,7 +51,7 @@ body {
 <input name="pwd" type="password" class="form-login" title="Password" value="" size="30" maxlength="48" />
 </div>
 <br />
-<span class="login-box-options">
+<span class="login-box-options">x
 New User?  <a href="MemberController?command=addUserPage" style="margin-left:30px;">회원가입</a>
 
 </span>

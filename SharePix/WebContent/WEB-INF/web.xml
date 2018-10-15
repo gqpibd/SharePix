@@ -43,4 +43,13 @@
   	<url-pattern>/ReplyController</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+  	<servlet-name>FileController</servlet-name>
+  	<servlet-class>manager.FileManager</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>FileController</servlet-name>
+  	<url-pattern>/FileController</url-pattern>
+  </servlet-mapping>
 </web-app>

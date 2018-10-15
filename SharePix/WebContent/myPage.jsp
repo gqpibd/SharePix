@@ -1,7 +1,6 @@
 <%@page import="model.service.PdsService"%>
 <%@page import="java.util.List"%>
 <%@page import="dto.PdsBean"%>
-<%@page import="model.MemberService"%>
 <%@page import="dto.MemberBean"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>

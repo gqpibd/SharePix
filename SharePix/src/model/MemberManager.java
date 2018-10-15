@@ -1,6 +1,7 @@
 package model;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,6 +12,10 @@ import dto.MemberBean;
 
 public class MemberManager implements iMemberManager {
 
+	public MemberManager() {
+		DBConnection.initConnection();
+	}
+	
 	/////////////////////////////////////////////////////
 	
 	//DROP TABLE MEMBER
@@ -70,7 +75,7 @@ public class MemberManager implements iMemberManager {
 	@Override
 	public MemberBean loginAf(String id, String pwd) {
 		
-		String sql  = " SELECT ID, NAME, PWD, EMAIL, PHONE, AUTH "
+		String sql  = " SELECT ID, PWD, NAME, EMAIL, PHONE, AUTH "
 					+ " FROM MEMBER "
 					+ " WHERE ID=? AND PWD=? ";
 		
@@ -93,12 +98,13 @@ public class MemberManager implements iMemberManager {
 			System.out.println("3/6 loginAf success");
 			
 			if(rs.next()) {
-				dto = new MemberBean(  rs.getString(1),		//id
-									   rs.getString(2),	//NAME
-									   rs.getString(3),	//PWD
-									   rs.getString(4),	//EMAIL
-									   rs.getString(5),	//PHONE
-									   rs.getInt(6));		//AUTH
+				int i = 1;
+				dto = new MemberBean(  rs.getString(i++),		//id
+									   rs.getString(i++),	//NAME
+									   rs.getString(i++),	//PWD
+									   rs.getString(i++),	//EMAIL
+									   rs.getString(i++),	//PHONE
+									   rs.getInt(i++));		//AUTH
 			}
 			System.out.println("4/6 loginAf success");
 			
@@ -110,8 +116,6 @@ public class MemberManager implements iMemberManager {
 		}
 		return dto;
 	}
-
-	
 
 	@Override
 	public boolean updateUser(MemberBean dto) {
@@ -149,8 +153,6 @@ public class MemberManager implements iMemberManager {
 		
 		return count > 0 ? true : false;
 	}
-	
-	
 	
 	
 	

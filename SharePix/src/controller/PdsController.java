@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -36,6 +37,14 @@ public class PdsController extends HttpServlet {
 			System.out.println(seq);
 			PdsBean pds = PdsService.getInstance().getPdsDetail(seq);
 			System.out.println(pds);
+			
+			// 추천피드
+			List<PdsBean> list = PdsService.getInstance().relatedList(pds.getCategory(),seq); // 같은 카테고리의 사진들을 모아서 보여줌
+			System.out.println(list.size());
+					
+			
+			req.setAttribute("list", list);
+			
 			req.setAttribute("pds", pds);
 			dispatch("picDetail.jsp", req, resp);			
 		} else if (command.equalsIgnoreCase("keyword")) {
@@ -57,13 +66,18 @@ public class PdsController extends HttpServlet {
 			resp.getWriter().flush();
 			System.out.println("count:" + count);
 			//req.setAttribute("pds", pds);
+		} else if(command.equalsIgnoreCase("myLikePdsList")) {
+			String id = req.getParameter("id");
+			List<PdsBean> list = PdsService.getInstance().myLikePdsList(id); // 즐겨찾기한 사진들을 모아서 보여줌
+			req.setAttribute("list", list);
+			dispatch("myLikes.jsp", req, resp);	
 		} else if(command.equals("pdsUpdatePage")){
 			System.out.println("command = " + command + "  들어옴");	// 확인용
 			dispatch("./pdsUpdatePage.jsp", req, resp);
 		} else if(command.equals("pdsUpdateAf")) {
 			System.out.println("command = " + command + "  들어옴");	// 확인용
 			
-			String category			= req.getParameter("category");
+			String category		= req.getParameter("category");
 			String tags 		= req.getParameter("tags");
 			    
 		    PdsBean dto = new PdsBean(category, tags);

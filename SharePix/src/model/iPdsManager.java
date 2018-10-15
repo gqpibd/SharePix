@@ -17,6 +17,12 @@ public interface iPdsManager {
 
 	public int getLikeCount(int pdsSeq);
 	
+	public boolean increaseDowncount(int pdsSeq);
+
+	public List<PdsBean> myLikePdsList(String id);
+
+	public List<PdsBean> relatedList(String category);
+	
 	public PdsBean getMyPdsAll(String id);
 	
 	public List<PdsBean> getMyPdsAllList(String id);

@@ -27,4 +27,8 @@ public class MemberService {
 		return manager.loginAf(id, pwd);
 	}
 	
+	public MemberBean getUserInfo(String id) {
+		return manager.getUserInfo(id);
+	}
+	
 }

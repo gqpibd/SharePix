@@ -45,23 +45,35 @@ public class ReplyController extends HttpServlet {
 				refSeq = Integer.parseInt(reRefStr);
 			}
 			String content = req.getParameter("content");
-			if(toWhom!=null) {
-				content = "@"+toWhom + " " + content;
+			if(toWhom==null) {
+				toWhom="";
 			}
 			
-			boolean isS = ReplyService.getInstance().addReply(id,content,pdsSeq,refSeq);
+			boolean isS = ReplyService.getInstance().addReply(id,toWhom,content,pdsSeq,refSeq);
 			if(isS) {
 				System.out.println("댓글 등록 성공");				
 			}
 			resp.sendRedirect("PdsController?command=detailview&seq=" + pdsSeq);			
 		}else if(command.equalsIgnoreCase("delete")) {
+			int  pdsSeq = Integer.parseInt(req.getParameter("pdsSeq"));
 			int  reSeq = Integer.parseInt(req.getParameter("reSeq"));
-			/*boolean isS = ReplyService.getInstance().addReply(id,content,pdsSeq,refSeq);
+			boolean isS = ReplyService.getInstance().deleteReply(reSeq);
+			
 			if(isS) {
 				System.out.println("댓글 삭제 성공");				
-			}*/
-			/**/
+			}		
+			resp.sendRedirect("PdsController?command=detailview&seq=" + pdsSeq);
+		}else if(command.equalsIgnoreCase("updateReply")) {
+			int  pdsSeq = Integer.parseInt(req.getParameter("pdsSeq"));
+			int  reSeq = Integer.parseInt(req.getParameter("reSeq"));
+			String  content = req.getParameter("content");
 			
+			boolean isS = ReplyService.getInstance().updateReply(reSeq,content);
+			
+			if(isS) {
+				System.out.println("댓글 수정 성공");				
+			}		
+			resp.sendRedirect("PdsController?command=detailview&seq=" + pdsSeq);
 		}
 	}
 	

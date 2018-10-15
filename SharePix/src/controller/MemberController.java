@@ -38,8 +38,8 @@ public class MemberController extends HttpServlet {
 		
 		if(command.equals("addUserPage")){		// 회원가입으로 이동
 			System.out.println("command = " + command + " 들어옴");	// 확인용
-			dispatch("addUserPage.jsp", req, resp);
 			
+			dispatch("addUserPage.jsp", req, resp);
 		}else if(command.equals("loginAf")) {	// 로그인 버튼 눌렀을 시 아이디 비밀번호 맞으면 페이지로 이동
 			System.out.println("command = " + command + " 들어옴");	// 확인용
 			

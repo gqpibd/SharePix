@@ -11,7 +11,7 @@ CREATE TABLE PICPDS(
    FILENAME VARCHAR2(50) NOT NULL,
    READCOUNT NUMBER(10) NOT NULL,
    DOWNCOUNT NUMBER(10) NOT NULL,
-   FSAVENAME VARCHAR2(50)
+   FSAVENAME VARCHAR2(50),
    CONSTRAINT fk_picpds_id FOREIGN KEY(ID) REFERENCES MEMBER(ID)
 );
 SELECT * from PICPDS
@@ -25,8 +25,64 @@ INCREMENT BY 1;
 ALTER TABLE picpds 
 ADD (FSAVENAME varchar2(50));
 
-INSERT INTO PICPDS
-VALUES (PICPDS_SEQ.NEXTVAL, dh, )
+insert into PICPDS
+values (PICPDS_SEQ.NEXTVAL, 'dh', '자연', '#가을#곤충#고추잠자리#날개', sysdate, '잠자리.jpg', 0,0,'잠자리.jpg');
+insert into PICPDS
+values (PICPDS_SEQ.NEXTVAL, 'dh', '자연', '#개기월식#보름달#밤#하늘#붉은달', sysdate, 'totaleclipse.jpg', 0,0,'totaleclipse.jpg');
+insert into PICPDS
+values (PICPDS_SEQ.NEXTVAL, 'dh', '자연', '#달#보름달#밤#하늘#검정', sysdate, 'moon.jpg', 0,0,'moon.jpg');
+
+insert into PICPDS
+values (PICPDS_SEQ.NEXTVAL, 'dh', '음식', '#감자튀김#치킨#야식#안주', sysdate, 'food.jpg', 0,0,'food.jpg');
+insert into PICPDS
+values (PICPDS_SEQ.NEXTVAL, 'dh', '자연', '#월식#밤하늘', sysdate, 'eclipse.jpg', 0,0,'eclipse.jpg');
+insert into PICPDS
+values (PICPDS_SEQ.NEXTVAL, 'dh', '디자인', '#시계#손목시계', sysdate, 'watch.jpg', 0,0,'watch.jpg');
+insert into PICPDS
+values (PICPDS_SEQ.NEXTVAL, 'dh', '자연', '#눈#야경#설경', sysdate, 'snow1.jpg', 0,0,'snow1.jpg');
+insert into PICPDS
+values (PICPDS_SEQ.NEXTVAL, 'dh', '자연', '#눈#야경#설경', sysdate, 'snow2.jpg', 0,0,'snow2.jpg');
+insert into PICPDS
+values (PICPDS_SEQ.NEXTVAL, 'dh', '자연', '#눈#야경#설경#나무', sysdate, 'snow3.jpg', 0,0,'snow2.jpg');
+insert into PICPDS
+values (PICPDS_SEQ.NEXTVAL, 'dh', '과학', '#배#바다#항구#blue', sysdate, 'boat.png', 0,0,'boat.png');
+insert into PICPDS
+values (PICPDS_SEQ.NEXTVAL, 'dh', '디자인', '#그래피티#벽화#건물', sysdate, 'graffiti.png', 0,0,'graffiti.png');
+insert into PICPDS
+values (PICPDS_SEQ.NEXTVAL, 'dh', '디자인', '#그래피티#벽화#벽', sysdate, 'graffiti2.png', 0,0,'graffiti2.png');
+insert into PICPDS
+values (PICPDS_SEQ.NEXTVAL, 'dh', '디자인', '#그래피티#벽화#벽', sysdate, 'graffiti3.png', 0,0,'graffiti3.png');
+insert into PICPDS
+values (PICPDS_SEQ.NEXTVAL, 'dh', '기타', '#길#유럽#건물#교회', sysdate, 'church1.png', 0,0,'church1.png');
+insert into PICPDS
+values (PICPDS_SEQ.NEXTVAL, 'dh', '디자인', '#신발#길', sysdate, 'shoe.png', 0,0,'shoe.png');
+insert into PICPDS
+values (PICPDS_SEQ.NEXTVAL, 'dh', '디자인', '#가로등#벽#창문', sysdate, 'Streetlamp.png', 0,0,'Streetlamp.png');
+insert into PICPDS
+values (PICPDS_SEQ.NEXTVAL, 'dh', '자연', '#론다#스페인#유럽#절벽', sysdate, 'ronda1.png', 0,0,'ronda1.png');
+insert into PICPDS
+values (PICPDS_SEQ.NEXTVAL, 'dh', '자연', '#론다#스페인#유럽#절벽#다리', sysdate, 'ronda2.png', 0,0,'ronda2.png');
+insert into PICPDS
+values (PICPDS_SEQ.NEXTVAL, 'dh', '자연', '#론다#스페인#유럽#절벽#다리#저녁', sysdate, 'ronda3.png', 0,0,'ronda3.png');
+insert into PICPDS
+values (PICPDS_SEQ.NEXTVAL, 'dh', '자연', '#노을#가로등#저녁', sysdate, 'evening.png', 0,0,'evening.png');
+insert into PICPDS
+values (PICPDS_SEQ.NEXTVAL, 'dh', '음식', '#과일#퐁듀', sysdate, 'food2.jpg', 0,0,'food2.jpg');
+insert into PICPDS
+values (PICPDS_SEQ.NEXTVAL, 'dh', '자연', '#동물#고양이', sysdate, 'cat.jpg', 0,0,'cat.jpg');
+insert into PICPDS
+values (PICPDS_SEQ.NEXTVAL, 'dh', '자연', '#동물#고양이', sysdate, 'cat2.jpg', 0,0,'cat2.jpg');
+insert into PICPDS
+values (PICPDS_SEQ.NEXTVAL, 'dh', '디자인', '#디자인#선#단면#개미집', sysdate, 'design1.jpg', 0,0,'design1.jpg');
+insert into PICPDS
+values (PICPDS_SEQ.NEXTVAL, 'dh', '과학', '#스피커#블루투스#공중부양', sysdate, 'speaker.jpg', 0,0,'speaker.jpg');
+insert into PICPDS
+values (PICPDS_SEQ.NEXTVAL, 'dh', '과학', '#디스플레이#플렉시블#모니터', sysdate, 'display.jpg', 0,0,'display.jpg');
+insert into PICPDS
+values (PICPDS_SEQ.NEXTVAL, 'dh', '과학', '#캡슐베드#수면', sysdate, 'capsulebed.jpg', 0,0,'capsulebed.jpg');
+
+
+
 ---------------------------------------------------- PDSREPLY
 DROP TABLE PDSREPLY
 CASCADE CONSTRAINTS;
@@ -39,6 +95,9 @@ CREATE TABLE PDSREPLY(
    REREF NUMBER(10),
    WDATE DATE NOT NULL,
    DEL NUMBER(1) NOT NULL,
+   TOWHOM VARCHAR2(50),
+   READ NUMBER(1),
+   CONSTRAINT fk_TOWHOM FOREIGN KEY(TOWHOM) REFERENCES MEMBER(ID),
    CONSTRAINT fk_pdsreply_seq FOREIGN KEY(PDSSEQ) REFERENCES PICPDS(SEQ),
    CONSTRAINT fk_pdsreply_reref FOREIGN KEY(REREF) REFERENCES PDSREPLY(RESEQ)
 );
@@ -62,6 +121,13 @@ INCREMENT BY 1;
 
 SELECT * FROM PDSREPLY WHERE PDSSEQ = 1 ORDER BY REREF ASC, RESEQ ASC 
 SELECT * FROM PDSREPLY  
+
+ALTER TABLE PDSREPLY 
+ADD(
+	TOWHOM VARCHAR2(50),
+	READ NUMBER(1),
+ 	CONSTRAINT fk_TOWHOM FOREIGN KEY(TOWHOM) REFERENCES MEMBER(ID)
+);
 
 ---------------------------------------------------- PDSLIKE
 DROP TABLE PDSLIKE
@@ -90,10 +156,9 @@ DROP VIEW PDSALL;
 
 CREATE VIEW PDSALL (SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT)
 AS
-SELECT DISTINCT P.SEQ, P.ID, P.CATEGORY, P.TAGS, P.UPLOADDATE, P.FILENAME, P.READCOUNT, P.DOWNCOUNT, P.FSAVENAME,
-		(SELECT COUNT(*) FROM PDSLIKE, PICPDS WHERE PICPDS.SEQ = PDSLIKE.PDSSEQ),
-		(SELECT COUNT(*) FROM PDSREPLY, PICPDS WHERE PICPDS.SEQ = PDSREPLY.PDSSEQ)
-FROM PDSLIKE, PICPDS P, PDSREPLY
+SELECT P.SEQ, P.ID, P.CATEGORY, P.TAGS, P.UPLOADDATE, P.FILENAME, P.READCOUNT, P.DOWNCOUNT, P.FSAVENAME, 
+	(SELECT COUNT(*) FROM PDSLIKE  GROUP BY PDSSEQ HAVING PDSSEQ = P.SEQ),
+	(SELECT COUNT(*) FROM PDSREPLY GROUP BY PDSSEQ HAVING PDSSEQ = P.SEQ)		
+FROM PICPDS P
 
 select * from pdsall
-

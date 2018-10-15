@@ -23,16 +23,12 @@ package dto;
 
 
 import java.io.Serializable;
-
 import java.util.Arrays;
 
 public class PdsBean implements Serializable {
-	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 8300464898308770593L;
-	//////////// 5개씩 구분
+
 	private int seq;
 	private String id;
 	private String category;
@@ -69,7 +65,6 @@ public class PdsBean implements Serializable {
 		this.id = id;
 		this.category = category;
 		this.tags = tags;
-	
 	}
 	
 
@@ -77,14 +72,11 @@ public class PdsBean implements Serializable {
 		this.id = id;
 		this.category = category;
 		this.tags = tags.substring(1).split("#");
-	
 	}
 	
 	public PdsBean(String category, String tags) {		
-
 		this.category = category;
 		this.tags = tags.substring(1).split("#");
-	
 	}
 
 	public int getSeq() {
