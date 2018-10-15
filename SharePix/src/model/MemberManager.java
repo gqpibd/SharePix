@@ -1,47 +1,16 @@
 package model;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import db.DBClose;
+import db.DBConnection;
 import dto.MemberBean;
 
 public class MemberManager implements iMemberManager {
 
-	public MemberManager() {
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public Connection getConnection() throws SQLException {
-		String url = "jdbc:oracle:thin:@183.99.33.240:1521:xe";
-		String user = "hr";
-		String pass = "hr";
-
-		Connection conn = DriverManager.getConnection(url, user, pass);
-
-		return conn;
-	}
-	
-	public void close(Connection conn, PreparedStatement psmt, ResultSet rs) {
-		try {
-			if (rs != null) {
-				rs.close();
-			} else if (psmt != null) {
-				psmt.close();
-			} else if (conn != null) {
-				conn.close();
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	
 	/////////////////////////////////////////////////////
 	
 	//DROP TABLE MEMBER
@@ -72,7 +41,7 @@ public class MemberManager implements iMemberManager {
 		MemberBean dto = null;
 		
 		try {
-			conn = getConnection();
+			conn = DBConnection.getConnection();
 			System.out.println("1/6 getIdInfo success");
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, id);
@@ -91,7 +60,7 @@ public class MemberManager implements iMemberManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			close(conn, psmt, rs);
+			DBClose.close(psmt, conn, rs);
 		}
 		
 		
@@ -112,7 +81,7 @@ public class MemberManager implements iMemberManager {
 		MemberBean dto = null;
 		
 		try {
-			conn = getConnection();
+			conn = DBConnection.getConnection();
 			System.out.println("1/6 loginAf success");
 			psmt = conn.prepareStatement(sql);
 			System.out.println("2/6 loginAf success");
@@ -138,7 +107,7 @@ public class MemberManager implements iMemberManager {
 			System.out.println("loginAf Fail");
 			e.printStackTrace();
 		} finally {
-			close(conn, psmt, rs);
+			DBClose.close(psmt, conn, rs);
 		}
 		return dto;
 	}
@@ -159,7 +128,7 @@ public class MemberManager implements iMemberManager {
 		PreparedStatement psmt = null;
 		
 		try {
-			conn = getConnection();
+			conn = DBConnection.getConnection();
 			System.out.println("1/6 updateUser success");
 			psmt = conn.prepareStatement(sql);
 			System.out.println("2/6 updateUser success");
@@ -176,7 +145,7 @@ public class MemberManager implements iMemberManager {
 			System.out.println("updateUser Fail");
 			e.printStackTrace();
 		} finally {
-			close(conn, psmt, null);
+			DBClose.close(psmt, conn, null);
 		}
 		
 		return count > 0 ? true : false;

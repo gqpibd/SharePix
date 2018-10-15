@@ -2,6 +2,7 @@ package model;
 
 import java.util.List;
 
+import dto.PagingBean;
 import dto.PdsBean;
 
 public interface iPdsManager {
@@ -19,5 +20,8 @@ public interface iPdsManager {
 	public PdsBean getMyPdsAll(String id);
 	
 	public List<PdsBean> getMyPdsAllList(String id);
+	
+	public List<PdsBean> getSearchPdsNull();
 
+	public List<PdsBean> getPdsPagingList(PagingBean paging, String keyword);
 }

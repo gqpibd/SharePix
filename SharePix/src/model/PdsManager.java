@@ -9,7 +9,9 @@ import java.util.List;
 
 import db.DBClose;
 import db.DBConnection;
+import dto.PagingBean;
 import dto.PdsBean;
+import dto.pagingUtil;
 
 public class PdsManager implements iPdsManager {
 	
@@ -341,5 +343,134 @@ public class PdsManager implements iPdsManager {
 		}
 		
 		return list;
+	}
+	
+	//빈문자였을경우
+	@Override
+	public List<PdsBean> getSearchPdsNull() {
+		String sql = " SELECT SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT "
+				+ " FROM PDSALL ";
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+
+		List<PdsBean> list =  new ArrayList<PdsBean>();  // 결과를 저장할 목록
+
+		try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 getPdsDetail Success");
+
+			psmt = conn.prepareStatement(sql);
+						
+			System.out.println("2/6 getPdsDetail Success");
+
+			rs = psmt.executeQuery();
+			System.out.println("3/6 getPdsDetail Success");
+			
+			while (rs.next()) {
+				String regdate = rs.getString("UPLOADDATE");
+				regdate = regdate.substring(0, regdate.lastIndexOf('.'));
+				// SEQ, ID, TITLE, CONTENT, FILENAME, READCOUNT, DOWNCOUNT, REGDATE
+				PdsBean pds = new PdsBean(rs.getInt("SEQ"), 
+								  rs.getString("ID"), 
+								  rs.getString("CATEGORY"), 
+								  rs.getString("TAGS").substring(1).split("#"),
+								  regdate, 
+								  rs.getString("FILENAME"), 
+								  rs.getInt("READCOUNT"), 
+								  rs.getInt("DOWNCOUNT"), 
+								  rs.getInt("LIKECOUNT"),
+								  rs.getInt("REPLYCOUNT"),
+								  rs.getString("FSAVENAME")
+								  );
+				list.add(pds);
+			}
+			System.out.println("4/6 getPdsDetail Success");
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("getPdsDetail Fail");
+		} finally {
+			DBClose.close(psmt, conn, rs);
+		}
+		return list;
+	}
+	
+	@Override
+	public List<PdsBean> getPdsPagingList(PagingBean paging, String keyword){
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		
+		List<PdsBean> pdslist = new ArrayList<>();
+		
+		String kWord = "";
+		
+		kWord = " WHERE (TAGS LIKE '%" + keyword + "%' OR CATEGORY LIKE '%" + kWord +  "%')";
+		
+		try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6");
+			
+			String totalSql = " SELECT COUNT(SEQ) "
+					+ " FROM PDSALL "
+					+ kWord;
+			
+			psmt = conn.prepareStatement(totalSql);
+			rs = psmt.executeQuery();
+			
+			int totalCount = 0;
+			rs.next();
+			totalCount = rs.getInt(1);		// row의 총갯수
+			paging.setTotalCount(totalCount);
+			paging = pagingUtil.setPagingInfo(paging);
+			
+			psmt.close();
+			rs.close();
+			
+			String sql = " SELECT * FROM "
+					+ " ( SELECT * FROM "
+					+ "	(SELECT * FROM PDSALL "
+					+ " " + kWord
+					+ " )"
+					+ " WHERE ROWNUM <=" + paging.getStartNum() + ")"
+					+ " WHERE ROWNUM <=" + paging.getCountPerPage();
+
+
+			psmt = conn.prepareStatement(sql);			
+			System.out.println("2/6 getBbsPagingList Success");		
+			
+			rs = psmt.executeQuery();
+			System.out.println("3/6 getBbsPagingList Success");
+			
+			while(rs.next()) {
+				String regdate = rs.getString("UPLOADDATE");
+				regdate = regdate.substring(0, regdate.lastIndexOf('.'));
+				PdsBean pds = new PdsBean(rs.getInt(1), 
+										rs.getString(2), 
+										rs.getString(3), 
+										rs.getString(4).substring(1).split("#"), 
+										regdate, 
+										rs.getString(6), 
+										rs.getInt(7), 
+										rs.getInt(8), 
+										rs.getInt(9), 
+										rs.getInt(10), 
+										rs.getString(11));
+				pdslist.add(pds);				
+			}
+			System.out.println("4/6 getBbsPagingList Success");
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, rs);			
+		}
+		
+		
+		return pdslist;
+		
 	}
 }
