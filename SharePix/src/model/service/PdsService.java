@@ -87,7 +87,7 @@ public class PdsService {
 	}
 	
 	public boolean writePds(PdsBean pds) {
-		return false;
+		return pDao.writePds(pds);
 	}
 	
 	public PdsBean delPDS(int seq) {
