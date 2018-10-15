@@ -31,8 +31,8 @@
 			<jsp:param name="goBackTo" value="index.jsp" />
 		</jsp:include>
 	</div>
-	
-	<div> <!-- 검색 -->
+
+	<div style="margin-top: 10em"> <!-- 검색 -->
 		<form action="PdsController" method="get">
 		<input type="hidden" name="command" value="keyword"> 
 		<input type="text" name="tags"> 

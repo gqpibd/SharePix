@@ -13,53 +13,7 @@ fileReader.onload = function (event) { // 파일이 로드 되었을 때
   var image = new Image(); // 새로운 이미지를 생성한다.
   
   image.onload=function(){
-      document.getElementById("original-Img").src=image.src;
-      var canvas=document.createElement("canvas");
-      var context=canvas.getContext("2d");
-      canvas.width=image.width/2;
-      canvas.height=image.height/2;
-      context.drawImage(image,
-          0,
-          0,
-          image.width,
-          image.height,
-          0,
-          0,
-          canvas.width,
-          canvas.height
-      );
-      
-      document.getElementById("upload-Preview").src = canvas.toDataURL();
-           
-      canvas.width=image.width/3;
-      canvas.height=image.height/3;
-      context.drawImage(image,
-          0,
-          0,
-          image.width,
-          image.height,
-          0,
-          0,
-          canvas.width,
-          canvas.height
-      );
-      
-      document.getElementById("upload-Preview2").src = canvas.toDataURL();
-           
-      canvas.width=image.width/4;
-      canvas.height=image.height/4;
-      context.drawImage(image,
-          0,
-          0,
-          image.width,
-          image.height,
-          0,
-          0,
-          canvas.width,
-          canvas.height
-      );
-      
-      document.getElementById("upload-Preview3").src = canvas.toDataURL(); 
+      document.getElementById("original-Img").src=image.src;      
   }
   image.src=event.target.result;
 };
