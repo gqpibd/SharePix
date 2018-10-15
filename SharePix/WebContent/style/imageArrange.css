@@ -1,16 +1,16 @@
 @charset "EUC-KR";
-.container {
+.mcontainer {
   background: #fff;
   margin-top: 10px;
   padding: 10px;
 }
 /* clearfix */
-.container:before,
-.container:after {
+.mcontainer:before,
+.mcontainer:after {
     content: "";
     display: table;
 }
-.container:after {
+.mcontainer:after {
     clear: both;
 }
 

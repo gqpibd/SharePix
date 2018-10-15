@@ -53,7 +53,6 @@ if(pds == null){
 /////
 
 %>
-
 <h2><%=mem.getName()%>의 myPage.jsp</h2>	<!-- 출력 확인 -->
 <img alt="" src="./image/<%=pds.getfSaveName()%>" style="width: 50px">프로필 사진<br>
 <h1 style="font-size:32px;padding-top:25px"><%=mem.getName()%></h1>

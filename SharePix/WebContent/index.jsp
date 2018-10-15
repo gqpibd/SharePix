@@ -11,7 +11,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>sagong</title>
+<title>SaGong</title>
 <%
 	List<PdsBean> pdslist = null;
 	if((pdslist= (List<PdsBean>) request.getAttribute("list")) == null){		
@@ -26,7 +26,7 @@
 
 </head>
 <body bgcolor="#D5D5D5">
-	<div> <!-- 타이틀바 -->
+	<div class="left__heading" style="height: 100%"> <!-- 타이틀바 -->
 		<jsp:include page="titlebar.jsp">
 			<jsp:param name="goBackTo" value="index.jsp" />
 		</jsp:include>
