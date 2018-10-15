@@ -46,6 +46,10 @@ public class PdsService {
 	public List<PdsBean> myLikePdsList(String id) {
 		return pDao.myLikePdsList(id);
 	}
+	
+	public List<PdsBean> getSearchPdsNull(){
+		return pDao.getSearchPdsNull();
+	}
 
 	public List<PdsBean> relatedList(String category, int seq) {
 		List<PdsBean> list = pDao.relatedList(category); // 일단 관련있는 목록을 다 가져오자

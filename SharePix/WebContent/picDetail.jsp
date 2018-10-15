@@ -55,7 +55,10 @@
 <body>
 	<main class="main">
 	<section class="title-bar">
-		타이틀바---------------------------------------------------------------------------------------------
+		<!-- 타이틀바 -->
+		<jsp:include page="titlebar.jsp">
+			<jsp:param name="goBackTo" value="picDetail.jsp" />
+		</jsp:include>	
 	</section>
 	<!-- 왼쪽 이미지랑 댓글 부분 -->
 	<section class="left">

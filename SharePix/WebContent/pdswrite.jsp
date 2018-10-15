@@ -16,7 +16,11 @@ MemberBean user = (MemberBean)session.getAttribute("login");
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
-
+	<div> <!-- 타이틀바 -->
+		<jsp:include page="titlebar.jsp">
+			<jsp:param name="goBackTo" value="pdswrite.jsp" />
+		</jsp:include>
+	</div>
 <h2>자료 올리기</h2>
 
 <form action="pdsupload.jsp" method="post" enctype="multipart/form-data" id="frm">

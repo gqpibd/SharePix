@@ -40,11 +40,12 @@ public class MemberController extends HttpServlet {
 			System.out.println("command = " + command + " 들어옴");	// 확인용
 			
 			dispatch("addUserPage.jsp", req, resp);
-		}else if(command.equals("loginAf")) {	// 로그인 버튼 눌렀을 시 아이디 비밀번호 맞으면 페이지로 이동
+		}else if(command.equals("login")) {	// 로그인 버튼 눌렀을 시 아이디 비밀번호 맞으면 페이지로 이동
 			System.out.println("command = " + command + " 들어옴");	// 확인용
 			
 			String id = req.getParameter("id");
 			String pwd = req.getParameter("pwd");
+			String goBackTO = req.getParameter("goBackTo");
 			
 			MemberBean dto = null;
 			dto = memService.loginAf(id, pwd);
@@ -57,7 +58,7 @@ public class MemberController extends HttpServlet {
 				resp.setContentType("text/html; charset=UTF-8");
 				PrintWriter out = resp.getWriter();
 				
-				out.println("<script>alert('안녕하세요." + dto.getName() + "님'); location.href='main.jsp';</script>");
+				out.println("<script>alert('안녕하세요." + dto.getName() + "님'); location.href='"+goBackTO+"';</script>");
 				out.flush();
 				
 			}else if(dto == null || dto.getId().equals("")) {
@@ -70,26 +71,7 @@ public class MemberController extends HttpServlet {
 				return;
 			}
 			
-		}  	
-		
-		////////////////// 로그인 되어있는지 판단 // loginAf 뒤에 있어야?
-		
-		Object ologin = session.getAttribute("login");
-		MemberBean mem = null;
-		
-		if(ologin == null){	
-			resp.setContentType("text/html; charset=UTF-8");
-			PrintWriter out = resp.getWriter();
-			out.println("<script>alert('로그인 해주십시오'); location.href='./index.jsp';</script>");
-			out.flush();
-			return;
-			
-		} else {
-			mem = (MemberBean)ologin;
-		}
-		////////////////////
-
-		if(command.equals("logout")){		
+		}else if(command.equals("logout")){		
 			System.out.println("command = " + command + " 들어옴");	// 확인용
 			session.invalidate();
 			
@@ -99,9 +81,7 @@ public class MemberController extends HttpServlet {
 			out.flush();
 			
 			return;
-		}
-		
-		if(command.equals("myPage")) {	// 마이페이지로 이동
+		}else if(command.equals("myPage")) {	// 마이페이지로 이동
 			System.out.println("command = " + command + " 들어옴");	// 확인용
 			dispatch("./myPage.jsp", req, resp);
 		} else if(command.equals("userUpdatePage")){

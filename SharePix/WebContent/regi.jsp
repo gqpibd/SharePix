@@ -95,7 +95,7 @@ $(function () {
 	$("#btn").click(function () {
 		$.ajax({
 			type:"get",
-			url:"./idcheck.jsp",
+			url:"./idcheck.jsp?comand=idcheck&id=",
 			data:"id=" + $('#id').val(),
 			
 			success:function(data){

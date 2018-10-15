@@ -6,12 +6,6 @@
 <%
 	List<PdsBean> list = (List<PdsBean>) request.getAttribute("list");
 	System.out.println(list.size());
-	String hStr = request.getParameter("height");
-	int height = 380;
-	if(hStr!=null){
-		height = Integer.parseInt(hStr);
-	}
-	System.out.println(height);
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -25,10 +19,15 @@
 <link rel="stylesheet" href="style/imageArrange.css">
 </head>
 <body>
+	<div> <!-- 타이틀바 -->
+		<jsp:include page="titlebar.jsp">
+			<jsp:param name="goBackTo" value="myLikes.jsp" />
+		</jsp:include>
+	</div>
 	<div class="container">
 		<%for(PdsBean pds : list){ %>
 		<div class="item">	
-			<img class="img" name="item" src="<%=PdsController.PATH%><%=pds.getfSaveName()%>" onclick="veiwDetail(<%=pds.getSeq()%>)" height="<%=height%>"> 
+			<img class="img" name="item" src="<%=PdsController.PATH%><%=pds.getfSaveName()%>" onclick="veiwDetail(<%=pds.getSeq()%>)" height="400"> 
 		</div>
 		<%} %>
 	</div>

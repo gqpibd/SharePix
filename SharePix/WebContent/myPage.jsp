@@ -18,16 +18,6 @@ Object ologin = session.getAttribute("login");
 MemberBean mem = null;
 PdsBean pds = null;
 
-if(ologin == null){	
-	%>	
-	<script type="text/javascript">
-	alert("로그인 해 주십시오.");
-	location.href = "./index.jsp";
-	</script>
-	<%
-	return;
-}
-
 mem = (MemberBean)ologin;
 PdsService pdsService = PdsService.getInstance();
 pds = pdsService.getMyPdsAll(mem.getId());
@@ -61,8 +51,6 @@ if(pds == null){
 	return;
 }
 /////
-
-
 
 %>
 
