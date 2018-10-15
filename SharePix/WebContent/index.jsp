@@ -25,7 +25,7 @@
 <link rel="stylesheet" href="style/imageArrange.css">
 
 </head>
-<body>
+<body bgcolor="#D5D5D5">
 	<div> <!-- 타이틀바 -->
 		<jsp:include page="titlebar.jsp">
 			<jsp:param name="goBackTo" value="index.jsp" />

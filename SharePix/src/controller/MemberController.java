@@ -40,6 +40,28 @@ public class MemberController extends HttpServlet {
 			System.out.println("command = " + command + " 들어옴");	// 확인용
 			
 			dispatch("addUserPage.jsp", req, resp);
+		
+			
+		}else if(command.equals("idcheck")) {	
+			
+			
+			String id = req.getParameter("id");
+		    System.out.println("id = " + id);
+		    
+		    MemberService service = MemberService.getInstance();
+		    boolean isS = service.getId(id);
+		   
+		    PrintWriter out = resp.getWriter();
+		    if(isS){
+		    	out.print("NO");
+		    	out.flush();
+		    }else{
+		    	out.print("OK");
+		    	out.flush();
+		    }
+			
+		////////////////////////////  
+		    
 		}else if(command.equals("login")) {	// 로그인 버튼 눌렀을 시 아이디 비밀번호 맞으면 페이지로 이동
 			System.out.println("command = " + command + " 들어옴");	// 확인용
 			

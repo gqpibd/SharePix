@@ -31,4 +31,11 @@ public class MemberService {
 		return manager.getUserInfo(id);
 	}
 	
+	////////////////////////////////////
+	
+	public boolean getId(String id) {
+		return manager.getId(id);
+	}
+	
+	
 }

@@ -22,21 +22,87 @@
 }
 
 </style> 
+
+<!--  -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!--  -->
+
+<!--  -->
+<style type="text/css">
+#top-menu {
+  width: 100%;
+  background-color: #EAEAEA;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+}
+
+/*  */
+
+table {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.search__input {
+        width: 50%;
+        padding: 12px 24px;
+
+        background-color: transparent;
+        transition: transform 250ms ease-in-out;
+        font-size: 14px;
+        line-height: 18px;
+        
+        color: #575756;
+        background-color: transparent;
+        background-image: url(http://mihaeltomic.com/codepen/input-search/ic_search_black_24px.svg);
+        background-repeat: no-repeat;
+        background-size: 18px 18px;
+        background-position: 95% center;
+        border-radius: 50px;
+        border: 1px solid #575756;
+        transition: all 250ms ease-in-out;
+        backface-visibility: hidden;
+        transform-style: preserve-3d;
+    }
+    
+.search__input::placeholder {
+            color: rgba(87, 87, 86, 0.8);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+.search__input:hover,
+        .search__input:focus {
+            padding: 12px 0;
+            outline: 0;
+            border: 1px solid transparent;
+            border-bottom: 1px solid #575756;
+            border-radius: 0;
+            background-position: 100% center;
+        }
+
+/*  */
+
+</style> 
+<!--  -->
+
 </head>
 <body>
 
 <div id="top-menu">
-<table border="1" align="center" width="100%">
+<table border="0" align="center" width="100%">
 <col width="100"><col width="500"><col width="100">
 <tr>
 	<td align="center">
-	<p><font>sagong.com</font></p>
+	<p><font style="text-transform: uppercase; 
+					letter-spacing: 1.5px;" size="5">
+					SaGong'ssi</font></p>
 	</td>
 	<td>
-	<input type="text" title="search" size="50" maxlength="50" value="검색" onfocus="this.value=''"
-		   onblur="if(this.value =='') this.value='검색';" onkeydown="return fn_SubmitFromInput();">
+	<input class="search__input" type="text" placeholder="Search">
 	</td>
 	<td align="center">
 	<% if(user==null){ %>
@@ -72,6 +138,8 @@ var sticky = header.offsetTop;
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	        <h4 class="modal-title" id="exampleModalLabel">로그인</h4>
 	      </div>
+	      
+	      
 	      <div class="modal-body">		       
 	          <div class="form-group">
 	            <label for="recipient-name" class="control-label">아이디:</label>
@@ -81,7 +149,9 @@ var sticky = header.offsetTop;
 	            <label for="message-text" class="control-label">패스워드:</label>
 	            <input type="password" class="form-control" id="message-text" name="pwd" title="Password">
 	          </div>
-		      </div>
+          </div>
+          
+          
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href='regi.jsp'">회원가입</button>
 		        <button type="submit" class="btn btn-primary" value="로그인">로그인</button>

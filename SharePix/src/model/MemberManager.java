@@ -72,6 +72,52 @@ public class MemberManager implements iMemberManager {
 		return dto;
 	}
 	
+	
+	/////////////////////////////////
+	
+	@Override
+	public boolean getId(String id) {
+		
+		String sql = " SELECT ID FROM MEMBER "
+				+ " WHERE ID = ? ";
+			
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null; 
+		
+		boolean findId = false; 
+		
+		try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 getId Success");
+			
+			psmt = conn.prepareStatement(sql);
+			System.out.println("2/6 getId Success");
+			
+			psmt.setString(1, id.trim()); 
+			
+			rs = psmt.executeQuery();
+			System.out.println("3/6 getId Success");
+			
+			while(rs.next()) {
+				findId = true;
+			}
+			
+		} catch (Exception e) {
+			System.out.println("getId fail");
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, null);
+		}
+		
+		System.out.println("findId = " + findId);
+		
+		return findId;
+	}
+	
+	////////////////////////////////
+	
+	
 	@Override
 	public MemberBean loginAf(String id, String pwd) {
 		
