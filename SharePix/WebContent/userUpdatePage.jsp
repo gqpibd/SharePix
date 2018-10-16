@@ -103,8 +103,7 @@ System.out.println("수정 후 updateDto = " + updateDto.toString());
 - ★ 일단 기능부터 <strike>개인정보 수정, 좋아요 카운트</strike>, 팔로우<br>
 - ★ 개인사진 수정(사진 업로드)<br>
 - ★ 닉네임 중복, 비밀번호 확인 안 되면 수정 완료버튼 비활성화<br>
-- ★ 가져온 pdslist 들의 count 합치기<br> 
-- 테이블 보더 지우기<br>
+<strike>- ★ 가져온 pdslist 들의 count 합치기</strike><br> 
 - 이미 사용하고 계신 비밀번호를 입력하셨습니다.<br>
 - 비밀번호 다르면 수정 못 하게<br>
 - 비밀번호 공백이면 수정 못 하게<br>

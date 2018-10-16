@@ -26,7 +26,6 @@ if(ologin == null){
 
 mem = (MemberBean)ologin;
 
-//System.out.println("mem.toString() = " + mem.toString()); // 잘 출력됨.
 %>
 <h2>main.jsp</h2>
 
@@ -37,7 +36,8 @@ mem = (MemberBean)ologin;
 </form>
 
 <form action="MemberController" method="get">
-<input type="hidden" name="command" value="myPage">
+<input type="hidden" name="command" value="userPage">
+<input type="hidden" name="id" value="<%=mem.getId()%>">
 <input type="submit" value="개인 페이지">
 </form>
 
