@@ -24,6 +24,7 @@ import dto.PdsBean;
 import model.PdsManager;
 import model.iPdsManager;
 import model.service.PdsService;
+import model.service.ReplyService;
 
 public class PdsController extends HttpServlet {
 	
@@ -112,77 +113,32 @@ public class PdsController extends HttpServlet {
 			List<PdsBean> list = PdsService.getInstance().myLikePdsList(id); // 즐겨찾기한 사진들을 모아서 보여줌
 			req.setAttribute("list", list);
 			dispatch("myLikes.jsp", req, resp);	
-		} else if(command.equals("pdsUpdatePage")){
-			System.out.println("command = " + command + "  들어옴");	// 확인용
-			dispatch("./pdsUpdatePage.jsp", req, resp);
-		} else if(command.equals("pdsUpdateAf")) {
-			System.out.println("command = " + command + "  들어옴");	// 확인용
-			
-			String category		= req.getParameter("category");
-			String tags 		= req.getParameter("tags");
-			    
-		    PdsBean dto = new PdsBean(category, tags);
-		    dto.setSeq(seq);
-		    
-			if(PdsService.getInstance().updatePDS(dto)) {	//	update가 되면 true 반환
-				dispatch("./pdsUpdateAf.jsp", req, resp);
-			}else {
-				resp.setContentType("text/html; charset=UTF-8");
-				PrintWriter out = resp.getWriter();
-				
-				out.println("<script>alert('수정 실패'); location.href='./pdsUpdatePage.jsp';</script>");
-				 
-				out.flush();
-			}
-			dispatch("picDetail.jsp", req, resp);			
-		}
-		else if(command.equals("delete")) {
-			// 
-				System.out.println("command = " + command + "  들어옴");	// 확인용
-			/*	
-				String pdsid = request.getParameter("pdsid");
-				int seq = Integer.parseInt(request.getParameter("pdsseq"));
-				MemberDto user=(MemberDto)session.getAttribute("login");
+		} else if(command.equals("delete")) {
 
-				iPdsDao dao = PdsDao.getInstance();
-				boolean isS = dao.delPDS(seq);
-				if(isS){
-					%>
-					<script type="text/javascript">
-					alert('성공적으로 삭제했습니다!');
-					location.href='pdslist.jsp';
-					</script>
-					<% 
-				}else{
-					%>
-					<script type="text/javascript">
-					alert('삭제 실패했습니다!');
-					location.href='pdslist.jsp';
-					</script>
-					<% 
-				}
+			boolean isS = PdsService.getInstance().delPDS(seq);
+			if(isS) {
+				System.out.println("삭제 성공");
 				
-				if(PdsService.pDao.delPDS(dto)) {	//	update가 되면 true 반환
-					resp.setContentType("text/html; charset=UTF-8");
-					PrintWriter out = resp.getWriter();
-					out.println("<script>alert('정보가 수정되었습니다.'); location.href='./userUpdatePage.jsp'; </script>");
-					out.flush();
-					
-				}else {
-					resp.setContentType("text/html; charset=UTF-8");
-					PrintWriter out = resp.getWriter();
-					out.println("<script>alert('수정 실패'); location.href='./userUpdatePage.jsp';</script>");
-					out.flush();
-					
-				}
-			*/
+			resp.sendRedirect("PdsController?command=detailview&seq=" + seq);
+			dispatch("./updatePds.jsp", req, resp);
+			}	
+			else{
+				
+				PrintWriter out = resp.getWriter();
+				out.println("<script>alert('삭제 실패'); location.href='./updatePds.jsp';</script>");
+			}
 			
-			//
+		}
+		
+		
+	
+			
+		
+			
+					
 		if (isMultipart) {
 			System.out.print("upload");
-			//String file = req.getParameter("fileload");
-			//System.out.println("file:" + file);
-
+			
 			String fupload = "C:\\Users\\user2\\git\\SharePix\\SharePix\\WebContent\\images\\pictures\\";
 
 			System.out.println("파일업로드:" + fupload);
@@ -200,51 +156,43 @@ public class PdsController extends HttpServlet {
 			// file data
 			String filename = "";
 
-			if (isMultipart) {
 
-				////////////////////// file
+			// FileItem 오브젝트를 생성하는 클래스
+			DiskFileItemFactory factory = new DiskFileItemFactory();
 
-				// FileItem 오브젝트를 생성하는 클래스
-				DiskFileItemFactory factory = new DiskFileItemFactory();
+			factory.setSizeThreshold(yourMaxMemorySize);
+			factory.setRepository(new File(yourTempDirectory));
 
-				factory.setSizeThreshold(yourMaxMemorySize);
-				factory.setRepository(new File(yourTempDirectory));
+			ServletFileUpload upload = new ServletFileUpload(factory);
+			upload.setSizeMax(yourMaxRequestSize); // 파일 업로드 최대 크기
 
-				ServletFileUpload upload = new ServletFileUpload(factory);
-				upload.setSizeMax(yourMaxRequestSize); // 파일 업로드 최대 크기
+			///////////////////////////
 
-				///////////////////////////
+			List<FileItem> items;
+			try {
+				items = upload.parseRequest(req);
+				Iterator<FileItem> it = items.iterator();
 
-				List<FileItem> items;
-				try {
-					items = upload.parseRequest(req);
-					Iterator<FileItem> it = items.iterator();
-
-					while (it.hasNext()) {
-						FileItem item = it.next();
-						if (item.isFormField()) {
-							if (item.getFieldName().equals("id")) {
-								id = item.getString("utf-8");
-							} else if (item.getFieldName().equals("category")) {
-								category = item.getString("utf-8");
-							} else if (item.getFieldName().equals("tags")) {
-								tags = item.getString("utf-8");
-							}
-						} else { // fileload
-							if (item.getFieldName().equals("fileload")) {
-
-								filename = processUploadFile(item, fupload, null);
-								System.out.println("fupload:" + fupload+filename);
-							}
+				while (it.hasNext()) {
+					FileItem item = it.next();
+					if (item.isFormField()) {
+						if (item.getFieldName().equals("id")) {
+							id = item.getString("utf-8");
+						} else if (item.getFieldName().equals("category")) {
+							category = item.getString("utf-8");
+						} else if (item.getFieldName().equals("tags")) {
+							tags = item.getString("utf-8");
+						}
+					} else { // fileload
+						if (item.getFieldName().equals("fileload")) {
+							filename = processUploadFile(item, fupload, null);
+							System.out.println("fupload:" + fupload+filename);
 						}
 					}
-				} catch (FileUploadException e) {
-					e.printStackTrace();
 				}
-
-			} else {
-				// multipart type 아님
-			}
+			} catch (FileUploadException e) {
+				e.printStackTrace();
+			}	
 
 			PdsService pd = PdsService.getInstance();
 			PdsBean pds = new PdsBean(id, category, tags);
@@ -252,17 +200,64 @@ public class PdsController extends HttpServlet {
 			pds.setfSaveName(filename);
 			boolean isS = pd.writePds(pds);
 
-			if (isS) { // update가 되면 true 반환
-				dispatch("./pdsUpdatePage.jsp", req, resp);
+			if (isS) { // write가 되면 true 반환
+				dispatch("./updatePds.jsp", req, resp);
 			} else {
 				resp.setContentType("text/html; charset=UTF-8");
 				PrintWriter out = resp.getWriter();
-
 				out.println("<script>alert('업로드 실패'); location.href='./pdswrite.jsp';</script>");
 				out.flush();
 			}
-		}
+		}else if(command.equals("pdsupload")) {
+			req.setCharacterEncoding("utf-8");
+			System.out.println("command = " + command + "  들어옴");	// 확인용
+			
+			String category		= req.getParameter("category");
+			String tags 		= req.getParameter("tags");
+			
+			System.out.println("category : " + category);
+			System.out.println("tags : " + tags);
+			    
+		/*	PdsService pd = PdsService.getInstance();*/
+		    PdsBean dto = new PdsBean(category, tags);
+		    dto.setSeq(seq);
+			
+			boolean isS = PdsService.getInstance().updatePDS(dto);
+			
+			if (isS) { // update가 되면 true 반환
+				dispatch("./index.jsp", req, resp);
+			} else {
+				resp.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = resp.getWriter();
+				out.println("<script>alert('수정 실패'); location.href='./pdswrite.jsp';</script>");
+				out.flush();
+			}
+		}else if(command.equals("pdsupdate")) {
+			String category		= req.getParameter("category");
+			String tags 		= req.getParameter("tags");
+			String seqStr = req.getParameter("seq");
+			seq = Integer.parseInt(seqStr);
+			
+			System.out.println("category : " + category);
+			System.out.println("tags : " + tags);
+			System.out.println("seq : " + seq);
 		
+			PdsService up = PdsService.getInstance();
+			PdsBean pds = new PdsBean(category, tags);
+			boolean isS = up.updatePDS(pds);
+	
+			if(isS) {
+				dispatch("./updatePds.jsp?seq=", req, resp);			
+				//resp.sendRedirect("PdsController?command=detailview&seq=" + seq);
+			}		
+			else {
+				resp.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = resp.getWriter();
+				
+				out.println("<script>alert('수정 실패'); location.href='./pdswrite.jsp';</script>");
+				out.flush();
+			}
+		}
 	}
 	
 	public void dispatch(String urls, HttpServletRequest req, HttpServletResponse resp)

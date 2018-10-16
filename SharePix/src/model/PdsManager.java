@@ -18,6 +18,10 @@ public class PdsManager implements iPdsManager {
 	public PdsManager() {
 		DBConnection.initConnection();
 	}
+	public static iPdsManager getInstance() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	@Override
 	public PdsBean getMyPdsAll( String id ) {
@@ -520,25 +524,25 @@ public class PdsManager implements iPdsManager {
 	@Override
 	public boolean delPDS(int seq) {
 		int count=0;
-		String sql=" DELETE FROM PDS  " +
+		String sql=" DELETE FROM PICPDS  " +
 				" WHERE  SEQ = ? " ;
 		Connection conn=null;
 		PreparedStatement psmt=null;
 		
 		try {
 			conn=DBConnection.getConnection();
-			System.out.println("2/6 S deletePDS");
+			System.out.println("2/6 S delPDS");
 			psmt=conn.prepareStatement(sql);
 			
 			int i=1;
 			psmt.setInt(i++, seq );
-			System.out.println("3/6 S deletePDS");
+			System.out.println("3/6 S delPDS");
 			
 			count=psmt.executeUpdate();
-			System.out.println("4/6 S deletePDS");
+			System.out.println("4/6 S delPDS");
 			
 		} catch (Exception e) {
-			System.out.println("F deletePDS");
+			System.out.println("F delPDS");
 		}finally{
 			DBClose.close(psmt, conn, null);
 		}
@@ -548,7 +552,9 @@ public class PdsManager implements iPdsManager {
 	@Override
 	public boolean updatePDS(PdsBean pds) {
 
-		String sql = " UPDATE PDS "
+		System.out.println(pds.toString());
+		
+		String sql = " UPDATE PICPDS "
 				+ " SET CATEGORY=?, TAGS=?"
 				+ " WHERE SEQ=? ";
 		String tagStr ="";
@@ -565,13 +571,13 @@ public class PdsManager implements iPdsManager {
 		try {
 			conn=DBConnection.getConnection();
 			psmt = conn.prepareStatement(sql);
-			
+			System.out.println("1/6 updatePDS Success");
 			psmt.setString(1, pds.getCategory().trim());
 			psmt.setString(2, tagStr);
 			psmt.setInt(3, pds.getSeq());
-			
+			System.out.println("2/6 updatePDS Success");
 			count = psmt.executeUpdate();
-			
+			System.out.println("3/6 updatePDS Success");
 		} catch (SQLException e) {			
 			e.printStackTrace();
 		} finally{
@@ -725,6 +731,8 @@ public class PdsManager implements iPdsManager {
 		}			  
 		return list;
 	}
+
+	
 	
 	
 }

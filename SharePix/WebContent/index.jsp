@@ -11,7 +11,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>sagong</title>
+<title>SaGong</title>
 <%
 	List<PdsBean> pdslist = null;
 	if((pdslist= (List<PdsBean>) request.getAttribute("list")) == null){		
@@ -25,14 +25,14 @@
 <link rel="stylesheet" href="style/imageArrange.css">
 
 </head>
-<body>
-	<div> <!-- 타이틀바 -->
+<body bgcolor="#D5D5D5">
+	<div class="left__heading" style="height: 100%"> <!-- 타이틀바 -->
 		<jsp:include page="titlebar.jsp">
 			<jsp:param name="goBackTo" value="index.jsp" />
 		</jsp:include>
 	</div>
-	
-	<div> <!-- 검색 -->
+
+	<div style="margin-top: 10em"> <!-- 검색 -->
 		<form action="PdsController" method="get">
 		<input type="hidden" name="command" value="keyword"> 
 		<input type="text" name="tags"> 

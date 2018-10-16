@@ -1,10 +1,29 @@
+<%@page import="model.service.PdsService"%>
 <%@page import="controller.PdsController"%>
 <%@page import="dto.PdsBean"%>
 <%@page import="dto.MemberBean"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	PdsBean dto = (PdsBean)request.getAttribute("pds");    
+Object ologin = session.getAttribute("login");
+MemberBean mem = null;
+
+if(ologin == null){	
+	%>	
+	<script type="text/javascript">
+	alert("로그인 해 주십시오.");
+	location.href = "./index.jsp";
+	</script>
+	<%
+	return;
+}
+
+mem = (MemberBean)ologin;	// 로그인한 사람의 dto
+
+String seqStr = request.getParameter("seq");
+int seq = Integer.parseInt(seqStr);
+PdsBean dto = PdsService.getInstance().getPdsDetail(seq);
+	/* PdsBean dto = (PdsBean)request.getAttribute("pds");    
 	MemberBean user = (MemberBean)session.getAttribute("login");
 	if(user == null){
 		user = new MemberBean();
@@ -19,7 +38,9 @@
 		arr[0] = "a";
 		arr[1] = "b";
 		dto.setTags(arr);
-	}
+	} */
+	
+	request.setCharacterEncoding("utf-8");
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -32,59 +53,7 @@
 
 <h2>psdUpdatePage</h2>
 <div align="center">
-<form action="PdsController" method="post" id="updateForm">
 
-<input type="hidden" name="command" value="pdsUpdateAf">
-
-
-<%-- <table border="1">
-<tr align="center">
-<td colspan="2">개인사진 수정(사진 업로드)</td>
-</tr>
-<tr>
-<th>아이디 : </th>
-<td><input type="text" name="id" value="<%=mem.getId()%>" readonly="readonly"></td>
-</tr>
-<tr>
-<th>이름(닉네임) : </th>
-<td><input type="text" name="name" value="<%=mem.getName()%>" readonly="readonly"></td>
-</tr>
-<tr>
-<th>비밀번호 : </th>
-<td><input type="password" name="pwd" value="" readonly="readonly" onkeyup="checkPwd()"></td>
-</tr>
-<tr>
-<th>비밀번호 확인 : </th>
-<td><input type="password" name="pwdCheck" value="" readonly="readonly" onkeyup="checkPwd()"></td>
-</tr>
-<tr>
-<td colspan="2" align="center"><div id="checkPwd">동일한 비밀번호를 작성해주세요</div></td>
-</tr>
-<tr>
-<th>이메일 : </th> 
-<td><input type="text" name="email" placeholder="placeholder 이메일" value="" readonly="readonly"></td>
-</tr>
-<tr>
-<th>휴대폰 번호 : </th>
-<td>
-	<input type="text" name="phone1" style="width: 50px" value="<%=mem.getPhone().substring(0, 3)%>" readonly="readonly">&nbsp;-&nbsp;
-	<input type="text" name="phone2" style="width: 50px" value="<%=mem.getPhone().substring(3, 7)%>" readonly="readonly">&nbsp;-&nbsp;
-	<input type="text" name="phone3" style="width: 50px" value="<%=mem.getPhone().substring(7)%>" readonly="readonly">
-</td>
-</tr>
-<tr>
-<th>자기 소개 : </th>
-<td><textarea name="introduce" rows="3" cols="20" readonly="readonly"></textarea></td>
-</tr>
-<tr>
-<td colspan="2" align="center">
-	<input type="button" id="btn_Edit" value="수정">
-	<input type="button" id="btn_delete" value="삭제">
-	<input type="button" id="btn_out" value="나가기">
-	
-</td>
-</tr>
-</table> --%>
 <table border="1" bgcolor="white" style='border-left:0;border-right:0;border-bottom:0;border-top:0'>
 <col width="200"><col width="500">
 
@@ -94,10 +63,9 @@
 </tr>
 
 <tr align="left">
-
-   <td colspan="2"><br><%=user.getId() %>
+   <td colspan="2"><br><%=mem.getId() %>
       <br>
-      <input type="hidden" name="id" value="<%=user.getId() %>">
+      <input type="hidden" name="id" value="<%=mem.getId() %>">
       <br>
    </td>
 </tr>
@@ -116,14 +84,10 @@
 	</td>
 	 <td border="1">
 <!-- 	<div style="position:relative; float:left; width:410px; text-align:left;"> -->
-	<select name="category">
-	
-<%-- 	<td colspan="2"><br><%=user.getId() %>
-      <br>
-      <input type="hidden" name="id" value="<%=user.getId() %>">
-      <br>
-   </td> --%>
-   
+
+	<form action="PdsController" method="get" id="pdsupdate">
+	<input type="hidden" name="command" value="pdsupdate">
+		<select name="category">
 
             <option value="카테고리" selected="selected"> 카테고리 </option>
 
@@ -144,23 +108,16 @@
        <!--      </div> -->
 	<br><br>
 	<div style="position:relative; float:left; width:410px; text-align:left;">
-   <textarea rows="2" cols="20" name="tags"><%= dto.getTags() %></textarea>
-   
-  
+   <textarea rows="2" cols="20" name="tags"><%for(int i=0;i<dto.getTags().length;i++){ %>#<%=dto.getTags()[i]%><%}%></textarea>
    
    
    </div>
+   <input type="submit" value="수정하기">
+  <!--  <input align="right" type="submit" id="btn_update" value="수정하기"> -->
+   </form>
    <br><br><br><br><br><br><br><br><br><br><br><br>
    <div style="position:relative; float:right; width:410px;">
-   <form action="PdsController" >
-   <input align="right" type="button" id="btn_update" value="수정하기">
-   </form>
-   <form action="PdsController" >
-   <input type = "hidden" name = "command" value = "delete">
-   <input align="right" type="button" id="btn_delete" value="삭제하기">
-   <input type="hidden" name = "seq" value = "<%= dto.getSeq() %>">
-   </form>
-   
+	<button onclick="location.href='PdsController?command=delete&seq=<%= dto.getSeq() %>'" >삭제하기</button>   
    <input align="right" type="button" id="btn_out" value="나가기" onclick = "location.href='index.jsp'">
 
    </div> 
@@ -174,7 +131,7 @@
 </form>
 </div>
 
-<script type="text/javascript">
+<%-- <script type="text/javascript">
 $(function () {
 	$("select[name='category']").val('<%=dto.getCategory() %>');
 	$(document).on("click", "#btn_update", function(){	// 수정
@@ -193,8 +150,8 @@ $(function () {
 	$(document).on("keyup", "input[name='name']", function () { // (미수정) 닉네임 중복 검사하려고 써둔
 		
 	});
-});
-/* $(function () {
+}); --%>
+<!--  $(function () {
 	$(document).on("click", "#btn_delete", function(){	// 수정
 		if($("#btn_delete").val()=="삭제"){	
 			$(this).attr("value", "삭제 완료");
@@ -204,8 +161,8 @@ $(function () {
 		}
 			
 		});
-	});
-	 */
+	}); -->
+	 
 	
 </script>
 

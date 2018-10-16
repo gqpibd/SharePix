@@ -45,21 +45,19 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>상세 화면</title>
-
+<title>상세 화면</title><!-- 타이틀바 -->
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="js/jquery.row-grid.min.js"></script>
 <link rel="stylesheet" href="style/picDetail.css">
 <link rel="stylesheet" href="style/imageArrange.css">
 </head>
-<body>
-	<main class="main">
-	<section class="title-bar">
-		<!-- 타이틀바 -->
-		<jsp:include page="titlebar.jsp">
+<body class="mbody">
+	<div class="left__heading" style="height: 100%">
+		<jsp:include page="titlebar.jsp" flush="false">
 			<jsp:param name="goBackTo" value="picDetail.jsp" />
-		</jsp:include>	
-	</section>
+		</jsp:include>		
+	</div>
+	<main class="main">	
 	<!-- 왼쪽 이미지랑 댓글 부분 -->
 	<section class="left">
 		<h2 class="left__heading">
@@ -186,8 +184,8 @@
 			<div class="selectSize"></div> <!-- 사이즈 선택 슬라이더 -->
 			<input type="range" min="20" max="100" step="20" value="100">
 			<!-- 추천 사진들(카테고리로 추천함) -->
-			<div class="container" align="center">
-				<p>이런 사진은 어때요?</p>				
+			<div class="mcontainer" align="center">
+				<p style="font-size: 20px; margin: 10px; font-weight: bold;">이런 사진은 어때요?</p>				
 				 
 				<%for(PdsBean bean : list){ %>
 				<div class="item">	
@@ -201,6 +199,7 @@
 	</main>
 
 	<script type="text/javascript">	
+	
 		var like = '<%=isLike%>';
 		function doLike(){ // 좋아요 눌렀을 때			
 			<%if (ologin == null) {%>
@@ -228,7 +227,7 @@
 						console.log("통신실패!");
 					}
 				});				
-				<%}%>
+			<%}%>
 		}
 		$(document).ready(function () {						
 			var OriginWidth = document.getElementById("pdsImg").naturalWidth; // 원본 이미지 사이즈
@@ -336,8 +335,6 @@
 			$(this).height( this.scrollHeight );
 		});
 		$('.wrap').find( 'textarea' ).keyup();
-		
-		
 	});			
 	</script>
 	
@@ -345,7 +342,7 @@
 		//추천 이미지 배열
 		$(document).ready(function() {
 		  var options = {minMargin: 5, maxMargin: 15, itemSelector: ".item", firstItemClass: "first-item"};
-		  $(".container").rowGrid(options);
+		  $(".mcontainer").rowGrid(options);
 		});
 		
 		

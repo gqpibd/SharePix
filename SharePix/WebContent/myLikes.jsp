@@ -15,15 +15,15 @@
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="js/jquery.row-grid.min.js"></script>
-
 <link rel="stylesheet" href="style/imageArrange.css">
 </head>
 <body>
-	<div> <!-- 타이틀바 -->
+	<div class="left__heading" style="height: 100%"> <!-- 타이틀바 -->
 		<jsp:include page="titlebar.jsp">
 			<jsp:param name="goBackTo" value="myLikes.jsp" />
 		</jsp:include>
 	</div>
+	
 	<div class="container">
 		<%for(PdsBean pds : list){ %>
 		<div class="item">	

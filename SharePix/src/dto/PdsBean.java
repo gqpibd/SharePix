@@ -174,4 +174,5 @@ public class PdsBean {
 				+ downCount + ", likeCount=" + likeCount + ", replyCount=" + replyCount + ", fSaveName=" + fSaveName
 				+ "]";
 	}
+
 }
