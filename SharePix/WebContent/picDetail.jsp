@@ -69,8 +69,9 @@
 </head>
 <body class="mbody">
 	<div class="left__heading" style="height: 100%">
-		<jsp:include page="titlebar.jsp" flush="false">
-			<jsp:param name="goBackTo" value="PdsController?command=detailview&seq=<%=pds.getSeq()%>" />
+		<!-- jsp scriptlet을 쓰면 값이 안 넘어가짐. EL태그로 해결할 수 있음!! -->
+		<jsp:include page="titlebar.jsp">
+			<jsp:param name="goBackTo" value="PdsController?command=detailview&seq=${pds.seq}"/>
 		</jsp:include>		
 	</div>
 	<main class="main">	
@@ -215,7 +216,7 @@
 				 
 				<%for(PdsBean bean : list){ %>
 				<div class="item">	
-					<img src="<%=PdsController.PATH%><%=bean.getfSaveName()%>" onclick="veiwDetail(<%=bean.getSeq()%>)" height="300"> 
+					<img class="img_clickable" src="<%=PdsController.PATH%><%=bean.getfSaveName()%>" onclick="veiwDetail(<%=bean.getSeq()%>)" height="300"> 
 				</div>
 				<%} %>
 			</div>
@@ -392,7 +393,7 @@
 				$.ajax({
 					url:"MemberController", // 접근대상
 					type:"get",		// 데이터 전송 방식
-					data:"command=follow&followeeId=" + <%=pds.getId()%> + "&followerId=<%=ologin.getId()%>" +"&followChk=" + followChk, // 전송할 데이터
+					data:"command=follow&followeeId=<%=pds.getId()%>&followerId=<%=ologin.getId()%>" +"&followChk=" + followChk, // 전송할 데이터
 					success:function(data, status, xhr){
 						/* console.log(data); */
 						followChk = $("#ajax_hidden").html(data).find("followChk").text();
