@@ -731,7 +731,7 @@ public class PdsManager implements iPdsManager {
 	public List<PdsBean> getMyLikeList(String id) {	// 내가 좋아요한 리스트
 		String sql  = " SELECT DISTINCT P.SEQ, P.ID, P.CATEGORY, P.TAGS, P.UPLOADDATE, P.FILENAME, P.READCOUNT, P.DOWNCOUNT, P.FSAVENAME " 
 					+ " FROM PICPDS P, (SELECT * FROM PDSLIKE WHERE ID=?) L " 
-					+ " WHERE L.ID = P.ID "; 
+					+ " WHERE P.SEQ = L.PDSSEQ "; 
 		
 		List<PdsBean> list = new ArrayList<>();
 		
