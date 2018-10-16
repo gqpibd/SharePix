@@ -93,9 +93,9 @@ var loadImageFile = function () {
 			<tr>
 				<td align="center">
 				<div class="imgbox">
+					<img class="holder" id="original-Img"/>	
 					<input type="file" name="fileload" accept="image/gif, image/jpeg, image/png" class="upload" id = "upload-Image" onchange="loadImageFile();" >
 					<label for="upload">드래그 하거나 클릭하여 업로드</label>
-					<img class="holder" id="original-Img"/>	
 				</div>
 				</td>
 				<td border="1">					
