@@ -16,18 +16,18 @@ public class MemberBean {
 	
 	private String id;
 	private String name;
-	private String password;
+	private String pwd;
 	private String email;
 	private String phone;
 	private int auth;
 	
 	public MemberBean() { }
 	
-	public MemberBean(String id, String name, String password, String email, String phone, int auth) {
+	public MemberBean(String id, String name, String pwd, String email, String phone, int auth) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.password = password;
+		this.pwd = pwd;
 		this.email = email;
 		this.phone = phone;
 		this.auth = auth;
@@ -45,11 +45,11 @@ public class MemberBean {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getPassword() {
-		return password;
+	public String getPwd() {
+		return pwd;
 	}
-	public void setPassword(String password) {
-		this.password = password;
+	public void setPwd(String password) {
+		this.pwd = password;
 	}
 	public String getEmail() {
 		return email;
@@ -72,8 +72,8 @@ public class MemberBean {
 
 	@Override
 	public String toString() {
-		return "MemberDto [id=" + id + ", name=" + name + ", password=" + password + ", email=" + email + ", phone="
-				+ phone + ", auth=" + auth + "]";
-	} 
+		return "MemberBean [id=" + id + ", name=" + name + ", pwd=" + pwd + ", email=" + email + ", phone=" + phone
+				+ ", auth=" + auth + "]";
+	}
 	
 }

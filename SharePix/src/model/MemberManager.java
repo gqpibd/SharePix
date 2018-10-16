@@ -33,6 +33,44 @@ public class MemberManager implements iMemberManager {
 	/////////////////////////////////////////////////////
 	
 	@Override
+	public boolean addMember(MemberBean dto) {
+		
+		String sql = " INSERT INTO MEMBER"
+				+ " (ID, PWD, NAME, EMAIL, PHONE, AUTH) "
+				+ " VALUES(?, ?, ?, ?, ?, 3) ";
+		
+		int count = 0;
+
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		
+	    try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 addMember Success");
+			
+			psmt = conn.prepareStatement(sql);
+			System.out.println("2/6 addMember Success");
+			
+			psmt.setString(1, dto.getId());
+			psmt.setString(2, dto.getPwd());
+			psmt.setString(3, dto.getName());
+			psmt.setString(4, dto.getEmail());
+			psmt.setString(5, dto.getPhone());
+			
+			count = psmt.executeUpdate();
+			System.out.println("3/6 addMember Success");
+	    	
+		} catch (Exception e) {
+			System.out.println("addMember Fail");
+		} finally {
+			DBClose.close(psmt, conn, null);
+		}	
+		return count>0?true:false;
+	}
+	
+	///////////////////////////////////////////
+	
+	@Override
 	public MemberBean getUserInfo(String id) {
 		
 		String sql  = " SELECT ID, PWD, NAME, EMAIL, PHONE, AUTH "
@@ -117,6 +155,53 @@ public class MemberManager implements iMemberManager {
 	
 	////////////////////////////////
 	
+
+	@Override
+	public MemberBean login(MemberBean dto) {
+		
+		String sql = " SELECT ID, NAME, EMAIL, PHONE, AUTH"
+				+ " FROM MEMBER "
+				+ " WHERE ID=? AND PWD=? ";
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		
+		MemberBean mem = null;
+		
+		try {
+			conn = DBConnection.getConnection();
+			psmt = conn.prepareStatement(sql);
+			System.out.println("1/6 login Success");
+			
+			psmt.setString(1, dto.getId());
+			psmt.setString(2, dto.getPwd());
+			System.out.println("2/6 login Success");
+			
+			rs = psmt.executeQuery();
+			if (rs.next()) {
+				String id = rs.getString(1);
+				String name = rs.getString(2);
+				String email = rs.getString(3);
+				String phone = rs.getString(4);
+				int auth = rs.getInt(5);
+				
+				mem = new MemberBean(id, null, name, email, phone, auth);
+			}
+			System.out.println("3/6 login Success");
+			
+		} catch (Exception e) {
+			System.out.println("login fail");
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, rs);
+		}
+		
+		return mem;
+	}
+	
+	
+	/////////////////////////////////
 	
 	@Override
 	public MemberBean loginAf(String id, String pwd) {
@@ -162,6 +247,8 @@ public class MemberManager implements iMemberManager {
 		}
 		return dto;
 	}
+	
+	
 
 	@Override
 	public boolean updateUser(MemberBean dto) {
@@ -181,7 +268,7 @@ public class MemberManager implements iMemberManager {
 			System.out.println("1/6 updateUser success");
 			psmt = conn.prepareStatement(sql);
 			System.out.println("2/6 updateUser success");
-			psmt.setString(1, dto.getPassword());
+			psmt.setString(1, dto.getPwd());
 			psmt.setString(2, dto.getName());
 			psmt.setString(3, dto.getEmail());
 			psmt.setString(4, dto.getPhone());

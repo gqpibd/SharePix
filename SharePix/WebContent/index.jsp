@@ -20,6 +20,7 @@
 	System.out.println(pdslist.size());
 	MemberBean user = (MemberBean) request.getAttribute("login");
 %>
+
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="js/jquery.row-grid.min.js"></script>
 <link rel="stylesheet" href="style/imageArrange.css">
@@ -52,6 +53,7 @@
 	</div>
 
 	<script type="text/javascript">
+	/* $.noConflict(); */
     $(document).ready(function() {
       var options = {minMargin: 5, maxMargin: 15, itemSelector: ".item", firstItemClass: "first-item"};
       $(".container").rowGrid(options);

@@ -11,14 +11,17 @@
 <meta charset="UTF-8">
 <title></title>
 <style type="text/css">
+
+
 #top-menu {
   width: 100%;
-  background-color: #ffffff;
+  background-color: #F6F6F6;
   top: 0px;
   left: 0px;
   position: fixed;
   z-index: 1; 
 }
+
 
 .title_table {
 	margin-top: 10px;
@@ -71,9 +74,55 @@
 	cursor: pointer;
 }
 </style> 
+
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="style/loginModal.css">
+
+
+<script type="text/javascript">
+
+function MyFunction() {
+
+	$.ajax({
+		type:"get",
+		url:"MemberController?command=idcheck&id="+$("#tbID").val(),
+		data:"id=" + $('#tbID').val(),
+		
+		success:function(data){
+			if(data.trim() == "OK"){
+				$("#idcheck").css("color", "#0000ff");
+				$("#idcheck").html("사용할 수 있는 id입니다.");
+			}else{
+				$("#idcheck").css("color", "#ff0000");
+				$("#idcheck").html("사용 중인 id입니다.");
+				$("#id").val("");
+			}
+		}
+	});
+	
+}
+
+
+function MyFunction01() {
+	
+	
+	if($("#tbPwd").val() != ($("#cpass").val())){ 
+	      alert("비밀번호가 다릅니다.");
+	      $("#tbPwd").val("");
+	      $("#cpass").val("");
+	      $("#tbPwd").focus();
+	      return false;
+	     }
+	
+	
+}
+
+</script>
+
+
+
 
 </head>
 <body>
@@ -91,8 +140,8 @@
 	<td align="center">
 	<% if(user==null){ %>
 		<button class="btn" href="#signup" data-toggle="modal" data-target=".log-sign">Sign In/Register</button>
-		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" style="margin-right: 5px;">로그인</button>
-		<button type="button" class="btn btn-primary" onclick="location.href='regi.jsp'" style="margin-left: 5px;">회원가입</button>
+		<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" style="margin-right: 5px;">로그인</button>
+		<button type="button" class="btn btn-primary" onclick="location.href='regi.jsp'" style="margin-left: 5px;">회원가입</button> -->
 	<%}else{ %>
 		<h5><%=user.getName() %>님 환영합니다. <a href="MemberController?command=logout"><font size="2">로그아웃</font></a> </h5>
 		<button onclick="location.href='myPage.jsp'">마이페이지</button>
@@ -127,25 +176,28 @@ var sticky = header.offsetTop;
 	<div class="modal-body">
 	<div id="myTabContent" class="tab-content">
 	<div class="tab-pane fade active in" id="signin">
-		<form class="form-horizontal">
+		<form class="form-horizontal" method="post" action="MemberController">
+		<input type="hidden" name="command" value="login"> 	
+		<input type="hidden" name="goBackTo" value="<%=goBackTo%>"> 		
+		
 				<fieldset>
 				<!-- Sign In Form -->
 				<!-- Text input-->
 
 				<div class="group">
-					<input required="" class="input" type="text"><span
+					<input required="" class="input" name="id" type="text" autofocus><span
 						class="highlight"></span><span class="bar"></span> <label
-						class="label" for="date">Email address</label>
+						class="label" for="date">ID</label>
 				</div>
 
 
 				<!-- Password input-->
 				<div class="group">
-					<input required="" class="input" type="password"><span
+					<input required="" class="input" name="pwd" type="password"><span
 						class="highlight"></span><span class="bar"></span> <label
-						class="label" for="date">Password</label>
+						class="label" for="date">PW</label>
 				</div>
-				<em>minimum 6 characters</em>
+				<!-- <em>minimum 6 characters</em> -->
 				
 				<!-- Button -->
 				<div class="control-group">
@@ -161,44 +213,57 @@ var sticky = header.offsetTop;
 
 
 		<div class="tab-pane fade" id="signup">
-			<form class="form-horizontal">
+			<form class="form-horizontal" action="MemberController"  method="post">
+			<input type="hidden" name="command" value="regi"> 
 				<fieldset>
 					<!-- Sign Up Form -->
-					<!-- Text input-->
+					<!-- ID input-->
 					<div class="group">
-						<input required="" class="input" type="text"><span
-							class="highlight"></span><span class="bar"></span> <label
-							class="label" for="date">First Name</label>
+						<input required="" class="input" name="id" id="tbID" type="text" maxlength="12" onblur="MyFunction()">
+						<span class="highlight"></span>
+						<span class="bar"></span> 
+						<label class="label" for="date">ID <span id="idcheck" style="font-size: 8px"></span></label>
 					</div>
 
-					<!-- Text input-->
+					<!--  Password input-->
 					<div class="group">
-						<input required="" class="input" type="text"><span
-							class="highlight"></span><span class="bar"></span> <label
-							class="label" for="date">Last Name</label>
+						<input required="" class="input" name="pwd" id="tbPwd" type="password" maxlength="12" >
+						<span class="highlight"></span>
+						<span class="bar"></span> 
+						<label class="label" for="date">PW</label>
 					</div>
 
 					<!-- Password input-->
 					<div class="group">
-						<input required="" class="input" type="text"><span
-							class="highlight"></span><span class="bar"></span> <label
-							class="label" for="date">Email</label>
+						<input required="" class="input" id="cpass" type="password" maxlength="12" onblur="MyFunction01()" >
+						<span class="highlight"></span>
+						<span class="bar"></span> 
+						<label class="label" for="date">PW확인</label>
 					</div>
 
-					<!-- Text input-->
+					<!-- Name input-->
 					<div class="group">
-						<input required="" class="input" type="password"><span
-							class="highlight"></span><span class="bar"></span> <label
-							class="label" for="date">Password</label>
-					</div>
-					<em>1-8 Characters</em>
-
-					<div class="group2">
-						<input required="" class="input" type="text"><span
-							class="highlight"></span><span class="bar"></span> <label
-							class="label" for="date">Country</label>
+						<input required="" class="input" name="name" type="text" name="name" maxlength="12" >
+						<span class="highlight"></span>
+						<span class="bar"></span> 
+						<label class="label" for="date">NAME</label>
 					</div>
 
+					<!-- Email input-->
+					<div class="group">
+						<input required="" class="input" name="email" type="email">
+						<span class="highlight"></span>
+						<span class="bar"></span> 
+						<label class="label" for="date">EMAIL</label>
+					</div>
+					
+					<!-- Tel input-->
+					<div class="group">
+						<input required="" class="input" name="phone" type="tel" pattern="\d{3}-\d{3,4}-\d{4}" > <!-- pattern="\d{3}-\d{3,4}-\d{4}" -->
+						<span class="highlight"></span>
+						<span class="bar"></span> 
+						<label class="label" for="date">PHONE <span style="font-size: 8px">ex)010-6545-1894</span></label>
+					</div>
 
 
 					<!-- Button -->
@@ -217,9 +282,8 @@ var sticky = header.offsetTop;
 		</div>
 		</div>
 	</div>	
-
 	
-	<form method="post" action="MemberController">
+<%-- 	<form method="post" action="MemberController">
 		<input type="hidden" name="command" value="login"> 	
 		<input type="hidden" name="goBackTo" value="<%=goBackTo%>"> 		
 		 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -250,7 +314,7 @@ var sticky = header.offsetTop;
 		    </div>
 		  </div>
 		</div>
-	</form> 
+	</form>  --%>
 
 </body>
 </html>
