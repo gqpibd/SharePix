@@ -26,9 +26,8 @@ import model.iPdsManager;
 import model.service.PdsService;
 import model.service.ReplyService;
 
-public class PdsController extends HttpServlet {
-	
-	public static final String PATH = "images/pictures/"; 
+public class PdsController extends HttpServlet {	
+	public static final String PATH = "images\\pictures\\"; 
 	public String processUploadFile(FileItem fileItem, String dir, JspWriter out) throws IOException {
 		String f = fileItem.getName();
 		long sizeInBytes = fileItem.getSize();
@@ -38,18 +37,17 @@ public class PdsController extends HttpServlet {
 
 		// 업로드한 파일이 정상일 경우
 		if (sizeInBytes > 0) {
-
 			if (f.indexOf('.') >= 0) {
 				fpost = f.substring(f.indexOf('.'));
 				fileName = new Date().getTime() + fpost;
 			} else {
 				fileName = new Date().getTime() + ".back";
 			}
-
 			try {
 				File uploadFile = new File(dir, fileName);
 				fileItem.write(uploadFile); // 실제 업로드하는 부분
 			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 
@@ -80,6 +78,8 @@ public class PdsController extends HttpServlet {
 			PdsBean pds = PdsService.getInstance().getPdsDetail(seq);
 			System.out.println(pds);
 			
+			// 조회수 증가
+			PdsService.getInstance().increaseReadcount(seq);
 			// 추천피드
 			List<PdsBean> list = PdsService.getInstance().relatedList(pds.getCategory(),seq); // 같은 카테고리의 사진들을 모아서 보여줌
 			System.out.println(list.size());		
@@ -181,7 +181,7 @@ public class PdsController extends HttpServlet {
 		if (isMultipart) {
 			System.out.print("upload");
 			
-			String fupload = "C:\\Users\\user2\\git\\SharePix\\SharePix\\WebContent\\images\\pictures\\";
+			String fupload = PATH.substring(0,PATH.length()-2);
 
 			System.out.println("파일업로드:" + fupload);
 
@@ -196,11 +196,9 @@ public class PdsController extends HttpServlet {
 			String tags = "";
 
 			// file data
-			String filename = "";
+			String filename = "";		
 
-			
-
-				////////////////////// file
+			////////////////////// file
 
 			// FileItem 오브젝트를 생성하는 클래스
 			DiskFileItemFactory factory = new DiskFileItemFactory();

@@ -6,11 +6,12 @@
 <%@page import="model.PdsManager"%>
 <%@page import="model.iPdsManager"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%
+	String PATH = "images/";
 	List<PdsBean> pdslist = null;
-	if((pdslist= (List<PdsBean>) request.getAttribute("list")) == null){		
-		pdslist = PdsService.getInstance().getSearchPdsNull();   
+	if ((pdslist = (List<PdsBean>) request.getAttribute("list")) == null) {
+		pdslist = PdsService.getInstance().getSearchPdsNull();
 	}
 	System.out.println(pdslist.size());
 	//PdsBean pdsLike = (PdsBean) request.getAttribute("pds");	
@@ -18,9 +19,9 @@
 	PdsService pService = PdsService.getInstance();
 	// 아이디 확인하고 받아서 like 확인하고 이미지 넣기
 	MemberBean ologin = (MemberBean) session.getAttribute("login");
-	String id = "";	
+	String id = "";
 	if (ologin != null) {
-		id = ologin.getId();		
+		id = ologin.getId();
 	}
 %>
 <!DOCTYPE html>
@@ -32,60 +33,59 @@
 <script src="js/jquery.row-grid.min.js"></script>
 <link rel="stylesheet" href="style/imageArrange.css">
 <style type="text/css">
-.img{
+.img {
 	cursor: pointer;
 }
 </style>
 </head>
 <body bgcolor="#D5D5D5">
-	<div class="left__heading" style="height: 100%"> <!-- 타이틀바 -->
+	<div class="left__heading" style="height: 100%">
+		<!-- 타이틀바 -->
 		<jsp:include page="titlebar.jsp">
 			<jsp:param name="goBackTo" value="index.jsp" />
 		</jsp:include>
 	</div>
 
-	<div style="margin-top: 10em"> <!-- 검색 -->
+	<div style="margin-top: 10em">
+		<!-- 검색 -->
 		<form action="PdsController" method="get">
-		<input type="hidden" name="command" value="keyword"> 
-		<input type="text" name="tags"> 
-		<input type="submit" value="검색">
+			<input type="hidden" name="command" value="keyword"> <input
+				type="text" name="tags"> <input type="submit" value="검색">
 		</form>
 	</div>
 	<div class="mcontainer">
 		<%
 			for (PdsBean Pdscust : pdslist) {
+				System.out.println(PATH + Pdscust.getfSaveName());
 		%>
 		<div class="item profilebox profilebox1">
-			<img class="img" name="item" src="images/pictures/<%=Pdscust.getfSaveName()%>" onclick="veiwDetail(<%=Pdscust.getSeq()%>)" height="300">
+			<img class="img" name="item"
+				src="<%=PATH%>/pictures/<%=Pdscust.getfSaveName()%>"
+				onclick="veiwDetail(<%=Pdscust.getSeq()%>)" height="300">
 			<div class="SocialIcons">
-			<a>
-				<img alt="" src="images/icons/<%=like %>" 
-				onmouseover="this.src='images/icons/fullheart.png'"
-				onmouseout="this.src='images/icons/<%=like %>'"
-				onclick="doLike()" class="btn-like">
-				<label><%=Pdscust.getLikeCount()%></label>
-			</a>
-			 <a href="#" style="text-decoration:none; color: white;">
-				<img alt="" src="images/icons/openbook.png" 
-				onmouseover="this.src='images/icons/fullopenbook.png'"
-				onmouseout="this.src='images/icons/openbook.png'"
-				>
-				<label><%=Pdscust.getReadCount()%></label>
-			</a>
-			<a href="#" style="text-decoration:none; color: white;">
-            	<img alt="" src="images/icons/contract.png" 
-				onmouseover="this.src='images/icons/fullcontract.png'"
-				onmouseout="this.src='images/icons/contract.png'"
-				>
-				<label><%=Pdscust.getReplyCount()%></label>
-			</a>
-		</div>
-		<div class="profileInfo">
-		<h3><a href= "MemberController?command=userPage&id=<%=Pdscust.getId()%>" style="text-decoration:none; color: white;"><%=Pdscust.getId()%></a></h3>
-		</div>
+				<a> <img alt="" src="<%=PATH%>icons\\<%=like%>"
+					onmouseover="this.src='<%=PATH%>icons\\fullheart.png'"
+					onmouseout="this.src='<%=PATH%>icons\\<%=like%>'"
+					onclick="doLike()" class="btn-like"> <label><%=Pdscust.getLikeCount()%></label>
+				</a> <a href="#" style="text-decoration: none; color: white;"> <img
+					alt="" src="<%=PATH%>icons\\openbook.png"
+					onmouseover="this.src='<%=PATH%>icons\\fullopenbook.png'"
+					onmouseout="this.src='<%=PATH%>icons\\openbook.png'"> <label><%=Pdscust.getReadCount()%></label>
+				</a> <a href="#" style="text-decoration: none; color: white;"> <img
+					alt="" src="<%=PATH%>icons\\contract.png"
+					onmouseover="this.src='<%=PATH%>icons\\fullcontract.png'"
+					onmouseout="this.src='<%=PATH%>icons\\contract.png'"> <label><%=Pdscust.getReplyCount()%></label>
+				</a>
+			</div>
+			<div class="profileInfo">
+				<h3>
+					<a href="MemberController?command=userPage&id=<%=Pdscust.getId()%>"
+						style="text-decoration: none; color: white;"><%=Pdscust.getId()%></a>
+				</h3>
+			</div>
 		</div>
 		<%
-		}
+			}
 		%>
 	</div>
 
@@ -106,10 +106,10 @@
 					like = $("#ajax_hidden").html(data).find("like").text();
 					var count = $("#ajax_hidden").html(data).find("count").text();
 					if(like == "false"){
-						$("#like").attr("src",'images/icons/heart.png');
+						$("#like").attr("src",'<%=PATH%>icons\\heart.png');
 						$("#likeCount").text(count);
 					}else{
-						$("#like").attr("src",'images/icons/fullheart.png');
+						$("#like").attr("src",'<%=PATH%>icons\\fullheart.png');
 						$("#likeCount").text(count);
 					}
 				},

@@ -106,4 +106,9 @@ public class PdsService {
 	public List<PdsBean> getMyLikeList(String id){
 		return pDao.getMyLikeList(id);
 	}
+
+	public boolean increaseReadcount(int seq) {
+		return pDao.increaseReadcount(seq);
+		
+	}
 }

@@ -733,10 +733,10 @@ public class PdsManager implements iPdsManager {
    }
 
    @Override
-   public List<PdsBean> getMyLikeList(String id) {   // 내가 좋아요한 리스트
-      String sql  = " SELECT DISTINCT P.SEQ, P.ID, P.CATEGORY, P.TAGS, P.UPLOADDATE, P.FILENAME, P.READCOUNT, P.DOWNCOUNT, P.FSAVENAME " 
-               + " FROM PICPDS P, (SELECT * FROM PDSLIKE WHERE ID=?) L " 
-               + " WHERE L.ID = P.ID "; 
+	public List<PdsBean> getMyLikeList(String id) {	// 내가 좋아요한 리스트
+		String sql  = " SELECT DISTINCT P.SEQ, P.ID, P.CATEGORY, P.TAGS, P.UPLOADDATE, P.FILENAME, P.READCOUNT, P.DOWNCOUNT, P.FSAVENAME " 
+					+ " FROM PICPDS P, (SELECT * FROM PDSLIKE WHERE ID=?) L " 
+					+ " WHERE P.SEQ = L.PDSSEQ "; 
       
       List<PdsBean> list = new ArrayList<>();
       
@@ -784,6 +784,37 @@ public class PdsManager implements iPdsManager {
       
       return list;
    }
+
+@Override
+public boolean increaseReadcount(int seq) {
+		String sql = " UPDATE PICPDS " 
+				   + " SET READCOUNT = READCOUNT + 1 " 
+				   + " WHERE SEQ = ? ";
+
+		Connection conn = null;
+		PreparedStatement psmt = null;
+
+		int count = 0;
+
+		try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 increaseReadcount Success");
+
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, seq);
+			System.out.println("2/6 increaseReadcount Success");
+
+			count = psmt.executeUpdate();
+			System.out.println("3/6 increaseReadcount Success");
+
+		} catch (SQLException e) {
+			System.out.println("increaseReadcount Fail");
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, null);
+		}
+		return count > 0 ? true : false;
+	}
    
    
    

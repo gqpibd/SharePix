@@ -146,7 +146,7 @@ $(document).ready(function(){
 	</td>
 	<td align="center">
 	<% if(user==null){ %>
-		<button class="btn" href="#signup" data-toggle="modal" data-target=".log-sign">Sign In/Register</button>
+		<button class="btn" id="titleBtn" href="#signup" data-toggle="modal" data-target=".log-sign">Sign In/Register</button>
 		<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" style="margin-right: 5px;">로그인</button>
 		<button type="button" class="btn btn-primary" onclick="location.href='regi.jsp'" style="margin-left: 5px;">회원가입</button> -->
 	<%}else{ %>
@@ -164,6 +164,9 @@ $(document).ready(function(){
 
 var header = document.getElementById("top-menu");
 var sticky = header.offsetTop;
+function loginView(){
+	$("#titleBtn").click();
+}
 
 </script>
 

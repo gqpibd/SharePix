@@ -38,4 +38,6 @@ public interface iPdsManager {
 	public boolean updatePDS(PdsBean pds);
 	
 	public List<PdsBean> getMyLikeList(String id);
+
+	public boolean increaseReadcount(int seq);
 }

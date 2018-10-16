@@ -12,7 +12,6 @@ import javax.servlet.http.HttpSession;
 
 import dto.MemberBean;
 import model.service.MemberService;
-import model.service.PdsService;
 
 public class MemberController extends HttpServlet {
 
@@ -38,55 +37,14 @@ public class MemberController extends HttpServlet {
 		HttpSession session = req.getSession();
 		
 		if(command.equals("addUserPage")){		// 회원가입으로 이동
-			System.out.println("command = " + command + " 들어옴");	// 확인용
-			
-			dispatch("addUserPage.jsp", req, resp);
-		
-			
-		}else if(command.equals("regi")) {	
-			
-			String id = req.getParameter("id");
-			String pwd = req.getParameter("pwd");
-			String name = req.getParameter("name");
-			String email = req.getParameter("email");
-			String phone = req.getParameter("phone");
-			
-			boolean isS = memService.addMember(new MemberBean(id, pwd, name, email, phone, 0));
-
-			if(isS) {
-				
-				resp.setContentType("text/html; charset=UTF-8");
-				PrintWriter out = resp.getWriter();
-				
-				out.println("<script>alert('성공적으로 가입하셨습니다'); location.href='index.jsp';</script>");
-				 
-				out.flush();
-			
-			}else {	
-				
-				resp.setContentType("text/html; charset=UTF-8");
-				PrintWriter out = resp.getWriter();
-				
-				out.println("<script>alert('다시 기입해 주십시오.'); location.href='titlebar.jsp';</script>");
-				 
-				out.flush();
-				
-			}
-			
-			//dispatch("index.jsp", req, resp);
-			
-			
-		///////////////////////////////////////	
-			
-			
-		}else if(command.equals("idcheck")) {	
-			
-			
-			
+			System.out.println("command = " + command + " 들어옴");	// 확인용			
+			dispatch("addUserPage.jsp", req, resp);			
+		}else if(command.equals("idcheck")) {	// 아이디 중복 확인			
 			String id = req.getParameter("id");
 		    System.out.println("id = " + id);
-		
-		    boolean isS = memService.getId(id);
+		    
+		    MemberService service = MemberService.getInstance();
+		    boolean isS = service.getId(id);
 		   
 		    PrintWriter out = resp.getWriter();
 		    if(isS){
@@ -96,12 +54,8 @@ public class MemberController extends HttpServlet {
 		    	out.print("OK");
 		    	out.flush();
 		    }
-			
-		////////////////////////////  
-		    
 		}else if(command.equals("login")) {	// 로그인 버튼 눌렀을 시 아이디 비밀번호 맞으면 페이지로 이동
 			System.out.println("command = " + command + " 들어옴");	// 확인용
-			
 			String id = req.getParameter("id");
 			String pwd = req.getParameter("pwd");
 			String goBackTO = req.getParameter("goBackTo");
@@ -130,7 +84,7 @@ public class MemberController extends HttpServlet {
 				return;
 			}
 			
-		}else if(command.equals("logout")){		
+		}else if(command.equals("logout")){		// 로그아웃
 			System.out.println("command = " + command + " 들어옴");	// 확인용
 			session.invalidate();
 			
@@ -140,10 +94,7 @@ public class MemberController extends HttpServlet {
 			out.flush();
 			
 			return;
-		}else if(command.equals("myPage")) {	// 마이페이지로 이동
-			System.out.println("command = " + command + " 들어옴");	// 확인용
-			dispatch("./myPage.jsp", req, resp);
-		} else if(command.equals("userUpdatePage")){
+		} else if(command.equals("userUpdatePage")){ // 회원정보 수정 페이지로 이동
 			System.out.println("command = " + command + "  들어옴");	// 확인용
 			dispatch("./userUpdatePage.jsp", req, resp);
 		} else if(command.equals("userUpdateAf")) {
@@ -177,8 +128,10 @@ public class MemberController extends HttpServlet {
 				
 			}
 		} else if(command.equals("userPage")) { // userPage 로 이동
-			System.out.println("command = " + command + " 들어옴");	// 확인용			
-			String id = req.getParameter("id");			
+			System.out.println("command = " + command + " 들어옴");	// 확인용
+			
+			String id = req.getParameter("id");
+			
 			dispatch("./userPage.jsp?id=" + id, req, resp);
 		} else if(command.equals("follow")) { // 팔로우
 			System.out.println("command = " + command + " 들어옴");	// 확인용

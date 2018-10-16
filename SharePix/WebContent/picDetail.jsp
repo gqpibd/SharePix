@@ -88,7 +88,7 @@
 		</h2>
 
 		<div class="wrapper" align=center> <!-- 사진 표시 부분 -->
-			<img src="<%=PdsController.PATH%><%=pds.getfSaveName()%>" class="img" id="pdsImg"></img> 
+			<img src="images/pictures/<%=pds.getfSaveName()%>" class="img" id="pdsImg"></img> 
 		</div>
 		<button onclick="doLike()" class="btn-like"> <!-- 좋아요 버튼 -->
 			<img src="<%=like%>" width="15" id="like">&nbsp;&nbsp; 
@@ -151,7 +151,7 @@
 		
 		<div class="wrap" align="center">
 			<% if (ologin == null) { %> <!-- 로그인 상태가 아니면 -->
-				댓글을 작성하려면 <a href="index.jsp"><b>로그인</b></a>해주세요
+				댓글을 작성하려면 <label style="cursor: pointer;" onclick="loginView()"><b>로그인</b></label>해주세요
 			<% }else{ %>
 			<form action="ReplyController">
 				<input type="hidden" name="command" value="addReply"> 
@@ -230,8 +230,7 @@
 		var like = '<%=isLike%>';
 		function doLike(){ // 좋아요 눌렀을 때			
 			<%if (ologin == null) {%>
-				alert("로그인해 주십시오");	
-				location.href="index.jsp";
+				loginView();
 			<%} else {
 				System.out.println(isLike);%>				
 				$.ajax({
