@@ -56,4 +56,13 @@ public class MemberService {
 		return manager.changeFollow(followerId, followeeId, isFollow);
 	}
 	
+	public boolean addMember(MemberBean dto){
+		return manager.addMember(dto);
+	}
+	
+	public MemberBean login(MemberBean dto){
+		return manager.login(dto);
+	}
+	
+	
 }

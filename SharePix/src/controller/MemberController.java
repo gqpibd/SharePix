@@ -43,14 +43,50 @@ public class MemberController extends HttpServlet {
 			dispatch("addUserPage.jsp", req, resp);
 		
 			
+		}else if(command.equals("regi")) {	
+			
+			String id = req.getParameter("id");
+			String pwd = req.getParameter("pwd");
+			String name = req.getParameter("name");
+			String email = req.getParameter("email");
+			String phone = req.getParameter("phone");
+			
+			boolean isS = memService.addMember(new MemberBean(id, pwd, name, email, phone, 0));
+
+			if(isS) {
+				
+				resp.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = resp.getWriter();
+				
+				out.println("<script>alert('성공적으로 가입하셨습니다'); location.href='index.jsp';</script>");
+				 
+				out.flush();
+			
+			}else {	
+				
+				resp.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = resp.getWriter();
+				
+				out.println("<script>alert('다시 기입해 주십시오.'); location.href='titlebar.jsp';</script>");
+				 
+				out.flush();
+				
+			}
+			
+			//dispatch("index.jsp", req, resp);
+			
+			
+		///////////////////////////////////////	
+			
+			
 		}else if(command.equals("idcheck")) {	
+			
 			
 			
 			String id = req.getParameter("id");
 		    System.out.println("id = " + id);
-		    
-		    MemberService service = MemberService.getInstance();
-		    boolean isS = service.getId(id);
+		
+		    boolean isS = memService.getId(id);
 		   
 		    PrintWriter out = resp.getWriter();
 		    if(isS){
@@ -108,7 +144,6 @@ public class MemberController extends HttpServlet {
 			System.out.println("command = " + command + " 들어옴");	// 확인용
 			dispatch("./myPage.jsp", req, resp);
 		} else if(command.equals("userUpdatePage")){
-
 			System.out.println("command = " + command + "  들어옴");	// 확인용
 			dispatch("./userUpdatePage.jsp", req, resp);
 		} else if(command.equals("userUpdateAf")) {
