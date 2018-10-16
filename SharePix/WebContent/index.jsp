@@ -7,38 +7,28 @@
 <%@page import="model.iPdsManager"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-
-<meta charset="UTF-8">
-<title>SaGong</title>
 <%
 	List<PdsBean> pdslist = null;
 	if((pdslist= (List<PdsBean>) request.getAttribute("list")) == null){		
 		pdslist = PdsService.getInstance().getSearchPdsNull();   
 	}
 	System.out.println(pdslist.size());
-	PdsBean pdsLike = (PdsBean) request.getAttribute("pds");
+	//PdsBean pdsLike = (PdsBean) request.getAttribute("pds");	
 	String like = "heart.png";
+	PdsService pService = PdsService.getInstance();
 	// 아이디 확인하고 받아서 like 확인하고 이미지 넣기
 	MemberBean ologin = (MemberBean) session.getAttribute("login");
-	if (ologin == null) {
-		System.out.println("유저 없음");
-	}
-	boolean isLike = false;
-	PdsService pService = null;
-	String id = "";
+	String id = "";	
 	if (ologin != null) {
-		id = ologin.getId();
-		int seq = pdsLike.getSeq();
-		pService = PdsService.getInstance();
-		isLike = pService.checkPdsLike(id, seq);
-		if (isLike) {
-			like = "fullheart.png";
-		}
+		id = ologin.getId();		
 	}
 %>
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<title>SaGong</title>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="js/jquery.row-grid.min.js"></script>
 <link rel="stylesheet" href="style/imageArrange.css">
@@ -62,7 +52,7 @@
 		<input type="submit" value="검색">
 		</form>
 	</div>
-	<div class="container">
+	<div class="mcontainer">
 		<%
 			for (PdsBean Pdscust : pdslist) {
 		%>
@@ -101,18 +91,17 @@
 	</div>
 
 	<script type="text/javascript">
-	
-	var like = '<%=isLike%>';
+
+
 	function doLike(){ // 좋아요 눌렀을 때			
 		<%if (ologin == null) {%>
 			alert("로그인해 주십시오");	
 			location.href="index.jsp";
-		<%} else {
-			System.out.println(isLike);%>				
+		<%} else {%>				
 			$.ajax({
 				url:"PdsController", // 접근대상
 				type:"get",		// 데이터 전송 방식
-				data:"command=likeChange&like="+like+"&id=<%=id%>&seq=<%=pdsLike.getSeq()%>", // 전송할 데이터
+				data:"command=likeChange&like="+like+"&id=<%=id%>&seq=", // 전송할 데이터
 				success:function(data, status, xhr){
 					/* console.log(data); */
 					like = $("#ajax_hidden").html(data).find("like").text();
@@ -134,7 +123,7 @@
 	
     $(document).ready(function() {
       var options = {minMargin: 5, maxMargin: 15, itemSelector: ".item", firstItemClass: "first-item"};
-      $(".container").rowGrid(options);
+      $(".mcontainer").rowGrid(options);
     });
     
     
