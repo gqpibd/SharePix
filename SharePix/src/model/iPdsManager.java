@@ -9,7 +9,7 @@ public interface iPdsManager {
 	
 	public PdsBean getPdsDetail(int seq);
 
-	public PdsBean getSearchPds(String keyword);
+	public List<PdsBean> getSearchPds(String keyword);
 	
 	public boolean checkPdsLike(String id, int pdsSeq);
 

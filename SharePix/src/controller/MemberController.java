@@ -142,10 +142,8 @@ public class MemberController extends HttpServlet {
 				
 			}
 		} else if(command.equals("userPage")) { // userPage 로 이동
-			System.out.println("command = " + command + " 들어옴");	// 확인용
-			
-			String id = req.getParameter("id");
-			
+			System.out.println("command = " + command + " 들어옴");	// 확인용			
+			String id = req.getParameter("id");			
 			dispatch("./userPage.jsp?id=" + id, req, resp);
 		} else if(command.equals("follow")) { // 팔로우
 			System.out.println("command = " + command + " 들어옴");	// 확인용

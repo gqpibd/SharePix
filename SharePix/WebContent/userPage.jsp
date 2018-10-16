@@ -6,22 +6,14 @@
 <%@page import="dto.MemberBean"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<title>userPage.jsp</title>
-
-</head>
-<body>
 <%
 	Object ologin = session.getAttribute("login");
 	MemberBean loginMemDto = null;
 
  	loginMemDto = (MemberBean)ologin;// 세션에 담겨있던 로그인한 사람의 dto
- 	
- 	System.out.println("loginMemDto : " + loginMemDto.toString());
+ 	if(loginMemDto != null){
+ 		System.out.println("loginMemDto : " + loginMemDto.toString());
+ 	}
 
 	String pageId = request.getParameter("id");	// 해당 유저 페이지의 유저 id 
 	PdsService pdsService = PdsService.getInstance();
@@ -90,11 +82,22 @@
 	// 페이지의 유저가 좋아요한 리스트 ( 비밀로? )
 	List<PdsBean> lList = pdsService.getMyLikeList(pageId);
 %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<title>userPage.jsp</title>
+
+</head>
+<body>
 
 <%
 String follow = "images/icons/like_empty.png";
 boolean isFollow = false;
-isFollow = memService.checkMemFollow(loginMemDto.getId(), pageId);
+if(loginMemDto!=null){
+	isFollow = memService.checkMemFollow(loginMemDto.getId(), pageId);
+}
 if (isFollow) {
 	follow = "images/icons/like_fill.png";
 }
@@ -127,7 +130,7 @@ if (isFollow) {
 조회수 : <%=totalReadCount%><br>
 나를 팔로우하는 사람의 수 : <%=fList.size()%><br>
 내가 좋아요한 글 수 : <%=lList.size()%><br> 
-<%if(pageMemDto.getId().equals(loginMemDto.getId())){
+<%if(loginMemDto!=null && pageMemDto.getId().equals(loginMemDto.getId())){
 	%>
 	<form action="MemberController">
 	<input type="hidden" name="command" value="userUpdatePage">
@@ -148,8 +151,7 @@ if (isFollow) {
 var followChk = '<%=isFollow%>';
 function doFollow(){ // 좋아요 눌렀을 때			
 	<%if (ologin == null) {%>
-		alert("로그인해 주십시오");	
-		location.href="index.jsp";
+		alert("로그인해 주십시오");
 	<%} else {%>				
 		$.ajax({
 			url:"MemberController", // 접근대상

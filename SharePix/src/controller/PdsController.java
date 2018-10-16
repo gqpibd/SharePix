@@ -81,19 +81,18 @@ public class PdsController extends HttpServlet {
 			
 			// 추천피드
 			List<PdsBean> list = PdsService.getInstance().relatedList(pds.getCategory(),seq); // 같은 카테고리의 사진들을 모아서 보여줌
-			System.out.println(list.size());
-					
-			
-			req.setAttribute("list", list);
-			
+			System.out.println(list.size());		
+			req.setAttribute("list", list);		
 			req.setAttribute("pds", pds);
 			dispatch("picDetail.jsp", req, resp);			
 		} else if (command.equalsIgnoreCase("keyword")) {
 			String keyword = req.getParameter("tags");
-			System.out.println(keyword);
-			PdsBean pds = PdsService.getInstance().getSearchPds(keyword);
-			System.out.println(pds);
-			req.setAttribute("pds", pds);
+			System.out.println("검색 키워드 : " + keyword);
+			System.out.println("전 확인keyword dto");
+			List<PdsBean> searchList = PdsService.getInstance().getSearchPds(keyword);
+			System.out.println("후 확인keyword dto");
+			req.setAttribute("searchList", searchList);
+			dispatch("SearchView.jsp", req, resp);
 		} else if(command.equalsIgnoreCase("likeChange")) {
 			boolean like = Boolean.parseBoolean(req.getParameter("like"));
 			String id = req.getParameter("id");

@@ -24,7 +24,7 @@ public class PdsService {
 		return pDao.getPdsDetail(seq);		
 	}
 
-	public PdsBean getSearchPds(String keyword) {
+	public List<PdsBean> getSearchPds(String keyword) {
 		return pDao.getSearchPds(keyword);
 	}
 

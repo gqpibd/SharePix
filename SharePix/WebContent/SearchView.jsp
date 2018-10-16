@@ -11,8 +11,7 @@
 	List<PdsBean> PdsList = (List<PdsBean>) request.getAttribute("searchList");
 %>
 
-<%
-	String choice = request.getParameter("choice");
+<%	
 	// 검색어
 	String keyword = request.getParameter("keyword");
 %>
@@ -27,20 +26,10 @@
 	}
 %>
 
-<%
-	System.out.println("choice = " + choice);
-
-	if (choice == null || choice.equals("")) {
-		choice = "sel";
-	}
-	if (choice.equals("sel")) {
-		keyword = "";
-	}
-
+<%	
 	// 검색어를 지정하지 않았을 경우, 빈 문자열로
 	if (keyword == null) {
-		keyword = "";
-		choice = "sel";
+		keyword = "";		
 	}
 	iPdsManager pds = new PdsManager();
 	// List<BbsDto> bbslist = dao.getBbsList();
@@ -64,8 +53,9 @@
 			<div>
 				<p>그림</p>
 				<form action="PdsController" method="get">
-					<input type="hidden" name="command" value="keyword"> <input
-						type="text" name="tags"> <input type="submit" value="검색">
+					<input type="hidden" name="command" value="keyword"> 
+					<input type="text" name="tags"> 
+					<input type="submit" value="검색">
 				</form>
 			</div>
 
@@ -74,7 +64,7 @@
 			<p>메뉴</p>
 			<p>카테고리</p>
 			<jsp:include page="paging.jsp">
-				<jsp:param name="actionPath" value="bbslist.jsp" />
+				<jsp:param name="actionPath" value="SearchView.jsp" />
 				<jsp:param name="nowPage"
 					value="<%=String.valueOf(paging.getNowPage())%>" />
 				<jsp:param name="totalCount"
@@ -83,15 +73,13 @@
 					value="<%=String.valueOf(paging.getCountPerPage())%>" />
 				<jsp:param name="blockCount"
 					value="<%=String.valueOf(paging.getBlockCount())%>" />
-
 				<jsp:param name="keyword" value="<%=keyword%>" />
-				<jsp:param name="choice" value="<%=choice%>" />
 			</jsp:include>
 		</div>
 		<!-- 검색된 사진들 -->
 
 		<%
-			if (PdsList.size() == 0) {
+			if (PdsList==null ||PdsList.size() == 0) {
 		%>
 		<tr>
 			<td colspan="3" align="center">검색 결과가 없습니다.</td>
