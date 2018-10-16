@@ -77,8 +77,7 @@
 
 </head>
 <body>
-
-<div id="top-menu">
+<div id="top-menu" >
 <table border="0" align="center" width="100%" class="title_table">
 <col width="100"><col width="400"><col width="200">
 	<tr>
@@ -105,7 +104,6 @@
 </div> 
 
 <script>
-window.onscroll = function() {myFunction()};
 
 var header = document.getElementById("top-menu");
 var sticky = header.offsetTop;

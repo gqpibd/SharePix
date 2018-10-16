@@ -5,9 +5,12 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import db.DBClose;
 import db.DBConnection;
+import dto.FollowDto;
 import dto.MemberBean;
 
 public class MemberManager implements iMemberManager {
@@ -35,7 +38,7 @@ public class MemberManager implements iMemberManager {
 	@Override
 	public MemberBean getUserInfo(String id) {
 		
-		String sql  = " SELECT ID, PWD, NAME, EMAIL, PHONE, AUTH "
+		String sql  = " SELECT ID, NAME, PWD, EMAIL, PHONE, AUTH "
 					+ " FROM MEMBER "
 					+ " WHERE ID = ? "; 
 		
@@ -44,7 +47,6 @@ public class MemberManager implements iMemberManager {
 		ResultSet rs = null;
 		
 		MemberBean dto = null;
-		
 		try {
 			conn = DBConnection.getConnection();
 			System.out.println("1/6 getIdInfo success");
@@ -52,23 +54,23 @@ public class MemberManager implements iMemberManager {
 			psmt.setString(1, id);
 			
 			rs = psmt.executeQuery();
-			
+			System.out.println("2/6 getIdInfo success");
 			if (rs.next()) {
-				dto = new MemberBean(	rs.getString(1),
-										rs.getString(2),
-										rs.getString(3),
-										rs.getString(4),
-										rs.getString(5),
-										rs.getInt(6));
+				dto = new MemberBean(	rs.getString("ID"),
+										rs.getString("NAME"),
+										rs.getString("PWD"),
+										rs.getString("EMAIL"),
+										rs.getString("PHONE"),
+										rs.getInt("AUTH"));
 			}
+			System.out.println("3/6 getIdInfo success");
 			
 		} catch (SQLException e) {
+			System.out.println("getIdInfo fail");
 			e.printStackTrace();
 		} finally {
 			DBClose.close(psmt, conn, rs);
 		}
-		
-		
 		return dto;
 	}
 	
@@ -121,7 +123,7 @@ public class MemberManager implements iMemberManager {
 	@Override
 	public MemberBean loginAf(String id, String pwd) {
 		
-		String sql  = " SELECT ID, PWD, NAME, EMAIL, PHONE, AUTH "
+		String sql  = " SELECT ID, NAME, PWD, EMAIL, PHONE, AUTH "
 					+ " FROM MEMBER "
 					+ " WHERE ID=? AND PWD=? ";
 		
@@ -199,7 +201,148 @@ public class MemberManager implements iMemberManager {
 		
 		return count > 0 ? true : false;
 	}
+
+	@Override
+	public List<FollowDto> getMyFollowerList(String myId) {	// 나를 구독한 사람들 구하기
+		
+		List<FollowDto> list = new ArrayList<>();
+		
+		String sql = " SELECT FOLLOWERID, FOLLOWEEID "
+			       + " FROM FOLLOW "
+			       + " WHERE FOLLOWEEID=? ";
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = DBConnection.getConnection();
+			psmt = conn.prepareStatement(sql);
+			
+			psmt.setString(1, myId);
+			
+			rs = psmt.executeQuery();
+			
+			while(rs.next()) {
+				FollowDto dto = new FollowDto(rs.getString(1), rs.getString(2));
+				
+				list.add(dto);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, rs);
+		}
+		
+		return list;
+	}
+
+	@Override
+	public List<FollowDto> getMySubscribeList(String myId) {	//	내가 구독한 사람들 구하기
+		List<FollowDto> list = new ArrayList<>();
+		
+		String sql = " SELECT FOLLOWERID, FOLLOWEEID "
+			       + " FROM FOLLOW "
+			       + " WHERE FOLLOWERID=? ";
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = DBConnection.getConnection();
+			psmt = conn.prepareStatement(sql);
+			
+			psmt.setString(1, myId);
+			
+			rs = psmt.executeQuery();
+			
+			while(rs.next()) {
+				FollowDto dto = new FollowDto(rs.getString(1), rs.getString(2));
+				
+				list.add(dto);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, rs);
+		}
+		
+		return list;
+	}
 	
+	@Override
+	public boolean checkMemFollow(String followerId, String followeeId) {
+		String sql = " SELECT * "
+				   + " FROM FOLLOW " 
+				   + " WHERE FOLLOWERID = ? AND FOLLOWEEID = ?";
+
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+
+
+		try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 checkMemFollow Success");
+
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, followerId);
+			psmt.setString(2, followeeId);
+			System.out.println("2/6 checkMemFollow Success");
+
+			rs = psmt.executeQuery();
+			System.out.println("3/6 checkMemFollow Success");
+
+			if (rs.next()) {
+				System.out.println("팔로우 했음");
+				return true;
+			}
+			System.out.println("팔로우 안 했음");
+			System.out.println("4/6 checkMemFollow Success");
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("checkMemFollow Fail");
+		} finally {
+			DBClose.close(psmt, conn, rs);
+		}
+		return false;
+	}
 	
+	@Override
+	public boolean changeFollow(String followerId, String followeeId, boolean isFollow) {
+		String sql = "";
+		if (isFollow) { // 구독을 누르면 row 추가
+			sql = " INSERT INTO FOLLOW " + " VALUES (?, ?) ";
+		} else {
+			sql = " DELETE FROM FOLLOW " + " WHERE FOLLOWERID = ? AND FOLLOWEEID = ? ";
+		}
+
+		Connection conn = null;
+		PreparedStatement psmt = null;
+
+		int count = 0;
+
+		try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 changeFollow Success");
+
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, followerId);
+			psmt.setString(2, followeeId);
+			System.out.println("2/6 changeFollow Success");
+
+			count = psmt.executeUpdate();
+			System.out.println("3/6 changeFollow Success");
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("changeFollow Fail");
+		} finally {
+			DBClose.close(psmt, conn, null);
+		}
+		return count > 0 ? true : false;
+	}
 	
 }

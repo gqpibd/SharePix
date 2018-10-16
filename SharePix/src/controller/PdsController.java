@@ -176,7 +176,12 @@ public class PdsController extends HttpServlet {
 					
 				}
 			*/
-		}			
+		} else if(command.equalsIgnoreCase("updateImg")) {
+			seq = Integer.parseInt(req.getParameter("pdsSeq"));		
+			PdsBean pds = PdsService.getInstance().getPdsDetail(seq);			
+			req.setAttribute("pds", pds);
+			dispatch("updatePds.jsp", req, resp);	
+		}
 		if (isMultipart) {
 			System.out.print("upload");
 			

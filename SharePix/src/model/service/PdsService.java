@@ -9,6 +9,7 @@ import model.iPdsManager;
 
 public class PdsService {
 	private static PdsService pdsService = new PdsService();
+	
 	private iPdsManager pDao;
 
 	private PdsService() {
@@ -100,5 +101,9 @@ public class PdsService {
 
 	public boolean updatePDS(PdsBean dto) {
 		return pDao.updatePDS(dto);
+	}
+	
+	public List<PdsBean> getMyLikeList(String id){
+		return pDao.getMyLikeList(id);
 	}
 }

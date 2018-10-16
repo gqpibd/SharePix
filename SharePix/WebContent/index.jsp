@@ -10,6 +10,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
 <title>SaGong</title>
 <%
@@ -23,7 +24,11 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="js/jquery.row-grid.min.js"></script>
 <link rel="stylesheet" href="style/imageArrange.css">
-
+<style type="text/css">
+.img{
+	cursor: pointer;
+}
+</style>
 </head>
 <body bgcolor="#D5D5D5">
 	<div class="left__heading" style="height: 100%"> <!-- 타이틀바 -->

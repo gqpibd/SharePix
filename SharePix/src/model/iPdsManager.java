@@ -36,4 +36,6 @@ public interface iPdsManager {
 	public boolean delPDS(int seq);
 
 	public boolean updatePDS(PdsBean pds);
+	
+	public List<PdsBean> getMyLikeList(String id);
 }

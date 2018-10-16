@@ -23,8 +23,8 @@
 			<jsp:param name="goBackTo" value="myLikes.jsp" />
 		</jsp:include>
 	</div>
-	
-	<div class="container">
+
+	<div style="margin-top: 10em">
 		<%for(PdsBean pds : list){ %>
 		<div class="item">	
 			<img class="img" name="item" src="<%=PdsController.PATH%><%=pds.getfSaveName()%>" onclick="veiwDetail(<%=pds.getSeq()%>)" height="400"> 

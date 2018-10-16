@@ -75,11 +75,11 @@ String pdsSeq = request.getParameter("pdsSeq");
 		<div class="reply_content">삭제된 댓글입니다</div>
 	<%}else{ // 댓글 표시
 		if(loginId!=null && re.getId().equals(loginId)){ %> <!-- 작성자일 때 수정, 삭제 가능하게 -->  
-		<div class="tooltip" align="right">																		
-			<img src="images/icons/more.png" width="3px" align="right" class="more">							
-			<span class="tooltiptext">									
-				<label onclick="modify('<%=re.getReSeq()%>')" id="<%=re.getReSeq()%>" class="aTg">수정</label><br>
-				<label onclick="deleteReply(<%=re.getReSeq()%>)" class="aTag">삭제</label><br>
+		<div class="mtooltip" align="right">
+			<img src="images/icons/more.png" width="3px" align="right" class="more img_clickable" > 
+			<span class="mtooltiptext"> 
+			<label onclick="modify('<%=re.getReSeq()%>')" id="<%=re.getReSeq()%>" class="aTag">수정</label><br> 
+			<label onclick="deleteReply(<%=re.getReSeq()%>)" class="aTag">삭제</label><br>
 			</span>
 		</div>
     	<%}%>
@@ -88,13 +88,17 @@ String pdsSeq = request.getParameter("pdsSeq");
 			<span class="nickname"><%=re.getId()%>
 			<% if(re.getId().equals(pdsWriter)){ %> <!-- 사진 올린사람 표시 -->
 				<img src="images/icons/writer.png" width="60" style="vertical-align: middle">
-			<%}%>
-			</span>								
-			<span id="content_<%=re.getReSeq()%>"><%=re.getContent() %></span><br>
-			<font style="font-size: 3px; color:graytext;"><%=re.getWdate() %></font><br>
-			<%if(loginId!=null){ %>
+			<%}%></span>
+			<span id="content_<%=re.getReSeq()%>"> <!-- 댓글 내용 부분 -->
+				<% if (re.getToWhom() != null & re.getToWhom() != "") { %> <!-- 다른 사람 호출하는 태그가 있을 때 --> 
+				<b>@<%=re.getToWhom()%></b> 
+				<% } %> 
+				<%=re.getContent()%>
+			</span><br> 
+			<font style="font-size: 3px; color: graytext;"><%=re.getWdate()%></font><br> <!-- 날짜 -->
+			<% if (loginId != null) { %>
 			<button name="<%=re.getReRef()%>" onclick="addReply(this)" id="<%=re.getReSeq()%>" toWhom="<%=re.getId()%>">답변</button>
-			<%} %>							
+			<% } %>									
 		</div>
 	</li>
 	<%}

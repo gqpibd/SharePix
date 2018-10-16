@@ -122,6 +122,7 @@ public class PdsManager implements iPdsManager {
 	      }
 	      return pds;
 	   }
+	 
 	@Override
 	public PdsBean getPdsDetail(int seq) {
 		// SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT
@@ -725,6 +726,60 @@ public class PdsManager implements iPdsManager {
 		}			  
 		return list;
 	}
+
+	@Override
+	public List<PdsBean> getMyLikeList(String id) {	// 내가 좋아요한 리스트
+		String sql  = " SELECT DISTINCT P.SEQ, P.ID, P.CATEGORY, P.TAGS, P.UPLOADDATE, P.FILENAME, P.READCOUNT, P.DOWNCOUNT, P.FSAVENAME " 
+					+ " FROM PICPDS P, (SELECT * FROM PDSLIKE WHERE ID=?) L " 
+					+ " WHERE L.ID = P.ID "; 
+		
+		List<PdsBean> list = new ArrayList<>();
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 getMyLikeList Success");	
+			
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+			
+			rs = psmt.executeQuery();
+			System.out.println("2/6 getMyLikeList Success");
+			
+			while (rs.next()) {
+				String regdate = rs.getString("UPLOADDATE");
+				regdate = regdate.substring(0, regdate.lastIndexOf('.'));
+				
+				// SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT			
+				PdsBean bean = new PdsBean(
+										rs.getInt("SEQ"), 
+										rs.getString("ID"), 
+										rs.getString("CATEGORY"),
+										rs.getString("TAGS").substring(1).split("#"), 
+										regdate, 
+										rs.getString("FILENAME"),
+										rs.getInt("READCOUNT"), 
+										rs.getInt("DOWNCOUNT"), 
+										0,	// LIKECOUNT
+										0,	// REPLYCOUNT
+										rs.getString("FSAVENAME")
+								);
+				list.add(bean);
+			}
+			System.out.println("3/6 getMyLikeList Success");
+		} catch (SQLException e) {
+			System.out.println("getMyLikeList Fail");
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, rs);
+		}
+		
+		return list;
+	}
+	
 	
 	
 }

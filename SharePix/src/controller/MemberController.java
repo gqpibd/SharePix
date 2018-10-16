@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import dto.MemberBean;
 import model.service.MemberService;
+import model.service.PdsService;
 
 public class MemberController extends HttpServlet {
 
@@ -107,6 +108,7 @@ public class MemberController extends HttpServlet {
 			System.out.println("command = " + command + " 들어옴");	// 확인용
 			dispatch("./myPage.jsp", req, resp);
 		} else if(command.equals("userUpdatePage")){
+
 			System.out.println("command = " + command + "  들어옴");	// 확인용
 			dispatch("./userUpdatePage.jsp", req, resp);
 		} else if(command.equals("userUpdateAf")) {
@@ -124,7 +126,9 @@ public class MemberController extends HttpServlet {
 		    
 		    MemberBean dto = new MemberBean(id, name, pwd, email, phone, -1);
 		    
-			if(memService.manager.updateUser(dto)) {	//	update가 되면 true 반환
+		    System.out.println("dto 출력 : " + dto.toString());
+		    
+			if(memService.updateUser(dto)) {	//	update가 되면 true 반환
 				resp.setContentType("text/html; charset=UTF-8");
 				PrintWriter out = resp.getWriter();
 				out.println("<script>alert('정보가 수정되었습니다.'); location.href='./userUpdatePage.jsp'; </script>");
@@ -137,7 +141,24 @@ public class MemberController extends HttpServlet {
 				out.flush();
 				
 			}
-		}
+		} else if(command.equals("userPage")) { // userPage 로 이동
+			System.out.println("command = " + command + " 들어옴");	// 확인용
+			
+			String id = req.getParameter("id");
+			
+			dispatch("./userPage.jsp?id=" + id, req, resp);
+		} else if(command.equals("follow")) { // 팔로우
+			System.out.println("command = " + command + " 들어옴");	// 확인용
+			
+			String followerId = req.getParameter("followerId");
+			String followeeId = req.getParameter("followeeId");
+			boolean followChk = Boolean.parseBoolean(req.getParameter("followChk"));
+			
+			System.out.println("followChk : "+ followChk);
+			memService.changeFollow(followerId, followeeId, !followChk); // follow 상태 바꿔줌
+			resp.getWriter().write("<followChk>" +!followChk +"</followChk>");
+			resp.getWriter().flush();
+		} 
 	}
 	
 	public void dispatch( String urls, HttpServletRequest req, HttpServletResponse resp ) throws ServletException, IOException { 
