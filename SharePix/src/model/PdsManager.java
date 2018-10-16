@@ -522,68 +522,70 @@ public class PdsManager implements iPdsManager {
 
    
    @Override
-   public boolean delPDS(int seq) {
-      int count=0;
-      String sql=" DELETE FROM PDS  " +
-            " WHERE  SEQ = ? " ;
-      Connection conn=null;
-      PreparedStatement psmt=null;
-      
-      try {
-         conn=DBConnection.getConnection();
-         System.out.println("2/6 S deletePDS");
-         psmt=conn.prepareStatement(sql);
-         
-         int i=1;
-         psmt.setInt(i++, seq );
-         System.out.println("3/6 S deletePDS");
-         
-         count=psmt.executeUpdate();
-         System.out.println("4/6 S deletePDS");
-         
-      } catch (Exception e) {
-         System.out.println("F deletePDS");
-      }finally{
-         DBClose.close(psmt, conn, null);
-      }
-      return count>0?true:false;
-   }
+	public boolean delPDS(int seq) {
+		int count=0;
+		String sql=" DELETE FROM PICPDS  " +
+				" WHERE  SEQ = ? " ;
+		Connection conn=null;
+		PreparedStatement psmt=null;
+		
+		try {
+			conn=DBConnection.getConnection();
+			System.out.println("2/6 S delPDS");
+			psmt=conn.prepareStatement(sql);
+			
+			int i=1;
+			psmt.setInt(i++, seq );
+			System.out.println("3/6 S delPDS");
+			
+			count=psmt.executeUpdate();
+			System.out.println("4/6 S delPDS");
+			
+		} catch (Exception e) {
+			System.out.println("F delPDS");
+		}finally{
+			DBClose.close(psmt, conn, null);
+		}
+		return count>0?true:false;
+	}
 
    @Override
-   public boolean updatePDS(PdsBean pds) {
+	public boolean updatePDS(PdsBean pds) {
 
-      String sql = " UPDATE PDS "
-            + " SET CATEGORY=?, TAGS=?"
-            + " WHERE SEQ=? ";
-      String tagStr ="";
-      
-      for (int i = 0; i < pds.getTags().length; i++) {
-         tagStr += "#" + pds.getTags()[i]; 
-      }
-      
-      Connection conn = null;
-      PreparedStatement psmt = null;
-      
-      int count = 0;
-      
-      try {
-         conn=DBConnection.getConnection();
-         psmt = conn.prepareStatement(sql);
-         
-         psmt.setString(1, pds.getCategory().trim());
-         psmt.setString(2, tagStr);
-         psmt.setInt(3, pds.getSeq());
-         
-         count = psmt.executeUpdate();
-         
-      } catch (SQLException e) {         
-         e.printStackTrace();
-      } finally{
-         DBClose.close(psmt, conn, null);         
-      }
-      
-      return count>0?true:false;
-   }
+		System.out.println(pds.toString());
+		
+		String sql = " UPDATE PICPDS "
+				+ " SET CATEGORY=?, TAGS=?"
+				+ " WHERE SEQ=? ";
+		String tagStr ="";
+		
+		for (int i = 0; i < pds.getTags().length; i++) {
+			tagStr += "#" + pds.getTags()[i]; 
+		}
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		
+		int count = 0;
+		
+		try {
+			conn=DBConnection.getConnection();
+			psmt = conn.prepareStatement(sql);
+			System.out.println("1/6 updatePDS Success");
+			psmt.setString(1, pds.getCategory().trim());
+			psmt.setString(2, tagStr);
+			psmt.setInt(3, pds.getSeq());
+			System.out.println("2/6 updatePDS Success");
+			count = psmt.executeUpdate();
+			System.out.println("3/6 updatePDS Success");
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		} finally{
+			DBClose.close(psmt, conn, null);			
+		}
+		
+		return count>0?true:false;
+	}
 
    @Override
    public boolean increaseDowncount(int pdsSeq) {

@@ -91,8 +91,8 @@ public class PdsService {
 		return pDao.writePds(pds);
 	}
 	
-	public PdsBean delPDS(int seq) {
-		return pDao.getPdsDetail(seq);
+	public boolean delPDS(int seq) {
+		return pDao.delPDS(seq);
 	}
 	
 	public PdsBean updatePDS(int seq, String category, String tags) {

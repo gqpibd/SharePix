@@ -190,7 +190,7 @@
 				<img  id="downloadImg" name="imgData" width="0"></img>				
 			</div> --%>
 			<% if(ologin != null && pds.getId().equals(ologin.getId())){ %>
-				<button onclick="location.href='PdsController?command=updateImg&pdsSeq=<%=pds.getSeq()%>'">수정</button>
+				<button onclick="location.href='updatePds.jsp?seq=<%=pds.getSeq()%>'">수정</button>
 			<%} %>
 			<% if(ologin != null && !pds.getId().equals(ologin.getId())){ %>
 				<button onclick="doFollow()">

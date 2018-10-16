@@ -11,11 +11,16 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>즐겨찾기 페이지</title>
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="js/jquery.row-grid.min.js"></script>
 <link rel="stylesheet" href="style/imageArrange.css">
+<style type="text/css">
+.img_clickable{
+	cursor: pointer;
+}
+</style>
 </head>
 <body>
 	<div class="left__heading" style="height: 100%"> <!-- 타이틀바 -->
@@ -24,10 +29,10 @@
 		</jsp:include>
 	</div>
 
-	<div style="margin-top: 10em">
+	<div class="container" style="margin-top: 10em">
 		<%for(PdsBean pds : list){ %>
 		<div class="item">	
-			<img class="img" name="item" src="<%=PdsController.PATH%><%=pds.getfSaveName()%>" onclick="veiwDetail(<%=pds.getSeq()%>)" height="400"> 
+			<img class="img img_clickable" name="item" src="<%=PdsController.PATH%><%=pds.getfSaveName()%>" onclick="veiwDetail(<%=pds.getSeq()%>)" height="400"> 
 		</div>
 		<%} %>
 	</div>

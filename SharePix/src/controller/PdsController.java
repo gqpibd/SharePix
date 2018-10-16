@@ -24,6 +24,7 @@ import dto.PdsBean;
 import model.PdsManager;
 import model.iPdsManager;
 import model.service.PdsService;
+import model.service.ReplyService;
 
 public class PdsController extends HttpServlet {
 	
@@ -134,53 +135,49 @@ public class PdsController extends HttpServlet {
 				out.flush();
 			}
 			dispatch("picDetail.jsp", req, resp);			
-		}
-		else if(command.equals("delete")) {
-			// 
-				System.out.println("command = " + command + "  들어옴");	// 확인용
-			/*	
-				String pdsid = request.getParameter("pdsid");
-				int seq = Integer.parseInt(request.getParameter("pdsseq"));
-				MemberDto user=(MemberDto)session.getAttribute("login");
+		}else if(command.equals("delete")) {
 
-				iPdsDao dao = PdsDao.getInstance();
-				boolean isS = dao.delPDS(seq);
-				if(isS){
-					%>
-					<script type="text/javascript">
-					alert('성공적으로 삭제했습니다!');
-					location.href='pdslist.jsp';
-					</script>
-					<% 
-				}else{
-					%>
-					<script type="text/javascript">
-					alert('삭제 실패했습니다!');
-					location.href='pdslist.jsp';
-					</script>
-					<% 
-				}
+			boolean isS = PdsService.getInstance().delPDS(seq);
+			if(isS) {
+				System.out.println("삭제 성공");
 				
-				if(PdsService.pDao.delPDS(dto)) {	//	update가 되면 true 반환
-					resp.setContentType("text/html; charset=UTF-8");
-					PrintWriter out = resp.getWriter();
-					out.println("<script>alert('정보가 수정되었습니다.'); location.href='./userUpdatePage.jsp'; </script>");
-					out.flush();
-					
-				}else {
-					resp.setContentType("text/html; charset=UTF-8");
-					PrintWriter out = resp.getWriter();
-					out.println("<script>alert('수정 실패'); location.href='./userUpdatePage.jsp';</script>");
-					out.flush();
-					
-				}
-			*/
-		} else if(command.equalsIgnoreCase("updateImg")) {
-			seq = Integer.parseInt(req.getParameter("pdsSeq"));		
-			PdsBean pds = PdsService.getInstance().getPdsDetail(seq);			
-			req.setAttribute("pds", pds);
-			dispatch("updatePds.jsp", req, resp);	
+			resp.sendRedirect("PdsController?command=detailview&seq=" + seq);
+			dispatch("./updatePds.jsp", req, resp);
+			}	
+			else{
+				
+				PrintWriter out = resp.getWriter();
+				out.println("<script>alert('삭제 실패'); location.href='./updatePds.jsp';</script>");
+			}
+			
+		} else if(command.equals("pdsupdate")) {
+			String category		= req.getParameter("category");
+			String tags 		= req.getParameter("tags");
+			String seqStr = req.getParameter("seq");
+			seq = Integer.parseInt(seqStr);
+			
+			System.out.println("category : " + category);
+			System.out.println("tags : " + tags);
+			System.out.println("seq : " + seq);
+		
+			PdsService up = PdsService.getInstance();
+			PdsBean pds = new PdsBean(category, tags);
+			boolean isS = up.updatePDS(pds);
+	
+			if(isS) {
+				dispatch("./updatePds.jsp?seq=", req, resp);			
+				//resp.sendRedirect("PdsController?command=detailview&seq=" + seq);
+			}		
+			else {
+				resp.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = resp.getWriter();
+				
+				out.println("<script>alert('수정 실패'); location.href='./pdswrite.jsp';</script>");
+				out.flush();
+			}
 		}
+		
+		
 		if (isMultipart) {
 			System.out.print("upload");
 			
@@ -249,7 +246,7 @@ public class PdsController extends HttpServlet {
 			boolean isS = pd.writePds(pds);
 
 			if (isS) { // update가 되면 true 반환
-				dispatch("./pdsUpdatePage.jsp", req, resp);
+				dispatch("./index.jsp", req, resp);
 			} else {
 				resp.setContentType("text/html; charset=UTF-8");
 				PrintWriter out = resp.getWriter();
