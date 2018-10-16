@@ -26,26 +26,26 @@
 }
 
 .search__input {
-        width: 70%;
-        padding: 12px 24px;
-
-        background-color: transparent;
-        transition: transform 250ms ease-in-out;
-        font-size: 14px;
-        line-height: 18px;
-        
-        color: #575756;
-        background-color: transparent;
-        background-image: url(http://mihaeltomic.com/codepen/input-search/ic_search_black_24px.svg);
-        background-repeat: no-repeat;
-        background-size: 18px 18px;
-        background-position: 95% center;
-        border-radius: 50px;
-        border: 1px solid #575756;
-        transition: all 250ms ease-in-out;
-        backface-visibility: hidden;
-        transform-style: preserve-3d;
-    }
+	width: 70%;
+	padding: 12px 24px;
+	
+	background-color: transparent;
+	transition: transform 250ms ease-in-out;
+	font-size: 14px;
+	line-height: 18px;
+	
+	color: #575756;
+	background-color: transparent;
+	background-image: url(http://mihaeltomic.com/codepen/input-search/ic_search_black_24px.svg);
+	background-repeat: no-repeat;
+	background-size: 18px 18px;
+	background-position: 95% center;
+	border-radius: 50px;
+	border: 1px solid #575756;
+	transition: all 250ms ease-in-out;
+	backface-visibility: hidden;
+	transform-style: preserve-3d;
+}
     
 .search__input::placeholder {
             color: rgba(87, 87, 86, 0.8);
@@ -53,8 +53,7 @@
             letter-spacing: 1.5px;
         }
 
-.search__input:hover,
-        .search__input:focus {
+.search__input:hover, .search__input:focus {
             padding: 12px 0;
             outline: 0;
             border: 1px solid transparent;
@@ -78,8 +77,7 @@
 
 <script type="text/javascript">
 
-function MyFunction() {
-
+function idCheck() {
 	$.ajax({
 		type:"get",
 		url:"MemberController?command=idcheck&id="+$("#tbID").val(),
@@ -88,31 +86,46 @@ function MyFunction() {
 		success:function(data){
 			if(data.trim() == "OK"){
 				$("#idcheck").css("color", "#0000ff");
-				$("#idcheck").html("사용할 수 있는 id입니다.");
+				//$("#idcheck").html("사용할 수 있는 id입니다.");
 			}else{
 				$("#idcheck").css("color", "#ff0000");
-				$("#idcheck").html("사용 중인 id입니다.");
-				$("#id").val("");
+				//$("#idcheck").html("사용 중인 id입니다.");
+				
+				$("#tbID").val("");
+				$("#tbID").focus();
+				alert("사용 중인 id입니다.");
 			}
 		}
-	});
-	
+	});	
 }
 
-
-function MyFunction01() {
-	
-	
+function pwdCheck() {	
 	if($("#tbPwd").val() != ($("#cpass").val())){ 
 	      alert("비밀번호가 다릅니다.");
 	      $("#tbPwd").val("");
 	      $("#cpass").val("");
 	      $("#tbPwd").focus();
 	      return false;
-	     }
-	
-	
+	}	
 }
+
+$(document).ready(function(){ 
+	$("#tel").focus(function () {
+		$("#tel").attr("placeholder","010-XXXX-XXXX");
+	});
+	
+	$("#tel").focusout (function () {
+		$("#tel").attr("placeholder","");
+	});
+	$("#email").focus(function () {
+		$("#email").attr("placeholder","hello@sagong.com");
+		
+	});
+	
+	$("#email").focusout (function () {
+		$("#email").attr("placeholder","");
+	});
+})
 
 </script>
 
@@ -178,9 +191,9 @@ var sticky = header.offsetTop;
 				<!-- Text input-->
 
 				<div class="group">
-					<input required="" class="input" name="id" type="text" autofocus><span
-						class="highlight"></span><span class="bar"></span> <label
-						class="label" for="date">ID</label>
+					<input required="" class="input" name="id" type="text">
+					<span class="highlight" ></span><span class="bar"></span> 
+					<label class="label" for="date">ID</label>
 				</div>
 
 
@@ -206,13 +219,13 @@ var sticky = header.offsetTop;
 
 
 		<div class="tab-pane fade" id="signup">
-			<form class="form-horizontal" action="MemberController"  method="post">
+			<form class="form-horizontal" action="MemberController"  method="post" id="regiform">
 			<input type="hidden" name="command" value="regi"> 
 				<fieldset>
 					<!-- Sign Up Form -->
 					<!-- ID input-->
 					<div class="group">
-						<input required="" class="input" name="id" id="tbID" type="text" maxlength="12" onblur="MyFunction()">
+						<input required="required" class="input" name="id" id="tbID" type="text" maxlength="12" onblur="idCheck()">
 						<span class="highlight"></span>
 						<span class="bar"></span> 
 						<label class="label" for="date">ID <span id="idcheck" style="font-size: 8px"></span></label>
@@ -220,7 +233,7 @@ var sticky = header.offsetTop;
 
 					<!--  Password input-->
 					<div class="group">
-						<input required="" class="input" name="pwd" id="tbPwd" type="password" maxlength="12" >
+						<input required class="input" name="pwd" id="tbPwd" type="password" maxlength="12" >
 						<span class="highlight"></span>
 						<span class="bar"></span> 
 						<label class="label" for="date">PW</label>
@@ -228,7 +241,7 @@ var sticky = header.offsetTop;
 
 					<!-- Password input-->
 					<div class="group">
-						<input required="" class="input" id="cpass" type="password" maxlength="12" onblur="MyFunction01()" >
+						<input required="required" class="input" id="cpass" type="password" maxlength="12" onblur="pwdCheck()" >
 						<span class="highlight"></span>
 						<span class="bar"></span> 
 						<label class="label" for="date">PW확인</label>
@@ -236,7 +249,7 @@ var sticky = header.offsetTop;
 
 					<!-- Name input-->
 					<div class="group">
-						<input required="" class="input" name="name" type="text" name="name" maxlength="12" >
+						<input required="required" class="input" name="name" type="text" name="name" maxlength="12" >
 						<span class="highlight"></span>
 						<span class="bar"></span> 
 						<label class="label" for="date">NAME</label>
@@ -244,7 +257,7 @@ var sticky = header.offsetTop;
 
 					<!-- Email input-->
 					<div class="group">
-						<input required="" class="input" name="email" type="email">
+						<input id="email" required="required" class="input" name="email" type="email" placeholder="">
 						<span class="highlight"></span>
 						<span class="bar"></span> 
 						<label class="label" for="date">EMAIL</label>
@@ -252,10 +265,10 @@ var sticky = header.offsetTop;
 					
 					<!-- Tel input-->
 					<div class="group">
-						<input required="" class="input" name="phone" type="tel" pattern="\d{3}-\d{3,4}-\d{4}" > <!-- pattern="\d{3}-\d{3,4}-\d{4}" -->
+						<input id="tel" required="required" class="input" name="phone" type="tel" pattern="\d{3}-\d{3,4}-\d{4}" placeholder=""> <!-- pattern="\d{3}-\d{3,4}-\d{4}" -->
 						<span class="highlight"></span>
 						<span class="bar"></span> 
-						<label class="label" for="date">PHONE <span style="font-size: 8px">ex)010-6545-1894</span></label>
+						<label class="label" for="date">PHONE <!-- <span style="font-size: 8px">ex)010-6545-1894</span> --></label>
 					</div>
 
 
