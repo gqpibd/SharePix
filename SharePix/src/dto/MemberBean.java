@@ -75,5 +75,4 @@ public class MemberBean {
 		return "MemberBean [id=" + id + ", name=" + name + ", pwd=" + pwd + ", email=" + email + ", phone=" + phone
 				+ ", auth=" + auth + "]";
 	}
-	
 }

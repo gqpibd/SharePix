@@ -146,7 +146,7 @@ public class PdsController extends HttpServlet {
 				out.println("<script>alert('수정 실패'); location.href='./pdswrite.jsp';</script>");
 				out.flush();
 			}
-		}
+		} 
 		
 		
 		if (isMultipart) {

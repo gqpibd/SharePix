@@ -159,8 +159,8 @@ $(document).ready(function(){
 		<button type="button" class="btn btn-primary" onclick="location.href='regi.jsp'" style="margin-left: 5px;">회원가입</button> -->
 	<%}else{ %>
 		<h5><%=user.getName() %>님 환영합니다. <a href="MemberController?command=logout"><font size="2">로그아웃</font></a> </h5>
-		<button onclick="location.href='myPage.jsp'">마이페이지</button>
-		<button onclick="location.href='pdswrite.jsp'">사진 올리기</button>
+		<button onclick="location.href='MemberController?command=userPage&id=<%=user.getId()%>'">마이페이지</button>
+		<button onclick="location.href='pdswrite.jsp'">사진 올리기(수정해야한다)</button>
 		<button onclick="location.href='PdsController?command=myLikePdsList&id=<%=user.getId()%>'">즐겨찾기</button>
 	<%} %>
 	<!-- <input type="submit" value="로그인"> -->
