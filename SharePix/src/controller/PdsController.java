@@ -81,9 +81,10 @@ public class PdsController extends HttpServlet {
 			String keyword = req.getParameter("tags");
 			System.out.println("검색 키워드 : " + keyword);
 			System.out.println("전 확인keyword dto");
-			List<PdsBean> searchList = PdsService.getInstance().getSearchPds(keyword);
-			System.out.println("후 확인keyword dto");
-			req.setAttribute("searchList", searchList);
+/*			PagingBean paging = new PagingBean();
+			List<PdsBean> searchList = PdsService.getInstance().getPdsPagingList(paging, keyword);*/
+			System.out.println("후 확인keyword dto"+ keyword);
+			req.setAttribute("keyword", keyword);
 			dispatch("SearchView.jsp", req, resp);
 		} else if(command.equalsIgnoreCase("likeChange")) {
 			int seq=0;
@@ -133,7 +134,6 @@ public class PdsController extends HttpServlet {
 		
 			PdsService up = PdsService.getInstance();
 			PdsBean pds = new PdsBean(category, tags);
-			pds.setSeq(seq);
 			boolean isS = up.updatePDS(pds);
 	
 			if(isS) {
@@ -165,7 +165,7 @@ public class PdsController extends HttpServlet {
 			String id = "";
 			String category = "";
 			String tags = "";
-			
+
 			// file data
 			String filename = ""; // 어떤 파일이 넘어오는지 정보를 얻기 위한 것
 			String fSaveName = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());

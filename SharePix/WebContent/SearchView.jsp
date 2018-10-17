@@ -8,12 +8,22 @@
 <%@page import="dto.PagingBean"%>
 <!DOCTYPE html>
 <%
-	List<PdsBean> PdsList = (List<PdsBean>) request.getAttribute("searchList");
+	request.setCharacterEncoding("utf-8");
+
+/* 	List<PdsBean> PdsList = (List<PdsBean>) request.getAttribute("searchList");
+
+	System.out.println("값이 들어오는지 안들어오는지 모르겠다. 왜 안들어올까 : " + PdsList); */
 %>
 
+
+
 <%	
-	// 검색어
-	String keyword = request.getParameter("keyword");
+	// 검색어	
+
+	
+	String keyword = (String)request.getAttribute("keyword");
+	
+	System.out.println("값이 들어오는지 안들어오는지 모르겠다. 왜 안들어올까 : " + keyword);
 %>
 
 <!-- 페이징 처리 정보 교환 -->
@@ -27,6 +37,7 @@
 %>
 
 <%	
+		
 	// 검색어를 지정하지 않았을 경우, 빈 문자열로
 	if (keyword == null) {
 		keyword = "";		
@@ -35,6 +46,8 @@
 	// List<BbsDto> bbslist = dao.getBbsList();
 	List<PdsBean> pdslist = pds.getPdsPagingList(paging, keyword);
 	//PdsService.getPdsPagingList(paging, findWord);
+	
+	System.out.println("값이 들어오는지 안들어오는지 모르겠다. 왜 안들어올까 : " + pdslist); 
 %>
 
 <html>
@@ -47,14 +60,13 @@
 <link rel="stylesheet" href="style/imagehover.css">
 </head>
 <body>
-	<h1>Search View</h1>
-	<div>
+	<h1>Search View안올라강.ㅅㄴㅇ.ㅅㄴㅁㅇ기ㅏㄴㅇ</h1>
 		<div>
 			<div>
 				<p>그림</p>
 				<form action="PdsController" method="get">
 					<input type="hidden" name="command" value="keyword"> 
-					<input type="text" name="tags"> 
+					<input type="text" name="tags" value=""> 
 					<input type="submit" value="검색">
 				</form>
 			</div>
@@ -64,7 +76,7 @@
 			<p>메뉴</p>
 			<p>카테고리</p>
 			<jsp:include page="paging.jsp">
-				<jsp:param name="actionPath" value="SearchView.jsp" />
+				<jsp:param name="actionPath" value="PdsController?" />
 				<jsp:param name="nowPage"
 					value="<%=String.valueOf(paging.getNowPage())%>" />
 				<jsp:param name="totalCount"
@@ -79,7 +91,7 @@
 		<!-- 검색된 사진들 -->
 
 		<%
-			if (PdsList==null ||PdsList.size() == 0) {
+			if (pdslist==null ||pdslist.size() == 0) {
 		%>
 		<tr>
 			<td colspan="3" align="center">검색 결과가 없습니다.</td>
@@ -92,7 +104,7 @@
 		<div class="container">
 
 			<%
-				for (PdsBean Pdscust : PdsList) {
+				for (PdsBean Pdscust : pdslist) {
 			%>
 			<div class="item profilebox profilebox1">
 

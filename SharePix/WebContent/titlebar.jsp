@@ -217,11 +217,11 @@ $(document).ready(function(){
 	</td>
 	<td>
 
-		<!-- 검색 -->
-			<form action="PdsController" method="get">
-			<input type="hidden" name="command" value="keyword"> 
-			<input class="search__input" type="text" name="tags" placeholder="Search">
-			
+		<form action="PdsController" method="get">
+		<input type="hidden" name="command" value="keyword"> 
+		<input class="search__input" type="text" name="tags" placeholder="Search">
+	
+		<!-- <input class="searchbtn1" type="submit" value=""> -->
 		</form>
 
 		
