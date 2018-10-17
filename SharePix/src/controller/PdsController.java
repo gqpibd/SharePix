@@ -27,8 +27,8 @@ import model.service.PdsService;
 import model.service.ReplyService;
 
 public class PdsController extends HttpServlet {	
-	public static final String PATH = "images\\pictures\\"; 
-	public String processUploadFile(FileItem fileItem, String dir, JspWriter out) throws IOException {
+	public static final String PATH = "C:\\Users\\user2\\git\\SharePix\\SharePix\\WebContent\\images\\pictures"; 
+	/*public String processUploadFile(FileItem fileItem, String dir, JspWriter out) throws IOException {
 		String f = fileItem.getName();
 		long sizeInBytes = fileItem.getSize();
 
@@ -52,7 +52,40 @@ public class PdsController extends HttpServlet {
 		}
 
 		return fileName;
+	}*/
+	
+	
+	//지금추가한것  바로 위에다가 추가하기
+
+	public String processUploadedFile(FileItem fileItem, String dir, JspWriter out) throws IOException{
+
+		
+		String fileName = fileItem.getName();
+		long sizeInBytes = fileItem.getSize();
+		
+		//업로드한 파일이 정상일 경우
+		if(sizeInBytes>0){ 
+			int idx = fileName.lastIndexOf("\\"); 
+			/*
+			만약 파일명이 c:\\temp\abc.jpg라면 뒤에서부터 가장 첫 \를 찾아 \뒤의 abc.jpg를 가지고 오기 위해서.
+			*/
+			if(idx==-1){ // \ 못찾음. 
+				idx = fileName.lastIndexOf("/");
+			}
+			fileName = fileName.substring(idx+1);//그 다음거도 다 가지고 와라. abc.jpg
+			
+			try{
+			File uploadedFile = new File(dir, fileName); // c:\\temp\abc.jpg는 지정해둔 특정 구역에 들어 가고오있다.
+			fileItem.write(uploadedFile);
+			
+			
+			}catch(Exception e){}
+		}
+		return fileName; 
 	}
+	
+	//지금추가한것
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		doProcess(req, resp);
@@ -162,7 +195,7 @@ public class PdsController extends HttpServlet {
 		if (isMultipart) {
 			System.out.print("upload");
 			
-			String fupload ="images/pictures";
+			String fupload = PATH;
 
 			System.out.println("파일업로드:" + fupload);
 
@@ -213,9 +246,15 @@ public class PdsController extends HttpServlet {
 						}
 					} else { // fileload
 						if (item.getFieldName().equals("fileload")) {
-							filename = processUploadFile(item, fupload, null);
+							/*filename = processUploadFile(item, fupload, null);*/
+							filename = processUploadedFile(item, fupload, null);
 							System.out.println("fupload:" + fupload+filename);
 						}
+						//지금추가한것
+						if(filename!=null){
+							System.out.println("저장 파일 경로 및 파일명:"+filename);
+						}
+						//지금추가한것
 					}
 				}
 			} catch (FileUploadException e) {

@@ -58,6 +58,7 @@ public class FileManager extends HttpServlet {
 				
 				
 				String filePath = "C:\\Users\\이호영\\git\\sharePix\\SharePix\\WebContent\\images\\pictures";
+				/*String filePath = "C:\\Users\\user2\\git\\SharePix\\SharePix\\WebContent\\images\\pictures";*/
 				filePath = filePath +"\\"+ fsavename;
 				
 				if(rate != 100) {
