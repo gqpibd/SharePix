@@ -8,6 +8,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
+
+
+
+
+	request.setCharacterEncoding("utf-8");
+
+
 	String PATH = "images/";
 	List<PdsBean> pdslist = null;
 	if ((pdslist = (List<PdsBean>) request.getAttribute("list")) == null) {
@@ -26,8 +33,8 @@
 %>
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
+<head >
+<meta charset="utf-8">
 <title>SaGong</title>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="js/jquery.row-grid.min.js"></script>
@@ -47,18 +54,14 @@
 	</div>
 
 	<div style="margin-top: 10em">
-		<!-- 검색 -->
-		<form action="PdsController" method="get">
-			<input type="hidden" name="command" value="keyword"> <input
-				type="text" name="tags"> <input type="submit" value="검색">
-		</form>
+
 	</div>
 	<div class="mcontainer">
 		<%
 			for (PdsBean Pdscust : pdslist) {
 				System.out.println(PATH + Pdscust.getfSaveName());
 		%>
-		<div class="item profilebox profilebox1">
+		<div class="item profilebox profilebox1">	
 			<img class="img" name="item"
 				src="<%=PATH%>/pictures/<%=Pdscust.getfSaveName()%>"
 				onclick="veiwDetail(<%=Pdscust.getSeq()%>)" height="300">

@@ -20,6 +20,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import dto.MemberBean;
+import dto.PagingBean;
 import dto.PdsBean;
 import model.PdsManager;
 import model.iPdsManager;
@@ -90,9 +91,10 @@ public class PdsController extends HttpServlet {
 			String keyword = req.getParameter("tags");
 			System.out.println("검색 키워드 : " + keyword);
 			System.out.println("전 확인keyword dto");
-			List<PdsBean> searchList = PdsService.getInstance().getSearchPds(keyword);
-			System.out.println("후 확인keyword dto");
-			req.setAttribute("searchList", searchList);
+/*			PagingBean paging = new PagingBean();
+			List<PdsBean> searchList = PdsService.getInstance().getPdsPagingList(paging, keyword);*/
+			System.out.println("후 확인keyword dto"+ keyword);
+			req.setAttribute("keyword", keyword);
 			dispatch("SearchView.jsp", req, resp);
 		} else if(command.equalsIgnoreCase("likeChange")) {
 			int seq=0;
