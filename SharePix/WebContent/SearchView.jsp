@@ -60,83 +60,79 @@
 <link rel="stylesheet" href="style/imagehover.css">
 </head>
 <body>
-	<h1>Search View안올라강.ㅅㄴㅇ.ㅅㄴㅁㅇ기ㅏㄴㅇ</h1>
-		<div>
-			<div>
-				<p>그림</p>
-				<form action="PdsController" method="get">
-					<input type="hidden" name="command" value="keyword"> 
-					<input type="text" name="tags" value=""> 
-					<input type="submit" value="검색">
-				</form>
-			</div>
-
-		</div>
-		<div>
-			<p>메뉴</p>
-			<p>카테고리</p>
-			<jsp:include page="paging.jsp">
-				<jsp:param name="actionPath" value="PdsController?" />
-				<jsp:param name="nowPage"
-					value="<%=String.valueOf(paging.getNowPage())%>" />
-				<jsp:param name="totalCount"
-					value="<%=String.valueOf(paging.getTotalCount())%>" />
-				<jsp:param name="countPerPage"
-					value="<%=String.valueOf(paging.getCountPerPage())%>" />
-				<jsp:param name="blockCount"
-					value="<%=String.valueOf(paging.getBlockCount())%>" />
-				<jsp:param name="keyword" value="<%=keyword%>" />
-			</jsp:include>
-		</div>
-		<!-- 검색된 사진들 -->
-
+	<div style="height: 100%"> <!-- 타이틀바 -->
+		<jsp:include page="titlebar.jsp">
+			<jsp:param name="goBackTo" value="index.jsp" />
+		</jsp:include>
+	</div>
+	<div style="margin-top: 10em" >
+		<h1>Search View</h1>		
+	</div>
+	<div>
+		<p>메뉴</p>
+		<p>카테고리</p>
+		<jsp:include page="paging.jsp">
+			<jsp:param name="actionPath" value="PdsController?" />
+			<jsp:param name="nowPage"
+				value="<%=String.valueOf(paging.getNowPage())%>" />
+			<jsp:param name="totalCount"
+				value="<%=String.valueOf(paging.getTotalCount())%>" />
+			<jsp:param name="countPerPage"
+				value="<%=String.valueOf(paging.getCountPerPage())%>" />
+			<jsp:param name="blockCount"
+				value="<%=String.valueOf(paging.getBlockCount())%>" />
+			<jsp:param name="keyword" value="<%=keyword%>" />
+		</jsp:include>
+	</div>
+	<!-- 검색된 사진들 -->
+	
+	<%
+		if (pdslist==null ||pdslist.size() == 0) {
+	%>
+	<tr>
+		<td colspan="3" align="center">검색 결과가 없습니다.</td>
+	</tr>
+	<%
+		} else {
+	%>
+	
+	
+	<div class="container">
+	
 		<%
-			if (pdslist==null ||pdslist.size() == 0) {
+			for (PdsBean Pdscust : pdslist) {
 		%>
-		<tr>
-			<td colspan="3" align="center">검색 결과가 없습니다.</td>
-		</tr>
-		<%
-			} else {
-		%>
-
-
-		<div class="container">
-
-			<%
-				for (PdsBean Pdscust : pdslist) {
-			%>
-			<div class="item profilebox profilebox1">
-
-				<img class="img" name="item" src="images/pictures/<%=Pdscust.getfSaveName()%>" onclick="veiwDetail(<%=Pdscust.getSeq()%>)" height="300">
-				<div class="SocialIcons">
-						<a>
-						<img alt="" src="images/icons/heart.png" 
-						onmouseover="this.src='images/icons/fullheart.png'"
-						onmouseout="this.src='images/icons/heart.png'"
-						onclick="doLike()" class="btn-like">
-						<label><%=Pdscust.getLikeCount()%></label>
-						</a>
-						
-		            <a href="#" style="text-decoration:none; color: white;">
-						<img alt="" src="images/icons/openbook.png" 
-						onmouseover="this.src='images/icons/fullopenbook.png'"
-						onmouseout="this.src='images/icons/openbook.png'"
-						>
-						<label><%=Pdscust.getReadCount()%></label>
+		<div class="item profilebox profilebox1">
+			<img class="img" name="item" src="images/pictures/<%=Pdscust.getfSaveName()%>"  
+				onclick="veiwDetail(<%=Pdscust.getSeq()%>)" height="300" alt="이미지 못 찾음" >
+			<div class="SocialIcons">
+					<a>
+					<img alt="" src="images/icons/heart.png" 
+					onmouseover="this.src='images/icons/fullheart.png'"
+					onmouseout="this.src='images/icons/heart.png'"
+					onclick="doLike()" class="btn-like">
+					<label><%=Pdscust.getLikeCount()%></label>
 					</a>
 					
-		            <a href="#" style="text-decoration:none; color: white;">
-		            	<img alt="" src="images/icons/contract.png" 
-						onmouseover="this.src='images/icons/fullcontract.png'"
-						onmouseout="this.src='images/icons/contract.png'"
-						>
-						<label><%=Pdscust.getReplyCount()%></label>
-					</a> 
-				</div>
-				<div class="profileInfo">
-		        	<h3><a href= "MemberController?command=userPage&id=<%=Pdscust.getId()%>"><%=Pdscust.getId()%></a></h3>
-		    	</div>
+	            <a href="#" style="text-decoration:none; color: white;">
+					<img alt="" src="images/icons/openbook.png" 
+					onmouseover="this.src='images/icons/fullopenbook.png'"
+					onmouseout="this.src='images/icons/openbook.png'"
+					>
+					<label><%=Pdscust.getReadCount()%></label>
+				</a>
+				
+	            <a href="#" style="text-decoration:none; color: white;">
+	            	<img alt="" src="images/icons/contract.png" 
+					onmouseover="this.src='images/icons/fullcontract.png'"
+					onmouseout="this.src='images/icons/contract.png'"
+					>
+					<label><%=Pdscust.getReplyCount()%></label>
+				</a> 
+			</div>
+			<div class="profileInfo">
+	        	<h3><a href= "MemberController?command=userPage&id=<%=Pdscust.getId()%>"><%=Pdscust.getId()%></a></h3>
+	    	</div>
 
 	</div>
 	<%} %>

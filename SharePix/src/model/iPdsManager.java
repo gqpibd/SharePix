@@ -6,7 +6,8 @@ import dto.PagingBean;
 import dto.PdsBean;
 
 public interface iPdsManager {
-	
+
+
 	public PdsBean getPdsDetail(int seq);
 
 	public List<PdsBean> getSearchPds(String keyword);
@@ -34,7 +35,7 @@ public interface iPdsManager {
 	public boolean writePds(PdsBean pds);
 	
 	public boolean delPDS(int seq);
-
+	
 	public boolean updatePDS(PdsBean pds);
 	
 	public List<PdsBean> getMyLikeList(String id);

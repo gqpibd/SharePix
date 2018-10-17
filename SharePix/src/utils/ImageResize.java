@@ -1,4 +1,4 @@
-package manager;
+package utils;
 
 import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
@@ -36,6 +36,38 @@ public class ImageResize {
 			if(!new File(newName).exists()) {			
 				BufferedImage resizeImage = resizeImage(originalImage, type, width, height);
 				ImageIO.write(resizeImage, rear.substring(1), new File(newName));
+			}
+
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+		return newName;
+	}
+	
+	public static String resize25(String imgPath, String fSaveName, String saveAlso) { // rate : 사이즈 비율
+		int width = 0;
+		int height = 0;
+		String newName = "";
+		
+		try {
+			System.out.println(imgPath+"/"+fSaveName);
+			BufferedImage originalImage = ImageIO.read(new File(imgPath+"/"+fSaveName));
+			System.out.println(originalImage.getWidth());
+			System.out.println(originalImage.getHeight());
+			width =(int) (originalImage.getWidth() * 25/100.0);
+			height =(int) (originalImage.getHeight() * 25/100.0);
+			
+			int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
+			
+			String front = fSaveName.substring(0,fSaveName.lastIndexOf("."));
+			String rear =  fSaveName.substring(fSaveName.lastIndexOf("."));
+			
+			newName = imgPath + "/" + front + "_small" +  rear;
+			saveAlso = saveAlso + "/" + front + "_small" +  rear;
+			if(!new File(newName).exists()) {			
+				BufferedImage resizeImage = resizeImage(originalImage, type, width, height);
+				ImageIO.write(resizeImage, rear.substring(1), new File(newName));
+				ImageIO.write(resizeImage, rear.substring(1), new File(saveAlso));
 			}
 
 		} catch (IOException e) {

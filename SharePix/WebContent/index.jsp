@@ -57,12 +57,16 @@
 	<div class="mcontainer"  style="margin-top: 10em">
 		<%
 			for (PdsBean Pdscust : pdslist) {
-				System.out.println(PATH + Pdscust.getfSaveName());
+				String fSavename = Pdscust.getfSaveName();
+				String smallSrc = fSavename.substring(0,fSavename.lastIndexOf('.')) + "_small" + fSavename.substring(fSavename.lastIndexOf('.'));
+				/* System.out.println(PATH + "\\pictures\\" + Pdscust.getfSaveName()); */
 		%>
 		<div class="item profilebox profilebox1">
-			<img class="img" name="item"
+			<%-- <img class="img" name="item"
 				src="<%=PATH%>pictures/<%=Pdscust.getfSaveName()%>"
-				onclick="veiwDetail(<%=Pdscust.getSeq()%>)" height="300">
+				onclick="veiwDetail(<%=Pdscust.getSeq()%>)" height="300"> --%>
+			<img class="img" name="item" src="<%=PATH%>pictures/<%=smallSrc%>"  
+				onclick="veiwDetail(<%=Pdscust.getSeq()%>)" height="300" alt="이미지 못 찾음" >
 			<div class="SocialIcons">
 				<a> <img alt="" src="<%=PATH%>icons\\<%=like%>"
 					onmouseover="this.src='<%=PATH%>icons\\fullheart.png'"
@@ -130,7 +134,7 @@
     function veiwDetail(seq) {
        console.log(seq);
        location.href="PdsController?command=detailview&seq=" + seq;
-    }      
+    }    
 
    </script>
 </body>

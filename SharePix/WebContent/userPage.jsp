@@ -93,7 +93,7 @@
 .img {
 	cursor: pointer;
 }
-td {
+.td {
 	text-align: center;
 }
 </style>
@@ -128,16 +128,16 @@ td {
 	}%>
 	<table border="1" align="center">
 	<tr>
-		<td>
+		<td class="td">
 			<img src='images/profiles/<%=pageMemDto.getId()%>.png' width='100px'
 				class='profile re-img' align='middle'
 				onerror="this.src='images/profiles/default.png'">
 		</td>
 	</tr>
 	<tr>
-		<td><span class="nickname"><%=pageMemDto.getId()%></span></td>
+		<td class="td"><span class="nickname"><%=pageMemDto.getId()%></span></td>
 	<tr>
-		<td>
+		<td class="td">
 		<span><img title="업로드한 사진 수" src="./images/icons/images.png" style="width: 15px">&nbsp;:&nbsp;<%=list.size()%></span>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<span><img title="다운된 사진 수" src="./images/icons/download.png" style="width: 15px">&nbsp;:&nbsp;<%=totalDownCount%></span>

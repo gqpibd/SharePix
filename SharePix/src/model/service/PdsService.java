@@ -99,15 +99,18 @@ public class PdsService {
 	
 	public boolean delPDS(int seq) {
 		return pDao.delPDS(seq);
+
 	}
 	
 	public PdsBean updatePDS(int seq, String category, String tags) {
 		return pDao.getPdsDetail(seq);
 	}
 
-	public boolean updatePDS(PdsBean dto) {
-		return pDao.updatePDS(dto);
+
+	public boolean updatePDS(PdsBean pds) {
+		return pDao.updatePDS(pds);
 	}
+
 	
 	public List<PdsBean> getMyLikeList(String id){
 		return pDao.getMyLikeList(id);

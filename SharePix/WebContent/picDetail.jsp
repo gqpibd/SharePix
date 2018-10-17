@@ -21,9 +21,7 @@
 	String like = "images/icons/like_empty.png";
 	// 아이디 확인하고 받아서 like 확인하고 이미지 넣기
 	MemberBean ologin = (MemberBean) session.getAttribute("login");
-	if (ologin == null) {
-		System.out.println("유저 없음");
-	}
+	
 	boolean isLike = false;
 	PdsService pService = null;
 	String id = "";
