@@ -3,6 +3,7 @@ package controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -12,45 +13,35 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.JspWriter;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
-import dto.MemberBean;
 import dto.PdsBean;
-import model.PdsManager;
-import model.iPdsManager;
 import model.service.PdsService;
-import model.service.ReplyService;
 
 public class PdsController extends HttpServlet {	
-	public static final String PATH = "images\\pictures\\"; 
-	public String processUploadFile(FileItem fileItem, String dir, JspWriter out) throws IOException {
-		String f = fileItem.getName();
-		long sizeInBytes = fileItem.getSize();
-
-		String fileName = "";
-		String fpost = "";
-
-		// 업로드한 파일이 정상일 경우
-		if (sizeInBytes > 0) {
-			if (f.indexOf('.') >= 0) {
-				fpost = f.substring(f.indexOf('.'));
-				fileName = new Date().getTime() + fpost;
-			} else {
-				fileName = new Date().getTime() + ".back";
+	public static final String PATH = "C:\\Users\\이호영\\git\\sharePix\\SharePix\\WebContent\\images\\pictures"; 
+	public String processUploadedFile(FileItem fileItem, String dir, String fSaveName) throws IOException {
+		String fileName = fileItem.getName();
+		long sizeInBytes = fileItem.getSize();	
+		// 업로드한 파일 정상일 경우
+		if(sizeInBytes > 0){ // c:\\temp\abc.jpg 또는 c:\\temp/abc.jpg
+			int idx = fileName.lastIndexOf("\\"); // 파일 경로 중 폴더의 끝. 즉, 파일명 시작 앞의 인덱스를 가져옴.
+			if(idx == -1){ // \를 못 찾으면
+				idx = fileName.lastIndexOf("/"); // /를 찾아라
 			}
-			try {
-				File uploadFile = new File(dir, fileName);
-				fileItem.write(uploadFile); // 실제 업로드하는 부분
-			} catch (Exception e) {
+			fileName = fileName.substring(idx+1); // 파일 이름부터 확장자까지 가져옴
+			
+			File uploadedFile = new File(dir, fSaveName + fileName.substring(fileName.lastIndexOf(".")));
+			try{
+				fileItem.write(uploadedFile);
+			}catch(Exception e){
 				e.printStackTrace();
 			}
 		}
-
 		return fileName;
 	}
 	@Override
@@ -142,6 +133,7 @@ public class PdsController extends HttpServlet {
 		
 			PdsService up = PdsService.getInstance();
 			PdsBean pds = new PdsBean(category, tags);
+			pds.setSeq(seq);
 			boolean isS = up.updatePDS(pds);
 	
 			if(isS) {
@@ -173,9 +165,10 @@ public class PdsController extends HttpServlet {
 			String id = "";
 			String category = "";
 			String tags = "";
-
+			
 			// file data
-			String filename = "";		
+			String filename = ""; // 어떤 파일이 넘어오는지 정보를 얻기 위한 것
+			String fSaveName = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
 
 			////////////////////// file
 
@@ -206,9 +199,11 @@ public class PdsController extends HttpServlet {
 							tags = item.getString("utf-8");
 						}
 					} else { // fileload
-						if (item.getFieldName().equals("fileload")) {
-							filename = processUploadFile(item, fupload, null);
-							System.out.println("fupload:" + fupload+filename);
+						if(item.getFieldName().equals("fileload")){
+							filename = processUploadedFile(item, fupload, fSaveName);
+						}
+						if(filename != null){
+							System.out.println("저장 파일 경로 및 파일명: " + filename);
 						}
 					}
 				}

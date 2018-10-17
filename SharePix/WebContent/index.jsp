@@ -46,21 +46,15 @@
 		</jsp:include>
 	</div>
 
-	<div style="margin-top: 10em">
-		<!-- 검색 -->
-		<form action="PdsController" method="get">
-			<input type="hidden" name="command" value="keyword"> <input
-				type="text" name="tags"> <input type="submit" value="검색">
-		</form>
-	</div>
-	<div class="mcontainer">
+
+	<div class="mcontainer"  style="margin-top: 10em">
 		<%
 			for (PdsBean Pdscust : pdslist) {
 				System.out.println(PATH + Pdscust.getfSaveName());
 		%>
 		<div class="item profilebox profilebox1">
 			<img class="img" name="item"
-				src="<%=PATH%>/pictures/<%=Pdscust.getfSaveName()%>"
+				src="<%=PATH%>pictures/<%=Pdscust.getfSaveName()%>"
 				onclick="veiwDetail(<%=Pdscust.getSeq()%>)" height="300">
 			<div class="SocialIcons">
 				<a> <img alt="" src="<%=PATH%>icons\\<%=like%>"

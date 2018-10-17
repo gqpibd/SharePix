@@ -142,7 +142,15 @@ $(document).ready(function(){
 		<p class="title" onclick="location.href='index.jsp'"><font size="5">SaGong'ssi</font></p>
 	</td>
 	<td>
-		<input class="search__input" type="text" placeholder="Search">
+
+		<!-- 검색 -->
+			<form action="PdsController" method="get">
+			<input type="hidden" name="command" value="keyword"> 
+			<input class="search__input" type="text" name="tags" placeholder="Search">
+			
+		</form>
+
+		
 	</td>
 	<td align="center">
 	<% if(user==null){ %>
