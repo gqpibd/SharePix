@@ -100,11 +100,10 @@ System.out.println("수정 후 updateDto = " + updateDto.toString());
 </div>
 <br><hr><br>
 ㅁ todolist(181015 업데이트 중)<br>
-- ★ 일단 기능부터 <strike>개인정보 수정, 좋아요 카운트</strike>, 팔로우<br>
+- ★ 일단 기능부터 <strike>개인정보 수정, 좋아요 카운트</strike>, 팔로우 페이지<br>
 - ★ 개인사진 수정(사진 업로드)<br>
 - ★ 닉네임 중복, 비밀번호 확인 안 되면 수정 완료버튼 비활성화<br>
-- ★ 가져온 pdslist 들의 count 합치기<br> 
-- 테이블 보더 지우기<br>
+<strike>- ★ 가져온 pdslist 들의 count 합치기</strike><br> 
 - 이미 사용하고 계신 비밀번호를 입력하셨습니다.<br>
 - 비밀번호 다르면 수정 못 하게<br>
 - 비밀번호 공백이면 수정 못 하게<br>
@@ -112,6 +111,7 @@ System.out.println("수정 후 updateDto = " + updateDto.toString());
 - tag들 각 체크박스로 해야 되나? 누를 때마다 ajax + jsp+include 로 검색 결과 가져오기?<br>
 - top버튼<br>
 - 다운로드, 좋아요 이런 애들 아이콘 구하기<br> 
+- 로그인한 id 와  유저페이지의 id 가 다를 때 숨기는 코드 주석 삭제<br>
 <br>
 ? 세션에 저장된 거 없으면 반환하는 것 그거 매 jsp 마다 해야 하나? : 필요한 페이지만 쓰면 된다<br>
 + (추가) 이메일 select option?<br>

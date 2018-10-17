@@ -9,6 +9,7 @@ import model.iPdsManager;
 
 public class PdsService {
 	private static PdsService pdsService = new PdsService();
+	
 	private iPdsManager pDao;
 
 	private PdsService() {
@@ -23,7 +24,7 @@ public class PdsService {
 		return pDao.getPdsDetail(seq);		
 	}
 
-	public PdsBean getSearchPds(String keyword) {
+	public List<PdsBean> getSearchPds(String keyword) {
 		return pDao.getSearchPds(keyword);
 	}
 
@@ -90,8 +91,8 @@ public class PdsService {
 		return pDao.writePds(pds);
 	}
 	
-	public PdsBean delPDS(int seq) {
-		return pDao.getPdsDetail(seq);
+	public boolean delPDS(int seq) {
+		return pDao.delPDS(seq);
 	}
 	
 	public PdsBean updatePDS(int seq, String category, String tags) {
@@ -100,5 +101,14 @@ public class PdsService {
 
 	public boolean updatePDS(PdsBean dto) {
 		return pDao.updatePDS(dto);
+	}
+	
+	public List<PdsBean> getMyLikeList(String id){
+		return pDao.getMyLikeList(id);
+	}
+
+	public boolean increaseReadcount(int seq) {
+		return pDao.increaseReadcount(seq);
+		
 	}
 }

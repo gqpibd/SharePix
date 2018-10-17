@@ -15,7 +15,8 @@
 
 #top-menu {
   width: 100%;
-  background-color: #F6F6F6;
+  background-color: #FAFAFA;
+  /* background-color: #FAFAFA; */
   top: 0px;
   left: 0px;
   position: fixed;
@@ -29,26 +30,26 @@
 }
 
 .search__input {
-        width: 70%;
-        padding: 12px 24px;
-
-        background-color: transparent;
-        transition: transform 250ms ease-in-out;
-        font-size: 14px;
-        line-height: 18px;
-        
-        color: #575756;
-        background-color: transparent;
-        background-image: url(http://mihaeltomic.com/codepen/input-search/ic_search_black_24px.svg);
-        background-repeat: no-repeat;
-        background-size: 18px 18px;
-        background-position: 95% center;
-        border-radius: 50px;
-        border: 1px solid #575756;
-        transition: all 250ms ease-in-out;
-        backface-visibility: hidden;
-        transform-style: preserve-3d;
-    }
+	width: 70%;
+	padding: 12px 24px;
+	
+	background-color: transparent;
+	transition: transform 250ms ease-in-out;
+	font-size: 14px;
+	line-height: 18px;
+	
+	color: #575756;
+	background-color: transparent;
+	background-image: url(http://mihaeltomic.com/codepen/input-search/ic_search_black_24px.svg);
+	background-repeat: no-repeat;
+	background-size: 18px 18px;
+	background-position: 95% center;
+	border-radius: 50px;
+	border: 1px solid #575756;
+	transition: all 250ms ease-in-out;
+	backface-visibility: hidden;
+	transform-style: preserve-3d;
+}
     
 .search__input::placeholder {
             color: rgba(87, 87, 86, 0.8);
@@ -56,8 +57,7 @@
             letter-spacing: 1.5px;
         }
 
-.search__input:hover,
-        .search__input:focus {
+.search__input:hover, .search__input:focus {
             padding: 12px 0;
             outline: 0;
             border: 1px solid transparent;
@@ -82,12 +82,12 @@
 
 .fill {
   --color: #a972cb;
-  --hover: #cb72aa;
+  --hover: #1973bc;
 }
 
 button {
   background: none;
-  border: 1px solid;
+  border: 0px solid;
   font: inherit;
   line-height: 1;
   margin: 0.5em;
@@ -104,6 +104,7 @@ button:hover, button:focus {
   color: #fff;
 }
 
+
 </style> 
 
 
@@ -113,9 +114,7 @@ button:hover, button:focus {
 
 
 <script type="text/javascript">
-
-function MyFunction() {
-
+function idCheck() {
 	$.ajax({
 		type:"get",
 		url:"MemberController?command=idcheck&id="+$("#tbID").val(),
@@ -124,32 +123,88 @@ function MyFunction() {
 		success:function(data){
 			if(data.trim() == "OK"){
 				$("#idcheck").css("color", "#0000ff");
-				$("#idcheck").html("사용할 수 있는 id입니다.");
+				//$("#idcheck").html("사용할 수 있는 id입니다.");
+				$("#idcheck").val("");
+				$("#idcheck").focus();
+				alert("사용할 수 있는 id입니다.");
+		
 			}else{
 				$("#idcheck").css("color", "#ff0000");
-				$("#idcheck").html("사용 중인 id입니다.");
-				$("#id").val("");
+				//$("#idcheck").html("사용 중인 id입니다.");
+				alert("사용 중인 id입니다.");
+				$("#tbID").val("");
+				$("#tbID").focus();
+				
 			}
 		}
-	});
-	
+	});	
 }
 
-
-function MyFunction01() {
-	
-	
+function pwdCheck() {	
 	if($("#tbPwd").val() != ($("#cpass").val())){ 
 	      alert("비밀번호가 다릅니다.");
 	      $("#tbPwd").val("");
 	      $("#cpass").val("");
 	      $("#tbPwd").focus();
 	      return false;
-	     }
+	}	
+}
+
+function emailCheck() {
+	
+	  // 이메일 검증 스크립트 작성
+	  var emailVal = $("#email").val();
+
+	  var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+	  // 검증에 사용할 정규식 변수 regExp에 저장
+
+	  if (emailVal.match(regExp) != null) {
+	    alert("이메일을 올바르게 입력했습니다.");
+	  }
+	  else {
+	    alert("이메일형식에 맞게 입력해주세요\nex)hello@sagong'ssi.com");
+	    $("#email").val("");
+	    $("#email").focus();  
+	  }
 	
 	
 }
 
+function phoneCheck() {
+	
+	var phoneVal = $("#phone").val();
+	
+	var regExp = /^\d{3}-\d{3,4}-\d{4}$/;
+
+	if (phoneVal.match(regExp) != null) {
+	   alert("번호를 올바르게 입력했습니다.");
+	  }
+	  else {
+	    alert("번호를 올바르게 입력해주세요\nex)010-XXXX-XXXX");
+	    $("#phone").val("");
+	    $("#phone").focus();  
+	  }
+	
+	
+}
+
+$(document).ready(function(){ 
+	$("#phone").focus(function () {
+		$("#phone").attr("placeholder","010-XXXX-XXXX");
+	});
+	
+	$("#phone").focusout (function () {
+		$("#phone").attr("placeholder","");
+	});
+	$("#email").focus(function () {
+		$("#email").attr("placeholder","hello@sagong.com");
+		
+	});
+	
+	$("#email").focusout (function () {
+		$("#email").attr("placeholder","");
+	});
+})
 </script>
 
 
@@ -157,8 +212,7 @@ function MyFunction01() {
 
 </head>
 <body>
-
-<div id="top-menu">
+<div id="top-menu" >
 <table border="0" align="center" width="100%" class="title_table">
 <col width="100"><col width="400"><col width="200">
 	<tr>
@@ -170,16 +224,14 @@ function MyFunction01() {
 	</td>
 	<td align="center">
 	<% if(user==null){ %>
-		<button class="btn" href="#signup" data-toggle="modal" data-target=".log-sign">Sign In/Register</button>
+		<button class="fill" id="titleBtn" href="#signup" data-toggle="modal" data-target=".log-sign">Sign In/Register</button>
 		<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" style="margin-right: 5px;">로그인</button>
 		<button type="button" class="btn btn-primary" onclick="location.href='regi.jsp'" style="margin-left: 5px;">회원가입</button> -->
 	<%}else{ %>
 		<h5><%=user.getName() %>님 환영합니다. <a href="MemberController?command=logout"><font size="2">로그아웃</font></a> </h5>
-		<div class="buttons">
 		<button class="fill" onclick="location.href='myPage.jsp'">마이페이지</button>
 		<button class="fill" onclick="location.href='pdswrite.jsp'">사진 올리기</button>
 		<button class="fill" onclick="location.href='PdsController?command=myLikePdsList&id=<%=user.getId()%>'">즐겨찾기</button>
-		</div>
 	<%} %>
 	<!-- <input type="submit" value="로그인"> -->
 	</tr>
@@ -187,11 +239,11 @@ function MyFunction01() {
 </div> 
 
 <script>
-window.onscroll = function() {myFunction()};
-
 var header = document.getElementById("top-menu");
 var sticky = header.offsetTop;
-
+function loginView(){
+	$("#titleBtn").click();
+}
 </script>
 
 	<!-- 로그인 -->
@@ -218,17 +270,18 @@ var sticky = header.offsetTop;
 				<!-- Text input-->
 
 				<div class="group">
-					<input required="" class="input" name="id" type="text" autofocus><span
-						class="highlight"></span><span class="bar"></span> <label
-						class="label" for="date">ID</label>
+					<input required="required" class="input" name="id" type="text">
+					<span class="highlight" ></span><span class="bar"></span> 
+					<label class="label" for="date">ID</label>
 				</div>
 
 
 				<!-- Password input-->
 				<div class="group">
-					<input required="" class="input" name="pwd" type="password"><span
-						class="highlight"></span><span class="bar"></span> <label
-						class="label" for="date">PW</label>
+					<input required="required" class="input" name="pwd" type="password">
+					<span class="highlight"></span>
+					<span class="bar"></span> 
+					<label class="label" for="date">PW</label>
 				</div>
 				<!-- <em>minimum 6 characters</em> -->
 				
@@ -246,13 +299,13 @@ var sticky = header.offsetTop;
 
 
 		<div class="tab-pane fade" id="signup">
-			<form class="form-horizontal" action="MemberController"  method="post">
+			<form class="form-horizontal" action="MemberController"  method="post" id="regiform">
 			<input type="hidden" name="command" value="regi"> 
 				<fieldset>
 					<!-- Sign Up Form -->
 					<!-- ID input-->
 					<div class="group">
-						<input required="" class="input" name="id" id="tbID" type="text" maxlength="12" onblur="MyFunction()">
+						<input required="required" class="input" name="id" id="tbID" type="text" maxlength="12" onchange="idCheck()">
 						<span class="highlight"></span>
 						<span class="bar"></span> 
 						<label class="label" for="date">ID <span id="idcheck" style="font-size: 8px"></span></label>
@@ -260,7 +313,7 @@ var sticky = header.offsetTop;
 
 					<!--  Password input-->
 					<div class="group">
-						<input required="" class="input" name="pwd" id="tbPwd" type="password" maxlength="12" >
+						<input required class="input" name="pwd" id="tbPwd" type="password" maxlength="12" >
 						<span class="highlight"></span>
 						<span class="bar"></span> 
 						<label class="label" for="date">PW</label>
@@ -268,7 +321,7 @@ var sticky = header.offsetTop;
 
 					<!-- Password input-->
 					<div class="group">
-						<input required="" class="input" id="cpass" type="password" maxlength="12" onblur="MyFunction01()" >
+						<input required="required" class="input" id="cpass" type="password" maxlength="12" onchange="pwdCheck()" >
 						<span class="highlight"></span>
 						<span class="bar"></span> 
 						<label class="label" for="date">PW확인</label>
@@ -276,7 +329,7 @@ var sticky = header.offsetTop;
 
 					<!-- Name input-->
 					<div class="group">
-						<input required="" class="input" name="name" type="text" name="name" maxlength="12" >
+						<input required="required" class="input" name="name" type="text" maxlength="12" >
 						<span class="highlight"></span>
 						<span class="bar"></span> 
 						<label class="label" for="date">NAME</label>
@@ -284,7 +337,7 @@ var sticky = header.offsetTop;
 
 					<!-- Email input-->
 					<div class="group">
-						<input required="" class="input" name="email" type="email">
+						<input required="required" class="input" name="email" type="text" id="email" onchange="emailCheck()" placeholder="">
 						<span class="highlight"></span>
 						<span class="bar"></span> 
 						<label class="label" for="date">EMAIL</label>
@@ -292,10 +345,10 @@ var sticky = header.offsetTop;
 					
 					<!-- Tel input-->
 					<div class="group">
-						<input required="" class="input" name="phone" type="tel" pattern="\d{3}-\d{3,4}-\d{4}" > <!-- pattern="\d{3}-\d{3,4}-\d{4}" -->
+						<input required="required" class="input" name="phone" type="text" id="phone" onchange="phoneCheck()" placeholder=""> <!-- pattern="\d{3}-\d{3,4}-\d{4}" -->
 						<span class="highlight"></span>
 						<span class="bar"></span> 
-						<label class="label" for="date">PHONE <span style="font-size: 8px">ex)010-6545-1894</span></label>
+						<label class="label" for="date">PHONE</label>
 					</div>
 
 

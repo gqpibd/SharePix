@@ -125,7 +125,7 @@ a{
 
 .more{
 	position: relative;
-	float: right;
+	/* float: right; */
 }
 
 .reply{ /* 댓글 하나가 한 덩어리로 묶인다. */
@@ -276,14 +276,13 @@ input[type="range"]::-webkit-slider-thumb:hover {
 }
 
 /*----------------툴팁----------------*/
-.tooltip {
+.mtooltip {
     position: absolute;
     right:0;
     display: inline-block;
-    border-bottom: 1px dotted black;
 }
 
-.tooltip .tooltiptext{
+.mtooltip .mtooltiptext{
     visibility: hidden;
     width: 80px;
     background-color: white;
@@ -299,8 +298,11 @@ input[type="range"]::-webkit-slider-thumb:hover {
 }
 
 
-.tooltip:hover .tooltiptext {
+.mtooltip:hover .mtooltiptext {
     visibility: visible;
 }
 
 /*------------------------------------*/
+.aTag{
+	cursor: pointer
+}

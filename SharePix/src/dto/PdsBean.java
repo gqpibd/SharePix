@@ -1,5 +1,7 @@
 package dto;
 
+import java.io.Serializable;
+
 //	DROP TABLE PICPDS
 //	CASCADE CONSTRAINTS;
 //
@@ -23,8 +25,10 @@ package dto;
 
 import java.util.Arrays;
 
-public class PdsBean {
+public class PdsBean  implements Serializable {
 
+	private static final long serialVersionUID = 8300464898308770593L;
+	
 	private int seq;
 	private String id;
 	private String category;

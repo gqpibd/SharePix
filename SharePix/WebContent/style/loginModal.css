@@ -17,26 +17,32 @@ background-color:#f2f2f2;
 }
 
 
-.btn-block{margin-top:20px;
-margin-bottom:20px;
-font-size:18px;}
-
-.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {   background-color:#e5ecf4;
-color:#4a89dc;}
-
-.login-shadow{-webkit-box-shadow: 5px -5px 6px 0px rgba(82,82,82,0.52);
--moz-box-shadow: 5px -5px 6px 0px rgba(82,82,82,0.52);
-box-shadow: 5px -5px 6px 0px rgba(82,82,82,0.52);
-  z-index:1;
-   
+.btn-block{
+	margin-top:20px;
+	margin-bottom:20px;
+	font-size:18px;
 }
 
-.signup-shadow{-webkit-box-shadow: -5px 0px 6px 0px rgba(82,82,82,0.52);
--moz-box-shadow: -5px -5px 6px 0px rgba(82,82,82,0.52);
-box-shadow: -5px 0px 6px 0px rgba(82,82,82,0.52);
-  
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {   
+	background-color:#e5ecf4;
+	color:#4a89dc;
 }
-.modal-header{background-color:#e5ecf4;}
+
+.login-shadow{
+	-webkit-box-shadow: 5px -5px 6px 0px rgba(82,82,82,0.52);
+	-moz-box-shadow: 5px -5px 6px 0px rgba(82,82,82,0.52);
+	box-shadow: 5px -5px 6px 0px rgba(82,82,82,0.52);
+	z-index:1;   
+}
+
+.signup-shadow{
+	-webkit-box-shadow: -5px 0px 6px 0px rgba(82,82,82,0.52);
+	-moz-box-shadow: -5px -5px 6px 0px rgba(82,82,82,0.52);
+	box-shadow: -5px 0px 6px 0px rgba(82,82,82,0.52);  
+}
+.modal-header{
+	background-color:#e5ecf4;
+}
 
 .group { 
     position: relative; 
@@ -74,16 +80,36 @@ box-shadow: -5px 0px 6px 0px rgba(82,82,82,0.52);
 
 /* active */
 
-.input:focus ~ .label, .input.used ~ .label {
-    top: -20px;
-  transform: scale(.75); left:-15px;
+/* .input:focus ~ .label, .input.used ~ .label {
+	top: -20px;
+	transform: scale(.75); left:-15px;
+    font-size: 14px;
+    color: #4a89dc;
+} */
+
+.input:focus ~ .label, .input:valid ~ .label
+{
+	top: -20px;
+	transform: scale(.75); left:-15px;
     /* font-size: 14px; */
     color: #4a89dc;
 }
 
+/* input:placeholder-shown + label {
+  cursor: text;
+  max-width: 66.66%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transform-origin: left bottom;
+  transform: translate(0, 2.125rem) scale(1.5);
+} */
+
+.input[type="password"] {
+	letter-spacing: 0.3em;
+}
 
 /* Underline */
-
 .bar {
     position: relative;
     display: block;
@@ -106,12 +132,10 @@ box-shadow: -5px 0px 6px 0px rgba(82,82,82,0.52);
 
 
 /* active */
-
 .input:focus ~ .bar:before, .input:focus ~ .bar:after { width: 50%; }
 
 
 /* Highlight */
-
 .highlight {
     position: absolute;
     height: 60%; 
@@ -141,7 +165,7 @@ box-shadow: -5px 0px 6px 0px rgba(82,82,82,0.52);
 
 @media screen and (min-width: 768px) {
     
-    #myModal .modal-dialog  {width:500px;}
+#myModal .modal-dialog  {width:500px;}
   
   #forgot-password .modal-dialog{width:500px;}
   
@@ -150,9 +174,10 @@ box-shadow: -5px 0px 6px 0px rgba(82,82,82,0.52);
 }
 
 
-.modal-body{
-	
+.modal-body{	
 background-size:cover;
 z-inedx:4;}
 
-em{display:none;}
+em{
+	display:none;
+}
