@@ -122,7 +122,7 @@
 						</span>
 					</div> 
 					<%}%>
-				 	<img src="<%=src%>" class="profile re-img img_clickable" width="10" onerror="this.src='<%=srcError%>'" onclick="location.href='userPage.jsp?id=<%= re.getId()%>'">
+				 	<img src="<%=src%>" class="profile re-img img_clickable" width="10" onerror="this.src='<%=srcError%>'" onclick="location.href='MemberController?command=userPage&id=<%= re.getId()%>'">
 					<div class="reply_content">
 						<span class="nickname"><%=re.getId()%> 
 					<% if (re.getId().equals(pds.getId())) { // 게시글 작성자 표시
@@ -179,7 +179,7 @@
 			<p>
 				<img src="images/profiles/<%=pds.getId()%>.png" width="100"	class="profile img_clickable" align="middle"
 					 onerror="this.src='images/profiles/default.png'"
-					 onclick="location.href='userPage.jsp?id=<%= pds.getId()%>'"> <!-- 작성자의 프로필 사진 -->
+					 onclick="location.href='MemberController?command=userPage&id=<%= pds.getId()%>'"> <!-- 작성자의 프로필 사진 -->
 					 <%=pds.getId()%>				
 			</p>
 				
@@ -216,7 +216,7 @@
 				 
 				<%for(PdsBean bean : list){ %>
 				<div class="item">	
-					<img class="img_clickable" src="<%=PdsController.PATH%><%=bean.getfSaveName()%>" onclick="veiwDetail(<%=bean.getSeq()%>)" height="300"> 
+					<img class="img_clickable" src="images/pictures/<%=bean.getfSaveName()%>" onclick="veiwDetail(<%=bean.getSeq()%>)" height="300"> 
 				</div>
 				<%} %>
 			</div>

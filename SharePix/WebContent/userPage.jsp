@@ -6,30 +6,9 @@
 <%@page import="dto.MemberBean"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%
-    request.setCharacterEncoding("utf-8");
-    %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<link rel="stylesheet" href="style/imageArrange.css">
-<style type="text/css">
-.img {
-	cursor: pointer;
-}
-
-td {
-	text-align: center;
-}
-</style>
-
-<title>userPage.jsp</title>
-
-</head>
-<body>
 <%
+    request.setCharacterEncoding("utf-8");
+
 	Object ologin = session.getAttribute("login");
 	MemberBean loginMemDto = null;
  	loginMemDto = (MemberBean)ologin;// 세션에 담겨있던 로그인한 사람의 dto
@@ -106,72 +85,102 @@ td {
 		follow = "images/icons/like_fill.png";
 	}
 %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<style type="text/css">
+.img {
+	cursor: pointer;
+}
+td {
+	text-align: center;
+}
+</style>
 
-<h2><%=pageMemDto.getName()%>의 userPage</h2>	<!-- 출력 확인 -->
-<!-- <div align=center> -->
-<%if(pageMemDto.getId().equals(loginMemDto.getId())){
-	%>
-	<form action="MemberController">
-		<input type="hidden" name="command" value="userUpdatePage">
-		<button type="submit">개인정보 수정</button>
-	</form>
-	<%
-}%>
-<table border="1" align="center">
-<tr>
-<td>
-	<img src='images/profiles/<%=pageMemDto.getId()%>.png' width='100px'
-		class='profile re-img' align='middle'
-		onerror="this.src='images/profiles/default.png'">
-</td>
-</tr>
-<tr>
-<td><span class="nickname"><%=pageMemDto.getId()%></span></td>
-<tr>
-<td>
-<span><img title="업로드한 사진 수" src="./images/icons/images.png" style="width: 15px">&nbsp;:&nbsp;<%=list.size()%></span>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<span><img title="다운된 사진 수" src="./images/icons/download.png" style="width: 15px">&nbsp;:&nbsp;<%=totalDownCount%></span>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<span><img title="좋아요 받은 수" src="./images/icons/like.png" style="width: 15px">&nbsp;:&nbsp;<%=totalLikeCount%></span>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<span><img title="댓글 수" src="./images/icons/comment.png" style="width: 15px">&nbsp;:&nbsp;<%=totalReplyCount%> </span>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<span><img title="조회 수" src="./images/icons/read.png" style="width: 15px">&nbsp;:&nbsp;<%=totalReadCount%> </span>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<span><img title="팔로워의 수" src="./images/icons/star.png" style="width: 15px; height:auto">&nbsp;:&nbsp;<%=fList.size()%></span>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<span class="ifNotMeHide">
-<img title="<%=pageMemDto.getName()%>이(가) 좋아요한 사진 수" src="./images/icons/collection_empty.png" style="width: 15px">&nbsp;:&nbsp;<%=lList.size()%>&nbsp;&nbsp;</span><br>
-</td>
-</tr>
-</table>
-<div align="center">
-<button onclick="doFollow()" class="btn-follow"> <!-- 팔로우 버튼 -->
-	<img id="followImg" src="<%=follow%>" width="15" id="follow"> 
-</button>
-<input type="hidden" id="ajax_follow">
-</div>
-<!-- </div> -->
+<title>userPage.jsp</title>
 
-<%-- <span class="ifNotMeHide">
-나를 구독한 사람들  : 
-<%for (int i = 0; i < sList.size(); i++){
-	FollowDto sDto = sList.get(i);
-	%>
-	<a href="MemberController?command=userPage&id=<%=sDto.getFollowerId()%>"><%=sDto.getFollowerId()%></a> ,
-	<%
-}%>
-</span> --%>
-<br>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
-<hr>
-<div align="center">
-<a href="javascript:gotoPds()">user가 올린 이미지</a>&nbsp;&nbsp;<a href="javascript:gotoSub()">나를 구독한 사람들</a>&nbsp;&nbsp;<a href="javascript:gotoLike()">내 컬렉션</a>
-</div>
-<hr>
+<link rel="stylesheet" href="style/imageArrange.css">
+<script type="text/javascript">
 
-	<div class="mcontainer userPds">
+</script>
+</head>
+<body>
+
+	<div style="height: 100%"> <!-- 타이틀바 -->
+		<jsp:include page="titlebar.jsp">
+			<jsp:param name="goBackTo" value="index.jsp" />
+		</jsp:include>
+	</div>
+
+	<div style="margin-top: 10em">
+	<h2><%=pageMemDto.getName()%>의 userPage</h2>	<!-- 출력 확인 -->
+	<!-- <div align=center> -->
+	<%if(pageMemDto.getId().equals(loginMemDto.getId())){
+		%>
+		<form action="MemberController">
+			<input type="hidden" name="command" value="userUpdatePage">
+			<button type="submit">개인정보 수정</button>
+		</form>
+		<%
+	}%>
+	<table border="1" align="center">
+	<tr>
+		<td>
+			<img src='images/profiles/<%=pageMemDto.getId()%>.png' width='100px'
+				class='profile re-img' align='middle'
+				onerror="this.src='images/profiles/default.png'">
+		</td>
+	</tr>
+	<tr>
+		<td><span class="nickname"><%=pageMemDto.getId()%></span></td>
+	<tr>
+		<td>
+		<span><img title="업로드한 사진 수" src="./images/icons/images.png" style="width: 15px">&nbsp;:&nbsp;<%=list.size()%></span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<span><img title="다운된 사진 수" src="./images/icons/download.png" style="width: 15px">&nbsp;:&nbsp;<%=totalDownCount%></span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<span><img title="좋아요 받은 수" src="./images/icons/like.png" style="width: 15px">&nbsp;:&nbsp;<%=totalLikeCount%></span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<span><img title="댓글 수" src="./images/icons/comment.png" style="width: 15px">&nbsp;:&nbsp;<%=totalReplyCount%> </span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<span><img title="조회 수" src="./images/icons/read.png" style="width: 15px">&nbsp;:&nbsp;<%=totalReadCount%> </span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<span><img title="팔로워의 수" src="./images/icons/star.png" style="width: 15px; height:auto">&nbsp;:&nbsp;<%=fList.size()%></span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<span class="ifNotMeHide">
+		<img title="<%=pageMemDto.getName()%>이(가) 좋아요한 사진 수" src="./images/icons/collection_empty.png" style="width: 15px">&nbsp;:&nbsp;<%=lList.size()%>&nbsp;&nbsp;</span><br>	
+		</td>
+	</tr>
+	</table>
+	
+	<div align="center">
+	<button onclick="doFollow()" class="btn-follow"> <!-- 팔로우 버튼 -->
+		<img id="followImg" src="<%=follow%>" width="15" id="follow"> 
+	</button>
+	<input type="hidden" id="ajax_follow">
+	</div>
+	<!-- </div> -->
+	
+	<%-- <span class="ifNotMeHide">
+		나를 구독한 사람들  : 
+		<%for (int i = 0; i < sList.size(); i++){
+			FollowDto sDto = sList.get(i);
+			%>
+			<a href="MemberController?command=userPage&id=<%=sDto.getFollowerId()%>"><%=sDto.getFollowerId()%></a> ,
+			<%
+		}%>
+	</span> --%>
+	<br>
+	
+	<hr>
+	<div align="center">
+	<a href="javascript:gotoPds()">user가 올린 이미지</a>&nbsp;&nbsp;<a href="javascript:gotoSub()">나를 구독한 사람들</a>&nbsp;&nbsp;<a href="javascript:gotoLike()">내 컬렉션</a>
+	</div>
+	<hr>	
+	<div class="mcontainer" id="userPds">
 		<%
 		String PATH = "images/";
 		List<PdsBean> pdslist = null;
@@ -180,7 +189,6 @@ td {
 		}
 		String like = "heart.png";
 			for (PdsBean Pdscust : pdslist) {
-				System.out.println(PATH + Pdscust.getfSaveName());
 		%>
 		<div class="item profilebox profilebox1">
 			<img class="img" name="item"
@@ -211,57 +219,57 @@ td {
 		<%
 			}
 		%>
+	</div> 
+	<!-- <div class="userPds"> -->
+	<%-- <jsp:include page="userPagePds.jsp" flush="true">
+	    <jsp:param name="id" value="<%=pagePds.getId()%>"/>
+	</jsp:include> --%>
+	<!-- </div> -->
+	
+	<div id="userSub" class="ifNotMeHide" style="display: none"> <!-- 불러오긴 하나 숨김 -->
+		<jsp:include page="follow.jsp" flush="true">
+			<jsp:param name="followeeId" value="<%=pagePds.getId()%>"/>
+		</jsp:include>
 	</div>
-<div class="userPds">
-<%-- <jsp:include page="userPagePds.jsp" flush="true">
-    <jsp:param name="id" value="<%=pagePds.getId()%>"/>
-</jsp:include> --%>
-</div>
-
-<div class="userSub ifNotMeHide" style="display: none"> <!-- 불러오긴 하나 숨김 -->
-	<jsp:include page="follow.jsp" flush="true">
-		<jsp:param name="followeeId" value="<%=pagePds.getId()%>"/>
-	</jsp:include>
-</div>
-
-	<div class="mcontainer userCollect" style="display: none">
-		<%
-		PATH = "images/";
-		like = "heart.png";
-			for (PdsBean Pdscust : lList) {
-				System.out.println("내 컬렉션" + PATH + Pdscust.getfSaveName());
-		%>
-		<div class="item profilebox profilebox1">
-			<img class="img" name="item"
-				src="<%=PATH%>/pictures/<%=Pdscust.getfSaveName()%>"
-				onclick="veiwDetail(<%=Pdscust.getSeq()%>)" height="300">
-			<div class="SocialIcons">
-				<a> <img alt="" src="<%=PATH%>icons\\<%=like%>"
-					onmouseover="this.src='<%=PATH%>icons\\fullheart.png'"
-					onmouseout="this.src='<%=PATH%>icons\\<%=like%>'"
-					onclick="doLike()" class="btn-like"> <label><%=Pdscust.getLikeCount()%></label>
-				</a> <a href="#" style="text-decoration: none; color: white;"> <img
-					alt="" src="<%=PATH%>icons\\openbook.png"
-					onmouseover="this.src='<%=PATH%>icons\\fullopenbook.png'"
-					onmouseout="this.src='<%=PATH%>icons\\openbook.png'"> <label><%=Pdscust.getReadCount()%></label>
-				</a> <a href="#" style="text-decoration: none; color: white;"> <img
-					alt="" src="<%=PATH%>icons\\contract.png"
-					onmouseover="this.src='<%=PATH%>icons\\fullcontract.png'"
-					onmouseout="this.src='<%=PATH%>icons\\contract.png'"> <label><%=Pdscust.getReplyCount()%></label>
-				</a>
+	
+		<div id="userCollect" class="mcontainer">
+			<%
+			PATH = "images/";
+			like = "heart.png";
+				for (PdsBean Pdscust : lList) {
+					System.out.println("내 컬렉션" + PATH + "pictures/" + Pdscust.getfSaveName());
+			%>
+			<div class="item profilebox profilebox1">
+				<img class="img" name="item"
+					src="<%=PATH%>pictures/<%=Pdscust.getfSaveName()%>"
+					onclick="veiwDetail(<%=Pdscust.getSeq()%>)" height="300">
+				<div class="SocialIcons">
+					<a> <img alt="" src="<%=PATH%>icons\\<%=like%>"
+						onmouseover="this.src='<%=PATH%>icons\\fullheart.png'"
+						onmouseout="this.src='<%=PATH%>icons\\<%=like%>'"
+						onclick="doLike()" class="btn-like"> <label><%=Pdscust.getLikeCount()%></label>
+					</a> <a href="#" style="text-decoration: none; color: white;"> <img
+						alt="" src="<%=PATH%>icons\\openbook.png"
+						onmouseover="this.src='<%=PATH%>icons\\fullopenbook.png'"
+						onmouseout="this.src='<%=PATH%>icons\\openbook.png'"> <label><%=Pdscust.getReadCount()%></label>
+					</a> <a href="#" style="text-decoration: none; color: white;"> <img
+						alt="" src="<%=PATH%>icons\\contract.png"
+						onmouseover="this.src='<%=PATH%>icons\\fullcontract.png'"
+						onmouseout="this.src='<%=PATH%>icons\\contract.png'"> <label><%=Pdscust.getReplyCount()%></label>
+					</a>
+				</div>
+				<div class="profileInfo">
+					<h3>
+						<a href="MemberController?command=userPage&id=<%=Pdscust.getId()%>"
+							style="text-decoration: none; color: white;"><%=Pdscust.getId()%></a>
+					</h3>
+				</div>
 			</div>
-			<div class="profileInfo">
-				<h3>
-					<a href="MemberController?command=userPage&id=<%=Pdscust.getId()%>"
-						style="text-decoration: none; color: white;"><%=Pdscust.getId()%></a>
-				</h3>
-			</div>
+			<%
+				}
+			%>
 		</div>
-		<%
-			}
-		%>
 	</div>
-
 </body>
 
 <script type="text/javascript">
@@ -291,30 +299,24 @@ function doFollow(){ // 팔로우 눌렀을 때
 		<%}%>
 }
 function gotoPds(){
-	$(".userSub").hide();
-	$(".userCollect").attr('css', 'display: none');
-	$(".userPds").show();	
+	$("#userSub").hide();
+	$("#userCollect").hide();
+	$("#userPds").show();	
 }
 
 function gotoSub() { // 
-	$(".userPds").hide();	
-	$(".userCollect").attr('css', 'display: none');
-	$(".userSub").show();
+	$("#userPds").hide();	
+	$("#userCollect").hide();
+	$("#userSub").show();
 }
 
 function gotoLike(){
-	$(".userPds").hide();
-	$(".userSub").hide();
-	$(".userCollect").removeAttr("style");
+	$("#userPds").hide();
+	$("#userSub").hide();
+	$("#userCollect").show();
 }
 
-$(document).ready(function() {
-    var options = {minMargin: 5, maxMargin: 15, itemSelector: ".item", firstItemClass: "first-item"};
-    $(".mcontainer").rowGrid(options);
-});
-  
-  
-function veiwDetail(seq) {
+function veiwDetail(seq) { // 사진 상세 페이지로 이동
    console.log(seq);
    location.href="PdsController?command=detailview&seq=" + seq;
 }     	
@@ -360,6 +362,20 @@ $(function () {
 	});
 });
  --%>
- 
+ $(document).ready(function() {
+		//$.noConflict();
+		//var options = {minMargin: 5, maxMargin: 15, itemSelector: ".item", firstItemClass: "first-item"};
+		//$(".mcontainer").rowGrid(options);
+		$.noConflict();
+		/* var userCollectOpts = {minMargin: 5, maxMargin: 15, itemSelector: ".item", firstItemClass: "first-item"};
+		$("#mcontainer").rowGrid(userCollectOpts); */
+		var userCollectOpts = {minMargin: 5, maxMargin: 15, itemSelector: ".item", firstItemClass: "first-item"};
+		$(".mcontainer").rowGrid(userCollectOpts);
+	});
 </script>
+<script src="js/jquery.row-grid.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js">
+</script>
+
 </html>
