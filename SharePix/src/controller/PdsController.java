@@ -71,8 +71,8 @@ public class PdsController extends HttpServlet {
 			command = req.getParameter("command");
 		}
 		System.out.println("command:" + command);
-		int seq=0;
 		if(command.equalsIgnoreCase("detailview")) {
+			int seq=0;
 			seq = Integer.parseInt(req.getParameter("seq"));
 			System.out.println(seq);
 			PdsBean pds = PdsService.getInstance().getPdsDetail(seq);
@@ -95,6 +95,7 @@ public class PdsController extends HttpServlet {
 			req.setAttribute("searchList", searchList);
 			dispatch("SearchView.jsp", req, resp);
 		} else if(command.equalsIgnoreCase("likeChange")) {
+			int seq=0;
 			boolean like = Boolean.parseBoolean(req.getParameter("like"));
 			String id = req.getParameter("id");
 			seq = Integer.parseInt(req.getParameter("seq"));
@@ -115,28 +116,8 @@ public class PdsController extends HttpServlet {
 		} else if(command.equals("pdsUpdatePage")){
 			System.out.println("command = " + command + "  들어옴");	// 확인용
 			dispatch("./pdsUpdatePage.jsp", req, resp);
-		} else if(command.equals("pdsUpdateAf")) {
-			System.out.println("command = " + command + "  들어옴");	// 확인용
-			
-			String category		= req.getParameter("category");
-			String tags 		= req.getParameter("tags");
-			    
-		    PdsBean dto = new PdsBean(category, tags);
-		    dto.setSeq(seq);
-		    
-			if(PdsService.getInstance().updatePDS(dto)) {	//	update가 되면 true 반환
-				dispatch("./pdsUpdateAf.jsp", req, resp);
-			}else {
-				resp.setContentType("text/html; charset=UTF-8");
-				PrintWriter out = resp.getWriter();
-				
-				out.println("<script>alert('수정 실패'); location.href='./pdsUpdatePage.jsp';</script>");
-				 
-				out.flush();
-			}
-			dispatch("picDetail.jsp", req, resp);			
-		}else if(command.equals("delete")) {
-
+		} else if(command.equals("delete")) {
+			int seq = Integer.parseInt(req.getParameter("seq"));
 			boolean isS = PdsService.getInstance().delPDS(seq);
 			if(isS) {
 				System.out.println("삭제 성공");
@@ -151,10 +132,9 @@ public class PdsController extends HttpServlet {
 			}
 			
 		} else if(command.equals("pdsupdate")) {
+			int seq = Integer.parseInt(req.getParameter("seq"));
 			String category		= req.getParameter("category");
 			String tags 		= req.getParameter("tags");
-			String seqStr = req.getParameter("seq");
-			seq = Integer.parseInt(seqStr);
 			
 			System.out.println("category : " + category);
 			System.out.println("tags : " + tags);
@@ -165,8 +145,7 @@ public class PdsController extends HttpServlet {
 			boolean isS = up.updatePDS(pds);
 	
 			if(isS) {
-				dispatch("./updatePds.jsp?seq=", req, resp);			
-				//resp.sendRedirect("PdsController?command=detailview&seq=" + seq);
+				dispatch("PdsController?command=detailview&seq=" + seq, req, resp);
 			}		
 			else {
 				resp.setContentType("text/html; charset=UTF-8");
