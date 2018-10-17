@@ -80,9 +80,9 @@
 		</tr>
 	
 	</table>
-	<input type="submit" value="수정하기">	
-	<button type="button" onclick="deletePds()" >삭제하기</button>   
-	<button type="button" onclick = "location.href='index.jsp'">나가기</button> 
+	<input class="fill sagongBtn" type="submit" value="수정하기">	
+	<button class="fill sagongBtn" type="button" onclick="deletePds()" >삭제하기</button>   
+	<button class="fill sagongBtn" type="button" onclick = "location.href='index.jsp'">나가기</button> 
 	</form>	  
 	
 </div>

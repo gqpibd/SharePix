@@ -54,7 +54,7 @@ public class MemberService {
 	
 	public boolean changeFollow(String followerId, String followeeId, boolean isFollow) {
 		return manager.changeFollow(followerId, followeeId, isFollow);
-	}
+	}	
 	
 	public boolean addMember(MemberBean dto){
 		return manager.addMember(dto);

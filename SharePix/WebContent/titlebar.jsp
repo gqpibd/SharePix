@@ -11,9 +11,11 @@
 <meta charset="UTF-8">
 <title></title>
 <style type="text/css">
+
+
 #top-menu {
   width: 100%;
-  background-color: #F6F6F6;
+  background-color: #FAFAFA;
   top: 0px;
   left: 0px;
   position: fixed;
@@ -69,14 +71,45 @@
 .title:hover{
 	cursor: pointer;
 }
+
+.fill:hover,
+.fill:focus {
+  box-shadow: inset 0 0 0 2em var(--hover);
+}
+
+.fill {
+  --color: #a972cb;
+  --hover: #1973bc;
+}
+
+.sagongBtn {
+  background: none;
+  border: 0px solid;
+  font: inherit;
+  line-height: 1;
+  margin: 0.5em;
+  padding: 0.5em 1em;
+}
+
+.sagongBtn {
+  color: var(--color);
+  transition: 0.25s;
+}
+
+.sagongBtn:hover, .sagongBtn:focus {
+  border-color: var(--hover);
+  color: #fff;
+}
+
 </style> 
+
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="style/loginModal.css">
 
 
 <script type="text/javascript">
-
 function idCheck() {
 	$.ajax({
 		type:"get",
@@ -87,13 +120,17 @@ function idCheck() {
 			if(data.trim() == "OK"){
 				$("#idcheck").css("color", "#0000ff");
 				//$("#idcheck").html("사용할 수 있는 id입니다.");
+				$("#idcheck").val("");
+				$("#idcheck").focus();
+				alert("사용할 수 있는 id입니다.");
+		
 			}else{
 				$("#idcheck").css("color", "#ff0000");
 				//$("#idcheck").html("사용 중인 id입니다.");
-				
+				alert("사용 중인 id입니다.");
 				$("#tbID").val("");
 				$("#tbID").focus();
-				alert("사용 중인 id입니다.");
+				
 			}
 		}
 	});	
@@ -109,13 +146,51 @@ function pwdCheck() {
 	}	
 }
 
+function emailCheck() {
+	
+	  // 이메일 검증 스크립트 작성
+	  var emailVal = $("#email").val();
+
+	  var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+	  // 검증에 사용할 정규식 변수 regExp에 저장
+
+	  if (emailVal.match(regExp) != null) {
+	    alert("이메일을 올바르게 입력했습니다.");
+	  }
+	  else {
+	    alert("이메일형식에 맞게 입력해주세요\nex)hello@sagong'ssi.com");
+	    $("#email").val("");
+	    $("#email").focus();  
+	  }
+	
+	
+}
+
+function phoneCheck() {
+	
+	var phoneVal = $("#phone").val();
+	
+	var regExp = /^\d{3}-\d{3,4}-\d{4}$/;
+
+	if (phoneVal.match(regExp) != null) {
+	   alert("번호를 올바르게 입력했습니다.");
+	  }
+	  else {
+	    alert("번호를 올바르게 입력해주세요\nex)010-XXXX-XXXX");
+	    $("#phone").val("");
+	    $("#phone").focus();  
+	  }
+	
+	
+}
+
 $(document).ready(function(){ 
-	$("#tel").focus(function () {
-		$("#tel").attr("placeholder","010-XXXX-XXXX");
+	$("#phone").focus(function () {
+		$("#phone").attr("placeholder","010-XXXX-XXXX");
 	});
 	
-	$("#tel").focusout (function () {
-		$("#tel").attr("placeholder","");
+	$("#phone").focusout (function () {
+		$("#phone").attr("placeholder","");
 	});
 	$("#email").focus(function () {
 		$("#email").attr("placeholder","hello@sagong.com");
@@ -126,7 +201,6 @@ $(document).ready(function(){
 		$("#email").attr("placeholder","");
 	});
 })
-
 </script>
 
 
@@ -154,14 +228,14 @@ $(document).ready(function(){
 	</td>
 	<td align="center">
 	<% if(user==null){ %>
-		<button class="btn" id="titleBtn" href="#signup" data-toggle="modal" data-target=".log-sign">Sign In/Register</button>
+		<button class="fill sagongBtn" id="titleBtn" href="#signup" data-toggle="modal" data-target=".log-sign">Sign In/Register</button>
 		<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" style="margin-right: 5px;">로그인</button>
 		<button type="button" class="btn btn-primary" onclick="location.href='regi.jsp'" style="margin-left: 5px;">회원가입</button> -->
 	<%}else{ %>
 		<h5><%=user.getName() %>님 환영합니다. <a href="MemberController?command=logout"><font size="2">로그아웃</font></a> </h5>
-		<button onclick="location.href='MemberController?command=userPage&id=<%=user.getId()%>'">마이페이지</button>
-		<button onclick="location.href='pdswrite.jsp'">사진 올리기(수정해야한다)</button>
-		<button onclick="location.href='PdsController?command=myLikePdsList&id=<%=user.getId()%>'">즐겨찾기</button>
+		<button class="fill sagongBtn" onclick="location.href='MemberController?command=userPage&id=<%=user.getId()%>'">마이페이지</button>
+		<button class="fill sagongBtn" onclick="location.href='pdswrite.jsp'">사진 올리기</button>
+		<button class="fill sagongBtn" onclick="location.href='PdsController?command=myLikePdsList&id=<%=user.getId()%>'">즐겨찾기</button>
 	<%} %>
 	<!-- <input type="submit" value="로그인"> -->
 	</tr>
@@ -169,13 +243,11 @@ $(document).ready(function(){
 </div> 
 
 <script>
-
 var header = document.getElementById("top-menu");
 var sticky = header.offsetTop;
 function loginView(){
 	$("#titleBtn").click();
 }
-
 </script>
 
 	<!-- 로그인 -->
@@ -202,7 +274,7 @@ function loginView(){
 				<!-- Text input-->
 
 				<div class="group">
-					<input required="" class="input" name="id" type="text">
+					<input required="required" class="input" name="id" type="text">
 					<span class="highlight" ></span><span class="bar"></span> 
 					<label class="label" for="date">ID</label>
 				</div>
@@ -210,9 +282,10 @@ function loginView(){
 
 				<!-- Password input-->
 				<div class="group">
-					<input required="" class="input" name="pwd" type="password"><span
-						class="highlight"></span><span class="bar"></span> <label
-						class="label" for="date">PW</label>
+					<input required="required" class="input" name="pwd" type="password">
+					<span class="highlight"></span>
+					<span class="bar"></span> 
+					<label class="label" for="date">PW</label>
 				</div>
 				<!-- <em>minimum 6 characters</em> -->
 				
@@ -236,7 +309,7 @@ function loginView(){
 					<!-- Sign Up Form -->
 					<!-- ID input-->
 					<div class="group">
-						<input required="required" class="input" name="id" id="tbID" type="text" maxlength="12" onblur="idCheck()">
+						<input required="required" class="input" name="id" id="tbID" type="text" maxlength="12" onchange="idCheck()">
 						<span class="highlight"></span>
 						<span class="bar"></span> 
 						<label class="label" for="date">ID <span id="idcheck" style="font-size: 8px"></span></label>
@@ -252,7 +325,7 @@ function loginView(){
 
 					<!-- Password input-->
 					<div class="group">
-						<input required="required" class="input" id="cpass" type="password" maxlength="12" onblur="pwdCheck()" >
+						<input required="required" class="input" id="cpass" type="password" maxlength="12" onchange="pwdCheck()" >
 						<span class="highlight"></span>
 						<span class="bar"></span> 
 						<label class="label" for="date">PW확인</label>
@@ -260,7 +333,7 @@ function loginView(){
 
 					<!-- Name input-->
 					<div class="group">
-						<input required="required" class="input" name="name" type="text" name="name" maxlength="12" >
+						<input required="required" class="input" name="name" type="text" maxlength="12" >
 						<span class="highlight"></span>
 						<span class="bar"></span> 
 						<label class="label" for="date">NAME</label>
@@ -268,7 +341,7 @@ function loginView(){
 
 					<!-- Email input-->
 					<div class="group">
-						<input id="email" required="required" class="input" name="email" type="email" placeholder="">
+						<input required="required" class="input" name="email" type="text" id="email" onchange="emailCheck()" placeholder="">
 						<span class="highlight"></span>
 						<span class="bar"></span> 
 						<label class="label" for="date">EMAIL</label>
@@ -276,10 +349,10 @@ function loginView(){
 					
 					<!-- Tel input-->
 					<div class="group">
-						<input id="tel" required="required" class="input" name="phone" type="tel" pattern="\d{3}-\d{3,4}-\d{4}" placeholder=""> <!-- pattern="\d{3}-\d{3,4}-\d{4}" -->
+						<input required="required" class="input" name="phone" type="text" id="phone" onchange="phoneCheck()" placeholder=""> <!-- pattern="\d{3}-\d{3,4}-\d{4}" -->
 						<span class="highlight"></span>
 						<span class="bar"></span> 
-						<label class="label" for="date">PHONE <!-- <span style="font-size: 8px">ex)010-6545-1894</span> --></label>
+						<label class="label" for="date">PHONE</label>
 					</div>
 
 

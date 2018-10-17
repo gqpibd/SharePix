@@ -29,6 +29,7 @@
 <head>
 <meta charset="UTF-8">
 <title>SaGong</title>
+
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="js/jquery.row-grid.min.js"></script>
 <link rel="stylesheet" href="style/imageArrange.css">
@@ -84,8 +85,6 @@
 	</div>
 
 	<script type="text/javascript">
-
-
 	function doLike(){ // 좋아요 눌렀을 때			
 		<%if (ologin == null) {%>
 			alert("로그인해 주십시오");	
@@ -112,8 +111,8 @@
 				}
 			});				
 		<%}%>
-	}
-	
+	}	
+
     $(document).ready(function() {
       var options = {minMargin: 5, maxMargin: 15, itemSelector: ".item", firstItemClass: "first-item"};
       $(".mcontainer").rowGrid(options);
