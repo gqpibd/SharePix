@@ -1,5 +1,7 @@
 package dto;
 
+import java.io.Serializable;
+
 //	DROP TABLE PICPDS
 //	CASCADE CONSTRAINTS;
 //
@@ -11,7 +13,7 @@ package dto;
 //	   UPLOADDATE DATE NOT NULL,
 //	   FILENAME VARCHAR2(50) NOT NULL,
 //	   READCOUNT NUMBER(10) NOT NULL,
-//	   DOWNCOUNT NUMBER(10) NOT NULL,
+//	   DOWNCOUNT VARCHAR2(10) NOT NULL,
 //	   CONSTRAINT fk_picpds_id FOREIGN KEY(ID) REFERENCES MEMBER(ID)
 //	);
 //
@@ -21,14 +23,12 @@ package dto;
 //	START WITH 1
 //	INCREMENT BY 1;
 
-
-import java.io.Serializable;
 import java.util.Arrays;
 
-public class PdsBean implements Serializable {
+public class PdsBean  implements Serializable {
 
 	private static final long serialVersionUID = 8300464898308770593L;
-
+	
 	private int seq;
 	private String id;
 	private String category;
@@ -65,6 +65,7 @@ public class PdsBean implements Serializable {
 		this.id = id;
 		this.category = category;
 		this.tags = tags;
+	
 	}
 	
 
@@ -72,11 +73,14 @@ public class PdsBean implements Serializable {
 		this.id = id;
 		this.category = category;
 		this.tags = tags.substring(1).split("#");
+	
 	}
 	
 	public PdsBean(String category, String tags) {		
+
 		this.category = category;
 		this.tags = tags.substring(1).split("#");
+	
 	}
 
 	public int getSeq() {
@@ -104,7 +108,7 @@ public class PdsBean implements Serializable {
 	}
 
 	public String[] getTags() {
-		return tags;
+		return tags; 
 	}
 
 	public void setTags(String[] tags) {

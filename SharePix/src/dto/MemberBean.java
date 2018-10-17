@@ -45,10 +45,10 @@ public class MemberBean {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getPassword() {
+	public String getPwd() {
 		return pwd;
 	}
-	public void setPassword(String password) {
+	public void setPwd(String password) {
 		this.pwd = password;
 	}
 	public String getEmail() {
@@ -72,8 +72,7 @@ public class MemberBean {
 
 	@Override
 	public String toString() {
-		return "MemberDto [id=" + id + ", name=" + name + ", password=" + pwd + ", email=" + email + ", phone="
-				+ phone + ", auth=" + auth + "]";
-	} 
-	
+		return "MemberBean [id=" + id + ", name=" + name + ", pwd=" + pwd + ", email=" + email + ", phone=" + phone
+				+ ", auth=" + auth + "]";
+	}
 }

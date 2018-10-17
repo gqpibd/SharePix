@@ -9,7 +9,7 @@ public interface iPdsManager {
 	
 	public PdsBean getPdsDetail(int seq);
 
-	public PdsBean getSearchPds(String keyword);
+	public List<PdsBean> getSearchPds(String keyword);
 	
 	public boolean checkPdsLike(String id, int pdsSeq);
 
@@ -38,4 +38,7 @@ public interface iPdsManager {
 	public boolean updatePDS(PdsBean pds);
 	
 	public List<PdsBean> getMyLikeList(String id);
+
+	public boolean increaseReadcount(int seq);
+	
 }

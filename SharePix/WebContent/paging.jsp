@@ -3,7 +3,6 @@
 
 <%
 String actionPath = request.getParameter("actionPath");	// actionPath:bbslist.jsp
-
 String sNowPage = request.getParameter("nowPage");		// 현재 페이지
 String sTotalCount = request.getParameter("totalCount");// 올린 글수
 String sCountPerPage = request.getParameter("countPerPage");	// 10
@@ -14,12 +13,7 @@ int totalCount = (sTotalCount == null || sTotalCount.trim().equals(""))?1:Intege
 int countPerPage = (sCountPerPage == null || sCountPerPage.trim().equals(""))?1:Integer.parseInt(sCountPerPage);
 int countPerBlock = (sBlockCount == null || sBlockCount.trim().equals(""))?1:Integer.parseInt(sBlockCount);
 
-String findWord = request.getParameter("findWord");
-String choice = request.getParameter("choice");
-
-if(findWord == null || findWord.equals("")){
-	choice = "sel";
-}
+String keyword = request.getParameter("keyword");
 
 // total page
 int totalPage = (int)((totalCount - 1) / countPerPage) + 1;
@@ -76,8 +70,7 @@ System.out.println("lastPage = " + lastPage);
 
 <form action="<%=actionPath %>" name="frmPaging" method="get">
 	<input type="hidden" name="nowPage">
-	<input type="hidden" name="findWord" value="<%=findWord %>">
-	<input type="hidden" name="choice" value="<%=choice %>">
+	<input type="hidden" name="keyword" value="<%=keyword %>">
 
 	<div align="center">
 		

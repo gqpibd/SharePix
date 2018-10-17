@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,7 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dto.FollowDto;
 import dto.MemberBean;
+import dto.PdsBean;
 import model.service.MemberService;
 import model.service.PdsService;
 
@@ -34,19 +37,33 @@ public class MemberController extends HttpServlet {
 		String command = req.getParameter("command");
 		System.out.println("Member / doProcess로  들어온 command : " + command);		
 		MemberService memService = MemberService.getInstance();
+		PdsService pdsService = PdsService.getInstance();
 		
-		// 오류 나서 session 지역변수로 뺐
 		HttpSession session = req.getSession();
 		
 		if(command.equals("addUserPage")){		// 회원가입으로 이동
+			System.out.println("command = " + command + " 들어옴");	// 확인용			
+			dispatch("addUserPage.jsp", req, resp);			
+		}else if(command.equals("idcheck")) {	// 아이디 중복 확인			
+			String id = req.getParameter("id");
+		    System.out.println("id = " + id);
+		    
+		    MemberService service = MemberService.getInstance();
+		    boolean isS = service.getId(id);
+		   
+		    PrintWriter out = resp.getWriter();
+		    if(isS){
+		    	out.print("NO");
+		    	out.flush();
+		    }else{
+		    	out.print("OK");
+		    	out.flush();
+		    }
+		}else if(command.equals("login")) {	// 로그인 버튼 눌렀을 시 아이디 비밀번호 맞으면 페이지로 이동
 			System.out.println("command = " + command + " 들어옴");	// 확인용
-			
-			dispatch("addUserPage.jsp", req, resp);
-		}else if(command.equals("loginAf")) {	// 로그인 버튼 눌렀을 시 아이디 비밀번호 맞으면 페이지로 이동
-			System.out.println("command = " + command + " 들어옴");	// 확인용
-			
 			String id = req.getParameter("id");
 			String pwd = req.getParameter("pwd");
+			String goBackTO = req.getParameter("goBackTo");
 			
 			MemberBean dto = null;
 			dto = memService.loginAf(id, pwd);
@@ -55,15 +72,15 @@ public class MemberController extends HttpServlet {
 				session.setAttribute("login", dto);
 				session.setMaxInactiveInterval(30*60);
 				
-				// 자바에서 alert 사용하기 위해  / TODO:혹은 session 에 담긴 mem이 null 일 때 로그인하라고 반환시 사용
+				// 자바에서 alert 사용하기 위해  혹은 session 에 담긴 mem이 null 일 때 로그인하라고 반환시 사용
 				resp.setContentType("text/html; charset=UTF-8");
 				PrintWriter out = resp.getWriter();
 				
-				out.println("<script>alert('안녕하세요." + dto.getName() + "님'); location.href='main.jsp';</script>");
+				out.println("<script>alert('안녕하세요." + dto.getName() + "님'); location.href='"+goBackTO+"';</script>");
 				out.flush();
 				
 			}else if(dto == null || dto.getId().equals("")) {
-				// 자바에서 alert 사용하기 위해  / TODO:혹은 session 에 담긴 mem이 null 일 때 로그인하라고 반환시 사용
+				// 자바에서 alert 사용하기 위해  혹은 session 에 담긴 mem이 null 일 때 로그인하라고 반환시 사용
 				resp.setContentType("text/html; charset=UTF-8");
 				PrintWriter out = resp.getWriter();
 				
@@ -71,27 +88,7 @@ public class MemberController extends HttpServlet {
 				out.flush();
 				return;
 			}
-			
-		}  	
-		
-		////////////////// 로그인 되어있는지 판단 // loginAf 뒤에 있어야?
-		
-		Object ologin = session.getAttribute("login");
-		MemberBean mem = null;
-		
-		if(ologin == null){	
-			resp.setContentType("text/html; charset=UTF-8");
-			PrintWriter out = resp.getWriter();
-			out.println("<script>alert('로그인 해주십시오'); location.href='./index.jsp';</script>");
-			out.flush();
-			return;
-			
-		} else {
-			mem = (MemberBean)ologin;
-		}
-		////////////////////
-
-		if(command.equals("logout")){		
+		}else if(command.equals("logout")){		// 로그아웃
 			System.out.println("command = " + command + " 들어옴");	// 확인용
 			session.invalidate();
 			
@@ -101,9 +98,7 @@ public class MemberController extends HttpServlet {
 			out.flush();
 			
 			return;
-		}
-		
-		if(command.equals("userUpdatePage")){
+		} else if(command.equals("userUpdatePage")){ // 회원정보 수정 페이지로 이동
 			System.out.println("command = " + command + "  들어옴");	// 확인용
 			dispatch("./userUpdatePage.jsp", req, resp);
 		} else if(command.equals("userUpdateAf")) {
@@ -138,10 +133,31 @@ public class MemberController extends HttpServlet {
 			}
 		} else if(command.equals("userPage")) { // userPage 로 이동
 			System.out.println("command = " + command + " 들어옴");	// 확인용
+			req.setCharacterEncoding("utf-8");
 			
-			String id = req.getParameter("id");
+			String pageId = req.getParameter("id");
 			
-			dispatch("./userPage.jsp?id=" + id, req, resp);
+			PdsBean pagePds = pdsService.getMyPdsAll(pageId); // 해당 유저 페이지의 유저 id로 찾은 pdsDto
+			MemberBean pageMemDto = memService.getUserInfo(pageId);	//해당 페이지의 사용자 정보 가져온 memDto
+			List<PdsBean> list = pdsService.getMyPdsAllList(pageId); // 해당 페이지의 사용자 정보 list
+			List<FollowDto> fList = memService.getMyFollowerList(pageId); // 해당 페이지의 사용자를 팔로우 하는 사람 list
+			List<FollowDto> sList = memService.getMySubscribeList(pageId); // 해당 페이지의 유저를 구독한 사람들 list
+			List<PdsBean> lList = pdsService.getMyLikeList(pageId);	// 해당 페이지의 유저가 좋아요한 list
+			
+			if( pagePds == null || pageMemDto == null || list == null  || fList == null || sList == null || lList == null) {
+				System.out.println("뭐가 됐든 null");
+			} else {
+				System.out.println("아무것도 null 아님");
+			}
+			
+			req.setAttribute("pagePds", pagePds);
+			req.setAttribute("pageMemDto", pageMemDto);
+			req.setAttribute("list", list);
+			req.setAttribute("fList", fList);
+			req.setAttribute("sList", sList);
+			req.setAttribute("lList", lList);
+			
+			dispatch("./userPage.jsp?id=" + pageId, req, resp);
 		} else if(command.equals("follow")) { // 팔로우
 			System.out.println("command = " + command + " 들어옴");	// 확인용
 			
@@ -153,7 +169,7 @@ public class MemberController extends HttpServlet {
 			memService.changeFollow(followerId, followeeId, !followChk); // follow 상태 바꿔줌
 			resp.getWriter().write("<followChk>" +!followChk +"</followChk>");
 			resp.getWriter().flush();
-		} 
+		}
 	}
 	
 	public void dispatch( String urls, HttpServletRequest req, HttpServletResponse resp ) throws ServletException, IOException { 

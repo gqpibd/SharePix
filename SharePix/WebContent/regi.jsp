@@ -14,7 +14,7 @@
 <style type="text/css">
 .center{ 
 	margin: auto;
-	width: 19%;
+	width: 22%;
 	border: 3px solid #24FCFF;
 	padding: 10px; 
 	text-align: center;
@@ -49,25 +49,31 @@
 </tr>
 <tr>
 	<td valign="top">PW</td>
-	<td colspan="2" align="left"><input type="text" name="pwd" size="20"><p></p>
+	<td colspan="2" align="left"><input type="password" name="pwd" size="20" pattern=".{6,}" required><p></p>
+	</td>
+	<!-- <td></td> -->
+</tr>
+<tr>
+	<td valign="top">PW확인</td>
+	<td colspan="2" align="left"><input type="password" name="pwd" size="20" pattern=".{6,}" required><p></p>
 	</td>
 	<!-- <td></td> -->
 </tr>
 <tr>
 	<td valign="top">NAME</td>
-	<td colspan="2" align="left"><input type="text" name="name" size="20"><p></p>
+	<td colspan="2" align="left"><input type="text" name="name" size="20" required><p></p>
 	</td>
 	<!-- <td></td> -->
 </tr>
 <tr>
 	<td valign="top">EMAIL</td>
-	<td colspan="2" align="left"><input type="text" name="email" size="20"><p></p>
+	<td colspan="2" align="left"><input type="email" name="email" size="20" required><p></p>
 	</td>
 	<!-- <td></td> -->
 </tr>
 <tr>
 	<td valign="top">PHONE</td>
-	<td colspan="2" align="left"><input type="text" name="phone" size="20"><p></p>
+	<td colspan="2" align="left"><input type="text" name="phone" size="20" required><p></p>
 	</td>
 	<!-- <td></td> -->
 </tr>
@@ -95,7 +101,7 @@ $(function () {
 	$("#btn").click(function () {
 		$.ajax({
 			type:"get",
-			url:"./idcheck.jsp",
+			url:"MemberController?command=idcheck&id="+$("#id").val(),
 			data:"id=" + $('#id').val(),
 			
 			success:function(data){

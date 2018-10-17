@@ -32,8 +32,10 @@ public class MemberService {
 	
 	public MemberBean getUserInfo(String id) {
 		return manager.getUserInfo(id);
+	}	
+	public boolean getId(String id) {
+		return manager.getId(id);
 	}
-	
 	public boolean updateUser(MemberBean dto) {
 		return manager.updateUser(dto);
 	}
@@ -53,5 +55,14 @@ public class MemberService {
 	public boolean changeFollow(String followerId, String followeeId, boolean isFollow) {
 		return manager.changeFollow(followerId, followeeId, isFollow);
 	}
+	
+	public boolean addMember(MemberBean dto){
+		return manager.addMember(dto);
+	}
+	
+	public MemberBean login(MemberBean dto){
+		return manager.login(dto);
+	}
+	
 	
 }

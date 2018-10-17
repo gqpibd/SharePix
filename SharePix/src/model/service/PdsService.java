@@ -24,7 +24,7 @@ public class PdsService {
 		return pDao.getPdsDetail(seq);		
 	}
 
-	public PdsBean getSearchPds(String keyword) {
+	public List<PdsBean> getSearchPds(String keyword) {
 		return pDao.getSearchPds(keyword);
 	}
 
@@ -46,6 +46,10 @@ public class PdsService {
 
 	public List<PdsBean> myLikePdsList(String id) {
 		return pDao.myLikePdsList(id);
+	}
+	
+	public List<PdsBean> getSearchPdsNull(){
+		return pDao.getSearchPdsNull();
 	}
 
 	public List<PdsBean> relatedList(String category, int seq) {
@@ -84,11 +88,11 @@ public class PdsService {
 	}
 	
 	public boolean writePds(PdsBean pds) {
-		return false;
+		return pDao.writePds(pds);
 	}
 	
-	public PdsBean delPDS(int seq) {
-		return pDao.getPdsDetail(seq);
+	public boolean delPDS(int seq) {
+		return pDao.delPDS(seq);
 	}
 	
 	public PdsBean updatePDS(int seq, String category, String tags) {
@@ -101,5 +105,10 @@ public class PdsService {
 	
 	public List<PdsBean> getMyLikeList(String id){
 		return pDao.getMyLikeList(id);
+	}
+
+	public boolean increaseReadcount(int seq) {
+		return pDao.increaseReadcount(seq);
+		
 	}
 }
