@@ -9,7 +9,7 @@
 	pageEncoding="UTF-8"%>
 <%
 
-
+	
 
 
 	request.setCharacterEncoding("utf-8");
@@ -52,7 +52,7 @@
 			<jsp:param name="goBackTo" value="index.jsp" />
 		</jsp:include>
 	</div>
-
+	
 	<div style="margin-top: 10em">
 
 	</div>

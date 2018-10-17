@@ -60,7 +60,7 @@
 <link rel="stylesheet" href="style/imagehover.css">
 </head>
 <body>
-	<h1>Search View</h1>
+	<h1>Search View1234124</h1>
 		<div>
 			<div>
 				<p>그림</p>
