@@ -21,7 +21,7 @@ public class PdsManager implements iPdsManager {
    }
    
    @Override
-   public PdsBean getMyPdsAll( String id ) {      
+   public PdsBean getMyPdsAll( String id ) {       
       String sql  = " SELECT SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, "
                + " READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT "
                + " FROM PDSALL "  
