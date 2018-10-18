@@ -16,12 +16,38 @@
 	
 	request.setCharacterEncoding("utf-8");
 %>
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <title>updatePds</title>
+<style>
+.td1 {
+    border-bottom: 1px solid #444444;
+    padding: 10px;
+    text-align: center;
+  }
+.re-img{ /* 댓글 프로필 */   
+    float: left;
+    width: 33px;
+    height: 33px;
+    border-radius: 33px;
+    margin: 5px;
+    vertical-align: middle;
+}
+.td2{
+	border-bottom: 1px solid #444444;
+    padding: 10px;
+    text-align: center;
+ font-size: 19px;
+}
+
+</style>
 </head>
 <body>
 
@@ -44,30 +70,25 @@
 	<form action="PdsController" method="get" id="pdsupdate">
 	<input type="hidden" name="command" value="pdsupdate">
 	<input type="hidden" name="seq" value="<%=dto.getSeq()%>">
-	<table border="1" bgcolor="white" style='border-left:0;border-right:0;border-bottom:0;border-top:0'>
+	<table border="0" bgcolor="white" style='border-left:0;border-right:0;border-bottom:0;border-top:0'>
 		<col width="500"><col width="200">
-
-		
-		<tr align="center">
-		   <td colspan="2"><br>빈공간<br><br>
-		   </td>
-		</tr>
-		
-		<tr align="left">
-		   <td colspan="2"><br><%=mem.getId() %></td>
-		</tr>
-		
-		<tr align="center">
-		   <td colspan="2">이미지 추가<br>
-		   </td>
-		</tr>
-		
+	<tr align="center">
+            <td class = "td2" colspan="2"><br>Image Update/Delete
+            </td>
+            </tr>
+                <tr align="center">
+            <td class = "td1" colspan="2" >
+            <img src='images/profiles/<%=dto.getId()%>.png' width='100px'
+            class='profile re-img' align='middle' onerror="this.src='images/profiles/default.png'">
+            <br>
+            </td>
+			</tr>
 		<tr>
-			<td align="center">				
+			<td class = "td1" align="center">				
 				<img src = "images/pictures/<%=dto.getfSaveName() %>" width="500">			
 			</td>
-			<td border="1">		
-				<select name="category">	
+			<td class = "td1" border="1">		
+				<select name="category" class="btn btn-default dropdown-toggle">	
 		            <option value="카테고리" selected="selected"> 카테고리 </option>	
 		     	    <option value="자연"> 자연 </option>	 
 		            <option value="인물"> 인물 </option>	
@@ -78,7 +99,7 @@
 		            </select> 
 			<br><br>
 			<div style="position:relative; float:left; text-align:left;">
-		    	<textarea rows="2" cols="20" name="tags"><%for(int i=0;i<dto.getTags().length;i++){ %>#<%=dto.getTags()[i]%><%}%></textarea>
+		    	<textarea class="form-control" rows="3" cols="20" name="tags"><%for(int i=0;i<dto.getTags().length;i++){ %>#<%=dto.getTags()[i]%><%}%></textarea>
 		    </div>
 		   </td>
 		</tr>
@@ -87,6 +108,10 @@
 	<input class="fill sagongBtn" type="submit" value="수정하기">	
 	<button class="fill sagongBtn" type="button" onclick="deletePds()" >삭제하기</button>   
 	<button class="fill sagongBtn" type="button" onclick = "location.href='index.jsp'">나가기</button> 
+	
+	
+	
+	
 	</form>	  	
 
 </div>
