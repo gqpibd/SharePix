@@ -22,7 +22,6 @@
 	}
 	System.out.println(pdslist.size());
 	//PdsBean pdsLike = (PdsBean) request.getAttribute("pds");	
-	String like = "heart.png";
 	PdsService pService = PdsService.getInstance();
 	// 아이디 확인하고 받아서 like 확인하고 이미지 넣기
 	MemberBean ologin = (MemberBean) session.getAttribute("login");
@@ -60,6 +59,21 @@
 				String fSavename = Pdscust.getfSaveName();
 				String smallSrc = fSavename.substring(0,fSavename.lastIndexOf('.')) + "_small" + fSavename.substring(fSavename.lastIndexOf('.'));
 				/* System.out.println(PATH + "\\pictures\\" + Pdscust.getfSaveName()); */
+					
+					boolean isLike = false;
+					String like = "heart.png";
+					String reverslike = "fullheart.png";
+					if (ologin != null) {
+						id = ologin.getId();
+						int seq = Pdscust.getSeq();
+						pService = PdsService.getInstance();
+						isLike = pService.checkPdsLike(id, seq);
+						if (isLike) {
+							like = "fullheart.png";
+							reverslike = "heart.png";
+						}
+					}
+				
 		%>
 		<div class="item profilebox profilebox1">
 			<%-- <img class="img" name="item"
@@ -68,14 +82,16 @@
 			<img class="img" name="item" src="<%=PATH%>pictures/<%=smallSrc%>"  
 				onclick="veiwDetail(<%=Pdscust.getSeq()%>)" height="300" alt="이미지 못 찾음" >
 			<div class="SocialIcons">
-				<a> <img alt="" src="<%=PATH%>icons\\<%=like%>"
-					onmouseover="this.src='<%=PATH%>icons\\fullheart.png'"
+				<a> <img id="like_<%=Pdscust.getSeq()%>" alt="" src="<%=PATH%>icons\\<%=like%>"
+					onmouseover="this.src='<%=PATH%>icons\\<%=reverslike %>'"
 					onmouseout="this.src='<%=PATH%>icons\\<%=like%>'"
-					onclick="doLike()" class="btn-like"> <label><%=Pdscust.getLikeCount()%></label>
+					onclick="doLike('<%=Pdscust.getSeq()%>', this)" class="btn-like"> 
+					<label id ="likeCount_<%=Pdscust.getSeq()%>"><%=Pdscust.getLikeCount()%></label>
 				</a> <a href="#" style="text-decoration: none; color: white;"> <img
 					alt="" src="<%=PATH%>icons\\openbook.png"
 					onmouseover="this.src='<%=PATH%>icons\\fullopenbook.png'"
-					onmouseout="this.src='<%=PATH%>icons\\openbook.png'"> <label><%=Pdscust.getReadCount()%></label>
+					onmouseout="this.src='<%=PATH%>icons\\openbook.png'"> 
+					<label><%=Pdscust.getDownCount()%></label>
 				</a> <a href="#" style="text-decoration: none; color: white;"> <img
 					alt="" src="<%=PATH%>icons\\contract.png"
 					onmouseover="this.src='<%=PATH%>icons\\fullcontract.png'"
@@ -93,29 +109,38 @@
 			}
 		%>
 	</div>
-
+	<input type="hidden" id="ajax_hidden">
 	<script type="text/javascript">
 
 
-	function doLike(){ // 좋아요 눌렀을 때			
+
+	function doLike(seq1, item){ // 좋아요 눌렀을 때			
 		<%if (ologin == null) {%>
-			alert("로그인해 주십시오");	
-			location.href="index.jsp";
-		<%} else {%>				
+			loginView();
+		<%} else {
+		%> 
+		 console.log(seq1);
+		 var selector2 = "#likeCount_" + seq1;
 			$.ajax({
 				url:"PdsController", // 접근대상
 				type:"get",		// 데이터 전송 방식
-				data:"command=likeChange&like="+like+"&id=<%=id%>&seq=", // 전송할 데이터
+				data:"command=likeChange&id=<%=id%>&seq="+seq1, // 전송할 데이터
 				success:function(data, status, xhr){
 					/* console.log(data); */
-					like = $("#ajax_hidden").html(data).find("like").text();
+					var like = $("#ajax_hidden").html(data).find("like").text();
 					var count = $("#ajax_hidden").html(data).find("count").text();
+					console.log("result" + like);
+					console.log("result" + count);
 					if(like == "false"){
-						$("#like").attr("src",'<%=PATH%>icons\\heart.png');
-						$("#likeCount").text(count);
+						$(item).attr("src",'images/icons/heart.png');
+						$(item).attr("onmouseover","this.src='images/icons/fullheart.png'");
+						$(item).attr("onmouseout","this.src='images/icons/heart.png'");
+						$(selector2).text(count);
 					}else{
-						$("#like").attr("src",'<%=PATH%>icons\\fullheart.png');
-						$("#likeCount").text(count);
+						$(item).attr("src",'images/icons/fullheart.png');
+						$(item).attr("onmouseover","this.src='images/icons/heart.png'");
+						$(item).attr("onmouseout","this.src='images/icons/fullheart.png'");
+						$(selector2).text(count);
 					}
 				},
 				error:function(){ // 또는					 
@@ -134,7 +159,9 @@
     function veiwDetail(seq) {
        console.log(seq);
        location.href="PdsController?command=detailview&seq=" + seq;
-    }    
+    }
+    
+    
 
    </script>
 </body>

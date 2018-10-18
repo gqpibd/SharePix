@@ -218,18 +218,18 @@ public class PdsManager implements iPdsManager {
    }
 
    @Override
-   public boolean chageLike(String id, int pdsSeq, boolean isLike) {
+   public boolean changeLike(String id, int pdsSeq) {
+     boolean isLike = checkPdsLike(id, pdsSeq);
       String sql = "";
       if (isLike) { // 좋아요를 누르면 row 추가
-         sql = " INSERT INTO PDSLIKE " + " VALUES (?, ?) ";
+          sql = " DELETE FROM PDSLIKE " + " WHERE PDSSEQ = ? AND ID = ? ";
+
       } else {
-         sql = " DELETE FROM PDSLIKE " + " WHERE PDSSEQ = ? AND ID = ? ";
+          sql = " INSERT INTO PDSLIKE " + " VALUES (?, ?) ";
       }
 
       Connection conn = null;
       PreparedStatement psmt = null;
-
-      int count = 0;
 
       try {
          conn = DBConnection.getConnection();
@@ -240,7 +240,7 @@ public class PdsManager implements iPdsManager {
          psmt.setString(2, id);
          System.out.println("2/6 chageLike Success");
 
-         count = psmt.executeUpdate();
+         psmt.executeUpdate();
          System.out.println("3/6 chageLike Success");
 
       } catch (SQLException e) {
@@ -249,7 +249,8 @@ public class PdsManager implements iPdsManager {
       } finally {
          DBClose.close(psmt, conn, null);
       }
-      return count > 0 ? true : false;
+      return !isLike;
+
    }
    
    

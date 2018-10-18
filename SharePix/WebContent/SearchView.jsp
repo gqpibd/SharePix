@@ -58,6 +58,7 @@
 <script src="js/jquery.row-grid.min.js"></script>
 <link rel="stylesheet" href="style/imageArrange.css">
 <link rel="stylesheet" href="style/imagehover.css">
+<link rel="stylesheet" href="style/pagingbtn.css">
 </head>
 <body>
 	<div style="height: 100%"> <!-- 타이틀바 -->
@@ -66,24 +67,27 @@
 		</jsp:include>
 	</div>
 	<div style="margin-top: 10em" >
-		<h1>Search View</h1>		
-	</div>
-	<div>
-		<p>메뉴</p>
-		<p>카테고리</p>
-		<jsp:include page="paging.jsp">
-			<jsp:param name="actionPath" value="PdsController?" />
-			<jsp:param name="nowPage"
-				value="<%=String.valueOf(paging.getNowPage())%>" />
-			<jsp:param name="totalCount"
-				value="<%=String.valueOf(paging.getTotalCount())%>" />
-			<jsp:param name="countPerPage"
-				value="<%=String.valueOf(paging.getCountPerPage())%>" />
-			<jsp:param name="blockCount"
-				value="<%=String.valueOf(paging.getBlockCount())%>" />
-			<jsp:param name="keyword" value="<%=keyword%>" />
-		</jsp:include>
-	</div>
+	
+<!-- 	<div class="menubar">
+                <ul>
+                 <li><a href="#">Home</a></li>
+                 <li><a href="#" id="current">Products</a>
+                    <ul>
+                     <li><a href="#">Sliders</a></li>
+                     <li><a href="#">Galleries</a></li>
+                     <li><a href="#">Apps</a></li>
+                     <li><a href="#">Extensions</a></li>
+                    </ul>
+                 </li>
+                 <li><a href="#">Company</a></li>
+                 <li><a href="#">Address</a></li>
+                </ul>
+           </div>
+	
+	</div> -->
+
+	
+
 	<!-- 검색된 사진들 -->
 	
 	<%
@@ -143,6 +147,21 @@
 		}
 	%>
 	<div></div>
+	
+	<div>
+		<jsp:include page="paging.jsp">
+			<jsp:param name="actionPath" value="PdsController?" />
+			<jsp:param name="nowPage"
+				value="<%=String.valueOf(paging.getNowPage())%>" />
+			<jsp:param name="totalCount"
+				value="<%=String.valueOf(paging.getTotalCount())%>" />
+			<jsp:param name="countPerPage"
+				value="<%=String.valueOf(paging.getCountPerPage())%>" />
+			<jsp:param name="blockCount"
+				value="<%=String.valueOf(paging.getBlockCount())%>" />
+			<jsp:param name="keyword" value="<%=keyword%>" />
+		</jsp:include>
+	</div>
 
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -157,6 +176,8 @@
 		}		
 
 	</script>
+
+
 
 </body>
 </html>

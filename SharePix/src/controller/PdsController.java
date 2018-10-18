@@ -59,18 +59,16 @@ public class PdsController extends HttpServlet {
 			dispatch("SearchView.jsp", req, resp);
 		} else if(command.equalsIgnoreCase("likeChange")) {
 			int seq=0;
-			boolean like = Boolean.parseBoolean(req.getParameter("like"));
-			String id = req.getParameter("id");
-			seq = Integer.parseInt(req.getParameter("seq"));
-			System.out.println("like:"+like);
-			System.out.println("id:"+id);
-			System.out.println("seq:"+seq);
-			PdsService.getInstance().chageLike(id, seq, !like); // like 상태 바꿔줌
-			int count = PdsService.getInstance().getLikeCount(seq);
-			resp.getWriter().write("<like>" +!like +"</like><count>" + count +"</count>");
-			resp.getWriter().flush();
-			System.out.println("count:" + count);
-			//req.setAttribute("pds", pds);
+	         String id = req.getParameter("id");
+	         seq = Integer.parseInt(req.getParameter("seq"));
+	         
+	         System.out.println("id:"+id);
+	         System.out.println("seq:"+seq);
+	         boolean like = PdsService.getInstance().changeLike(id, seq); // like 상태 바꿔줌
+	         int count = PdsService.getInstance().getLikeCount(seq);
+	         resp.getWriter().write("<like>" +like +"</like><count>" + count +"</count>");
+	         resp.getWriter().flush();
+	         System.out.println("count:" + count);
 		} else if(command.equalsIgnoreCase("myLikePdsList")) {
 			String id = req.getParameter("id");
 			List<PdsBean> list = PdsService.getInstance().myLikePdsList(id); // 즐겨찾기한 사진들을 모아서 보여줌

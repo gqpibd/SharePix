@@ -33,8 +33,8 @@ public class PdsService {
 		return pDao.checkPdsLike(id,pdsSeq);
 	}
 	
-	public void chageLike(String id, int pdsSeq, boolean isLike) {
-		pDao.chageLike(id,pdsSeq,isLike);
+	public 	boolean changeLike(String id, int pdsSeq) {
+		return pDao.changeLike(id,pdsSeq);
 	}
 	
 	public int getLikeCount(int pdsSeq) {
