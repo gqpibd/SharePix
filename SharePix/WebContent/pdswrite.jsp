@@ -70,7 +70,6 @@ var loadImageFile = function () {
 	  }	  
 	  fileReader.readAsDataURL(uploadFile); // 파일 리더를 이용해 파일을 읽는다
 }
-
 </script>
 </head>
 <body onload="loadImageFile();">

@@ -145,7 +145,7 @@ function pwdCheck() {
 }
 
 function emailCheck() {
-	
+	 
 	  // 이메일 검증 스크립트 작성
 	  var emailVal = $("#email").val();
 

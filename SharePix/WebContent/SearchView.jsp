@@ -8,7 +8,7 @@
 	pageEncoding="UTF-8"%>
 <%@page import="dto.PdsBean"%>
 <%@page import="dto.PagingBean"%>
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <%
 	request.setCharacterEncoding("utf-8");
 %>

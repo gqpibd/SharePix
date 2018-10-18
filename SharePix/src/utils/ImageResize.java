@@ -1,6 +1,12 @@
 package utils;
 
+<<<<<<< HEAD
 import java.awt.Graphics2D;
+=======
+import java.awt.AlphaComposite;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+>>>>>>> refs/remotes/origin/sj_1018
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
