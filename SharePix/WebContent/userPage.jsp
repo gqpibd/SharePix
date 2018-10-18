@@ -32,9 +32,9 @@
 	List<PdsBean> list 		= (List<PdsBean>)request.getAttribute("list");      
 	List<FollowDto> fList 	= (List<FollowDto>)request.getAttribute("fList");// 해당 페이지의 사용자를 팔로우 하는 사람 list
 	List<FollowDto> sList 	= (List<FollowDto>)request.getAttribute("sList");// 페이지의 유저가 구독하는 사람 리스트
-	List<PdsBean> lList 	= (List<PdsBean>)request.getAttribute("lList");// 페이지의 유저가 좋아요한 리스트
+	List<PdsBean> lList 	= (List<PdsBean>)request.getAttribute("lList");// 페이지의 유저가 좋아요한 리스트 */
 	
-	if( pagePds == null || pageMemDto == null || list == null  || fList == null || sList == null || lList == null) {
+	if( pagePds == null || pageMemDto == null || list == null  || fList == null || sList == null  || lList == null ) {
 		System.out.println("뭐가 됐든 null");
 	} else {
 		System.out.println("아무것도 null 아님");
@@ -137,7 +137,7 @@
 		<td class="td">
 		<span>
 			<img src='images/profiles/<%=pageMemDto.getId()%>.png' width='100px'
-				class='profile re-img' align='middle'
+				class='profile' align='middle'
 				onerror="this.src='images/profiles/default.png'">
 		</span>
 		</td>
@@ -208,6 +208,8 @@
 	<a href="javascript:gotoLike()">내 컬렉션</a>
 	</div>
 	<hr>	
+	
+	
 	<div class="mcontainer" id="userPds">
 		<%
 		String PATH = "images/";
@@ -227,7 +229,8 @@
 		%>
 		<div class="item profilebox profilebox1">
 			<img class="img" name="item" src="<%=PATH%>pictures/<%=smallSrc%>"  
-				onclick="veiwDetail(<%=Pdscust.getSeq()%>)" height="300" alt="이미지 못 찾음" >
+				onclick="veiwDetail(<%=Pdscust.getSeq()%>)" height="300" alt="이미지 못 찾음" 
+				style="cursor: pointer">
 			<div class="SocialIcons">
 				<a> <img alt="" src="<%=PATH%>icons\\<%=like%>"
 					onmouseover="this.src='<%=PATH%>icons\\fullheart.png'"
@@ -249,7 +252,7 @@
 						style="text-decoration: none; color: white;"><%=Pdscust.getId()%></a>
 				</h3>
 			</div>
-		</div>
+		</div> 
 		<%
 			}
 		%>
@@ -267,7 +270,7 @@
 	</div>
 	
 		<div id="userCollect">
-			<jsp:include page="myLikes.jsp" flush="true">
+			<jsp:include page="imageGrid.jsp" flush="true">
 				<jsp:param name="command" value="favorites" />
 				<jsp:param name="id" value="${pagePds.id }"/>
 			</jsp:include>

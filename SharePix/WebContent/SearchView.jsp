@@ -100,7 +100,7 @@
 				String fSavename = Pdscust.getfSaveName();
 				String smallSrc = fSavename.substring(0,fSavename.lastIndexOf('.')) + "_small" + fSavename.substring(fSavename.lastIndexOf('.'));
 				
-				File f = new File(FileController.PATH + "\\" + fSavename);
+				File f = new File(config.getServletContext().getRealPath("/images/pictures") + "\\" + fSavename);
 				 if (f.exists() && f.length()<300000) { // 300kb 이하의 이미지는 그냥 원본을 가져온다
 			    	  smallSrc = fSavename;			     
 			    }
@@ -108,7 +108,8 @@
 		%>
 		<div class="item profilebox profilebox1">
 			<img class="img" name="item" src="images/pictures/<%=smallSrc%>"  
-				onclick="veiwDetail(<%=Pdscust.getSeq()%>)" height="300" alt="이미지 못 찾음" >
+				onclick="veiwDetail(<%=Pdscust.getSeq()%>)" height="300" alt="이미지 못 찾음" 
+				style="cursor: pointer;">
 			<div class="SocialIcons">
 					<a>
 					<img alt="" src="images/icons/heart.png" 

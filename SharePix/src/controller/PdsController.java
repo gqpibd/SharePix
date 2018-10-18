@@ -70,32 +70,6 @@ public class PdsController extends HttpServlet {
 			resp.getWriter().write("<like>" +like +"</like><count>" + count +"</count>");
 			resp.getWriter().flush();
 			System.out.println("count:" + count);
-		} else if(command.equalsIgnoreCase("myLikePdsList")) {
-			String id = req.getParameter("id");
-			List<PdsBean> list = PdsService.getInstance().myLikePdsList(id); // 즐겨찾기한 사진들을 모아서 보여줌
-			HashMap<String, Integer> tagMap = new HashMap<>();
-			for(int i=0;i<list.size();i++) {
-				for(int j=0;j<list.get(i).getTags().length;j++) {
-					String key = list.get(i).getTags()[j];
-					if(tagMap.containsKey(key)) {
-						int value = tagMap.get(key);
-						tagMap.put(key, value+1);
-					}else {
-						tagMap.put(key, 1);
-					}
-				}
-			}			
-			
-			Iterator<String> it = Sorter.sortByValue(tagMap).iterator();
-
-	        /*while(it.hasNext()) {
-	            String temp = (String) it.next();
-	            System.out.println(temp + " = " + tagMap.get(temp));
-	        }*/
-	        req.setAttribute("sortedIter", it);
-	        req.setAttribute("map", tagMap);
-	        req.setAttribute("list", list);
-			dispatch("myLikes.jsp", req, resp);	
 		} else if(command.equals("updatePds")){
 			System.out.println("command = " + command + "  들어옴");	// 확인용
 			dispatch("./updatePds.jsp", req, resp);

@@ -90,6 +90,10 @@
   padding: 0.5em 1em;
 }
 
+.sagongBtn:focus{
+	outline: none;
+}
+
 .sagongBtn {
   color: var(--color);
   transition: 0.25s;
@@ -245,8 +249,7 @@ $(document).ready(function(){
             onerror="this.src='images/profiles/default.png'">
 		<span><%=user.getName() %>님 환영합니다. <a href="MemberController?command=logout"><font size="2">로그아웃</font></a></span>
 		<%-- <button class="fill sagongBtn" onclick="location.href='MemberController?command=userPage&id=<%=user.getId()%>'">마이페이지</button>
-		<button class="fill sagongBtn" onclick="location.href='pdswrite.jsp'">사진 올리기</button>
-		<button class="fill sagongBtn" onclick="location.href='PdsController?command=myLikePdsList&id=<%=user.getId()%>'">즐겨찾기</button> --%>
+		<button class="fill sagongBtn" onclick="location.href='pdswrite.jsp'">사진 올리기</button> --%>
 	<%-- <%} %> --%>
 	<!-- <input type="submit" value="로그인"> -->
 	</td>
@@ -257,7 +260,6 @@ $(document).ready(function(){
 	<td align="center" class="mar">
 		<button class="fill sagongBtn" onclick="location.href='MemberController?command=userPage&id=<%=user.getId()%>'"><font>마이페이지</font></button>
 		<button class="fill sagongBtn" onclick="location.href='pdswrite.jsp'">사진 올리기</button>
-		<button class="fill sagongBtn" onclick="location.href='PdsController?command=myLikePdsList&id=<%=user.getId()%>'">즐겨찾기</button>
 	<!-- <input type="submit" value="로그인"> -->
 	</td>
 	<%} %>

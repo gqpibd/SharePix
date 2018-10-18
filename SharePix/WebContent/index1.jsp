@@ -36,7 +36,7 @@ function myFade(){
 <br><br><br><br><br><br><br>
 <p align="left">
 <font color="#FFFFFF" size="5">
-<strong>404 error: File not found</strong>
+<strong>404 error: not found</strong>
 </font><br><br>
 <font color="#FFFFFF" size="6">
 <strong>The URL you requested was not found.</strong>
