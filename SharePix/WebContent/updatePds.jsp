@@ -8,16 +8,6 @@
 	Object ologin = session.getAttribute("login");
 	MemberBean mem = null;
 	
-	if(ologin == null){	
-		%>	
-		<script type="text/javascript">
-		alert("로그인 해 주십시오.");
-		location.href = "./index.jsp";
-		</script>
-		<%
-	}
-	mem = (MemberBean)ologin;	// 로그인한 사람의 dto
-
 	String seqStr = request.getParameter("seq");
 	int seq = Integer.parseInt(seqStr);
 	PdsBean dto = PdsService.getInstance().getPdsDetail(seq);	
@@ -32,6 +22,15 @@
 <title>pdsUpdatePage</title>
 </head>
 <body>
+	<% if(ologin == null){ %>	
+		<script type="text/javascript">
+		alert("로그인 해 주십시오.");
+		location.href = "./index.jsp";
+		</script>
+		<%
+	}
+	mem = (MemberBean)ologin;	// 로그인한 사람의 dto
+	%>
 	<div class="left__heading" style="height: 100%"> <!-- 타이틀바 -->
 		<jsp:include page="titlebar.jsp">
 			<jsp:param name="goBackTo" value="index.jsp" />
@@ -40,6 +39,8 @@
 	
 	<div align="center" style="margin-top: 10em">
 	<form action="PdsController" method="get" id="pdsupdate">
+	<input type="hidden" name="command" value="pdsupdate">
+	<input type="hidden" name="seq" value="<%=dto.getSeq()%>">
 	<table border="1" bgcolor="white" style='border-left:0;border-right:0;border-bottom:0;border-top:0'>
 		<col width="500"><col width="200">
 		
@@ -49,11 +50,7 @@
 		</tr>
 		
 		<tr align="left">
-		   <td colspan="2"><br><%=mem.getId() %>
-		      <br>
-		      <input type="hidden" name="id" value="<%=mem.getId() %>">
-		      <br>
-		   </td>
+		   <td colspan="2"><br><%=mem.getId() %></td>
 		</tr>
 		
 		<tr align="center">
@@ -62,14 +59,10 @@
 		</tr>
 		
 		<tr>
-			<td align="center">
-				
-			<img src = "images/pictures/<%=dto.getfSaveName() %>" width="500">
-			
+			<td align="center">				
+				<img src = "images/pictures/<%=dto.getfSaveName() %>" width="500">			
 			</td>
-			<td border="1">
-			
-			<input type="hidden" name="command" value="pdsupdate">
+			<td border="1">		
 				<select name="category">	
 		            <option value="카테고리" selected="selected"> 카테고리 </option>	
 		     	    <option value="자연"> 자연 </option>	 
