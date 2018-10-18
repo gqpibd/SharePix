@@ -21,8 +21,7 @@ public class PdsManager implements iPdsManager {
    }
    
    @Override
-   public PdsBean getMyPdsAll( String id ) {
-      
+   public PdsBean getMyPdsAll( String id ) {      
       String sql  = " SELECT SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, "
                + " READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT "
                + " FROM PDSALL "  
@@ -218,18 +217,17 @@ public class PdsManager implements iPdsManager {
    }
 
    @Override
-   public boolean chageLike(String id, int pdsSeq, boolean isLike) {
+   public boolean changeLike(String id, int pdsSeq) {
+	  boolean isLike = checkPdsLike(id, pdsSeq);
       String sql = "";
       if (isLike) { // 좋아요를 누르면 row 추가
-         sql = " INSERT INTO PDSLIKE " + " VALUES (?, ?) ";
+          sql = " DELETE FROM PDSLIKE " + " WHERE PDSSEQ = ? AND ID = ? ";         
       } else {
-         sql = " DELETE FROM PDSLIKE " + " WHERE PDSSEQ = ? AND ID = ? ";
+    	  sql = " INSERT INTO PDSLIKE " + " VALUES (?, ?) ";
       }
 
       Connection conn = null;
       PreparedStatement psmt = null;
-
-      int count = 0;
 
       try {
          conn = DBConnection.getConnection();
@@ -240,7 +238,7 @@ public class PdsManager implements iPdsManager {
          psmt.setString(2, id);
          System.out.println("2/6 chageLike Success");
 
-         count = psmt.executeUpdate();
+         psmt.executeUpdate();
          System.out.println("3/6 chageLike Success");
 
       } catch (SQLException e) {
@@ -249,7 +247,7 @@ public class PdsManager implements iPdsManager {
       } finally {
          DBClose.close(psmt, conn, null);
       }
-      return count > 0 ? true : false;
+      return !isLike;
    }
    
    
@@ -678,7 +676,7 @@ public class PdsManager implements iPdsManager {
    }
 
    @Override
-   public List<PdsBean> relatedList(String category) {
+   public List<PdsBean> relatedList(String category, int seq) {
       /*String sql =  " SELECT RNUM, SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT " + 
                   " FROM ( " +
                          " SELECT ROWNUM as rnum, SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT " + 
@@ -691,7 +689,7 @@ public class PdsManager implements iPdsManager {
                   " WHERE RNUM>=1 AND RNUM <=6 ";*/
       String sql =  " SELECT SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT "
                 + " FROM PDSALL "
-               +  " WHERE CATEGORY = ? ";
+               +  " WHERE CATEGORY = ? AND SEQ <> ? ";
    
    Connection conn = null;
    PreparedStatement psmt = null;
@@ -705,6 +703,7 @@ public class PdsManager implements iPdsManager {
       
       psmt = conn.prepareStatement(sql);
       psmt.setString(1, category);
+      psmt.setInt(2, seq);
       System.out.println("2/6 relatedList Success");
       
       rs = psmt.executeQuery();

@@ -1,3 +1,5 @@
+<%@page import="controller.FileController"%>
+<%@page import="java.io.File"%>
 <%@page import="dto.MemberBean"%>
 <%@page import="model.service.PdsService"%>
 <%@page import="controller.PdsController"%>
@@ -8,12 +10,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-
-	
-
-
 	request.setCharacterEncoding("utf-8");
-
 
 	String PATH = "images/";
 	List<PdsBean> pdslist = null;
@@ -52,14 +49,21 @@
 			<jsp:param name="goBackTo" value="index.jsp" />
 		</jsp:include>
 	</div>
-
-
+	
 	<div class="mcontainer"  style="margin-top: 10em">
 		<%
 			for (PdsBean Pdscust : pdslist) {
 				String fSavename = Pdscust.getfSaveName();
 				String smallSrc = fSavename.substring(0,fSavename.lastIndexOf('.')) + "_small" + fSavename.substring(fSavename.lastIndexOf('.'));
-				/* System.out.println(PATH + "\\pictures\\" + Pdscust.getfSaveName()); */
+
+				File f = new File(FileController.PATH + "\\" + Pdscust.getfSaveName());
+			    if (f.exists()) {
+			      long len = f.length();
+			      System.out.println(len);
+			      if(len<300000){ // 300kb 이하의 이미지는 그냥 원본을 가져온다
+			    	  smallSrc = fSavename;
+			      }
+			    }			
 		%>
 		<div class="item profilebox profilebox1">
 			<%-- <img class="img" name="item"

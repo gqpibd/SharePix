@@ -2,15 +2,19 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.TreeMap;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import dto.PdsBean;
 import model.service.PdsService;
@@ -59,22 +63,41 @@ public class PdsController extends HttpServlet {
 			dispatch("SearchView.jsp", req, resp);
 		} else if(command.equalsIgnoreCase("likeChange")) {
 			int seq=0;
-			boolean like = Boolean.parseBoolean(req.getParameter("like"));
 			String id = req.getParameter("id");
 			seq = Integer.parseInt(req.getParameter("seq"));
-			System.out.println("like:"+like);
+			
 			System.out.println("id:"+id);
 			System.out.println("seq:"+seq);
-			PdsService.getInstance().chageLike(id, seq, !like); // like 상태 바꿔줌
+			boolean like = PdsService.getInstance().changeLike(id, seq); // like 상태 바꿔줌
 			int count = PdsService.getInstance().getLikeCount(seq);
-			resp.getWriter().write("<like>" +!like +"</like><count>" + count +"</count>");
+			resp.getWriter().write("<like>" +like +"</like><count>" + count +"</count>");
 			resp.getWriter().flush();
 			System.out.println("count:" + count);
-			//req.setAttribute("pds", pds);
 		} else if(command.equalsIgnoreCase("myLikePdsList")) {
 			String id = req.getParameter("id");
 			List<PdsBean> list = PdsService.getInstance().myLikePdsList(id); // 즐겨찾기한 사진들을 모아서 보여줌
-			req.setAttribute("list", list);
+			HashMap<String, Integer> tagMap = new HashMap<>();
+			for(int i=0;i<list.size();i++) {
+				for(int j=0;j<list.get(i).getTags().length;j++) {
+					String key = list.get(i).getTags()[j];
+					if(tagMap.containsKey(key)) {
+						int value = tagMap.get(key);
+						tagMap.put(key, value+1);
+					}else {
+						tagMap.put(key, 1);
+					}
+				}
+			}			
+			
+			Iterator<String> it = sortByValue(tagMap).iterator();
+
+	        /*while(it.hasNext()) {
+	            String temp = (String) it.next();
+	            System.out.println(temp + " = " + tagMap.get(temp));
+	        }*/
+	        req.setAttribute("sortedIter", it);
+	        req.setAttribute("map", tagMap);
+	        req.setAttribute("list", list);
 			dispatch("myLikes.jsp", req, resp);	
 		} else if(command.equals("updatePds")){
 			System.out.println("command = " + command + "  들어옴");	// 확인용
@@ -127,5 +150,18 @@ public class PdsController extends HttpServlet {
 		RequestDispatcher dispatch = req.getRequestDispatcher(urls);
 		dispatch.forward(req, resp);
 	}
-		
+	
+	List<String> sortByValue(HashMap<String, Integer> map) {
+	    List<String> sortedList = new ArrayList<>();
+	    sortedList.addAll(map.keySet());
+	    Collections.sort(sortedList,new Comparator<String>() {
+	        public int compare(String o1,String o2) {
+	            Integer v1 = map.get(o1);
+	            Integer v2 = map.get(o2);     
+	            return (v2).compareTo(v1);
+	        }
+	    });
+	    //Collections.reverse(sortedList); // 주석시 오름차순
+	    return sortedList;
+	}		
 }

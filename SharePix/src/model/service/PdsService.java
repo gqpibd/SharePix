@@ -33,8 +33,8 @@ public class PdsService {
 		return pDao.checkPdsLike(id,pdsSeq);
 	}
 	
-	public void chageLike(String id, int pdsSeq, boolean isLike) {
-		pDao.chageLike(id,pdsSeq,isLike);
+	public boolean changeLike(String id, int pdsSeq) {
+		return pDao.changeLike(id,pdsSeq);
 	}
 	
 	public int getLikeCount(int pdsSeq) {
@@ -59,23 +59,21 @@ public class PdsService {
 	}
 
 	public List<PdsBean> relatedList(String category, int seq) {
-		List<PdsBean> list = pDao.relatedList(category); // 일단 관련있는 목록을 다 가져오자
+		List<PdsBean> list = pDao.relatedList(category,seq); // 일단 관련있는 목록을 다 가져오자
 		
-		int size = 6; // 그 중 최대 6개만 골라낼거야
+		int size = 8; // 그 중 최대 6개만 골라낼거야
 		if(list.size() < size) {
 			size = list.size();
 		}
 		System.out.println(size);
-		boolean temp[] = new boolean[size];
+		boolean temp[] = new boolean[size+1];
 		List<PdsBean> selectedList = new ArrayList<PdsBean>();
 		int count =0 ;
 		while(true) {
 			int num = (int)(Math.random()*size);
 			if(temp[num]==false) {
-				if(list.get(num).getSeq() != seq) { // 지금 보고 있는 사진은 빼야됨
-					selectedList.add(list.get(num));
-					temp[num] = true;
-				}
+				selectedList.add(list.get(num));
+				temp[num] = true;
 				count++;
 			}
 			if(count == size) {

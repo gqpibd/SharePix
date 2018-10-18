@@ -1,3 +1,4 @@
+<%@page import="controller.FileController"%>
 <%@page import="model.service.MemberService"%>
 <%@page import="model.service.PdsService"%>
 <%@page import="model.iPdsManager"%>
@@ -59,10 +60,9 @@
 <script src="js/jquery.row-grid.min.js"></script>
 <link rel="stylesheet" href="style/picDetail.css">
 <link rel="stylesheet" href="style/imageArrange.css">
+<link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
 <style type="text/css">
-.img_clickable{
-	cursor: pointer;
-}
+
 </style>
 </head>
 <body class="mbody">
@@ -75,24 +75,20 @@
 	<main class="main">	
 	<!-- 왼쪽 이미지랑 댓글 부분 -->
 	<section class="left">
-		<h2 class="left__heading">
+		<div class="tagsContainer">
 			<%
 				for (int i = 0; i < pds.getTags().length; i++) { // 태그 표시 부분
 			%>
-			<span class="tag">#<%=pds.getTags()[i]%></span>
+			<span class="tag" onclick="location.href='PdsController?command=keyword&tags=<%=pds.getTags()[i] %>'">#<%=pds.getTags()[i]%></span>
 			<%
 			}
 			%>
-		</h2>
+		</div>
 
 		<div class="wrapper" align=center> <!-- 사진 표시 부분 -->
 			<img src="images/pictures/<%=pds.getfSaveName()%>" class="img" id="pdsImg"></img> 
 		</div>
-		<button onclick="doLike()" class="btn-like"> <!-- 좋아요 버튼 -->
-			<img src="<%=like%>" width="15" id="like">&nbsp;&nbsp; 
-			<span id="likeCount"><font size="3"><%=pds.getLikeCount()%></font></span>
-		</button>
-		<br> <input type="hidden" id="ajax_hidden"> <!-- ajax용 임시 태크 -->		
+			
 		<p> <!-- 댓글 창 숨기기/보기 버튼 -->
 			<img src="images/icons/re_down.png" width="30" id="replyToggle">&nbsp;&nbsp;댓글&nbsp;<%=pds.getReplyCount()%>&nbsp;개
 		</p>
@@ -114,9 +110,9 @@
 			 		if (ologin != null && re.getId().equals(ologin.getId())) { %> <!-- 작성자일 때 수정, 삭제 가능하게 -->
 					<div class="mtooltip" align="right">
 						<img src="images/icons/more.png" width="3px" align="right" class="more img_clickable" > 
-						<span class="mtooltiptext"> 
-						<label onclick="modify('<%=re.getReSeq()%>','<%=re.getContent() %>')" id="<%=re.getReSeq()%>" class="aTag">수정</label><br> 
-						<label onclick="deleteReply(<%=re.getReSeq()%>)" class="aTag">삭제</label><br>
+						<span class="mtooltiptext">
+						<span onclick="modify('<%=re.getReSeq()%>','<%=re.getContent() %>')" id="<%=re.getReSeq()%>" class="aTag">수정</span><br>
+						<span onclick="deleteReply(<%=re.getReSeq()%>)" class="aTag">삭제</span><br>						
 						</span>
 					</div> 
 					<%}%>
@@ -163,7 +159,7 @@
 				</div>
 				<textarea id="new_reply_content" placeholder="댓글을 작성해 주세요" name="content"></textarea>
 				<div align=right style="padding: 10px">
-					<button class="btn-like" id="new_reply" type="submit">등록</button>
+					<button class="mybtn" id="new_reply" type="submit">등록</button>
 				</div>
 			</form>
 			<%}%>
@@ -178,43 +174,56 @@
 				<img src="images/profiles/<%=pds.getId()%>.png" width="100"	class="profile img_clickable" align="middle"
 					 onerror="this.src='images/profiles/default.png'"
 					 onclick="location.href='MemberController?command=userPage&id=<%= pds.getId()%>'"> <!-- 작성자의 프로필 사진 -->
-					 <%=pds.getId()%>				
+					<font style="font-size: 35px; font-weight: bold; font-family: sans-serif;"> <%=pds.getId()%>	</font>
+				<%-- if(ologin != null && !pds.getId().equals(ologin.getId())){ --%>
+				<button class="mybtn" onclick="doFollow()">
+					<img id="followImg" src="<%=follow%>" width="15" id="follow">&nbsp;&nbsp;팔로우
+				</button>
+				
+				<%--} --%>
+				<button onclick="doLike()" class="mybtn"> <!-- 좋아요 버튼 -->
+					<img src="<%=like%>" width="15" id="like">&nbsp;&nbsp; 
+					<span id="likeCount"><font size="3"><%=pds.getLikeCount()%></font></span>
+				</button>			
 			</p>
 				
-				
-			<img src="images/icons/down.png" width="20"><font size="5">&nbsp;&nbsp;<%=pds.getDownCount()%></font><br> <!-- 다운로드 수 -->
-			<%-- <div align="center">
-				<a href="#" class="download" id="downBtn"  download="<%=pds.getFileName()%>">다운로드</a>
-				<img  id="downloadImg" name="imgData" width="0"></img>				
-			</div> --%>
+			
+			<br> <input type="hidden" id="ajax_hidden"> <!-- ajax용 임시 태크 -->		
+			<img src="images/icons/down.png" width="20"><font size="5">&nbsp;&nbsp;<%=pds.getDownCount()%></font><br> <!-- 다운로드 수 -->			
 			<% if(ologin != null && pds.getId().equals(ologin.getId())){ %>
 				<button onclick="location.href='updatePds.jsp?seq=<%=pds.getSeq()%>'">수정</button>
 			<%} %>
-			<% if(ologin != null && !pds.getId().equals(ologin.getId())){ %>
-				<button onclick="doFollow()">
-					<img id="followImg" src="<%=follow%>" width="15" id="follow">&nbsp;&nbsp;팔로우
-				</button>
-			<%} %>
-			<div align="center">
-				<form action="FileController">
-					<input type="hidden" name="command" value="download">
-					<input type="hidden" name="rate" value="100">
-					<input type="hidden" name="pdsSeq" value="<%=pds.getSeq()%>">
-					<input type="hidden" name="fsavename" value="<%=pds.getfSaveName()%>">
-					<input type="hidden" name="filename" value="<%=pds.getFileName()%>">
-					<input class="download" type="submit" value="다운로드">					
-				</form>				
+			
+			<div class="downbox">
+				<div class="selectSize" style="font-family: 'Noto Sans'; letter-spacing: 1.5px;"></div> <!-- 사이즈 선택 슬라이더 -->
+				<input type="range" min="20" max="100" step="20" value="100">
+				<div align="center">
+					<form action="FileController">
+						<input type="hidden" name="command" value="download">
+						<input type="hidden" name="rate" value="100" >
+						<input type="hidden" name="pdsSeq" value="<%=pds.getSeq()%>">
+						<input type="hidden" name="fsavename" value="<%=pds.getfSaveName()%>">
+						<input type="hidden" name="filename" value="<%=pds.getFileName()%>">
+						<input class="download" style="margin-top: 15px;" type="submit" value="Download">					
+					</form>				
+				</div>
 			</div>
-
-			<div class="selectSize"></div> <!-- 사이즈 선택 슬라이더 -->
-			<input type="range" min="20" max="100" step="20" value="100">
-			<!-- 추천 사진들(카테고리로 추천함) -->
+			
+			<!-- 추천 사진들(카테고리로 추천함) -->	
 			<div class="mcontainer" align="center">
-				<p style="font-size: 20px; margin: 10px; font-weight: bold;">이런 사진은 어때요?</p>				
-				 
-				<%for(PdsBean bean : list){ %>
+				<p style="font-size: 20px; margin: 5px; font-weight: bold;">이런 사진은 어때요?</p>
+				<%for(PdsBean bean : list){ 
+					String fSavename = bean.getfSaveName();
+					String smallSrc = fSavename.substring(0,fSavename.lastIndexOf('.')) + "_small" + fSavename.substring(fSavename.lastIndexOf('.'));
+
+					File f = new File(FileController.PATH + "\\" + fSavename);
+				    if (f.exists() && f.length()<300000) { // 300kb 이하의 이미지는 그냥 원본을 가져온다
+				    	  smallSrc = fSavename;			     
+				    }
+				%>
 				<div class="item">	
-					<img class="img_clickable" src="images/pictures/<%=bean.getfSaveName()%>" onclick="veiwDetail(<%=bean.getSeq()%>)" height="300"> 
+					<img class="img_clickable" src="images/pictures/<%=smallSrc%>"
+					onclick="veiwDetail(<%=bean.getSeq()%>)" height="200"> 					
 				</div>
 				<%} %>
 			</div>
@@ -224,20 +233,17 @@
 	</main>
 
 	<script type="text/javascript">	
-	
-		var like = '<%=isLike%>';
 		function doLike(){ // 좋아요 눌렀을 때			
 			<%if (ologin == null) {%>
 				loginView();
-			<%} else {
-				System.out.println(isLike);%>				
+			<%} else {%>				
 				$.ajax({
 					url:"PdsController", // 접근대상
 					type:"get",		// 데이터 전송 방식
-					data:"command=likeChange&like="+like+"&id=<%=id%>&seq=<%=pds.getSeq()%>", // 전송할 데이터
+					data:"command=likeChange&id=<%=id%>&seq=<%=pds.getSeq()%>", // 전송할 데이터
 					success:function(data, status, xhr){
 						/* console.log(data); */
-						like = $("#ajax_hidden").html(data).find("like").text();
+						var like = $("#ajax_hidden").html(data).find("like").text();
 						var count = $("#ajax_hidden").html(data).find("count").text();
 						if(like == "false"){
 							$("#like").attr("src",'images/icons/like_empty.png');
@@ -272,13 +278,9 @@
 			}
 		
 			elem.addEventListener("input", rangeValue);
-		
-		
-		
-		                                                                          
-		                                                                             
-		// 답변 보기/ 숨기기                                                                
-		$("#replies").hide();           
+		                                                         
+			// 답변 보기/ 숨기기                                                                
+			$("#replies").hide();           
 			$("#replyToggle").click(function(){
 				$("#replies").slideToggle("fast",function(){
 					if($("#replyToggle").attr("src") == "images/icons/re_down.png"){
@@ -289,22 +291,19 @@
 				});
 			});
 	
-		// textarea 자동 크기 조절			
-		// 동적으로 생성된 태그에 이벤트를 적용하기 위해서는 $(document).on()으로 해줘야 한다.
-		// $(".wrap").on('keyup', 'textarea',function(e){ --> 이렇게 하면 원래 있던 태그에만 적용됨
-		$(document).on('keyup', 'textarea',".wrap",function(e){
-			$(this).css('height', 'auto' );
-			$(this).height( this.scrollHeight );
-		});
-		$('.wrap').find( 'textarea' ).keyup();
-	});			
-		
-	</script>
-	
-	<script type="text/javascript">
+			// textarea 자동 크기 조절			
+			// 동적으로 생성된 태그에 이벤트를 적용하기 위해서는 $(document).on()으로 해줘야 한다.
+			// $(".wrap").on('keyup', 'textarea',function(e){ --> 이렇게 하면 원래 있던 태그에만 적용됨
+			$(document).on('keyup', 'textarea',".wrap",function(e){
+				$(this).css('height', 'auto' );
+				$(this).height( this.scrollHeight );
+			});
+			$('.wrap').find( 'textarea' ).keyup();
+		});			
+			
 		//추천 이미지 배열
 		$(document).ready(function() {
-		  var options = {minMargin: 5, maxMargin: 15, itemSelector: ".item", firstItemClass: "first-item"};
+		  var options = {minMargin: 5, maxMargin: 20, itemSelector: ".item", firstItemClass: "first-item"};
 		  $(".mcontainer").rowGrid(options);
 		});
 		
@@ -384,8 +383,7 @@
 		var followChk = '<%=isFollow%>';
 		function doFollow(){ // 좋아요 눌렀을 때			
 			<%if (ologin == null) {%>
-				alert("로그인해 주십시오");	
-				location.href="index.jsp";
+				loginView();
 			<%} else {%>				
 				$.ajax({
 					url:"MemberController", // 접근대상

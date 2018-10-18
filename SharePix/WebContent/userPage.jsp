@@ -1,3 +1,5 @@
+<%@page import="controller.FileController"%>
+<%@page import="java.io.File"%>
 <%@page import="model.service.MemberService"%>
 <%@page import="dto.FollowDto"%>
 <%@page import="model.service.PdsService"%>
@@ -13,7 +15,7 @@
 	MemberBean loginMemDto = null;
  	loginMemDto = (MemberBean)ologin;// 세션에 담겨있던 로그인한 사람의 dto
  	
- 	System.out.println("loginMemDto : " + loginMemDto.toString());
+ 	//System.out.println("loginMemDto : " + loginMemDto.toString());
 	MemberService memService = MemberService.getInstance();
 //	String pageId = request.getParameter("id");	// 해당 유저 페이지의 유저 id 
 //	PdsService pdsService = PdsService.getInstance();
@@ -80,7 +82,9 @@
 	
 	String follow = "images/icons/like_empty.png";
 	boolean isFollow = false;
-	isFollow = memService.checkMemFollow(loginMemDto.getId(), pageId);
+	if(loginMemDto!=null){
+		isFollow = memService.checkMemFollow(loginMemDto.getId(), pageId);
+	}
 	if (isFollow) {
 		follow = "images/icons/like_fill.png";
 	}
@@ -118,7 +122,7 @@
 	<div style="margin-top: 10em">
 	<h2><%=pageMemDto.getName()%>의 userPage</h2>	<!-- 출력 확인 -->
 	<!-- <div align=center> -->
-	<%if(pageMemDto.getId().equals(loginMemDto.getId())){
+	<%if(loginMemDto!= null && pageMemDto.getId().equals(loginMemDto.getId())){
 		%>
 		<form action="MemberController">
 			<input type="hidden" name="command" value="userUpdatePage">
@@ -179,7 +183,8 @@
 	<div align="center">
 	<a href="javascript:gotoPds()">user가 올린 이미지</a>&nbsp;&nbsp;<a href="javascript:gotoSub()">나를 구독한 사람들</a>&nbsp;&nbsp;<a href="javascript:gotoLike()">내 컬렉션</a>
 	</div>
-	<hr>	
+	<hr>
+		
 	<div class="mcontainer" id="userPds">
 		<%
 		String PATH = "images/";
@@ -188,12 +193,18 @@
 			pdslist = PdsService.getInstance().getSearchPdsNull();
 		}
 		String like = "heart.png";
-			for (PdsBean Pdscust : pdslist) {
+		for (PdsBean Pdscust : pdslist) {
+			String fSavename = Pdscust.getfSaveName();
+			String smallSrc = fSavename.substring(0,fSavename.lastIndexOf('.')) + "_small" + fSavename.substring(fSavename.lastIndexOf('.'));
+			
+			File f = new File(FileController.PATH + "\\" + fSavename);
+			 if (f.exists() && f.length()<300000) { // 300kb 이하의 이미지는 그냥 원본을 가져온다
+		    	  smallSrc = fSavename;			     
+		    }
 		%>
 		<div class="item profilebox profilebox1">
-			<img class="img" name="item"
-				src="<%=PATH%>/pictures/<%=Pdscust.getfSaveName()%>"
-				onclick="veiwDetail(<%=Pdscust.getSeq()%>)" height="300">
+			<img class="img" name="item" src="images/pictures/<%=smallSrc%>"  
+				onclick="veiwDetail(<%=Pdscust.getSeq()%>)" height="300" alt="이미지 못 찾음" >
 			<div class="SocialIcons">
 				<a> <img alt="" src="<%=PATH%>icons\\<%=like%>"
 					onmouseover="this.src='<%=PATH%>icons\\fullheart.png'"
@@ -231,18 +242,24 @@
 			<jsp:param name="followeeId" value="<%=pagePds.getId()%>"/>
 		</jsp:include>
 	</div>
-	
-		<div id="userCollect" class="mcontainer">
+		<div class="mcontainer profilebox profilebox1">
 			<%
 			PATH = "images/";
 			like = "heart.png";
-				for (PdsBean Pdscust : lList) {
-					System.out.println("내 컬렉션" + PATH + "pictures/" + Pdscust.getfSaveName());
+			for (PdsBean Pdscust : lList) {
+				System.out.println("내 컬렉션" + PATH + "pictures/" + Pdscust.getfSaveName());
+				
+				String fSavename = Pdscust.getfSaveName();
+				String smallSrc = fSavename.substring(0,fSavename.lastIndexOf('.')) + "_small" + fSavename.substring(fSavename.lastIndexOf('.'));
+				
+				File f = new File(FileController.PATH + "\\" + fSavename);
+				 if (f.exists() && f.length()<300000) { // 300kb 이하의 이미지는 그냥 원본을 가져온다
+			    	  smallSrc = fSavename;			     
+			    }
 			%>
-			<div class="item profilebox profilebox1">
-				<img class="img" name="item"
-					src="<%=PATH%>pictures/<%=Pdscust.getfSaveName()%>"
-					onclick="veiwDetail(<%=Pdscust.getSeq()%>)" height="300">
+			
+				<img class="img" name="item" src="images/pictures/<%=smallSrc%>"  
+				onclick="veiwDetail(<%=Pdscust.getSeq()%>)" height="300" alt="이미지 못 찾음" >
 				<div class="SocialIcons">
 					<a> <img alt="" src="<%=PATH%>icons\\<%=like%>"
 						onmouseover="this.src='<%=PATH%>icons\\fullheart.png'"
@@ -269,10 +286,14 @@
 				}
 			%>
 		</div>
-	</div>
 </body>
 
 <script type="text/javascript">
+/* $("#userCollect").show(function () {
+	$("#userCollect").hide();
+}); */
+	gotoPds();
+
 var followChk = '<%=isFollow%>';
 function doFollow(){ // 팔로우 눌렀을 때			
 	<%if (ologin == null) {%>
@@ -314,6 +335,7 @@ function gotoLike(){
 	$("#userPds").hide();
 	$("#userSub").hide();
 	$("#userCollect").show();
+	$("#userCollect").css("visibility","visible");
 }
 
 function veiwDetail(seq) { // 사진 상세 페이지로 이동
@@ -363,14 +385,15 @@ $(function () {
 });
  --%>
  $(document).ready(function() {
-		//$.noConflict();
-		//var options = {minMargin: 5, maxMargin: 15, itemSelector: ".item", firstItemClass: "first-item"};
-		//$(".mcontainer").rowGrid(options);
+
 		$.noConflict();
+		var options = {minMargin: 5, maxMargin: 15, itemSelector: ".item", firstItemClass: "first-item"};
+		$(".mcontainer").rowGrid(options);
+		//$.noConflict();
 		/* var userCollectOpts = {minMargin: 5, maxMargin: 15, itemSelector: ".item", firstItemClass: "first-item"};
-		$("#mcontainer").rowGrid(userCollectOpts); */
-		var userCollectOpts = {minMargin: 5, maxMargin: 15, itemSelector: ".item", firstItemClass: "first-item"};
-		$(".mcontainer").rowGrid(userCollectOpts);
+		$("#mcontainer").rowGrid(userCollectOpts);  */
+		//var userCollectOpts = {minMargin: 5, maxMargin: 15, itemSelector: ".item", firstItemClass: "first-item"};
+		//$(".mcontainer").rowGrid(userCollectOpts);
 	});
 </script>
 <script src="js/jquery.row-grid.js"></script>

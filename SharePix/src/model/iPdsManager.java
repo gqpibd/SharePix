@@ -14,7 +14,7 @@ public interface iPdsManager {
 	
 	public boolean checkPdsLike(String id, int pdsSeq);
 
-	public boolean chageLike(String id, int pdsSeq, boolean isLike);
+	public boolean changeLike(String id, int pdsSeq);
 
 	public int getLikeCount(int pdsSeq);
 	
@@ -22,7 +22,7 @@ public interface iPdsManager {
 
 	public List<PdsBean> myLikePdsList(String id);
 
-	public List<PdsBean> relatedList(String category);
+	public List<PdsBean> relatedList(String category, int seq);
 	
 	public PdsBean getMyPdsAll(String id);
 	

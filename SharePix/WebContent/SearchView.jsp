@@ -1,3 +1,5 @@
+<%@page import="controller.FileController"%>
+<%@page import="java.io.File"%>
 <%@page import="model.PdsManager"%>
 <%@page import="model.service.PdsService"%>
 <%@page import="model.iPdsManager"%>
@@ -9,20 +11,10 @@
 <!DOCTYPE html>
 <%
 	request.setCharacterEncoding("utf-8");
-
-/* 	List<PdsBean> PdsList = (List<PdsBean>) request.getAttribute("searchList");
-
-	System.out.println("값이 들어오는지 안들어오는지 모르겠다. 왜 안들어올까 : " + PdsList); */
 %>
-
-
-
 <%	
 	// 검색어	
-
-	
-	String keyword = (String)request.getAttribute("keyword");
-	
+	String keyword = (String)request.getAttribute("keyword");	
 	System.out.println("값이 들어오는지 안들어오는지 모르겠다. 왜 안들어올까 : " + keyword);
 %>
 
@@ -98,12 +90,20 @@
 	
 	
 	<div class="container">
-	
+				
 		<%
 			for (PdsBean Pdscust : pdslist) {
+				String fSavename = Pdscust.getfSaveName();
+				String smallSrc = fSavename.substring(0,fSavename.lastIndexOf('.')) + "_small" + fSavename.substring(fSavename.lastIndexOf('.'));
+				
+				File f = new File(FileController.PATH + "\\" + fSavename);
+				 if (f.exists() && f.length()<300000) { // 300kb 이하의 이미지는 그냥 원본을 가져온다
+			    	  smallSrc = fSavename;			     
+			    }
+			
 		%>
 		<div class="item profilebox profilebox1">
-			<img class="img" name="item" src="images/pictures/<%=Pdscust.getfSaveName()%>"  
+			<img class="img" name="item" src="images/pictures/<%=smallSrc%>"  
 				onclick="veiwDetail(<%=Pdscust.getSeq()%>)" height="300" alt="이미지 못 찾음" >
 			<div class="SocialIcons">
 					<a>
