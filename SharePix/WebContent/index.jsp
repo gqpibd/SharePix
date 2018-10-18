@@ -34,6 +34,9 @@
 <script src="js/jquery.row-grid.min.js"></script>
 <link rel="stylesheet" href="style/imageArrange.css">
 <style type="text/css">
+.clickable{
+	cursor: pointer;
+}
 </style>
 </head>
 <body bgcolor="#D5D5D5">

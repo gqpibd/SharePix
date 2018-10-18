@@ -66,12 +66,13 @@
 </style>
 </head>
 <body class="mbody">
-	<div class="left__heading" style="height: 100%">
+	<div style="height: 100%">
 		<!-- jsp scriptlet을 쓰면 값이 안 넘어가짐. EL태그로 해결할 수 있음!! -->
 		<jsp:include page="titlebar.jsp">
 			<jsp:param name="goBackTo" value="PdsController?command=detailview&seq=${pds.seq}"/>
 		</jsp:include>		
 	</div>
+	<div style="margin-top: 13rem"></div>
 	<main class="main">	
 	<!-- 왼쪽 이미지랑 댓글 부분 -->
 	<section class="left">
@@ -175,27 +176,25 @@
 					 onerror="this.src='images/profiles/default.png'"
 					 onclick="location.href='MemberController?command=userPage&id=<%= pds.getId()%>'"> <!-- 작성자의 프로필 사진 -->
 					<font style="font-size: 35px; font-weight: bold; font-family: sans-serif;"> <%=pds.getId()%>	</font>
-				<%-- if(ologin != null && !pds.getId().equals(ologin.getId())){ --%>
-				<button class="mybtn" onclick="doFollow()">
-					<img id="followImg" src="<%=follow%>" width="15" id="follow">&nbsp;&nbsp;팔로우
-				</button>
-				
-				<%--} --%>
+					<br>
 				<button onclick="doLike()" class="mybtn"> <!-- 좋아요 버튼 -->
 					<img src="<%=like%>" width="15" id="like">&nbsp;&nbsp; 
 					<span id="likeCount"><font size="3"><%=pds.getLikeCount()%></font></span>
+				</button>
+				<button class="mybtn" onclick="doFollow()"><!-- 팔로우 버튼 -->
+					<img id="followImg" src="<%=follow%>" width="15" id="follow">&nbsp;&nbsp;팔로우
 				</button>			
 			</p>
 				
-			
+			<hr>
 			<br> <input type="hidden" id="ajax_hidden"> <!-- ajax용 임시 태크 -->		
 			<img src="images/icons/down.png" width="20"><font size="5">&nbsp;&nbsp;<%=pds.getDownCount()%></font><br> <!-- 다운로드 수 -->			
 			<% if(ologin != null && pds.getId().equals(ologin.getId())){ %>
 				<button onclick="location.href='updatePds.jsp?seq=<%=pds.getSeq()%>'">수정</button>
 			<%} %>
-			
+			<hr>
 			<div class="downbox">
-				<div class="selectSize" style="font-family: 'Noto Sans'; letter-spacing: 1.5px;"></div> <!-- 사이즈 선택 슬라이더 -->
+				<div class="selectSize" style="font-family: 'Noto Sans'; letter-spacing: 1.5px; margin-top: 0px; margin-bottom: 3px"></div> <!-- 사이즈 선택 슬라이더 -->
 				<input type="range" min="20" max="100" step="20" value="100">
 				<div align="center">
 					<form action="FileController">
@@ -204,11 +203,11 @@
 						<input type="hidden" name="pdsSeq" value="<%=pds.getSeq()%>">
 						<input type="hidden" name="fsavename" value="<%=pds.getfSaveName()%>">
 						<input type="hidden" name="filename" value="<%=pds.getFileName()%>">
-						<input class="download" style="margin-top: 15px;" type="submit" value="Download">					
+						<input class="download" style="margin-top: 20px;" type="submit" value="Download">					
 					</form>				
 				</div>
 			</div>
-			
+			<hr>
 			<!-- 추천 사진들(카테고리로 추천함) -->	
 			<div class="mcontainer" align="center">
 				<p style="font-size: 20px; margin: 5px; font-weight: bold;">이런 사진은 어때요?</p>
