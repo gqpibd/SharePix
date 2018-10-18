@@ -1,3 +1,7 @@
+<%@page import="controller.FileController"%>
+<%@page import="java.io.File"%>
+<%@page import="utils.Sorter"%>
+<%@page import="model.service.PdsService"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="controller.PdsController"%>
@@ -5,32 +9,36 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%
-	List<PdsBean> list = (List<PdsBean>) request.getAttribute("list");
-	System.out.println(list.size());
-	Iterator<String> it = (Iterator<String>) request.getAttribute("sortedIter");
-    HashMap<String,Integer> map = (HashMap<String,Integer>) request.getAttribute("map");
-    
+<%  
+	String command = request.getParameter("command");
+	String id = "";
+	List<PdsBean> list = null;
+	HashMap<String, Integer> tagMap = null;
+	Iterator<String> it = null;
+	if(command.equals("favorites")){	
+	    id = request.getParameter("id");
+		list = PdsService.getInstance().myLikePdsList(id); // 즐겨찾기한 사진들을 모아서 보여줌
+		tagMap = new HashMap<>();
+		for(int i=0;i<list.size();i++) {
+			for(int j=0;j<list.get(i).getTags().length;j++) {
+				String key = list.get(i).getTags()[j];
+				if(tagMap.containsKey(key)) {
+					int value = tagMap.get(key);
+					tagMap.put(key, value+1);
+				}else {
+					tagMap.put(key, 1);
+				}
+			}
+		}	
+		it = Sorter.sortByValue(tagMap).iterator();
+	}
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>즐겨찾기 페이지</title>
 
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="js/jquery.row-grid.min.js"></script>
-<link rel="stylesheet" href="style/imageArrange.css">
 <style type="text/css">
 .img_clickable{
 	cursor: pointer;
 }
 
-/* .mDiv{
-	border: 1px solid #000;
-	height: 200px;
-	width: 400px;	
-} */
 .tag {
 	margin : 5px;
 	background-color: #ededed;	
@@ -48,58 +56,44 @@
 .tag:hover {
 	background-color: #dfdfdf;
 }
-</style>
-</head>
-<body>
-	<div class="left__heading" style="height: 100%"> <!-- 타이틀바 -->
-		<jsp:include page="titlebar.jsp">
-			<jsp:param name="goBackTo" value="myLikes.jsp" />
-		</jsp:include>
-	</div>
-
-	<div align="center" class = "mDiv" style="margin-top: 10em">
-	<div class="container" >
-	<%	
-	//25 20 15 10
-	int iter = 0; // 지금 위치가 몇 번째인지 갯수를 세자
-	int size = 25;
-	int prevCount = -1; // 이전 갯수
-	int currCount = -1; // 현재 갯수
-	while(it.hasNext()) {		
-        String temp = (String) it.next();        
-        currCount = map.get(temp);
-        if(prevCount != -1 && prevCount > currCount){
- 			size = size-5;       	
-        }
-	%>
-        <span class="tag" onclick="location.href='PdsController?command=keyword&tags=<%=temp%>'"style="font-size: <%=size%>px ">#<%=temp%></span>
-    <% 
-		prevCount=map.get(temp);
-	    iter++;
-	    if(iter>15){
-	    	break;
-	    }
-    } %>
-		
-	</div>
-	<div class="container" >
-		<%for(PdsBean pds : list){ %>
-		<div class="item">
-			<img class="img img_clickable" name="item" src="images/pictures/<%=pds.getfSaveName()%>" onclick="veiwDetail(<%=pds.getSeq()%>)" height="400">
-		</div>
-		<%} %>
-	</div>
+</style>	
+<div class="container" >
+<%	
+//25 20 15 10
+int iter = 0; // 지금 위치가 몇 번째인지 갯수를 세자
+int size = 25;
+int prevCount = -1; // 이전 갯수
+int currCount = -1; // 현재 갯수
+while(it.hasNext()) {		
+	String temp = (String) it.next();        
+       currCount = tagMap.get(temp);
+       if(prevCount != -1 && prevCount > currCount){
+			size = size-5;       	
+       }
+%>
+       <span class="tag" onclick="location.href='PdsController?command=keyword&tags=<%=temp%>'"style="font-size: <%=size%>px ">#<%=temp%></span>
+   <% 
+	prevCount=tagMap.get(temp);
+    iter++;
+    if(iter>15){
+    	break;
+    }
+   } %>
 	
-	<script type="text/javascript">
-		$(document).ready(function() {
-		  var options = {minMargin: 5, maxMargin: 15, itemSelector: ".item", firstItemClass: "first-item"};
-		  $(".container").rowGrid(options);
-		});
+</div>
+<div class="mcontainer" >
+	<%for(PdsBean pds : list){
+		String fSavename = pds.getfSaveName();
+		String smallSrc = fSavename.substring(0,fSavename.lastIndexOf('.')) + "_small" + fSavename.substring(fSavename.lastIndexOf('.'));
 		
-		function veiwDetail(seq) {
-			console.log(seq);
-			location.href="PdsController?command=detailview&seq=" + seq;
-		}		
-	</script>
-</body>
-</html>
+		File f = new File(FileController.PATH + "\\" + fSavename);
+		 if (f.exists() && f.length()<300000) { // 300kb 이하의 이미지는 그냥 원본을 가져온다
+	    	  smallSrc = fSavename;			     
+	    }
+	%>
+	<div class="item">
+		<img class="img img_clickable" name="item" src="images/pictures/<%=pds.getfSaveName()%>" onclick="veiwDetail(<%=pds.getSeq()%>)" height="400">
+	</div>
+	<%} %>
+</div>	
+	

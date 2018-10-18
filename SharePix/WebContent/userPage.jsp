@@ -265,9 +265,14 @@
 			<jsp:param name="followeeId" value="${pagePds.id }"/>
 		</jsp:include>
 	</div>
-		<!-- <div id="userCollect" class="mcontainer"> -->
-		<div id="userCollect" class="mcontainer" style="visibility: hidden">
-			<%
+	
+		<div id="userCollect">
+			<jsp:include page="myLikes.jsp" flush="true">
+				<jsp:param name="command" value="favorites" />
+				<jsp:param name="id" value="${pagePds.id }"/>
+			</jsp:include>
+		<!-- <div id="userCollect" class="mcontainer" style="visibility: hidden"> -->
+			<%--
 			PATH = "images/";
 			like = "heart.png";
 			for (PdsBean Pdscust : lList) {
@@ -280,8 +285,8 @@
 				 if (f.exists() && f.length()<300000) { // 300kb 이하의 이미지는 그냥 원본을 가져온다
 			    	  smallSrc = fSavename;			     
 			    }
-			%>
-			<div class="item profilebox profilebox1">
+			--%>
+			<%-- <div class="item profilebox profilebox1">
 				<img class="img" name="item" src="<%=PATH%>pictures/<%=smallSrc%>"  
 				onclick="veiwDetail(<%=Pdscust.getSeq()%>)" height="300" alt="이미지 못 찾음" >
 				<div class="SocialIcons">
@@ -305,16 +310,18 @@
 							style="text-decoration: none; color: white;"><%=Pdscust.getId()%></a>
 					</h3>
 				</div>
-			</div>
-			<%
+			</div> --%>
+			<%--
 				}
-			%>
+			--%>
 		</div>
-
 	</div>
 </body>
 
 <script type="text/javascript">
+window.onload = function () {
+	gotoPds();
+}
 
 var followChk = '<%=isFollow%>';
 function doFollow(){ // 팔로우 눌렀을 때			

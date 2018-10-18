@@ -2,13 +2,9 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.TreeMap;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import dto.PdsBean;
 import model.service.PdsService;
+import utils.Sorter;
 
 public class PdsController extends HttpServlet {	
 	
@@ -89,7 +86,7 @@ public class PdsController extends HttpServlet {
 				}
 			}			
 			
-			Iterator<String> it = sortByValue(tagMap).iterator();
+			Iterator<String> it = Sorter.sortByValue(tagMap).iterator();
 
 	        /*while(it.hasNext()) {
 	            String temp = (String) it.next();
@@ -151,17 +148,5 @@ public class PdsController extends HttpServlet {
 		dispatch.forward(req, resp);
 	}
 	
-	List<String> sortByValue(HashMap<String, Integer> map) {
-	    List<String> sortedList = new ArrayList<>();
-	    sortedList.addAll(map.keySet());
-	    Collections.sort(sortedList,new Comparator<String>() {
-	        public int compare(String o1,String o2) {
-	            Integer v1 = map.get(o1);
-	            Integer v2 = map.get(o2);     
-	            return (v2).compareTo(v1);
-	        }
-	    });
-	    //Collections.reverse(sortedList); // 주석시 오름차순
-	    return sortedList;
-	}		
+			
 } 
