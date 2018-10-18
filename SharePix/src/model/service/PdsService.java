@@ -3,6 +3,7 @@ package model.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import dto.PagingBean;
 import dto.PdsBean;
 import model.PdsManager;
 import model.iPdsManager;
@@ -50,6 +51,11 @@ public class PdsService {
 	
 	public List<PdsBean> getSearchPdsNull(){
 		return pDao.getSearchPdsNull();
+	}
+	
+	public List<PdsBean> getPdsPagingList(PagingBean paging, String keyword){
+		
+		return pDao.getPdsPagingList(paging, keyword);
 	}
 
 	public List<PdsBean> relatedList(String category, int seq) {
@@ -99,9 +105,11 @@ public class PdsService {
 		return pDao.getPdsDetail(seq);
 	}
 
-	public boolean updatePDS(PdsBean dto) {
-		return pDao.updatePDS(dto);
+
+	public boolean updatePDS(PdsBean pds) {
+		return pDao.updatePDS(pds);
 	}
+
 	
 	public List<PdsBean> getMyLikeList(String id){
 		return pDao.getMyLikeList(id);

@@ -202,6 +202,7 @@ public class MemberManager implements iMemberManager {
 		
 		return mem;
 	}
+
 	
 	@Override
 	public MemberBean loginAf(String id, String pwd) {
@@ -246,6 +247,8 @@ public class MemberManager implements iMemberManager {
 		}
 		return dto;
 	}
+	
+	
 
 	@Override
 	public boolean updateUser(MemberBean dto) {

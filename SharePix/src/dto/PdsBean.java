@@ -72,15 +72,13 @@ public class PdsBean  implements Serializable {
 	public PdsBean(String id, String category, String tags) {		
 		this.id = id;
 		this.category = category;
-		this.tags = tags.substring(1).split("#");
+		this.tags = tags.replaceAll(" ", "").substring(1).split("#");
 	
 	}
 	
 	public PdsBean(String category, String tags) {		
-
 		this.category = category;
-		this.tags = tags.substring(1).split("#");
-	
+		this.tags = tags.replaceAll(" ", "").substring(1).split("#");	
 	}
 
 	public int getSeq() {
@@ -178,4 +176,5 @@ public class PdsBean  implements Serializable {
 				+ downCount + ", likeCount=" + likeCount + ", replyCount=" + replyCount + ", fSaveName=" + fSaveName
 				+ "]";
 	}
+
 }

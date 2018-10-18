@@ -1,7 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 
 <%
+
+
+request.setCharacterEncoding("utf-8");
+
 String actionPath = request.getParameter("actionPath");	// actionPath:bbslist.jsp
 String sNowPage = request.getParameter("nowPage");		// 현재 페이지
 String sTotalCount = request.getParameter("totalCount");// 올린 글수
@@ -70,7 +75,10 @@ System.out.println("lastPage = " + lastPage);
 
 <form action="<%=actionPath %>" name="frmPaging" method="get">
 	<input type="hidden" name="nowPage">
-	<input type="hidden" name="keyword" value="<%=keyword %>">
+	<input type="hidden" name="command" value="keyword">
+	<input type="hidden" name="tags" value="<%=keyword %>">
+	<input style="display: none;" type="submit" name="command" value="kekword" >
+	
 
 	<div align="center">
 		

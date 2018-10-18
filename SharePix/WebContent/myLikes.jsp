@@ -31,8 +31,8 @@
 
 	<div class="container" style="margin-top: 10em">
 		<%for(PdsBean pds : list){ %>
-		<div class="item">	
-			<img class="img img_clickable" name="item" src="<%=PdsController.PATH%><%=pds.getfSaveName()%>" onclick="veiwDetail(<%=pds.getSeq()%>)" height="400"> 
+		<div class="item">
+			<img class="img img_clickable" name="item" src="images/pictures/<%=pds.getfSaveName()%>" onclick="veiwDetail(<%=pds.getSeq()%>)" height="400">
 		</div>
 		<%} %>
 	</div>
@@ -42,7 +42,6 @@
 		  var options = {minMargin: 5, maxMargin: 15, itemSelector: ".item", firstItemClass: "first-item"};
 		  $(".container").rowGrid(options);
 		});
-		
 		
 		function veiwDetail(seq) {
 			console.log(seq);

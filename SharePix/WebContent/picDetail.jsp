@@ -21,9 +21,7 @@
 	String like = "images/icons/like_empty.png";
 	// 아이디 확인하고 받아서 like 확인하고 이미지 넣기
 	MemberBean ologin = (MemberBean) session.getAttribute("login");
-	if (ologin == null) {
-		System.out.println("유저 없음");
-	}
+	
 	boolean isLike = false;
 	PdsService pService = null;
 	String id = "";
@@ -122,7 +120,7 @@
 						</span>
 					</div> 
 					<%}%>
-				 	<img src="<%=src%>" class="profile re-img img_clickable" width="10" onerror="this.src='<%=srcError%>'" onclick="location.href='userPage.jsp?id=<%= re.getId()%>'">
+				 	<img src="<%=src%>" class="profile re-img img_clickable" width="10" onerror="this.src='<%=srcError%>'" onclick="location.href='MemberController?command=userPage&id=<%= re.getId()%>'">
 					<div class="reply_content">
 						<span class="nickname"><%=re.getId()%> 
 					<% if (re.getId().equals(pds.getId())) { // 게시글 작성자 표시
@@ -179,7 +177,7 @@
 			<p>
 				<img src="images/profiles/<%=pds.getId()%>.png" width="100"	class="profile img_clickable" align="middle"
 					 onerror="this.src='images/profiles/default.png'"
-					 onclick="location.href='userPage.jsp?id=<%= pds.getId()%>'"> <!-- 작성자의 프로필 사진 -->
+					 onclick="location.href='MemberController?command=userPage&id=<%= pds.getId()%>'"> <!-- 작성자의 프로필 사진 -->
 					 <%=pds.getId()%>				
 			</p>
 				
@@ -216,7 +214,7 @@
 				 
 				<%for(PdsBean bean : list){ %>
 				<div class="item">	
-					<img class="img_clickable" src="<%=PdsController.PATH%><%=bean.getfSaveName()%>" onclick="veiwDetail(<%=bean.getSeq()%>)" height="300"> 
+					<img class="img_clickable" src="images/pictures/<%=bean.getfSaveName()%>" onclick="veiwDetail(<%=bean.getSeq()%>)" height="300"> 
 				</div>
 				<%} %>
 			</div>
@@ -226,7 +224,6 @@
 	</main>
 
 	<script type="text/javascript">	
-	
 		var like = '<%=isLike%>';
 		function doLike(){ // 좋아요 눌렀을 때			
 			<%if (ologin == null) {%>

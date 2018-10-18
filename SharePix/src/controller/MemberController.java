@@ -1,8 +1,8 @@
 package controller;
 
 import java.io.IOException;
-
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -47,9 +47,8 @@ public class MemberController extends HttpServlet {
 		}else if(command.equals("idcheck")) {	// 아이디 중복 확인			
 			String id = req.getParameter("id");
 		    System.out.println("id = " + id);
-		    
-		    MemberService service = MemberService.getInstance();
-		    boolean isS = service.getId(id);
+		
+		    boolean isS = memService.getId(id);
 		   
 		    PrintWriter out = resp.getWriter();
 		    if(isS){
@@ -59,6 +58,38 @@ public class MemberController extends HttpServlet {
 		    	out.print("OK");
 		    	out.flush();
 		    }
+		}else if(command.equals("regi")) { 
+			
+			String id = req.getParameter("id");
+			String pwd = req.getParameter("pwd");
+			String name = req.getParameter("name");
+			String email = req.getParameter("email");
+			String phone = req.getParameter("phone");
+			
+			boolean isS = memService.addMember(new MemberBean(id, pwd, name, email, phone, 0));
+
+			if(isS) {
+				
+				resp.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = resp.getWriter();
+				
+				out.println("<script>alert('성공적으로 가입하셨습니다'); location.href='index.jsp';</script>");
+				 
+				out.flush();
+			
+			}else {	
+				
+				resp.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = resp.getWriter();
+				
+				out.println("<script>alert('다시 기입해 주십시오.'); location.href='regi.jsp';</script>");
+				 
+				out.flush();
+				
+			}
+			
+			//dispatch("index.jsp", req, resp);
+		    
 		}else if(command.equals("login")) {	// 로그인 버튼 눌렀을 시 아이디 비밀번호 맞으면 페이지로 이동
 			System.out.println("command = " + command + " 들어옴");	// 확인용
 			String id = req.getParameter("id");
@@ -136,19 +167,27 @@ public class MemberController extends HttpServlet {
 			req.setCharacterEncoding("utf-8");
 			
 			String pageId = req.getParameter("id");
+
+			PdsBean pagePds = null;
+			MemberBean pageMemDto = null;
+			List<PdsBean> list = null;
+			List<FollowDto> fList = null;
+			List<FollowDto> sList  = null;
+			List<PdsBean> lList = null;
 			
-			PdsBean pagePds = pdsService.getMyPdsAll(pageId); // 해당 유저 페이지의 유저 id로 찾은 pdsDto
-			MemberBean pageMemDto = memService.getUserInfo(pageId);	//해당 페이지의 사용자 정보 가져온 memDto
-			List<PdsBean> list = pdsService.getMyPdsAllList(pageId); // 해당 페이지의 사용자 정보 list
-			List<FollowDto> fList = memService.getMyFollowerList(pageId); // 해당 페이지의 사용자를 팔로우 하는 사람 list
-			List<FollowDto> sList = memService.getMySubscribeList(pageId); // 해당 페이지의 유저를 구독한 사람들 list
-			List<PdsBean> lList = pdsService.getMyLikeList(pageId);	// 해당 페이지의 유저가 좋아요한 list
+			pagePds = new PdsBean();
+			pageMemDto = new MemberBean();
+			list = new ArrayList<>();
+			fList = new ArrayList<>();
+			sList = new ArrayList<>();
+			lList = new ArrayList<>();
 			
-			if( pagePds == null || pageMemDto == null || list == null  || fList == null || sList == null || lList == null) {
-				System.out.println("뭐가 됐든 null");
-			} else {
-				System.out.println("아무것도 null 아님");
-			}
+			pagePds = pdsService.getMyPdsAll(pageId); // 해당 유저 페이지의 유저 id로 찾은 pdsDto
+			pageMemDto = memService.getUserInfo(pageId);	//해당 페이지의 사용자 정보 가져온 memDto
+			list = pdsService.getMyPdsAllList(pageId); // 해당 페이지의 사용자 정보 list
+			fList = memService.getMyFollowerList(pageId); // 해당 페이지의 사용자를 팔로우 하는 사람 list
+			sList = memService.getMySubscribeList(pageId); // 해당 페이지의 유저를 구독한 사람들 list
+			lList= pdsService.getMyLikeList(pageId);	// 해당 페이지의 유저가 좋아요한 list
 			
 			req.setAttribute("pagePds", pagePds);
 			req.setAttribute("pageMemDto", pageMemDto);

@@ -3,49 +3,56 @@
     pageEncoding="UTF-8"%>
 <%
 	MemberBean user = (MemberBean)session.getAttribute("login");
+	if(user == null){
+		response.sendRedirect("index.jsp");
+	}
 %>        
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<link href="css/style0.css" rel="stylesheet" type = "text/css"/>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>pdswrite.jsp</title>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+
 <style>
 .imgbox{
 	position: relative;
+	width: 500px;
+	height: 400px;
+	vertical-align: middle;
 }
 .holder{
-	/* width: 100%; */
 	max-height: 400px;
-	max-width:300px;	
+	max-width: 500px;	
+	position: relative;
+	z-index: -1;
+	border: 2px solid black;
+}
+.upload {
+	width: 500px;
+	height: 400px;
+	opacity: 0;
+	cursor: pointer; 
 	position: absolute;
 	top: 0;
 	left: 0;
-}
-.upload {
-	width: 300px;
-	height: 400px;
-	opacity: 0;
-	cursor: pointer;
-	
+	z-index: 1;
 }
 </style>
+
 <script type="text/javascript">
 var fileReader = new FileReader();
 var filterType = /^(?:image\/bmp|image\/cis\-cod|image\/gif|image\/ief|image\/jpeg|image\/jpeg|image\/jpeg|image\/pipeg|image\/png|image\/svg\+xml|image\/tiff|image\/x\-cmu\-raster|image\/x\-cmx|image\/x\-icon|image\/x\-portable\-anymap|image\/x\-portable\-bitmap|image\/x\-portable\-graymap|image\/x\-portable\-pixmap|image\/x\-rgb|image\/x\-xbitmap|image\/x\-xpixmap|image\/x\-xwindowdump)$/i;
-
 fileReader.onload = function (event) { // 파일이 로드 되었을 때
 	var image = new Image(); // 새로운 이미지를 생성한다.
 	image.onload = function() {		
 		document.getElementById("original-Img").src = image.src;
 	}
 	image.src = event.target.result;
-	image.width = 500;
+	$("#mlabel").hide();
 };
 var loadImageFile = function () {
 	  var uploadImage = document.getElementById("upload-Image"); //파일 요소 가져와서
@@ -74,10 +81,9 @@ var loadImageFile = function () {
 		</jsp:include>
 	</div>
 	<div align="center" style="margin-top: 10em" >
-		<form action="PdsController" method="post" enctype="multipart/form-data" id="pdswrite">
-		<input type="hidden" name="command" value="pdsupload">
+		<form action="FileController" method="post" enctype="multipart/form-data" id="pdswrite">
 		<table border="1" bgcolor="white" style='border-left: 0; border-right: 0; border-bottom: 0; border-top: 0'>
-			<col width="500"> <col width="100">
+			<col width="500px"> <col width="100px">
 			<tr align="center">
 				<td colspan="2"><br>빈공간<br>
 				<br></td>
@@ -97,13 +103,14 @@ var loadImageFile = function () {
 			<tr>
 				<td align="center">
 				<div class="imgbox">
-					<img class="holder" id="original-Img"/>	
-					<input type="file" name="fileload" accept="image/gif, image/jpeg, image/png" class="upload" id = "upload-Image" onchange="loadImageFile();" >
-					<label for="upload">드래그 하거나 클릭하여 업로드</label>
+					<img class="holder" id="original-Img"/>
+					<label id="mlabel" for="fileload">드래그 하거나 클릭하여 업로드</label>
+					<input type="file" name="fileload" accept="image/gif, image/jpeg, image/png" class="upload" id = "upload-Image" onchange="loadImageFile();" >					
 				</div>
 				</td>
 				<td border="1">					
-					<select name="category">
+					<!-- <select name="category" class="btn btn-default dropdown-toggle"><span class="caret"></span> -->
+					<select name="category" >
 						<option value="카테고리" selected="selected">카테고리</option>
 						<option value="자연">자연</option>
 						<option value="인물">인물</option>
@@ -128,10 +135,3 @@ var loadImageFile = function () {
 	</div>
 </body>
 </html>
-
-
-
-
-
-
-

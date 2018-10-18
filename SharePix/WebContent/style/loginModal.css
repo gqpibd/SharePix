@@ -80,30 +80,13 @@ background-color:#f2f2f2;
 
 /* active */
 
-/* .input:focus ~ .label, .input.used ~ .label {
-	top: -20px;
-	transform: scale(.75); left:-15px;
-    font-size: 14px;
-    color: #4a89dc;
-} */
-
-.input:focus ~ .label,  .input:valid ~ .label
+.input:focus ~ .label, .input:valid ~ .label
 {
 	top: -20px;
 	transform: scale(.75); left:-15px;
     /* font-size: 14px; */
     color: #4a89dc;
 }
-
-/* input:placeholder-shown + label {
-  cursor: text;
-  max-width: 66.66%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  transform-origin: left bottom;
-  transform: translate(0, 2.125rem) scale(1.5);
-} */
 
 .input[type="password"] {
 	letter-spacing: 0.3em;

@@ -14,6 +14,7 @@ import dto.PdsBean;
 import dto.pagingUtil;
 
 public class PdsManager implements iPdsManager {
+
    
    public PdsManager() {
       DBConnection.initConnection();
@@ -350,7 +351,8 @@ public class PdsManager implements iPdsManager {
    @Override
    public List<PdsBean> getSearchPdsNull() {
       String sql = " SELECT SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT "
-            + " FROM PDSALL ";
+            + " FROM PDSALL "
+            + "ORDER BY SEQ DESC ";
       Connection conn = null;
       PreparedStatement psmt = null;
       ResultSet rs = null;
@@ -408,7 +410,7 @@ public class PdsManager implements iPdsManager {
       
       String kWord = "";
       
-      kWord = " WHERE (TAGS LIKE '%" + keyword + "%' OR CATEGORY LIKE '%" + kWord +  "%')";
+      kWord = " WHERE (TAGS LIKE '%" + keyword + "%' OR CATEGORY LIKE '%" + keyword +  "%')";
       
       try {
          conn = DBConnection.getConnection();
@@ -434,11 +436,15 @@ public class PdsManager implements iPdsManager {
                + " ( SELECT * FROM "
                + "   (SELECT * FROM PDSALL "
                + " " + kWord
-               + " )"
-               + " WHERE ROWNUM <=" + paging.getStartNum() + ")"
+               + " ORDER BY SEQ)"
+               + " WHERE ROWNUM <=" + paging.getStartNum() + ""
+               + " ORDER BY SEQ DESC) "
                + " WHERE ROWNUM <=" + paging.getCountPerPage();
 
 
+         System.out.println("페이징 시작넘버" + paging.getStartNum());
+         System.out.println("페이징 카운터 페이지" + paging.getCountPerPage());
+         
          psmt = conn.prepareStatement(sql);         
          System.out.println("2/6 getBbsPagingList Success");      
          
@@ -446,20 +452,22 @@ public class PdsManager implements iPdsManager {
          System.out.println("3/6 getBbsPagingList Success");
          
          while(rs.next()) {
-            String regdate = rs.getString("UPLOADDATE");
-            regdate = regdate.substring(0, regdate.lastIndexOf('.'));
-            PdsBean pds = new PdsBean(rs.getInt(1), 
-                              rs.getString(2), 
-                              rs.getString(3), 
-                              rs.getString(4).substring(1).split("#"), 
-                              regdate, 
-                              rs.getString(6), 
-                              rs.getInt(7), 
-                              rs.getInt(8), 
-                              rs.getInt(9), 
-                              rs.getInt(10), 
-                              rs.getString(11));
-            pdslist.add(pds);            
+             String regdate = rs.getString("UPLOADDATE");
+             regdate = regdate.substring(0, regdate.lastIndexOf('.'));
+             // SEQ, ID, TITLE, CONTENT, FILENAME, READCOUNT, DOWNCOUNT, REGDATE
+             PdsBean pds = new PdsBean(rs.getInt("SEQ"), 
+                           rs.getString("ID"), 
+                           rs.getString("CATEGORY"), 
+                           rs.getString("TAGS").substring(1).split("#"),
+                           regdate, 
+                           rs.getString("FILENAME"), 
+                           rs.getInt("READCOUNT"), 
+                           rs.getInt("DOWNCOUNT"), 
+                           rs.getInt("LIKECOUNT"),
+                           rs.getInt("REPLYCOUNT"),
+                           rs.getString("FSAVENAME")
+                           );
+             pdslist.add(pds);           
          }
          System.out.println("4/6 getBbsPagingList Success");
          
@@ -812,177 +820,6 @@ public class PdsManager implements iPdsManager {
 			} finally {
 				DBClose.close(psmt, conn, null);
 			}
-			return count > 0 ? true : false;
-		}
-
-//	@Override
-//	public List<PdsBean> myLikePdsList(String id) {
-//		String sql =  " SELECT P.SEQ, P.ID, P.CATEGORY, P.TAGS, P.UPLOADDATE, P.FILENAME, P.READCOUNT, P.DOWNCOUNT, P.FSAVENAME, P.LIKECOUNT, P.REPLYCOUNT " + 
-//					  " FROM PDSALL P, PDSLIKE " + 
-//					  " WHERE P.SEQ = PDSLIKE.PDSSEQ AND PDSLIKE.ID = ? ";
-//		
-//		Connection conn = null;
-//		PreparedStatement psmt = null;
-//		ResultSet rs = null;
-//		
-//		List<PdsBean> list = new ArrayList<>(); // 검색 결과를 저장할 목록
-//		
-//		try {
-//			conn = DBConnection.getConnection();
-//			System.out.println("1/6 myLikePdsList Success");			
-//			
-//			psmt = conn.prepareStatement(sql);
-//			psmt.setString(1, id);
-//			System.out.println("2/6 myLikePdsList Success");
-//			
-//			rs = psmt.executeQuery();
-//			System.out.println("3/6 myLikePdsList Success");
-//			
-//			while(rs.next()) {
-//				String regdate = rs.getString("UPLOADDATE");
-//				regdate = regdate.substring(0, regdate.lastIndexOf('.'));
-//				
-//				// SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT			
-//				PdsBean bean = new PdsBean(
-//										rs.getInt("SEQ"), 
-//										rs.getString("ID"), 
-//										rs.getString("CATEGORY"),
-//										rs.getString("TAGS").substring(1).split("#"), 
-//										regdate, 
-//										rs.getString("FILENAME"),
-//										rs.getInt("READCOUNT"), 
-//										rs.getInt("DOWNCOUNT"), 
-//										rs.getInt("LIKECOUNT"), 
-//										rs.getInt("REPLYCOUNT"),
-//										rs.getString("FSAVENAME")
-//								);
-//				list.add(bean);
-//			}
-//			System.out.println("4/6 myLikePdsList Success");		
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		} finally {		
-//			DBClose.close(psmt, conn, rs);
-//		}			  
-//		return list;
-//	}
-//
-//	@Override
-//	public List<PdsBean> relatedList(String category) {
-//		/*String sql =  " SELECT RNUM, SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT " + 
-//				      " FROM ( " +
-//				      		 " SELECT ROWNUM as rnum, SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT " + 
-//				      		 " FROM " + 
-//				      		 	" (SELECT SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT " + 
-//				      		     " FROM PDSALL "+ 
-//				      		     " WHERE CATEGORY = ? " + 
-//				      		     " ORDER BY UPLOADDATE DESC) " + 
-//				      	   " ) " +
-//				      " WHERE RNUM>=1 AND RNUM <=6 ";*/
-//		String sql =  " SELECT SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT "
-//				    + " FROM PDSALL "
-//				   +  " WHERE CATEGORY = ? ";
-//	
-//	Connection conn = null;
-//	PreparedStatement psmt = null;
-//	ResultSet rs = null;
-//	
-//	List<PdsBean> list = new ArrayList<>(); // 검색 결과를 저장할 목록
-//	
-//	try {
-//		conn = DBConnection.getConnection();
-//		System.out.println("1/6 relatedList Success");			
-//		
-//		psmt = conn.prepareStatement(sql);
-//		psmt.setString(1, category);
-//		System.out.println("2/6 relatedList Success");
-//		
-//		rs = psmt.executeQuery();
-//		System.out.println("3/6 relatedList Success");
-//		
-//		while(rs.next()) {
-//			String regdate = rs.getString("UPLOADDATE");
-//			regdate = regdate.substring(0, regdate.lastIndexOf('.'));
-//			
-//			// SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT			
-//			PdsBean bean = new PdsBean(
-//									rs.getInt("SEQ"), 
-//									rs.getString("ID"), 
-//									rs.getString("CATEGORY"),
-//									rs.getString("TAGS").substring(1).split("#"), 
-//									regdate, 
-//									rs.getString("FILENAME"),
-//									rs.getInt("READCOUNT"), 
-//									rs.getInt("DOWNCOUNT"), 
-//									rs.getInt("LIKECOUNT"), 
-//									rs.getInt("REPLYCOUNT"),
-//									rs.getString("FSAVENAME")
-//							);
-//			list.add(bean);
-//			}
-//			System.out.println("4/6 relatedList Success");		
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		} finally {		
-//			DBClose.close(psmt, conn, rs);
-//		}			  
-//		return list;
-//	}
-//
-//	@Override
-//	public List<PdsBean> getMyLikeList(String id) {	// 내가 좋아요한 리스트
-//		String sql  = " SELECT DISTINCT P.SEQ, P.ID, P.CATEGORY, P.TAGS, P.UPLOADDATE, P.FILENAME, P.READCOUNT, P.DOWNCOUNT, P.FSAVENAME " 
-//					+ " FROM PICPDS P, (SELECT * FROM PDSLIKE WHERE ID=?) L " 
-//					+ " WHERE P.SEQ = L.PDSSEQ "; 
-//		
-//		List<PdsBean> list = new ArrayList<>();
-//		
-//		Connection conn = null;
-//		PreparedStatement psmt = null;
-//		ResultSet rs = null;
-//		
-//		try {
-//			conn = DBConnection.getConnection();
-//			System.out.println("1/6 getMyLikeList Success");	
-//			
-//			psmt = conn.prepareStatement(sql);
-//			psmt.setString(1, id);
-//			
-//			rs = psmt.executeQuery();
-//			System.out.println("2/6 getMyLikeList Success");
-//			
-//			while (rs.next()) {
-//				String regdate = rs.getString("UPLOADDATE");
-//				regdate = regdate.substring(0, regdate.lastIndexOf('.'));
-//				
-//				// SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT			
-//				PdsBean bean = new PdsBean(
-//										rs.getInt("SEQ"), 
-//										rs.getString("ID"), 
-//										rs.getString("CATEGORY"),
-//										rs.getString("TAGS").substring(1).split("#"), 
-//										regdate, 
-//										rs.getString("FILENAME"),
-//										rs.getInt("READCOUNT"), 
-//										rs.getInt("DOWNCOUNT"), 
-//										0,	// LIKECOUNT
-//										0,	// REPLYCOUNT
-//										rs.getString("FSAVENAME")
-//								);
-//				list.add(bean);
-//			}
-//			System.out.println("3/6 getMyLikeList Success");
-//		} catch (SQLException e) {
-//			System.out.println("getMyLikeList Fail");
-//			e.printStackTrace();
-//		} finally {
-//			DBClose.close(psmt, conn, rs);
-//		}
-//		
-//		return list;
-//	}
-	
-	
-	
+			return count > 0 ? true : false;		
+	}  
 }
-   
