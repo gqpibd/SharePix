@@ -41,4 +41,6 @@ public interface iPdsManager {
 	public List<PdsBean> getMyLikeList(String id);
 
 	public boolean increaseReadcount(int seq);
+	
+	
 }

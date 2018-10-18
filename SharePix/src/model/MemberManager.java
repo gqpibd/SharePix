@@ -246,7 +246,7 @@ public class MemberManager implements iMemberManager {
 		}
 		return dto;
 	}
-
+	
 	@Override
 	public boolean updateUser(MemberBean dto) {
 		
