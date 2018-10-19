@@ -820,5 +820,17 @@ public class PdsManager implements iPdsManager {
 				DBClose.close(psmt, conn, null);
 			}
 			return count > 0 ? true : false;		
+	}
+
+	@Override
+	public boolean defaultProfileImg(String id) {
+		
+		String sql = "  ";
+		
+		int count = 0;
+		
+		return count > 0 ? true : false;
 	}  
+	
+	
 }
