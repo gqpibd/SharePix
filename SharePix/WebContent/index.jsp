@@ -50,7 +50,8 @@
 			<jsp:param name="goBackTo" value="index.jsp" />
 		</jsp:include>
 	</div>
-	<div class="container"  style="margin-top: 10em" align="center">
+	<div style="margin-top: 10em" ></div>
+	<div class="container" id="tags" align="center">
 	<%
 	if(it!=null){
 	int iter = 0; // 지금 위치가 몇 번째인지 갯수를 세자
@@ -63,9 +64,13 @@
 	    if(prevCount != -1 && prevCount > currCount){
 			size = size-3;       	
 	    }
+	    if(iter<10){
 	%>
-	<span class="tag" onclick="location.href='PdsController?command=keyword&choice=SEQ&tags=<%=temp%>'"style="font-size: <%=size%>px ">#<%=temp%></span>
-	<% 
+		<span class="tag" onclick="location.href='PdsController?command=keyword&choice=SEQ&tags=<%=temp%>'"style="font-size: <%=size%>px ">#<%=temp%></span>
+	<%}else{%>
+		<span class="tag" name = "more" onclick="location.href='PdsController?command=keyword&choice=SEQ&tags=<%=temp%>'"style="font-size: <%=size%>px ">#<%=temp%></span>	
+	<%
+		}
 		prevCount=tagMap.get(temp);
 		iter++;
 		if(iter>20){ // 20개 까지만 보여줌
@@ -148,8 +153,15 @@
 </form>
 
 	<script type="text/javascript">
+	$(document).ready(function() {
+	 function checkWidth() { // 윈도우 사이즈가 바뀔 때 보여주는 아이템 변경
+	    $("#tags").toggle($(window).width() > 500);
+	    $("span[name='more']").toggle($(window).width() > 1000);
+	 }
+	 checkWidth();
 
-
+	 $(window).resize(checkWidth);
+	});
 	function doLike(seq1, item){ // 좋아요 눌렀을 때			
 		<%if (ologin == null) {%>
 			loginView();
