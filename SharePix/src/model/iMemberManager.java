@@ -5,6 +5,7 @@ import java.util.List;
 import dto.FollowDto;
 import dto.MemberBean;
 
+
 public interface iMemberManager {
 	
 	public boolean addMember(MemberBean dto);
@@ -27,4 +28,10 @@ public interface iMemberManager {
 	
 	public boolean changeFollow(String followerId, String followeeId, boolean isFollow);
 
+	public MemberBean getEmail(MemberBean dto);
+	
+	public MemberBean getPwd(MemberBean dto);
+	
+	public MemberBean getIdpwd(MemberBean dto);
+	
 }

@@ -13,6 +13,7 @@ import db.DBConnection;
 import dto.FollowDto;
 import dto.MemberBean;
 
+
 public class MemberManager implements iMemberManager {
 
 	public MemberManager() {
@@ -158,6 +159,150 @@ public class MemberManager implements iMemberManager {
 	
 	////////////////////////////////
 	
+	
+	@Override
+	public MemberBean getEmail(MemberBean dto) {
+		
+		String sql = " SELECT ID, PWD, NAME, EMAIL, PHONE, AUTH "
+				+ " FROM MEMBER "
+				+ " WHERE EMAIL=? ";
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		
+		MemberBean mem = null;
+		
+		try {
+			conn = DBConnection.getConnection();
+			psmt = conn.prepareStatement(sql);
+			System.out.println("1/6 getEmail Success");
+			
+			psmt.setString(1, dto.getEmail());
+			System.out.println("2/6 getEmail Success");
+			
+			rs = psmt.executeQuery();
+			if (rs.next()) {
+				String id = rs.getString(1);
+				String email = rs.getString(4);
+				int auth = rs.getInt(6);
+				
+				mem = new MemberBean(id, null, null, email, null, auth);
+			}
+			System.out.println("3/6 getEmail Success");
+			
+		} catch (Exception e) {
+			System.out.println("getEmail fail");
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, rs);
+		}
+		
+		return mem;
+	}
+	
+	/////////////////////////////////
+	
+	
+
+	@Override
+	public MemberBean getPwd(MemberBean dto) {
+		
+		String sql = " SELECT ID, PWD, NAME, EMAIL, PHONE, AUTH "
+				+ " FROM MEMBER "
+				+ " WHERE ID=? AND PHONE=? ";
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		
+		MemberBean mem = null;
+		
+		try {
+			conn = DBConnection.getConnection();
+			psmt = conn.prepareStatement(sql);
+			System.out.println("1/6 getPhone Success");
+			
+			psmt.setString(1, dto.getId());
+			psmt.setString(2, dto.getPhone());
+			System.out.println("2/6 getPhone Success");
+			
+			rs = psmt.executeQuery();
+			if (rs.next()) {
+				String id = rs.getString(1);
+				String pwd = rs.getString(3);
+				String phone = rs.getString(5);
+				int auth = rs.getInt(6);
+				
+				mem = new MemberBean(id, null, pwd, null, phone, auth);
+				System.out.println(mem.getPwd());
+			}
+			System.out.println("3/6 getPhone Success");
+			
+		} catch (Exception e) {
+			System.out.println("getPhone fail");
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, rs);
+		}
+		
+		return mem;
+		
+	}
+	
+	////////////////////////////////
+	
+	
+	@Override
+	public MemberBean getIdpwd(MemberBean dto) {
+	
+		
+		String sql = " SELECT ID, PWD, NAME, EMAIL, PHONE, AUTH "
+				+ " FROM MEMBER "
+				+ " WHERE ID=? AND PHONE=? AND EMAIL=? ";
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		
+		MemberBean mem = null;
+		
+		try {
+			conn = DBConnection.getConnection();
+			psmt = conn.prepareStatement(sql);
+			System.out.println("1/6 getIdpwd Success");
+			
+			psmt.setString(1, dto.getId());
+			psmt.setString(2, dto.getPhone());
+			psmt.setString(3, dto.getEmail());
+			System.out.println("2/6 getIdpwd Success");
+			
+			rs = psmt.executeQuery();
+			if (rs.next()) {
+				String id = rs.getString(1);
+				String pwd = rs.getString(3);
+				String email = rs.getString(4);
+				String phone = rs.getString(5);
+				int auth = rs.getInt(6);
+				
+				mem = new MemberBean(id, null, pwd, email, phone, auth);
+
+			}
+			System.out.println("3/6 getIdpwd Success");
+			
+		} catch (Exception e) {
+			System.out.println("getIdpwd fail");
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, rs);
+		}
+		
+		return mem;
+		
+	}
+	
+	////////////////////////////////
+	
 
 	@Override
 	public MemberBean login(MemberBean dto) {
@@ -203,7 +348,7 @@ public class MemberManager implements iMemberManager {
 		return mem;
 	}
 
-	
+
 	@Override
 	public MemberBean loginAf(String id, String pwd) {
 		

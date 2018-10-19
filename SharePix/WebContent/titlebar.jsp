@@ -197,6 +197,14 @@ function phoneCheck() {
 	
 }
 
+function emailCheck() {
+	
+	
+	
+	
+}
+
+
 $(document).ready(function(){ 
 	$("#phone").focus(function () {
 		$("#phone").attr("placeholder","010-XXXX-XXXX");
@@ -304,12 +312,17 @@ function loginView(){
 				</div>
 				<!-- <em>minimum 6 characters</em> -->
 				
+				<div class="forgot-link">
+            		<a href="#forgot" data-toggle="modal" data-target="#forgot-password"> I forgot my password</a>
+            	</div>
+				
 				<!-- Button -->
 				<div class="control-group">
 					<label class="control-label" for="signin"></label>
 					<div class="controls">
 						<button id="signin" name="signin"
-							class="btn btn-primary btn-block">Log In</button>
+						class="btn btn-primary btn-block">Log In</button>
+					</div>
 				</div>
 				</fieldset>
 			</form>
@@ -419,6 +432,48 @@ function loginView(){
 		  </div>
 		</div>
 	</form>  --%>
+
+<!--modal2-->
+
+<div class="modal fade bs-modal-sm" id="forgot-password" tabindex="0" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">아이디/비밀번호 찾기</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal">
+        <fieldset>
+        <div class="group">
+			<input required="required" class="input" type="email" id="emailC"><span class="highlight"></span><span class="bar"></span>
+   			 <label class="label" for="date">Email 입력</label>
+   		</div>
+		 <div class="group">
+			<input required="required" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
+   			 <label class="label" for="date">ID 입력</label>
+   		</div>
+   		 <div class="group">
+			<input required="required" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
+   			 <label class="label" for="date">Phone 입력</label>
+   		</div>		
+
+        
+        <div class="control-group">
+              <label class="control-label" for="forpassword"></label>
+              <div class="controls">
+                <button id="forpasswodr" name="forpassword" class="btn btn-primary btn-block">Send</button>
+              </div>
+            </div>
+          </fieldset>
+            </form>
+          
+      </div>
+    </div>
+    
+  </div>
+</div>
+
 
 </body>
 </html>
