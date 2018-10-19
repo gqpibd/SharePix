@@ -14,6 +14,7 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="shortcut icon" href="images/icons/favicon.ico">
 <title>pdswrite.jsp</title>
 
 

@@ -38,6 +38,7 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="js/jquery.row-grid.min.js"></script>
 <link rel="stylesheet" href="style/imageArrange.css">
+<link rel="shortcut icon" href="images/icons/favicon.ico">
 <style type="text/css">
 .img {
 	cursor: pointer;
@@ -82,20 +83,22 @@
 			<img class="img" name="item" src="<%=PATH%>pictures/<%=smallSrc%>"  
 				onclick="veiwDetail(<%=Pdscust.getSeq()%>)" height="300" alt="이미지 못 찾음" >
 			<div class="SocialIcons">
-				<a> <img id="like_<%=Pdscust.getSeq()%>" alt="" src="<%=PATH%>icons\\<%=like%>"
+				<a style="text-decoration: none; color: white;"> 
+				<img id="like_<%=Pdscust.getSeq()%>" alt="" src="<%=PATH%>icons\\<%=like%>"
 					onmouseover="this.src='<%=PATH%>icons\\<%=reverslike %>'"
 					onmouseout="this.src='<%=PATH%>icons\\<%=like%>'"
-					onclick="doLike('<%=Pdscust.getSeq()%>', this)" class="btn-like"> 
-					<label id ="likeCount_<%=Pdscust.getSeq()%>"><%=Pdscust.getLikeCount()%></label>
-				</a> <a href="#" style="text-decoration: none; color: white;"> <img
+					onclick="doLike('<%=Pdscust.getSeq()%>', this)" class="btn-like" width: 40%; height: auto;> 
+					<label id ="likeCount_<%=Pdscust.getSeq()%>" class="la1"	><%=Pdscust.getLikeCount()%></label >
+				</a> <a href="#" style="text-decoration: none; color: white;"> 
+					<img
 					alt="" src="<%=PATH%>icons\\openbook.png"
 					onmouseover="this.src='<%=PATH%>icons\\fullopenbook.png'"
-					onmouseout="this.src='<%=PATH%>icons\\openbook.png'"> 
-					<label><%=Pdscust.getDownCount()%></label>
+					onmouseout="this.src='<%=PATH%>icons\\openbook.png'" style="width: 40%; height: auto;"> 
+					<label class="la1"><%=Pdscust.getDownCount()%></label>
 				</a> <a href="#" style="text-decoration: none; color: white;"> <img
 					alt="" src="<%=PATH%>icons\\contract.png"
 					onmouseover="this.src='<%=PATH%>icons\\fullcontract.png'"
-					onmouseout="this.src='<%=PATH%>icons\\contract.png'"> <label><%=Pdscust.getReplyCount()%></label>
+					onmouseout="this.src='<%=PATH%>icons\\contract.png'" width: 40%; height: auto;> <label class="la1"><%=Pdscust.getReplyCount()%></label>
 				</a>
 			</div>
 			<div class="profileInfo">
@@ -120,7 +123,7 @@
 		<%} else {
 		%> 
 		 console.log(seq1);
-		 var selector2 = "#likeCount_" + seq1;
+		 var selector2 = "#likeCount_" + seq1;F
 			$.ajax({
 				url:"PdsController", // 접근대상
 				type:"get",		// 데이터 전송 방식

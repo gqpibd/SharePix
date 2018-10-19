@@ -59,6 +59,7 @@
 <link rel="stylesheet" href="style/imageArrange.css">
 <link rel="stylesheet" href="style/imagehover.css">
 <link rel="stylesheet" href="style/pagingbtn.css">
+<link rel="shortcut icon" href="images/icons/favicon.ico">
 </head>
 <body>
 	<div style="height: 100%"> <!-- 타이틀바 -->
@@ -66,11 +67,9 @@
 			<jsp:param name="goBackTo" value="index.jsp" />
 		</jsp:include>
 	</div>
-	<div style="margin-top: 10em" >
 	
-<!-- 	<div class="menubar">
+		<div class="menubar" style=" width:100%; height: 100%">
                 <ul>
-                 <li><a href="#">Home</a></li>
                  <li><a href="#" id="current">Products</a>
                     <ul>
                      <li><a href="#">Sliders</a></li>
@@ -84,7 +83,12 @@
                 </ul>
            </div>
 	
-	</div> -->
+	<div style="margin-top: 10em" >
+	
+	</div> 
+
+	
+
 
 	
 

@@ -18,6 +18,7 @@ List<FollowDto> sList = memService.getMySubscribeList(followeeId); // 나를 구
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <title></title>
+<link rel="shortcut icon" href="images/icons/favicon.ico">
 </head>
 <body>
 <%for (int i = 0; i < sList.size(); i++) {

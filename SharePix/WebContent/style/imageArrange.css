@@ -136,3 +136,12 @@ body {
 	transform: rotatex(0deg);
 	opacity: 0.7;
 }
+.SocialIcons lable{
+	font-size: 8px;
+	
+}
+
+a[href$=".png"] {
+   width: 10px;
+   height: 10px;
+}

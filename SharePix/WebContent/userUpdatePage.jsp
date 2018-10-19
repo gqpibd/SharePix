@@ -12,6 +12,7 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <title>userUpdatePage</title>
+<link rel="shortcut icon" href="images/icons/favicon.ico">
 </head>
 <body>
 	<%
