@@ -186,7 +186,7 @@
 	
 	<hr>
 	<div align="center">
-	<a href="javascript:gotoPds()"><%=pagePds.getId()%>가 올린 이미지</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<a href="javascript:gotoPds()"><%=pageMemDto.getId()%>가 올린 이미지</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	<a href="javascript:gotoSub()">나를 구독한 사람들</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	<a href="javascript:gotoLike()">내 컬렉션</a>
 	</div>

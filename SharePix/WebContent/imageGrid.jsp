@@ -48,7 +48,7 @@
 	background-color: #dfdfdf;
 }
 </style>	
-<div class="container" >
+<div class="container" align="center" >
 <%	
 //25 20 15 10
 int iter = 0; // 지금 위치가 몇 번째인지 갯수를 세자

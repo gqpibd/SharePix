@@ -50,7 +50,7 @@
 			<jsp:param name="goBackTo" value="index.jsp" />
 		</jsp:include>
 	</div>
-	<div style="margin-top: 10em">
+	<div class="container"  style="margin-top: 10em" align="center">
 	<%
 	if(it!=null){
 	int iter = 0; // 지금 위치가 몇 번째인지 갯수를 세자
@@ -68,7 +68,7 @@
 	<% 
 		prevCount=tagMap.get(temp);
 		iter++;
-		if(iter>20){
+		if(iter>20){ // 20개 까지만 보여줌
 		 	break;
 		}
 	}}%>
