@@ -64,7 +64,6 @@ public class PdsController extends HttpServlet {
 			int seq=0;
 			String id = req.getParameter("id");
 			seq = Integer.parseInt(req.getParameter("seq"));
-			
 			System.out.println("id:"+id);
 			System.out.println("seq:"+seq);
 			boolean like = PdsService.getInstance().changeLike(id, seq); // like 상태 바꿔줌
@@ -72,8 +71,9 @@ public class PdsController extends HttpServlet {
 			resp.getWriter().write("<like>" +like +"</like><count>" + count +"</count>");
 			resp.getWriter().flush();
 			System.out.println("count:" + count);
-		} else if(command.equals("updatePds")){
-			System.out.println("command = " + command + "  들어옴");	// 확인용
+			// req.setAttribute("pds", pds);
+		} else if (command.equals("updatePds")) {
+			System.out.println("command = " + command + "  들어옴"); // 확인용
 			dispatch("./updatePds.jsp", req, resp);
 		} else if(command.equals("delete")) {
 			int seq = Integer.parseInt(req.getParameter("seq"));
@@ -113,9 +113,31 @@ public class PdsController extends HttpServlet {
 				out.println("<script>alert('수정 실패'); location.href='./pdswrite.jsp';</script>");
 				out.flush();
 			}
+			
+			
 		} 	
-	}
+		
+		else if(command.equals("singo")) {
+			int seq = Integer.parseInt(req.getParameter("seq"));
+
+			PdsService singo = PdsService.getInstance();
+			boolean isS = singo.updatereport(seq);
 	
+			if(isS) {
+				dispatch("PdsController?command=detailview&seq=" + seq, req, resp);
+			}		
+			else {
+				resp.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = resp.getWriter();
+				
+				out.println("<script>alert('수정 실패'); location.href='./index.jsp';</script>");
+				out.flush();
+			}
+			
+			
+		} 
+	}
+
 	public void dispatch(String urls, HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		RequestDispatcher dispatch = req.getRequestDispatcher(urls);

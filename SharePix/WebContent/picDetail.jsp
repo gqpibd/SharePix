@@ -61,8 +61,7 @@
 <link rel="stylesheet" href="style/picDetail.css">
 <link rel="stylesheet" href="style/imageArrange.css">
 <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
-<link rel="shortcut icon" href="images/icons/favicon.ico">
-<link rel="stylesheet" href="style/common.css">
+
 <style type="text/css">
 .mybtn:focus, .btn:focus{
 	outline: 0;
@@ -189,17 +188,14 @@
 			
 			<hr>
 			<div align="center" style="vertical-align: middle;">
-				<span style="margin-left: 3px">
-					<img src="images/icons/down.png" height="30" align="middle">
-					<font style="font-family: 'Noto Sans'" size="5">  <%=pds.getDownCount()%></font> <!-- 다운로드 수 -->
-				</span>&nbsp;&nbsp; 
 				<button onclick="doLike()" class="mybtn"> <!-- 좋아요 버튼 -->
 					<img src="<%=like%>" width="20" id="like">&nbsp;&nbsp; 
 					<span id="likeCount"><font size="3"><%=pds.getLikeCount()%></font></span>
 				</button>&nbsp;&nbsp; 
 				
 				<%
-				if((ologin != null && !pds.getId().equals(ologin.getId())) || ologin==null ){ %>
+				if((ologin != null && !pds.getId().equals(ologin.getId())) || ologin==null ){ //내가 로그인 한게 아닌 경우%>
+					
 					<button class="mybtn" onclick="doFollow()"><!-- 팔로우 버튼 -->
 					<% if (isFollow) { %>
 						<img id="followImg" src="images/icons/following.png" 
@@ -208,7 +204,11 @@
 						<img id="followImg" src="images/icons/follower_empty.png" width="20" id="follow">&nbsp;&nbsp;팔로우&nbsp;&nbsp;	
 							
 					<%} %>
-					</button>
+					</button>&nbsp;&nbsp;
+					<button class="mybtn" type="button" onclick="dosingo()">
+						<span class="glyphicon glyphicon-flag" aria-hidden="true" width="20"></span>
+						신고
+					</button><!-- 신고 버튼  -->
 					
 					
 				<%}%>	
@@ -224,15 +224,18 @@
 				<div class="selectSize" style="font-family: 'Noto Sans'; letter-spacing: 1.5px; margin-top: 0px; margin-bottom: 3px"></div> <!-- 사이즈 선택 슬라이더 -->
 				<input type="range" min="20" max="100" step="20" value="100">
 				<div align="center">
-					<form action="FileController">
+					<form action="FileController" id="imgDown">
 						<input type="hidden" name="command" value="download">
 						<input type="hidden" name="rate" value="100" >
 						<input type="hidden" name="pdsSeq" value="<%=pds.getSeq()%>">
 						<input type="hidden" name="fsavename" value="<%=pds.getfSaveName()%>">
 						<input type="hidden" name="filename" value="<%=pds.getFileName()%>">
-						<input class="download" style="margin-top: 20px;" type="submit" value="Download">					
-					</form>				
-				</div>
+						<input class="download" style="margin-top: 20px;" type="button" onclick="doDown()" value="Download">					
+					</form>			
+				
+					<img src="images/icons/down.png" height="20" align="top">					
+					<font style="font-family: 'Noto Sans'; font-size: 20px;" id="dCount">  <%=pds.getDownCount()%></font> <!-- 다운로드 수 -->
+				
 			</div>
 			<hr>
 			<!-- 추천 사진들(카테고리로 추천함) -->	
@@ -428,6 +431,24 @@
 				});				
 			<%}%>
 		}
+		
+		function dosingo() { // 신고하기
+			<%if (ologin == null) {%>
+				loginView();
+			<%} else {%>			
+			var check = confirm("정말 신고하시겠습니까?");			
+			if (check) {
+				location.href = "PdsController?command=singo&seq=<%= pds.getSeq() %>";
+			}
+			<%}%>
+		}
+		
+		function doDown(){ // 다운로드
+			var downCount = parseInt($("#dCount").text().trim()); 
+			$("#dCount").text(downCount+1);
+			$("#imgDown").submit();
+		}
+		
 	</script>
 	
 

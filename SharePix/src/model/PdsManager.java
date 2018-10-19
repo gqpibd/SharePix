@@ -15,6 +15,7 @@ import dto.pagingUtil;
 
 public class PdsManager implements iPdsManager {
 
+
    
    public PdsManager() {
       DBConnection.initConnection();
@@ -495,6 +496,8 @@ public class PdsManager implements iPdsManager {
    
    @Override
    public boolean writePds(PdsBean pds) {
+	   
+	   System.out.println("pds : " + pds.toString());
       
       String sql = " INSERT INTO PICPDS( "
             + " SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME) "
@@ -603,6 +606,40 @@ public class PdsManager implements iPdsManager {
 		
 		return count>0?true:false;
 	}
+   
+   public boolean updatereport(int seq) {
+
+		String sql = " UPDATE PICPDS "
+					+" SET REPORT = 1 "
+					+" WHERE SEQ = ? ";
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		/*ResultSet rs = null;*/
+		
+		int count = 0;
+		
+		try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 updatereport Success");
+
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, seq);
+			System.out.println("2/6 updatereport Success");
+
+			count = psmt.executeUpdate();
+			System.out.println("3/6 updatereport Success");
+
+		} catch (SQLException e) {
+			System.out.println("updatereport fail");
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, null);
+			/*DBClose.close(psmt, conn, rs);*/
+		}
+
+		return count > 0 ? true : false;
+	}
 
    @Override
    public boolean increaseDowncount(int pdsSeq) {
@@ -687,7 +724,7 @@ public class PdsManager implements iPdsManager {
       return list;
    }
 
-   @Override
+	@Override
    public List<PdsBean> relatedList(String category, int seq) {
       /*String sql =  " SELECT RNUM, SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT " + 
                   " FROM ( " +

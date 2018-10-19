@@ -214,7 +214,7 @@
 		%>
 		<div class="item profilebox profilebox1">
 			<img class="img" name="item" src="<%=PATH%>pictures/<%=smallSrc%>"  
-				onclick="veiwDetail(<%=Pdscust.getSeq()%>)" height="300" alt="이미지 못 찾음" 
+				onclick="veiwDetail(<%=Pdscust.getSeq()%>)" height="300" onerror="$(this).parent().remove()"
 				style="cursor: pointer">
 			<div class="SocialIcons">
 				<a style="text-decoration: none; color: white;">

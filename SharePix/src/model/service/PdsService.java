@@ -118,4 +118,9 @@ public class PdsService {
 		return pDao.increaseReadcount(seq);
 		
 	}
+	
+	public boolean updatereport(int seq) {
+		return pDao.updatereport(seq);
+
+	}
 } 

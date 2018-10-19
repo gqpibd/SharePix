@@ -16,6 +16,7 @@
 	request.setCharacterEncoding("utf-8");
 
 	String PATH = "images/";
+	//String PATH = config.getServletContext().getRealPath("images") + "/";
 	List<PdsBean> pdslist = null;
 	if ((pdslist = (List<PdsBean>) request.getAttribute("list")) == null) {
 		pdslist = PdsService.getInstance().getSearchPdsNull();
@@ -40,7 +41,6 @@
 <script src="js/jquery.row-grid.min.js"></script>
 <link rel="stylesheet" href="style/imageArrange.css">
 <link rel="stylesheet" href="style/common.css">
-<link rel="shortcut icon" href="images/icons/favicon.ico">
 
 </head>
 <body bgcolor="#D5D5D5">

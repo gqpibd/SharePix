@@ -4,6 +4,7 @@
 <%
 	MemberBean user = (MemberBean) session.getAttribute("login");
 	String goBackTo = request.getParameter("goBackTo");
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -104,15 +105,6 @@
   color: #fff;
 }
 
-.re-img{ /* 댓글 프로필 */   
-    float: none;
-    width: 44px;
-    height: 44px;
-    border-radius: 33px;
-    margin: 5px;
-    vertical-align: middle;
-}
-
 </style> 
 
 
@@ -120,6 +112,8 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <link rel="stylesheet" href="style/loginModal.css">
+<link rel="stylesheet" href="style/common.css">
+<link rel="shortcut icon" href="images/icons/favicon.ico">
 
 
 <script type="text/javascript">
@@ -249,7 +243,7 @@ $(document).ready(function(){
 		<button type="button" class="btn btn-primary" onclick="location.href='regi.jsp'" style="margin-left: 5px;">회원가입</button> -->
 	<%}else{ %>
 		<img src='images/profiles/<%=user.getId()%>.png' width='100px'
-            class='profile re-img' align='middle'
+            class='profile_img' align='middle'
             onerror="this.src='images/profiles/default.png'">
 		<span><%=user.getName() %>님 환영합니다. <a href="MemberController?command=logout"><font size="2">로그아웃</font></a></span>
 	</td>
@@ -258,6 +252,12 @@ $(document).ready(function(){
 	<td align="center" class="mar">
 		<button class="fill sagongBtn" onclick="location.href='MemberController?command=userPage&id=<%=user.getId()%>'"><font>마이페이지</font></button>
 		<button class="fill sagongBtn" onclick="location.href='pdswrite.jsp'">사진 올리기</button>
+		
+	<%-- 	<% if(user != null && user.getAuth == 3){ %>
+				<button class="fill sagongBtn" onclick="location.href='manager.jsp'">관리자모드</button>
+			<%} %> --%>
+			<!-- <button class="fill sagongBtn" onclick="location.href='manager.jsp'">관리자 모드</button> -->
+		<!-- <button class="fill sagongBtn" onclick="location.href='manager.jsp'">관리자 모드</button> -->
 	<!-- <input type="submit" value="로그인"> -->
 	</td>
 	<%} %>

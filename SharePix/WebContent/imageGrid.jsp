@@ -83,7 +83,9 @@ while(it.hasNext()) {
 	    }
 	%>
 	<div class="item">
-		<img class="img img_clickable" name="item" src="images/pictures/<%=smallSrc%>" onclick="veiwDetail(<%=pds.getSeq()%>)" height="400">
+		<img class="img img_clickable" name="item" src="images/pictures/<%=smallSrc%>"
+		onerror="$(this).parent().remove()"  
+		onclick="veiwDetail(<%=pds.getSeq()%>)" height="400">
 	</div>
 	<%} %>
 </div>	

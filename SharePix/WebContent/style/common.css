@@ -23,3 +23,24 @@
 .clickable{
 	cursor: pointer;
 }
+
+.profile_img{   
+    float: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 33px;
+    margin: 5px;
+    vertical-align: middle;
+}
+
+textarea {
+	/* margin-left: 20px; */
+	margin-top: 10px;
+	width:100%;
+	resize: none;
+	overflow-y: hidden; /* prevents scroll bar flash */
+	padding: 0.7em;  /* prevents text jump on Enter keypress */	
+	line-height: 1.1;
+	border-radius: 3px;
+	outline:none; /* 포커스 되었을 때 아웃라인 없앰 */	
+}

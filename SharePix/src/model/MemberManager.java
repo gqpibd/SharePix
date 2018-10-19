@@ -391,9 +391,7 @@ public class MemberManager implements iMemberManager {
 			DBClose.close(psmt, conn, rs);
 		}
 		return dto;
-	}
-	
-	
+	}	
 
 	@Override
 	public boolean updateUser(MemberBean dto) {

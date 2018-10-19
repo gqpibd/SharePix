@@ -44,7 +44,6 @@
 	System.out.println("값이 들어오는지 안들어오는지 모르겠다. 왜 안들어올까 : " + pdslist); 
 	
 	System.out.println(pdslist.size());
-	PdsService pService = PdsService.getInstance();
 	MemberBean ologin = (MemberBean) session.getAttribute("login");
 	String id = "";
 	if (ologin != null) {
@@ -61,8 +60,6 @@
 <link rel="stylesheet" href="style/imageArrange.css">
 <link rel="stylesheet" href="style/imagehover.css">
 <link rel="stylesheet" href="style/pagingbtn.css">
-<link rel="shortcut icon" href="images/icons/favicon.ico">
-<link rel="stylesheet" href="style/common.css">
 </head>
 <body>
 	<div style="height: 100%"> <!-- 타이틀바 -->
@@ -111,28 +108,25 @@
 	<div class="mcontainer">
 				
 		<%
+		PdsService pService = PdsService.getInstance();
 		for (PdsBean Pdscust : pdslist) {
 			String fSavename = Pdscust.getfSaveName();
-			String smallSrc = fSavename.substring(0,fSavename.lastIndexOf('.')) + "_small" + fSavename.substring(fSavename.lastIndexOf('.'));
-			
+			String smallSrc = fSavename.substring(0,fSavename.lastIndexOf('.')) + "_small" + fSavename.substring(fSavename.lastIndexOf('.'));			
 			File f = new File(config.getServletContext().getRealPath("/images/pictures") + "\\" + fSavename);
 			 if (f.exists() && f.length()<300000) { // 300kb 이하의 이미지는 그냥 원본을 가져온다
 		    	  smallSrc = fSavename;			     
-		    }
-			 
-			    boolean isLike = false;
-				String like = "heart.png";
-				String reverslike = "fullheart.png";
-				if (ologin != null) {
-					id = ologin.getId();
-					int seq = Pdscust.getSeq();
-					pService = PdsService.getInstance();
-					isLike = pService.checkPdsLike(id, seq);
-					if (isLike) {
-						like = "fullheart.png";
-						reverslike = "heart.png";
-					}
+		    }			 
+		    boolean isLike = false;
+			String like = "heart.png";
+			String reverslike = "fullheart.png";
+			if (id != null) {					
+				int seq = Pdscust.getSeq();
+				isLike = pService.checkPdsLike(id, seq);
+				if (isLike) {
+					like = "fullheart.png";
+					reverslike = "heart.png";
 				}
+			}
 			
 		%>
 		<div class="item profilebox profilebox1">

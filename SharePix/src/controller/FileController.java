@@ -28,7 +28,7 @@ import utils.ImageResize;
 
 public class FileController extends HttpServlet {
 	public static final String PATH = "C:\\Users\\이호영\\git\\sharePix\\SharePix\\WebContent\\images\\pictures"; 
-	
+	 
 	private ServletConfig mConfig = null; // 업로드 폴더의 realpath에 접근하기 위해서 필요하다
 	private static final int BUFFER_SIZE = 10000000; // 10Mb
 	

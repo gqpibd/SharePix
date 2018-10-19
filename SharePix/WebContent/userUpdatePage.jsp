@@ -9,8 +9,6 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<link rel="shortcut icon" href="images/icons/favicon.ico">
 <title>userUpdatePage</title>
 <style type="text/css">
 .profile {
@@ -80,6 +78,7 @@ var loadImageFile = function () {
 	  fileReader.readAsDataURL(uploadFile); // 파일 리더를 이용해 파일을 읽는다
 }
 </script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
 <body onload="loadImageFile();">
 	<%
