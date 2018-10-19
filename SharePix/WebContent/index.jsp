@@ -78,7 +78,7 @@
 				src="<%=PATH%>pictures/<%=Pdscust.getfSaveName()%>"
 				onclick="veiwDetail(<%=Pdscust.getSeq()%>)" height="300"> --%>
 			<img class="clickable" name="item" src="<%=PATH%>pictures/<%=smallSrc%>"  
-				onclick="veiwDetail(<%=Pdscust.getSeq()%>)" height="300" alt="이미지 못 찾음" >
+				onclick="veiwDetail(<%=Pdscust.getSeq()%>)" height="300" onerror="$(this).parent().remove()" >
 			<div class="SocialIcons">
 				<a style="text-decoration: none; color: white;">
 					<img class="clickable" id="like_<%=Pdscust.getSeq()%>" alt="" src="<%=PATH%>icons\\<%=like%>"
@@ -162,8 +162,7 @@
     function veiwDetail(seq) {
        console.log(seq);
        location.href="PdsController?command=detailview&seq=" + seq;
-    }    
-
+    }; 
    </script>
 </body>
 </html>

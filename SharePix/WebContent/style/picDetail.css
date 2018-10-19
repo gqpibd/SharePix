@@ -1,7 +1,5 @@
 @charset "UTF-8";
 
-
-
 .main {
   position: relative;
   left: 0;
@@ -10,9 +8,8 @@
   width: 100%;   
   max-width: 1400px;   
   margin: 1rem auto;
-/*   background-color: #FAFAFA; */
-  box-shadow: 5px 5px 72px rgba(30, 46, 50, 0.5);
-  color: #040605; 
+/*   background-color: #FAFAFA; */ 
+  /* color: #040605;  */
   overflow:hidden;  
 }
 
@@ -28,7 +25,7 @@
   width: 100%;
   margin: 0 auto;
   float: none;
-  background: linear-gradient(120deg, #eff3f3, #e1e7e8);
+  background: #F6F6F6;
   padding-bottom: 0.7rem;
 }
 
@@ -56,7 +53,7 @@
   height: 100%;
   font-size: 12px;
   padding: 0.8rem 0 1rem 1rem;
-  background: #ffffff;
+  /* background: #F6F6F6; */
 }
 @media screen and (min-width: 55em) {
   .rightbar {
@@ -114,7 +111,7 @@ a{
 .list_reply li {
     overflow: hidden;
     position: relative;
-    padding: 23px 20px 10px;
+    padding: 10px 20px 10px 20px;
     border-bottom: 1px solid #fff;
     width : 90%;
 }
@@ -136,17 +133,11 @@ a{
     padding: 0 28px 0 40px;
 }
 .nickname {
-    font-size: 13px;
-    overflow: visible;
-    margin: 0px 5px 2px 0;
-    vertical-align: top;
-    white-space: normal;
-    display: block;
+    font-size: 20px;   
     font-weight: bold;
 }
 
-
-.download {	
+/* .download {	
 	box-shadow:inset 0px 1px 0px 0px #ffffff;	
 	background:linear-gradient(to bottom, #ffffff 5%, #d9d9d9 100%);
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#d9d9d9',GradientType=0);
@@ -165,41 +156,34 @@ a{
 	background:linear-gradient(to bottom, #d9d9d9 5%, #ffffff 100%);
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#d9d9d9', endColorstr='#ffffff',GradientType=0);
 	background-color:#d9d9d9;
-}
+} */
 
 .download:focus{
 	outline: none;
 }
 
 /* 좋아요 버튼 */
-
-.mybtn {
-	background: #526FFF;
-	border-radius: 0px;
-	color: #FFFFFF;
-	font-family: Open Sans;
-	font-size: 18px;
-	font-weight: 500;
-	padding: 5px;
-	border: solid #050AA0 1px;
-	text-decoration: none;
-	display: inline-block;
-	cursor: pointer;
+.mybtn {	
+	background:#dfeaef;
+	border-radius:4px;
+	border:1px solid #fff;
+	display:inline-block;
+	cursor:pointer;
+	color:#333333;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
 }
-
-.mybtn:hover {
-	background: #254DD0;
-	background-image: -webkit-linear-gradient(top, #254DD0, #3B4AD1);
-	background-image: -moz-linear-gradient(top, #254DD0, #3B4AD1);
-	background-image: -ms-linear-gradient(top, #254DD0, #3B4AD1);
-	background-image: -o-linear-gradient(top, #254DD0, #3B4AD1);
-	background-image: linear-gradient(to bottom, #254DD0, #3B4AD1);
-	text-decoration: none;
+.mybtn:hover {	
+	background:linear-gradient(to bottom, #ecf9ff 5%, #cedde4 100%);	
 }
 
 textarea {
+	margin-left: 20px;
 	margin-top: 10px;
-	width:90%;
+	width:100%;
 	resize: none;
 	overflow-y: hidden; /* prevents scroll bar flash */
 	padding: 0.7em;  /* prevents text jump on Enter keypress */	
@@ -209,7 +193,6 @@ textarea {
 }
 
 /* 슬라이더 */
-
 .selectSize {
   text-align: center;
   font-weight: bold;
@@ -280,4 +263,57 @@ input[type="range"]::-webkit-slider-thumb:hover {
 
 .img_clickable{
 	cursor: pointer;
+}
+
+/*------------------답변 버튼------------------*/
+.animate, .btn, .btn-border:before, 
+.btn-border:after {
+  transition: all 0.3s;
+}
+
+.btn {
+  display: inline-block;
+  /* line-height: 30px; */
+/*   padding: 0 10px; */
+  font-size: 12px;
+  position: relative;
+  opacity: .999;
+  border-radius: 3px;
+}
+
+.btn-border {
+  background-color: #e5e5e5;
+  border: 1px solid #e5e5e5;
+  color: #a6a6a6;
+}
+
+.btn-border:hover {
+  background-color: transparent;
+}
+
+.btn-border.btn-navy:after {
+  border-color: #34495e;
+}
+.btn-border.btn-navy:hover {
+  color: #34495e;
+}
+
+/*------------------다운로드 버튼------------------*/
+.download {
+	color: #3a3d44;
+	background: none;
+	border-radius: 0;
+	padding:7px 62px;
+	letter-spacing: 0.2em;
+	font-size:24px;
+	font-weight:bold;
+	transition: background-color 0.3s, box-shadow 0.3s, color 0.3s;
+	margin: 1em;
+	box-shadow: inset 0 0 0.5em rgba(32, 82, 163, 0.5), 0 0 0.5em rgba(49, 90, 158, 0.5);
+	border: #7d7d91 solid 2px;
+}
+.download:hover {
+  color: #abafbf;
+  background-color: #060606;
+  box-shadow: inset 0 0 0 rgba(158, 158, 158, 0.5), 0 0 1em rgba(198, 199, 205, 0.7);
 }

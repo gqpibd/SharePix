@@ -19,7 +19,7 @@
 
 	// 로그인 아이디 받아서
 	// 기본적으로 비워진 하트임
-	String like = "images/icons/like_empty.png";
+	String like = "images/icons/collection_empty.png";
 	// 아이디 확인하고 받아서 like 확인하고 이미지 넣기
 	MemberBean ologin = (MemberBean) session.getAttribute("login");
 	
@@ -32,7 +32,7 @@
 		pService = PdsService.getInstance();
 		isLike = pService.checkPdsLike(id, seq);
 		if (isLike) {
-			like = "images/icons/like_fill.png";
+			like = "images/icons/collection_fill.png";
 		}
 	}
 
@@ -41,13 +41,13 @@
 	List<ReplyBean> reList = rService.getReplyList(pds.getSeq());
 	
 	// 팔로우 
-	String follow = "images/icons/like_empty.png";
+	String follow = "images/icons/follower_empty.png";
 	boolean isFollow = false;
 	if (ologin != null) {
 		isFollow = MemberService.getInstance().checkMemFollow(ologin.getId(), pds.getId());
 	}
 	if (isFollow) {
-		follow = "images/icons/like_fill.png";
+		follow = "images/icons/following.png";
 	}
 %>
 
@@ -62,10 +62,15 @@
 <link rel="stylesheet" href="style/imageArrange.css">
 <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
 <style type="text/css">
-
+.mybtn:focus, .btn:focus{
+	outline: 0;
+}
+.btn.btn-navy.btn-border:focus {
+	outline: none;
+}
 </style>
 </head>
-<body class="mbody">
+<body class="mbody" >
 	<div style="height: 100%">
 		<!-- jsp scriptlet을 쓰면 값이 안 넘어가짐. EL태그로 해결할 수 있음!! -->
 		<jsp:include page="titlebar.jsp">
@@ -91,7 +96,7 @@
 		</div>
 			
 		<p> <!-- 댓글 창 숨기기/보기 버튼 -->
-			<img src="images/icons/re_down.png" width="30" id="replyToggle">&nbsp;&nbsp;댓글&nbsp;<%=pds.getReplyCount()%>&nbsp;개
+			<img src="images/icons/re_down.png" width="30" id="replyToggle" style="cursor: pointer; margin: 5px; vertical-align: middle;">&nbsp;&nbsp;댓글&nbsp;<%=pds.getReplyCount()%>&nbsp;개
 		</p>
 		
 		<!-- 댓글 창 -->
@@ -112,29 +117,32 @@
 					<div class="mtooltip" align="right">
 						<img src="images/icons/more.png" width="3px" align="right" class="more img_clickable" > 
 						<span class="mtooltiptext">
-						<span onclick="modify('<%=re.getReSeq()%>','<%=re.getContent() %>')" id="<%=re.getReSeq()%>" class="aTag">수정</span><br>
-						<span onclick="deleteReply(<%=re.getReSeq()%>)" class="aTag">삭제</span><br>						
+						<label onclick="modify('<%=re.getReSeq()%>','<%=re.getContent() %>')" id="<%=re.getReSeq()%>" class="aTag">수정</label><br>
+						<label onclick="deleteReply(<%=re.getReSeq()%>)" class="aTag">삭제</label><br>						
 						</span>
 					</div> 
 					<%}%>
-				 	<img src="<%=src%>" class="profile re-img img_clickable" width="10" onerror="this.src='<%=srcError%>'" onclick="location.href='MemberController?command=userPage&id=<%= re.getId()%>'">
-					<div class="reply_content">
-						<span class="nickname"><%=re.getId()%> 
-					<% if (re.getId().equals(pds.getId())) { // 게시글 작성자 표시
-				 	%> 
-				 	<img src="images/icons/writer.png" width="60" style="vertical-align: middle"> 
-				 	<%} %> 
-				 	</span> 
-				 	<span id="content_<%=re.getReSeq()%>"> <!-- 댓글 내용 부분 -->
-					 	<% if (re.getToWhom() != null & re.getToWhom() != "") { %> <!-- 다른 사람 호출하는 태그가 있을 때 --> 
-					 	<b>@<%=re.getToWhom()%></b> 
-					 	<% } %> 
-					 	<%=re.getContent()%>
-					</span><br> 
-					<font style="font-size: 3px; color: graytext;"><%=re.getWdate()%></font><br> <!-- 날짜 -->
-					<% if (ologin != null) { %>
-						<button name="<%=re.getReRef()%>" onclick="addReply(this)" id="<%=re.getReSeq()%>" toWhom="<%=re.getId()%>">답변</button>
-					<% } %>
+					<% if (re.getReSeq() != re.getReRef()) { %> <!-- 대댓일 때 들여쓰기 -->
+						<div style="margin-left: 30px">
+					<%}else{ %>
+						<div>
+					<%} %>
+					 	<img src="<%=src%>" class="profile re-img img_clickable" width="10" onerror="this.src='<%=srcError%>'" onclick="location.href='MemberController?command=userPage&id=<%= re.getId()%>'">
+						<font style="font-size: 17px; font-weight: bold;"><%=re.getId()%></font>
+						<% if (re.getId().equals(pds.getId())) { // 게시글 작성자 표시 %> 
+					 	<img src="images/icons/writer.png" width="60" style="vertical-align: middle"> 
+					 	<%} %> 	
+					 	<div class="reply_content"> 	
+						 	<% if (re.getToWhom() != null & re.getToWhom() != "") { %> <!-- 다른 사람 호출하는 태그가 있을 때 --> 
+						 	<b>@<%=re.getToWhom()%></b> 
+						 	<% } %> 
+						 	<%=re.getContent()%>
+						<br> 
+						<font style="font-size: 3px; color: graytext;"><%=re.getWdate()%></font><br> <!-- 날짜 -->
+						<% if (ologin != null) { %>
+							<button class="btn btn-navy btn-border" name="<%=re.getReRef()%>" onclick="addReply(this)" id="<%=re.getReSeq()%>" toWhom="<%=re.getId()%>">답변</button>
+						<% } %>
+						</div>
 					</div>
 				<% } %>
 				</li>
@@ -144,7 +152,7 @@
 			<%}%>
 		</ul>
 		
-		<div class="wrap" align="center">
+		<div class="wrap" align="center" style="width: 90%; margin:auto">
 			<% if (ologin == null) { %> <!-- 로그인 상태가 아니면 -->
 				댓글을 작성하려면 <label style="cursor: pointer;" onclick="loginView()"><b>로그인</b></label>해주세요
 			<% }else{ %>
@@ -152,11 +160,10 @@
 				<input type="hidden" name="command" value="addReply"> 
 				<input type="hidden" name="id" value="<%=ologin.getId()%>"> 
 				<input type="hidden" name="pdsSeq" value="<%=pds.getSeq()%>">
-				<div align=left>
+				<div align=left style="margin-left:5px">
 					<img src='images/profiles/<%=ologin.getId()%>.png' width='10'
 						class='profile re-img' align='middle'
-						onerror="this.src='images/profiles/default.png'" > 
-					<span class="nickname"><%=ologin.getId()%></span>
+						onerror="this.src='images/profiles/default.png'" ><font style="font-size: 20px; font-weight: bold;"><%=ologin.getId()%></font>
 				</div>
 				<textarea id="new_reply_content" placeholder="댓글을 작성해 주세요" name="content"></textarea>
 				<div align=right style="padding: 10px">
@@ -171,27 +178,45 @@
 	<!-- 오른쪽 프로필이랑 다운로드 부분 -->
 	<section class="rightbar">
 		<div style="margin: 10px">
-			<p>
+			<p>			
 				<img src="images/profiles/<%=pds.getId()%>.png" width="100"	class="profile img_clickable" align="middle"
 					 onerror="this.src='images/profiles/default.png'"
 					 onclick="location.href='MemberController?command=userPage&id=<%= pds.getId()%>'"> <!-- 작성자의 프로필 사진 -->
-					<font style="font-size: 35px; font-weight: bold; font-family: sans-serif;"> <%=pds.getId()%>	</font>
-					<br>
-				<button onclick="doLike()" class="mybtn"> <!-- 좋아요 버튼 -->
-					<img src="<%=like%>" width="15" id="like">&nbsp;&nbsp; 
-					<span id="likeCount"><font size="3"><%=pds.getLikeCount()%></font></span>
-				</button>
-				<button class="mybtn" onclick="doFollow()"><!-- 팔로우 버튼 -->
-					<img id="followImg" src="<%=follow%>" width="15" id="follow">&nbsp;&nbsp;팔로우
-				</button>			
+				<font style="font-size: 35px; font-weight: bold; font-family: sans-serif;"> <%=pds.getId()%>	</font>
 			</p>
-				
+			
 			<hr>
-			<br> <input type="hidden" id="ajax_hidden"> <!-- ajax용 임시 태크 -->		
-			<img src="images/icons/down.png" width="20"><font size="5">&nbsp;&nbsp;<%=pds.getDownCount()%></font><br> <!-- 다운로드 수 -->			
-			<% if(ologin != null && pds.getId().equals(ologin.getId())){ %>
-				<button onclick="location.href='updatePds.jsp?seq=<%=pds.getSeq()%>'">수정</button>
-			<%} %>
+			<div align="center" style="vertical-align: middle;">
+				<span style="margin-left: 3px">
+					<img src="images/icons/down.png" height="30" align="middle">
+					<font style="font-family: 'Noto Sans'" size="5">  <%=pds.getDownCount()%></font> <!-- 다운로드 수 -->
+				</span>&nbsp;&nbsp; 
+				<button onclick="doLike()" class="mybtn"> <!-- 좋아요 버튼 -->
+					<img src="<%=like%>" width="20" id="like">&nbsp;&nbsp; 
+					<span id="likeCount"><font size="3"><%=pds.getLikeCount()%></font></span>
+				</button>&nbsp;&nbsp; 
+				
+				<%
+				if((ologin != null && !pds.getId().equals(ologin.getId())) || ologin==null ){ %>
+					<button class="mybtn" onclick="doFollow()"><!-- 팔로우 버튼 -->
+					<% if (isFollow) { %>
+						<img id="followImg" src="images/icons/following.png" 
+						width="20" id="follow">&nbsp;&nbsp;팔로우
+					<%}else{%>
+						<img id="followImg" src="images/icons/follower_empty.png" width="20" id="follow">&nbsp;&nbsp;팔로우&nbsp;&nbsp;	
+							
+					<%} %>
+					</button>
+					
+					
+				<%}%>	
+				<% if(ologin != null && pds.getId().equals(ologin.getId())){ %>
+						<button class="mybtn" onclick="location.href='updatePds.jsp?seq=<%=pds.getSeq()%>'">수  정</button>
+				<%}	%>
+			</div>
+
+			<input type="hidden" id="ajax_hidden"> <!-- ajax용 임시 태크 -->		
+				
 			<hr>
 			<div class="downbox">
 				<div class="selectSize" style="font-family: 'Noto Sans'; letter-spacing: 1.5px; margin-top: 0px; margin-bottom: 3px"></div> <!-- 사이즈 선택 슬라이더 -->
@@ -245,10 +270,10 @@
 						var like = $("#ajax_hidden").html(data).find("like").text();
 						var count = $("#ajax_hidden").html(data).find("count").text();
 						if(like == "false"){
-							$("#like").attr("src",'images/icons/like_empty.png');
+							$("#like").attr("src",'images/icons/collection_empty.png');
 							$("#likeCount").text(count);
 						}else{
-							$("#like").attr("src",'images/icons/like_fill.png');
+							$("#like").attr("src",'images/icons/collection_fill.png');
 							$("#likeCount").text(count);
 						}
 					},
@@ -324,7 +349,7 @@
 				data:"command=rere&id=<%=id%>&pdsSeq=<%=pds.getSeq()%>&toWhom="+toWhom+"&reRef="+name, 
 				success:function(data, status, xhr){
 					console.log(data);
-					$(selector).last().parent().parent().after(data).trigger("create");
+					$(selector).last().parents().eq(2).after(data).trigger("create");
 				},
 				error:function(){ // 또는					 
 					console.log("통신실패!");
@@ -361,15 +386,13 @@
 		// 댓글 수정
 		function modify(reSeq,content){ 			
 			console.log(reSeq);
-			var selector = "label[id='" + reSeq +"']";		
-		
-			
+			var selector = "label[id='" + reSeq +"']";					
 			$.ajax({
 				url:"reply.jsp", // 접근대상
 				type:"get",		// 데이터 전송 방식
 				data:"command=modify&id=<%=id%>&pdsSeq=<%=pds.getSeq()%>&content="+content +"&reSeq="+reSeq, 
 				success:function(data, status, xhr){
-					console.log(data.trim());
+					//console.log(data.trim());
 					$(selector).parents().eq(2).replaceWith(data.trim());
 				},
 				error:function(){ // 또는					 
@@ -392,9 +415,9 @@
 						/* console.log(data); */
 						followChk = $("#ajax_hidden").html(data).find("followChk").text();
 						if(followChk == "false"){
-							$("#followImg").attr("src",'images/icons/like_empty.png');
+							$("#followImg").attr({"src":"images/icons/follower_empty.png"});
 						}else{
-							$("#followImg").attr("src",'images/icons/like_fill.png');
+							$("#followImg").attr({"src":"images/icons/following.png"});							
 						}
 					},
 					error:function(){ // 또는					 

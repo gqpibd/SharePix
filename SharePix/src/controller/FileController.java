@@ -168,8 +168,8 @@ public class FileController extends HttpServlet {
 					
 					// tomcat
 					//String filePath = mConfig.getServletContext().getRealPath("/images/pictures");
-					
-					String filePath = PATH +"\\"+ fsavename;					
+					String filePath = mConfig.getServletContext().getRealPath("/images/pictures") +"\\"+ fsavename;		
+					//String filePath = PATH +"\\"+ fsavename;					
 					
 					if(rate != 100) {
 						filePath = ImageResize.resize(filePath,rate);

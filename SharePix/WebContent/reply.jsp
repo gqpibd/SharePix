@@ -11,15 +11,15 @@ String toWhom = request.getParameter("toWhom");
 String pdsSeq = request.getParameter("pdsSeq");
 String reRef = request.getParameter("reRef");
 %>
-<li class='reply' id='rere_write'>
-	<div class='wrap' align='center'>
+<li class='reply' id='rere_write' style="width: 95%">
+	<div class='wrap' align='center' style="padding: 10px;background: #fff;margin:auto" >
 		<form action='ReplyController'>
 			<input type='hidden' name='command' value='addReply'> 
 			<input type='hidden' name='id' value="<%=id%>"> 
 			<input type='hidden' name='pdsSeq' value="<%=pdsSeq%>"> 
 			<input type='hidden' name='refSeq' value="<%=reRef%>"> 
 			<input type='hidden' name='toWhom' value="<%=toWhom%>">
-			<div style='padding-left: 30px' align='left'>
+			<div align='left'>
 				<img src='images/profiles/<%=id%>.png' width='10'
 					class='profile re-img' align='middle'
 					onerror="this.src='images/profiles/default.png'"> 
@@ -38,13 +38,15 @@ String content = request.getParameter("content");
 String reSeq = request.getParameter("reSeq");
 String pdsSeq = request.getParameter("pdsSeq");
 %>
-<li class='reply'>
-	<div class='wrap' align='center'>
+
+	
+<li class='reply' style="width: 95%">
+	<div class='wrap' align='center' style="padding: 10px;background: #fff;margin:auto" >
 		<form action='ReplyController'>
 			<input type='hidden' name='command' value='updateReply'>
 			<input type='hidden' name='reSeq' value=<%=reSeq%>>
 			<input type='hidden' name='pdsSeq' value=<%=pdsSeq%>>
-			<div style='padding-left: 30px' align='left'>
+			<div align='left'>
 				<img src='images/profiles/<%=id%>.png' width='10'
 					class='profile re-img' align='middle'
 					onerror="this.src='images/profiles/default.png'"> 
@@ -78,27 +80,33 @@ String pdsSeq = request.getParameter("pdsSeq");
 		<div class="mtooltip" align="right">
 			<img src="images/icons/more.png" width="3px" align="right" class="more img_clickable" > 
 			<span class="mtooltiptext"> 
-			<label onclick="modify('<%=re.getReSeq()%>')" id="<%=re.getReSeq()%>" class="aTag">수정</label><br> 
+			<label onclick="modify('<%=re.getReSeq()%>','<%=re.getContent() %>')" id="<%=re.getReSeq()%>" class="aTag">수정</label><br> 
 			<label onclick="deleteReply(<%=re.getReSeq()%>)" class="aTag">삭제</label><br>
 			</span>
 		</div>
     	<%}%>
-		<img src="<%=src%>" class="profile re-img" width="10" onerror="this.src='<%=srcError%>'" >
-		<div class="reply_content">								
-			<span class="nickname"><%=re.getId()%>
+    	<% if (re.getReSeq() != re.getReRef()) { %> <!-- 대댓일 때 들여쓰기 -->
+			<div style="margin-left: 30px">
+		<%}else{ %>
+			<div>
+		<%} %>
+		<img src="<%=src%>" class="profile re-img img_clickable" width="10" onerror="this.src='<%=srcError%>'" 
+			onclick="location.href='MemberController?command=userPage&id=<%= re.getId()%>'">
+		<font style="font-size: 17px; font-weight: bold;"><%=re.getId()%></font>
 			<% if(re.getId().equals(pdsWriter)){ %> <!-- 사진 올린사람 표시 -->
 				<img src="images/icons/writer.png" width="60" style="vertical-align: middle">
-			<%}%></span>
-			<span id="content_<%=re.getReSeq()%>"> <!-- 댓글 내용 부분 -->
+			<%}%>
+			<div class="reply_content">		
 				<% if (re.getToWhom() != null & re.getToWhom() != "") { %> <!-- 다른 사람 호출하는 태그가 있을 때 --> 
 				<b>@<%=re.getToWhom()%></b> 
 				<% } %> 
 				<%=re.getContent()%>
-			</span><br> 
+			<br> 
 			<font style="font-size: 3px; color: graytext;"><%=re.getWdate()%></font><br> <!-- 날짜 -->
 			<% if (loginId != null) { %>
 			<button class="mybtn" name="<%=re.getReRef()%>" onclick="addReply(this)" id="<%=re.getReSeq()%>" toWhom="<%=re.getId()%>">답변</button>
 			<% } %>									
+		</div>
 		</div>
 	</li>
 	<%}

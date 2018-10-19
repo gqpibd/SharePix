@@ -235,8 +235,6 @@ $(document).ready(function(){
 	
 		<!-- <input class="searchbtn1" type="submit" value=""> -->
 		</form>
-
-		
 	</td>
 	<td align="center" class="mar">
 	<% if(user==null){ %>
