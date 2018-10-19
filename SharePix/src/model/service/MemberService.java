@@ -36,6 +36,19 @@ public class MemberService {
 	public boolean getId(String id) {
 		return manager.getId(id);
 	}
+	
+	public MemberBean getEmail(MemberBean dto){
+		return manager.getEmail(dto);
+	}
+	
+	public MemberBean getPwd(MemberBean dto){
+		return manager.getPwd(dto);
+	}
+	
+	public MemberBean getIdpwd(MemberBean dto){
+		return manager.getIdpwd(dto);
+	}
+	
 	public boolean updateUser(MemberBean dto) {
 		return manager.updateUser(dto);
 	}
