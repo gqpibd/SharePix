@@ -179,7 +179,7 @@ var loadImageFile = function () {
 
 						<select name="category" class="btn btn-default dropdown-toggle">
 
-							<option value="카테고리" selected="selected">카테고리</option>
+							<option disabled value="카테고리" selected="selected" >카테고리</option>
 							<option value="자연">자연</option>
 							<option value="인물">인물</option>
 							<option value="음식">음식</option>

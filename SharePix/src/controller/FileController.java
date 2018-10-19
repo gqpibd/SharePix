@@ -84,7 +84,7 @@ public class FileController extends HttpServlet {
 			String id = "";
 			String category = "";
 			String tags = "";
-
+			
 			// file data
 			String filename = ""; // 어떤 파일이 넘어오는지 정보를 얻기 위한 것
 			String fSaveName = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
