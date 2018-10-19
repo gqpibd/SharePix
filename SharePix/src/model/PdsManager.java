@@ -349,8 +349,10 @@ public class PdsManager implements iPdsManager {
    @Override
    public List<PdsBean> getSearchPdsNull() {
       String sql = " SELECT SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT "
-            + " FROM PDSALL "
-            + "ORDER BY SEQ DESC ";
+      		+ " FROM ( SELECT SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT "
+    		+ " FROM PDSALL "
+    		+ " ORDER BY LIKECOUNT DESC) "
+    		+ " WHERE ROWNUM <= 20 ";
       Connection conn = null;
       PreparedStatement psmt = null;
       ResultSet rs = null;
@@ -398,7 +400,7 @@ public class PdsManager implements iPdsManager {
    }
    
    @Override
-   public List<PdsBean> getPdsPagingList(PagingBean paging, String keyword){
+   public List<PdsBean> getPdsPagingList(PagingBean paging, String keyword, String choice){
       
       Connection conn = null;
       PreparedStatement psmt = null;
@@ -430,13 +432,23 @@ public class PdsManager implements iPdsManager {
          psmt.close();
          rs.close();
          
+         if(choice.equals("LIKECOUNT") ) {
+        	 choice = "LIKECOUNT";
+         }else if(choice.equals("DOWNCOUNT")) {
+        	 choice = "DOWNCOUNT";
+         }else if(choice.equals("READCOUNT")) {
+        	 choice = "READCOUNT";
+         }else {
+        	 choice = "SEQ";
+         }
+         
          String sql = " SELECT * FROM "
                + " ( SELECT * FROM "
                + "   (SELECT * FROM PDSALL "
                + " " + kWord
-               + " ORDER BY SEQ)"
+               + " ORDER BY " + choice + ")"
                + " WHERE ROWNUM <=" + paging.getStartNum() + ""
-               + " ORDER BY SEQ DESC) "
+               + " ORDER BY " + choice + " DESC) "
                + " WHERE ROWNUM <=" + paging.getCountPerPage();
 
 

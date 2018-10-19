@@ -53,9 +53,9 @@ public class PdsService {
 		return pDao.getSearchPdsNull();
 	}
 	
-	public List<PdsBean> getPdsPagingList(PagingBean paging, String keyword){
+	public List<PdsBean> getPdsPagingList(PagingBean paging, String keyword, String choice){
 		
-		return pDao.getPdsPagingList(paging, keyword);
+		return pDao.getPdsPagingList(paging, keyword, choice);
 	}
 
 	public List<PdsBean> relatedList(String category, int seq) {

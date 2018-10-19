@@ -61,6 +61,7 @@
 <link rel="stylesheet" href="style/picDetail.css">
 <link rel="stylesheet" href="style/imageArrange.css">
 <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
+<link rel="shortcut icon" href="images/icons/favicon.ico">
 <style type="text/css">
 
 </style>

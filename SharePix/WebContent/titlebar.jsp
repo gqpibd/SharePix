@@ -118,6 +118,7 @@
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 <link rel="stylesheet" href="style/loginModal.css">
 
 
@@ -232,7 +233,7 @@ $(document).ready(function(){
 		<form action="PdsController" method="get">
 		<input type="hidden" name="command" value="keyword"> 
 		<input class="search__input" type="text" name="tags" placeholder="Search">
-	
+		<input type="hidden" name="choice" value="SEQ"> 
 		<!-- <input class="searchbtn1" type="submit" value=""> -->
 		</form>
 

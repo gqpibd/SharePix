@@ -33,6 +33,7 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="js/jquery.row-grid.min.js"></script>
 <link rel="stylesheet" href="style/imageArrange.css">
+<link rel="shortcut icon" href="images/icons/favicon.ico">
 <style type="text/css">
 .clickable{
 	cursor: pointer;
@@ -85,20 +86,20 @@
 					onmouseover="this.src='<%=PATH%>icons\\<%=reverslike %>'"
 					onmouseout="this.src='<%=PATH%>icons\\<%=like%>'"
 					onclick="doLike('<%=Pdscust.getSeq()%>', this)"
-					style="vertical-align: middle;" > 
-					<span id ="likeCount_<%=Pdscust.getSeq()%>"><%=Pdscust.getLikeCount()%></span>
+					style="vertical-align: middle; width: 40%; height: auto;" > 
+					<p id ="likeCount_<%=Pdscust.getSeq()%>"><%=Pdscust.getLikeCount()%></p>
 				</a><a href="#" style="text-decoration: none; color: white;"> 
-					<img alt="" src="<%=PATH%>icons\\openbook.png"
-					onmouseover="this.src='<%=PATH%>icons\\fullopenbook.png'"
-					onmouseout="this.src='<%=PATH%>icons\\openbook.png'"
-					style="vertical-align: middle;" > 
-					<label><%=Pdscust.getDownCount()%></label>
+					<img alt="" src="<%=PATH%>icons\\downloadC.png"
+					onmouseover="this.src='<%=PATH%>icons\\fulldownloadC.png'"
+					onmouseout="this.src='<%=PATH%>icons\\downloadC.png'"
+					style="vertical-align: middle; width: 40%; height: auto;" > 
+					<p><%=Pdscust.getDownCount()%></p>
 				</a> <a href="#" style="text-decoration: none; color: white;"> 
 					<img alt="" src="<%=PATH%>icons\\contract.png"
 					onmouseover="this.src='<%=PATH%>icons\\fullcontract.png'"
 					onmouseout="this.src='<%=PATH%>icons\\contract.png'"
-					style="vertical-align: middle;" > 
-					<label><%=Pdscust.getReplyCount()%></label>
+					style="vertical-align: middle; width: 40%; height: auto;" > 
+					<p><%=Pdscust.getReplyCount()%></p>
 				</a>
 			</div>
 			<div class="profileInfo">
@@ -112,6 +113,13 @@
 			}
 		%>
 	</div>
+<form action="PdsController?" method="get">
+		<input type="hidden" name="nowPage" value="2">
+		<input type="hidden" name="command" value="keyword">
+		<input type="hidden" name="tags" value="">
+		<input type="hidden" name="choice" value="LIKECOUNT">
+		<button type="submit" name="command" value="keyword">더 둘러보기</button>
+</form>
 
 	<script type="text/javascript">
 
