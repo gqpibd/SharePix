@@ -4,6 +4,7 @@
 <%
 	MemberBean user = (MemberBean) session.getAttribute("login");
 	String goBackTo = request.getParameter("goBackTo");
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -13,7 +14,7 @@
 <style type="text/css">
 #top-menu {
   width: 100%;
-  background-color: #FAFAFA;
+  background-color: #F6F6F6;
   top: 0px;
   left: 0px;
   position: fixed;
@@ -26,7 +27,7 @@
 }
 
 .search__input {
-	width: 70%;
+	width: 100%;
 	padding: 12px 24px;
 	
 	background-color: transparent;
@@ -76,7 +77,7 @@
 }
 
 .fill {
-  --color: #a972cb;
+  --color: #8C8C8C;
   --hover: #1973bc;
 }
 
@@ -84,9 +85,14 @@
   background: none;
   border: 0px solid;
   font: inherit;
+  border-radius: 12px;
   line-height: 1;
   margin: 0.5em;
   padding: 0.5em 1em;
+}
+
+.sagongBtn:focus{
+	outline: none;
 }
 
 .sagongBtn {
@@ -97,6 +103,15 @@
 .sagongBtn:hover, .sagongBtn:focus {
   border-color: var(--hover);
   color: #fff;
+}
+
+.re-img{ /* 댓글 프로필 */   
+    float: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 33px;
+    margin: 5px;
+    vertical-align: middle;
 }
 
 </style> 
@@ -145,7 +160,7 @@ function pwdCheck() {
 }
 
 function emailCheck() {
-	
+	 
 	  // 이메일 검증 스크립트 작성
 	  var emailVal = $("#email").val();
 
@@ -208,12 +223,12 @@ $(document).ready(function(){
 <body>
 <div id="top-menu" >
 <table border="0" align="center" width="100%" class="title_table">
-<col width="100"><col width="400"><col width="200">
-	<tr>
-	<td align="center">
+<col width="100"><col width="300"><col width="300">
+<tr>
+	<td align="center" rowspan="2">
 		<p class="title" onclick="location.href='index.jsp'"><font size="5">SaGong'ssi</font></p>
 	</td>
-	<td>
+	<td rowspan="2">
 
 		<form action="PdsController" method="get">
 		<input type="hidden" name="command" value="keyword"> 
@@ -224,19 +239,38 @@ $(document).ready(function(){
 
 		
 	</td>
-	<td align="center">
+	<td align="center" class="mar">
 	<% if(user==null){ %>
 		<button class="fill sagongBtn" id="titleBtn" href="#signup" data-toggle="modal" data-target=".log-sign">Sign In/Register</button>
 		<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" style="margin-right: 5px;">로그인</button>
 		<button type="button" class="btn btn-primary" onclick="location.href='regi.jsp'" style="margin-left: 5px;">회원가입</button> -->
 	<%}else{ %>
-		<h5><%=user.getName() %>님 환영합니다. <a href="MemberController?command=logout"><font size="2">로그아웃</font></a> </h5>
-		<button class="fill sagongBtn" onclick="location.href='MemberController?command=userPage&id=<%=user.getId()%>'">마이페이지</button>
-		<button class="fill sagongBtn" onclick="location.href='pdswrite.jsp'">사진 올리기</button>
-		<button class="fill sagongBtn" onclick="location.href='PdsController?command=myLikePdsList&id=<%=user.getId()%>'">즐겨찾기</button>
-	<%} %>
+		<img src='images/profiles/<%=user.getId()%>.png' width='100px'
+            class='profile re-img' align='middle'
+            onerror="this.src='images/profiles/default.png'">
+		<span><%=user.getName() %>님 환영합니다. <a href="MemberController?command=logout"><font size="2">로그아웃</font></a></span>
+		<%-- <button class="fill sagongBtn" onclick="location.href='MemberController?command=userPage&id=<%=user.getId()%>'">마이페이지</button>
+		<button class="fill sagongBtn" onclick="location.href='pdswrite.jsp'">사진 올리기</button> --%>
+	<%-- <%} %> --%>
 	<!-- <input type="submit" value="로그인"> -->
-	</tr>
+	</td>
+</tr>
+<tr>
+<!-- 	<td></td>
+	<td></td> -->
+	<td align="center" class="mar">
+		<button class="fill sagongBtn" onclick="location.href='MemberController?command=userPage&id=<%=user.getId()%>'"><font>마이페이지</font></button>
+		<button class="fill sagongBtn" onclick="location.href='pdswrite.jsp'">사진 올리기</button>
+		
+	<%-- 	<% if(user != null && user.getAuth == 3){ %>
+				<button class="fill sagongBtn" onclick="location.href='manager.jsp'">관리자모드</button>
+			<%} %> --%>
+			<!-- <button class="fill sagongBtn" onclick="location.href='manager.jsp'">관리자 모드</button> -->
+		<!-- <button class="fill sagongBtn" onclick="location.href='manager.jsp'">관리자 모드</button> -->
+	<!-- <input type="submit" value="로그인"> -->
+	</td>
+	<%} %>
+</tr>
 </table>
 </div> 
 
@@ -293,7 +327,6 @@ function loginView(){
 					<div class="controls">
 						<button id="signin" name="signin"
 							class="btn btn-primary btn-block">Log In</button>
-					</div>
 				</div>
 				</fieldset>
 			</form>

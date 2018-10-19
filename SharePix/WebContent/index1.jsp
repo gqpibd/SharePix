@@ -24,7 +24,7 @@ myCnt = 0;
 function myFade(){
      if (myCnt != 16){
          document.bgColor = "#" + myColor[myCnt];
-         myTime = ( myCnt==0 || myCnt==15 ) ? 1000 : 50;
+         myTime = ( myCnt==0 || myCnt==15 ) ? 3000 : 50;
          myCnt++;
          setTimeout( "myFade()", myTime );
      }else{
@@ -34,12 +34,12 @@ function myFade(){
 </script>
  
 <br><br><br><br><br><br><br>
-<p align="center">
+<p align="left">
 <font color="#FFFFFF" size="5">
-<strong>WellCome</strong>
+<strong>404 error: not found</strong>
 </font><br><br>
 <font color="#FFFFFF" size="6">
-<strong>Share images</strong>
+<strong>The URL you requested was not found.</strong>
 </font><br><br>
 <font color="#000000" size="6">
 <strong>SaGong'ssi</strong>

@@ -25,20 +25,15 @@ List<FollowDto> sList = memService.getMySubscribeList(followeeId); // 나를 구
 	MemberBean memDto = memService.getUserInfo(fDto.getFollowerId());
 	//out.println("memDto : " + (i+1) + "번째 " + memDto.toString() + "<br><br>");
 	%>
-	<table border="1">
+	<table border="1" cellpadding="200px">
 	<tr> 
 		<td>
-		<%-- <img src='images/profiles/<%=memDto.getId()%>.png' width='100px'
-			class='profile re-img' align='middle'
-			onerror="this.src='images/profiles/default.png'"> --%> 
-		<span class="nickname"><%=memDto.getId()%></span>
-		
-		<p>
 			<img src="images/profiles/<%=memDto.getId()%>.png" width="100"	class="profile img_clickable" align="middle"
-				 onerror="this.src='images/profiles/default.png'"
-				 onclick="location.href='userPage.jsp?id=<%= memDto.getId()%>'"> <!-- 작성자의 프로필 사진 -->
-		</p>
-		
+				 onerror="this.src='images/profiles/default.png'" style="cursor:pointer"
+				 onclick="location.href='MemberController?command=userPage&id=<%=memDto.getId()%>'"> <!-- 작성자의 프로필 사진 -->
+		</td>
+		<td align="center">
+			<span class="nickname"><%=memDto.getId()%></span>
 		</td>
 	</tr>
 	</table>

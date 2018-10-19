@@ -40,6 +40,7 @@ public class PdsBean  implements Serializable {
 	private int likeCount;
 	private int replyCount;
 	private String fSaveName;
+	private int report;
 
 	public PdsBean() { }
 
@@ -57,6 +58,7 @@ public class PdsBean  implements Serializable {
 		this.likeCount = likeCount;
 		this.replyCount = replyCount;
 		this.fSaveName = fSaveName;
+		
 	}
 	
 	public PdsBean(int seq, String id, String category, String[] tags) {
@@ -80,6 +82,12 @@ public class PdsBean  implements Serializable {
 		this.category = category;
 		this.tags = tags.replaceAll(" ", "").substring(1).split("#");	
 	}
+	
+	public PdsBean(int seq, int report) {
+		this.seq = seq;
+		this.report=report;
+	}
+	
 
 	public int getSeq() {
 		return seq;
@@ -175,6 +183,14 @@ public class PdsBean  implements Serializable {
 				+ ", uploadDate=" + uploadDate + ", fileName=" + fileName + ", readCount=" + readCount + ", downCount="
 				+ downCount + ", likeCount=" + likeCount + ", replyCount=" + replyCount + ", fSaveName=" + fSaveName
 				+ "]";
+	}
+
+	public int getReport() {
+		return report;
+	}
+
+	public void setReport(int report) {
+		this.report = report;
 	}
 
 }

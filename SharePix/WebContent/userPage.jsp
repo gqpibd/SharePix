@@ -1,3 +1,5 @@
+<%@page import="controller.FileController"%>
+<%@page import="java.io.File"%>
 <%@page import="model.service.MemberService"%>
 <%@page import="dto.FollowDto"%>
 <%@page import="model.service.PdsService"%>
@@ -9,11 +11,12 @@
 <%
     request.setCharacterEncoding("utf-8");
 
+	// 비회원로그인시 정해주어야. 
 	Object ologin = session.getAttribute("login");
 	MemberBean loginMemDto = null;
+	
  	loginMemDto = (MemberBean)ologin;// 세션에 담겨있던 로그인한 사람의 dto
- 	
- 	System.out.println("loginMemDto : " + loginMemDto.toString());
+
 	MemberService memService = MemberService.getInstance();
 //	String pageId = request.getParameter("id");	// 해당 유저 페이지의 유저 id 
 //	PdsService pdsService = PdsService.getInstance();
@@ -29,9 +32,9 @@
 	List<PdsBean> list 		= (List<PdsBean>)request.getAttribute("list");      
 	List<FollowDto> fList 	= (List<FollowDto>)request.getAttribute("fList");// 해당 페이지의 사용자를 팔로우 하는 사람 list
 	List<FollowDto> sList 	= (List<FollowDto>)request.getAttribute("sList");// 페이지의 유저가 구독하는 사람 리스트
-	List<PdsBean> lList 	= (List<PdsBean>)request.getAttribute("lList");// 페이지의 유저가 좋아요한 리스트
+	List<PdsBean> lList 	= (List<PdsBean>)request.getAttribute("lList");// 페이지의 유저가 좋아요한 리스트 */
 	
-	if( pagePds == null || pageMemDto == null || list == null  || fList == null || sList == null || lList == null) {
+	if( pagePds == null || pageMemDto == null || list == null  || fList == null || sList == null  || lList == null ) {
 		System.out.println("뭐가 됐든 null");
 	} else {
 		System.out.println("아무것도 null 아님");
@@ -80,7 +83,9 @@
 	
 	String follow = "images/icons/like_empty.png";
 	boolean isFollow = false;
-	isFollow = memService.checkMemFollow(loginMemDto.getId(), pageId);
+	if(loginMemDto!=null){
+		isFollow = memService.checkMemFollow(loginMemDto.getId(), pageId);
+	}
 	if (isFollow) {
 		follow = "images/icons/like_fill.png";
 	}
@@ -89,23 +94,27 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <style type="text/css">
-.img {
+.img_clickable {
 	cursor: pointer;
 }
 .td {
 	text-align: center;
+	padding: 10px;
+}
+.profile {
+    width: 200px; 
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 0.1em solid grey;
 }
 </style>
-
-<title>userPage.jsp</title>
-
+<title></title>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-
+<script src="js/jquery.row-grid.js"></script>
 <link rel="stylesheet" href="style/imageArrange.css">
-<script type="text/javascript">
-
-</script>
 </head>
 <body>
 
@@ -115,53 +124,70 @@
 		</jsp:include>
 	</div>
 
-	<div style="margin-top: 10em">
-	<h2><%=pageMemDto.getName()%>의 userPage</h2>	<!-- 출력 확인 -->
+	<div style="margin-top: 8em">
 	<!-- <div align=center> -->
-	<%if(pageMemDto.getId().equals(loginMemDto.getId())){
-		%>
-		<form action="MemberController">
-			<input type="hidden" name="command" value="userUpdatePage">
-			<button type="submit">개인정보 수정</button>
-		</form>
-		<%
-	}%>
-	<table border="1" align="center">
+	<!-- background-color: #92A8D1;  -->
+<div style="padding: 50px; padding-top: 50px; padding-bottom: 50px; background: linear-gradient(to bottom, #92A8D1, white)">
+	<table align="center" style="margin-bottom: 10px" > <!-- border="1" -->
 	<tr>
-		<td class="td">
-			<img src='images/profiles/<%=pageMemDto.getId()%>.png' width='100px'
-				class='profile re-img' align='middle'
-				onerror="this.src='images/profiles/default.png'">
-		</td>
+		<td class="td" align="center" style="height: 100px">
+		<span class="nickname" style="font-size:3em; font-family:Malgun Gothic;"><%=pageMemDto.getName()%></span>
 	</tr>
 	<tr>
-		<td class="td"><span class="nickname"><%=pageMemDto.getId()%></span></td>
+		<td class="td">
+		<span>
+			<img src='images/profiles/<%=pageMemDto.getId()%>.png' width='100px'
+				class='profile' align='middle'
+				onerror="this.src='images/profiles/default.png'">
+		</span>
+		</td>
+	</tr>
+	<tr><td style="height: 20px" align="center">
+			<%if(loginMemDto != null && pageMemDto.getId().equals(loginMemDto.getId())){
+			%>
+			<img class="img_clickable" style="width: 40px; position: relative; bottom: 40px; left: 100px;" title="개인정보 수정" alt="" src="./images/icons/edit.png" onclick="location.href='MemberController?command=userUpdatePage'">
+			
+			<%
+			}%>
+			</td>
+	</tr>
 	<tr>
 		<td class="td">
-		<span><img title="업로드한 사진 수" src="./images/icons/images.png" style="width: 15px">&nbsp;:&nbsp;<%=list.size()%></span>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<span><img title="다운된 사진 수" src="./images/icons/download.png" style="width: 15px">&nbsp;:&nbsp;<%=totalDownCount%></span>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<span><img title="좋아요 받은 수" src="./images/icons/like.png" style="width: 15px">&nbsp;:&nbsp;<%=totalLikeCount%></span>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<span><img title="댓글 수" src="./images/icons/comment.png" style="width: 15px">&nbsp;:&nbsp;<%=totalReplyCount%> </span>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<span><img title="조회 수" src="./images/icons/read.png" style="width: 15px">&nbsp;:&nbsp;<%=totalReadCount%> </span>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<span><img title="팔로워의 수" src="./images/icons/star.png" style="width: 15px; height:auto">&nbsp;:&nbsp;<%=fList.size()%></span>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<span><img title="업로드한 사진 수" src="./images/icons/images.png" style="width: 25px">&nbsp;:&nbsp;<%=list.size()%></span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<span><img title="다운된 사진 수" src="./images/icons/download.png" style="width: 25px">&nbsp;:&nbsp;<%=totalDownCount%></span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<span><img title="좋아요 받은 수" src="./images/icons/good.png" style="width: 25px">&nbsp;:&nbsp;<%=totalLikeCount%></span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<span><img title="댓글 수" src="./images/icons/comment.png" style="width: 25px">&nbsp;:&nbsp;<%=totalReplyCount%> </span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<span><img title="조회 수" src="./images/icons/read.png" style="width: 25px">&nbsp;:&nbsp;<%=totalReadCount%> </span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<span><img title="팔로워의 수" src="./images/icons/star.png" style="width: 25px; height:auto">&nbsp;:&nbsp;<%=fList.size()%></span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<span class="ifNotMeHide">
-		<img title="<%=pageMemDto.getName()%>이(가) 좋아요한 사진 수" src="./images/icons/collection_empty.png" style="width: 15px">&nbsp;:&nbsp;<%=lList.size()%>&nbsp;&nbsp;</span><br>	
+		<img title="<%=pageMemDto.getName()%>이(가) 좋아요한 사진 수" src="./images/icons/collection_empty.png" style="width: 25px">&nbsp;:&nbsp;<%=lList.size()%>&nbsp;&nbsp;</span>	
 		</td>
 	</tr>
 	</table>
 	
-	<div align="center">
-	<button onclick="doFollow()" class="btn-follow"> <!-- 팔로우 버튼 -->
-		<img id="followImg" src="<%=follow%>" width="15" id="follow"> 
-	</button>
-	<input type="hidden" id="ajax_follow">
-	</div>
+	<% if (ologin == null) { %> <!-- 로그인 하지 않았을 때 -->
+		<div align="center">
+		<button onclick="loginView()"> <!-- 팔로우 버튼 -->
+			<img id="followImg" src="<%=follow%>" width="15"> 
+		</button>
+		<input type="hidden" id="ajax_follow">
+		</div>
+	<%} else if(loginMemDto != null && !pageMemDto.getId().equals(loginMemDto.getId())) {%>
+		<div align="center">
+		<button onclick="doFollow()"> <!-- 팔로우 버튼 -->
+			<img id="followImg" src="<%=follow%>" width="15"> 
+		</button>
+		<input type="hidden" id="ajax_follow">
+		</div>
+		<%
+	}%>
+</div>
 	<!-- </div> -->
 	
 	<%-- <span class="ifNotMeHide">
@@ -177,9 +203,13 @@
 	
 	<hr>
 	<div align="center">
-	<a href="javascript:gotoPds()">user가 올린 이미지</a>&nbsp;&nbsp;<a href="javascript:gotoSub()">나를 구독한 사람들</a>&nbsp;&nbsp;<a href="javascript:gotoLike()">내 컬렉션</a>
+	<a href="javascript:gotoPds()"><%=pagePds.getId()%>가 올린 이미지</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<a href="javascript:gotoSub()">나를 구독한 사람들</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<a href="javascript:gotoLike()">내 컬렉션</a>
 	</div>
 	<hr>	
+	
+	
 	<div class="mcontainer" id="userPds">
 		<%
 		String PATH = "images/";
@@ -188,17 +218,24 @@
 			pdslist = PdsService.getInstance().getSearchPdsNull();
 		}
 		String like = "heart.png";
-			for (PdsBean Pdscust : pdslist) {
+		for (PdsBean Pdscust : pdslist) {
+			String fSavename = Pdscust.getfSaveName();
+			String smallSrc = fSavename.substring(0,fSavename.lastIndexOf('.')) + "_small" + fSavename.substring(fSavename.lastIndexOf('.'));
+			
+			File f = new File(config.getServletContext().getRealPath("/images/pictures") + "\\" +  fSavename);
+			 if (f.exists() && f.length()<300000) { // 300kb 이하의 이미지는 그냥 원본을 가져온다
+		    	  smallSrc = fSavename;			     
+		    }
 		%>
 		<div class="item profilebox profilebox1">
-			<img class="img" name="item"
-				src="<%=PATH%>/pictures/<%=Pdscust.getfSaveName()%>"
-				onclick="veiwDetail(<%=Pdscust.getSeq()%>)" height="300">
+			<img class="img" name="item" src="<%=PATH%>pictures/<%=smallSrc%>"  
+				onclick="veiwDetail(<%=Pdscust.getSeq()%>)" height="300" alt="이미지 못 찾음" 
+				style="cursor: pointer">
 			<div class="SocialIcons">
 				<a> <img alt="" src="<%=PATH%>icons\\<%=like%>"
 					onmouseover="this.src='<%=PATH%>icons\\fullheart.png'"
 					onmouseout="this.src='<%=PATH%>icons\\<%=like%>'"
-					onclick="doLike()" class="btn-like"> <label><%=Pdscust.getLikeCount()%></label>
+					onclick="javascript:doLike()" class="btn-like"> <label><%=Pdscust.getLikeCount()%></label>
 				</a> <a href="#" style="text-decoration: none; color: white;"> <img
 					alt="" src="<%=PATH%>icons\\openbook.png"
 					onmouseover="this.src='<%=PATH%>icons\\fullopenbook.png'"
@@ -215,7 +252,7 @@
 						style="text-decoration: none; color: white;"><%=Pdscust.getId()%></a>
 				</h3>
 			</div>
-		</div>
+		</div> 
 		<%
 			}
 		%>
@@ -228,21 +265,33 @@
 	
 	<div id="userSub" class="ifNotMeHide" style="display: none"> <!-- 불러오긴 하나 숨김 -->
 		<jsp:include page="follow.jsp" flush="true">
-			<jsp:param name="followeeId" value="<%=pagePds.getId()%>"/>
+			<jsp:param name="followeeId" value="${pagePds.id }"/>
 		</jsp:include>
 	</div>
 	
-		<div id="userCollect" class="mcontainer">
-			<%
+		<div id="userCollect">
+			<jsp:include page="imageGrid.jsp" flush="true">
+				<jsp:param name="command" value="favorites" />
+				<jsp:param name="id" value="${pagePds.id }"/>
+			</jsp:include>
+		<!-- <div id="userCollect" class="mcontainer" style="visibility: hidden"> -->
+			<%--
 			PATH = "images/";
 			like = "heart.png";
-				for (PdsBean Pdscust : lList) {
-					System.out.println("내 컬렉션" + PATH + "pictures/" + Pdscust.getfSaveName());
-			%>
-			<div class="item profilebox profilebox1">
-				<img class="img" name="item"
-					src="<%=PATH%>pictures/<%=Pdscust.getfSaveName()%>"
-					onclick="veiwDetail(<%=Pdscust.getSeq()%>)" height="300">
+			for (PdsBean Pdscust : lList) {
+				System.out.println("내 컬렉션" + PATH + "pictures/" + Pdscust.getfSaveName());
+				
+				String fSavename = Pdscust.getfSaveName();
+				String smallSrc = fSavename.substring(0,fSavename.lastIndexOf('.')) + "_small" + fSavename.substring(fSavename.lastIndexOf('.'));
+				
+				File f = new File(FileController.PATH + "\\" + fSavename);
+				 if (f.exists() && f.length()<300000) { // 300kb 이하의 이미지는 그냥 원본을 가져온다
+			    	  smallSrc = fSavename;			     
+			    }
+			--%>
+			<%-- <div class="item profilebox profilebox1">
+				<img class="img" name="item" src="<%=PATH%>pictures/<%=smallSrc%>"  
+				onclick="veiwDetail(<%=Pdscust.getSeq()%>)" height="300" alt="이미지 못 찾음" >
 				<div class="SocialIcons">
 					<a> <img alt="" src="<%=PATH%>icons\\<%=like%>"
 						onmouseover="this.src='<%=PATH%>icons\\fullheart.png'"
@@ -264,27 +313,32 @@
 							style="text-decoration: none; color: white;"><%=Pdscust.getId()%></a>
 					</h3>
 				</div>
-			</div>
-			<%
+			</div> --%>
+			<%--
 				}
-			%>
+			--%>
 		</div>
 	</div>
 </body>
 
 <script type="text/javascript">
+window.onload = function () {
+	gotoPds();
+}
+
 var followChk = '<%=isFollow%>';
 function doFollow(){ // 팔로우 눌렀을 때			
 	<%if (ologin == null) {%>
-		alert("로그인해 주십시오");	
-		location.href="index.jsp";
+		alert("로그인해 주십시오");
+		loginView();
 	<%} else {%>				
 		$.ajax({
 			url:"MemberController", // 접근대상
 			type:"get",		// 데이터 전송 방식
 			data:"command=follow&followeeId=" + <%=pageMemDto.getId()%> + "&followerId=<%=loginMemDto.getId()%>" +"&followChk=" + followChk, // 전송할 데이터
 			success:function(data, status, xhr){
-				/* console.log(data); */
+				console.log(data);
+				
 				followChk = $("#ajax_follow").html(data).find("followChk").text();
 				if(followChk == "false"){
 					$("#followImg").attr("src",'images/icons/like_empty.png');
@@ -304,7 +358,7 @@ function gotoPds(){
 	$("#userPds").show();	
 }
 
-function gotoSub() { // 
+function gotoSub() { 
 	$("#userPds").hide();	
 	$("#userCollect").hide();
 	$("#userSub").show();
@@ -314,6 +368,7 @@ function gotoLike(){
 	$("#userPds").hide();
 	$("#userSub").hide();
 	$("#userCollect").show();
+	$("#userCollect").css("visibility","visible");
 }
 
 function veiwDetail(seq) { // 사진 상세 페이지로 이동
@@ -349,7 +404,7 @@ function doLike(){ // 좋아요 눌렀을 때
 <%}%>
 }
 <%--
-// 이거 테스트하는 동안만 숨겨놓은 거라서 실제 사용시에는 주석 삭제해야 
+// 이거 테스트하는 동안만 숨겨놓은 거라서 실제 사용시에는 주석 삭제해야 (미수정)
 //로그인한 id 와  유저페이지의 id 가 다를 때 숨기는 코드
 $(function () {
 	$(document).ready(function () {
@@ -363,19 +418,10 @@ $(function () {
 });
  --%>
  $(document).ready(function() {
-		//$.noConflict();
-		//var options = {minMargin: 5, maxMargin: 15, itemSelector: ".item", firstItemClass: "first-item"};
-		//$(".mcontainer").rowGrid(options);
 		$.noConflict();
-		/* var userCollectOpts = {minMargin: 5, maxMargin: 15, itemSelector: ".item", firstItemClass: "first-item"};
-		$("#mcontainer").rowGrid(userCollectOpts); */
-		var userCollectOpts = {minMargin: 5, maxMargin: 15, itemSelector: ".item", firstItemClass: "first-item"};
-		$(".mcontainer").rowGrid(userCollectOpts);
+		var options = {minMargin: 5, maxMargin: 15, itemSelector: ".item", firstItemClass: "first-item"};
+		$(".mcontainer").rowGrid(options);		
 	});
-</script>
-<script src="js/jquery.row-grid.js"></script>
-
-<script src="https://code.jquery.com/jquery-3.3.1.min.js">
 </script>
 
 </html>

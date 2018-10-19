@@ -26,7 +26,7 @@ String reRef = request.getParameter("reRef");
 				<span class='nickname'><%=id%></span>
 				<textarea id='writeReply' placeholder="<%=toWhom%>님에게 댓글 작성" name='content'></textarea>
 				<div align=right style='padding: 10px'>
-					<button class='btn-like' type='submit'>등록</button>
+					<button class='mybtn' type='submit'>등록</button>
 				</div>
 			</div>
 		</form>
@@ -51,9 +51,9 @@ String pdsSeq = request.getParameter("pdsSeq");
 				<span class='nickname'><%=id%></span>
 				<textarea id='writeReply' name='content'><%=content%></textarea>
 				<div align=right style='padding: 10px'>
-					<button class='btn-like' type='submit'>수정</button>
-					<button class='btn-like' type='button' onclick="deleteReply(<%=reSeq%>)">삭제</button>
-					<button class='btn-like' type='button' onclick="cancel(this,<%=reSeq%>)">취소</button>
+					<button class='mybtn' type='submit'>수정</button>
+					<button class='mybtn' type='button' onclick="deleteReply(<%=reSeq%>)">삭제</button>
+					<button class='mybtn' type='button' onclick="cancel(this,<%=reSeq%>)">취소</button>
 				</div>
 			</div>
 		</form>
@@ -97,7 +97,7 @@ String pdsSeq = request.getParameter("pdsSeq");
 			</span><br> 
 			<font style="font-size: 3px; color: graytext;"><%=re.getWdate()%></font><br> <!-- 날짜 -->
 			<% if (loginId != null) { %>
-			<button name="<%=re.getReRef()%>" onclick="addReply(this)" id="<%=re.getReSeq()%>" toWhom="<%=re.getId()%>">답변</button>
+			<button class="mybtn" name="<%=re.getReRef()%>" onclick="addReply(this)" id="<%=re.getReSeq()%>" toWhom="<%=re.getId()%>">답변</button>
 			<% } %>									
 		</div>
 	</li>

@@ -246,13 +246,8 @@ public class MemberManager implements iMemberManager {
 			DBClose.close(psmt, conn, rs);
 		}
 		return dto;
-	}
-	
-<<<<<<< HEAD
-	
+	}	
 
-=======
->>>>>>> branch 'JAEWOO' of https://github.com/gqpibd/SharePix.git
 	@Override
 	public boolean updateUser(MemberBean dto) {
 		
