@@ -42,6 +42,6 @@ public interface iPdsManager {
 
 	public boolean increaseReadcount(int seq);
 
-	
+	public boolean defaultProfileImg(String id);
 	 
 }

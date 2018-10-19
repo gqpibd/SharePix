@@ -1,25 +1,69 @@
 package controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+
 import dto.FollowDto;
 import dto.MemberBean;
 import dto.PdsBean;
 import model.service.MemberService;
 import model.service.PdsService;
+import utils.ImageResize;
 
 public class MemberController extends HttpServlet {
+	
+	public static final String PROFILEPATH = "C:\\Users\\이호영\\git\\sharePix\\SharePix\\WebContent\\images\\profiles";
+	
+	private ServletConfig mConfig = null; // 업로드 폴더의 realpath에 접근하기 위해서 필요하다
+	
+	public String profileUploadFile(FileItem fileItem, String dir, String dir2,String fSaveName) throws IOException {
+		String fileName = fileItem.getName();
+		long sizeInBytes = fileItem.getSize();	
+		// 업로드한 파일 정상일 경우
+		if(sizeInBytes > 0){ // c:\\temp\abc.jpg 또는 c:\\temp/abc.jpg
+			int idx = fileName.lastIndexOf("\\"); // 파일 경로 중 폴더의 끝. 즉, 파일명 시작 앞의 인덱스를 가져옴.
+			if(idx == -1){ // \를 못 찾으면
+				idx = fileName.lastIndexOf("/"); // /를 찾아라
+			}
+			fileName = fileName.substring(idx+1); // 파일 이름부터 확장자까지 가져옴
+			
+			File uploadedFile = new File(dir, fSaveName + fileName.substring(fileName.lastIndexOf(".")));
+			File uploadedFile2 = new File(dir2, fSaveName + fileName.substring(fileName.lastIndexOf(".")));
+			try{
+				fileItem.write(uploadedFile);
+				fileItem.write(uploadedFile2);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		return fileName;
+	}
 
+	@Override
+	public void init(ServletConfig config) throws ServletException { // mConfig값을 받기 위해 사용
+		super.init(config);
+		mConfig = config;
+	}
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		doProcess(req, resp);
@@ -34,6 +78,93 @@ public class MemberController extends HttpServlet {
 		req.setCharacterEncoding("utf-8");
 		resp.setContentType("text/html; charset=UTF-8");
 		
+		boolean isMultipart = ServletFileUpload.isMultipartContent(req);
+		
+		if (isMultipart) {
+			System.out.print("profile upload");					
+			
+			String filePathServer = mConfig.getServletContext().getRealPath("/images/pictures"); // 톰캣에도 저장하자
+			System.out.println(filePathServer);
+			
+			// form field 에 데이터(String)
+			String id = "";
+			String name = "";
+			String pwd = "";
+			String email = "";
+			String phone = "";
+
+			// file data
+			String filename = ""; // 어떤 파일이 넘어오는지 정보를 얻기 위한 것
+			String fSaveName = req.getParameter("id");
+
+			////////////////////// file
+			
+			String fupload = PROFILEPATH;
+			System.out.println("파일업로드:" + fupload);
+			String yourTempDirectory = fupload;
+			
+			int yourMaxRequestSize = 1000 * 1024 * 1024; // 10M
+			int yourMaxMemorySize = 1000 * 1024;
+
+			// FileItem 오브젝트를 생성하는 클래스
+			DiskFileItemFactory factory = new DiskFileItemFactory();
+
+			factory.setSizeThreshold(yourMaxMemorySize);
+			factory.setRepository(new File(yourTempDirectory));
+
+			ServletFileUpload upload = new ServletFileUpload(factory);
+			upload.setSizeMax(yourMaxRequestSize); // 파일 업로드 최대 크기
+			
+			List<FileItem> items;
+			try {
+				items = upload.parseRequest(req);
+				Iterator<FileItem> it = items.iterator();
+
+				while (it.hasNext()) {
+					FileItem item = it.next();
+					if (item.isFormField()) {
+						if (item.getFieldName().equals("id")) {
+							id = item.getString("utf-8");
+						} else if (item.getFieldName().equals("name")) {
+							name = item.getString("utf-8");
+						} else if (item.getFieldName().equals("pwd")) {
+							pwd = item.getString("utf-8");
+						} else if (item.getFieldName().equals("email")) {
+							email = item.getString("utf-8");
+						} else if (item.getFieldName().equals("phone")) {
+							phone = item.getString("utf-8");
+						}
+					} else { // fileload
+						if(item.getFieldName().equals("fileload")){
+							filename = profileUploadFile(item, fupload, filePathServer, fSaveName);							
+						}
+						if(filename != null){
+							System.out.println("저장 파일 경로 및 파일명: " + filename);							
+							fSaveName = fSaveName+filename.substring(filename.lastIndexOf("."));
+							System.out.println("저장 파일명: " + fSaveName);
+							ImageResize.resize25(PROFILEPATH,fSaveName, filePathServer);
+						}
+					}
+				}
+			} catch (FileUploadException e) {
+				e.printStackTrace();
+			}	
+
+			MemberService memberService = MemberService.getInstance();
+			MemberBean memDto = new MemberBean(id, name, pwd, email, phone, -1);
+			
+			boolean isS = memberService.updateUser(memDto);
+
+			if (isS) { // update가 되면 true 반환
+				resp.sendRedirect("userPage.jsp?id=" + memDto.getId());
+			} else {
+				resp.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = resp.getWriter();
+				out.println("<script>alert('개인정보 수정 실패'); location.href='./userPage.jsp?id=" + memDto.getId() + "';</script>");
+				out.flush();
+			}
+		}
+			
 		String command = req.getParameter("command");
 		System.out.println("Member / doProcess로  들어온 command : " + command);		
 		MemberService memService = MemberService.getInstance();
@@ -132,18 +263,19 @@ public class MemberController extends HttpServlet {
 		} else if(command.equals("userUpdatePage")){ // 회원정보 수정 페이지로 이동
 			System.out.println("command = " + command + "  들어옴");	// 확인용
 			dispatch("./userUpdatePage.jsp", req, resp);
-		} else if(command.equals("userUpdateAf")) {
+		} /*else if(command.equals("userUpdateAf")) {
 			System.out.println("command = " + command + "  들어옴");	// 확인용
 			
-			String id			= req.getParameter("id");
-			String name 		= req.getParameter("name");
-		    String pwd 			= req.getParameter("pwd");
-		    String email 		= req.getParameter("email");
-		    String str_Phone1 	= req.getParameter("phone1");
-		    String str_Phone2 	= req.getParameter("phone2");
-		    String str_Phone3 	= req.getParameter("phone3");
-		    
-		    String phone = str_Phone1 + "-" + str_Phone2 + "-" + str_Phone3; // 번호 사이에 - 넣기
+				String id			= req.getParameter("id");
+				String name 		= req.getParameter("name");
+				String pwd 		= req.getParameter("pwd");
+				String email 		= req.getParameter("email");
+				String phone		= req.getParameter("phone");
+				
+		  //String str_Phone1 	= req.getParameter("phone1");
+		  //String str_Phone2 	= req.getParameter("phone2");
+		  //String str_Phone3 	= req.getParameter("phone3");
+		  //String phone = str_Phone1 + "-" + str_Phone2 + "-" + str_Phone3; // 번호 사이에 - 넣기
 		    
 		    MemberBean dto = new MemberBean(id, name, pwd, email, phone, -1);
 		    
@@ -162,7 +294,7 @@ public class MemberController extends HttpServlet {
 				out.flush();
 				
 			}
-		} else if(command.equals("userPage")) { // userPage 로 이동
+		}*/ else if(command.equals("userPage")) { // userPage 로 이동
 			System.out.println("command = " + command + " 들어옴");	// 확인용
 			req.setCharacterEncoding("utf-8");
 			

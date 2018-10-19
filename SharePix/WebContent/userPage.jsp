@@ -18,12 +18,6 @@
  	loginMemDto = (MemberBean)ologin;// 세션에 담겨있던 로그인한 사람의 dto
 
 	MemberService memService = MemberService.getInstance();
-//	String pageId = request.getParameter("id");	// 해당 유저 페이지의 유저 id 
-//	PdsService pdsService = PdsService.getInstance();
-//	PdsBean pagePds = pdsService.getMyPdsAll(pageId); // 해당 유저 페이지의 유저 id로 찾은 pdsDto
-//	
-//	MemberBean pageMemDto = memService.getUserInfo(pageId);	//해당 페이지의 사용자 정보 가져온 memDto 
-//	List<PdsBean> list = pdsService.getMyPdsAllList(pageId); // 해당 페이지의 사용자 정보 list
 
 	String pageId = request.getParameter("id");	// 해당 유저 페이지의 유저 id                      
 	                                                                              
@@ -162,7 +156,7 @@
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<span><img title="조회 수" src="./images/icons/read.png" style="width: 25px">&nbsp;:&nbsp;<%=totalReadCount%> </span>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<span><img title="팔로워의 수" src="./images/icons/star.png" style="width: 25px; height:auto">&nbsp;:&nbsp;<%=fList.size()%></span>
+		<span><img title="팔로워의 수" src="./images/icons/many_follower.png" style="width: 40px; height:auto">&nbsp;:&nbsp;<%=fList.size()%></span>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<span class="ifNotMeHide">
 		<img title="<%=pageMemDto.getName()%>이(가) 좋아요한 사진 수" src="./images/icons/collection_empty.png" style="width: 25px">&nbsp;:&nbsp;<%=lList.size()%>&nbsp;&nbsp;</span>	
@@ -177,7 +171,8 @@
 		</button>
 		<input type="hidden" id="ajax_follow">
 		</div>
-	<%} else if(loginMemDto != null && !pageMemDto.getId().equals(loginMemDto.getId())) {%>
+	<%} else if(loginMemDto != null && !pageMemDto.getId().equals(loginMemDto.getId())) {
+		%>
 		<div align="center">
 		<button onclick="doFollow()"> <!-- 팔로우 버튼 -->
 			<img id="followImg" src="<%=follow%>" width="15"> 
@@ -187,17 +182,6 @@
 		<%
 	}%>
 </div>
-	<!-- </div> -->
-	
-	<%-- <span class="ifNotMeHide">
-		나를 구독한 사람들  : 
-		<%for (int i = 0; i < sList.size(); i++){
-			FollowDto sDto = sList.get(i);
-			%>
-			<a href="MemberController?command=userPage&id=<%=sDto.getFollowerId()%>"><%=sDto.getFollowerId()%></a> ,
-			<%
-		}%>
-	</span> --%>
 	<br>
 	
 	<hr>
@@ -264,11 +248,6 @@
 			}
 		%>
 	</div> 
-	<!-- <div class="userPds"> -->
-	<%-- <jsp:include page="userPagePds.jsp" flush="true">
-	    <jsp:param name="id" value="<%=pagePds.getId()%>"/>
-	</jsp:include> --%>
-	<!-- </div> -->
 	
 	<div id="userSub" class="ifNotMeHide" style="display: none"> <!-- 불러오긴 하나 숨김 -->
 		<jsp:include page="follow.jsp" flush="true">
@@ -281,49 +260,6 @@
 				<jsp:param name="command" value="favorites" />
 				<jsp:param name="id" value="${pageMemDto.id }"/>
 			</jsp:include>
-		<!-- <div id="userCollect" class="mcontainer" style="visibility: hidden"> -->
-			<%--
-			PATH = "images/";
-			like = "heart.png";
-			for (PdsBean Pdscust : lList) {
-				System.out.println("내 컬렉션" + PATH + "pictures/" + Pdscust.getfSaveName());
-				
-				String fSavename = Pdscust.getfSaveName();
-				String smallSrc = fSavename.substring(0,fSavename.lastIndexOf('.')) + "_small" + fSavename.substring(fSavename.lastIndexOf('.'));
-				
-				File f = new File(FileController.PATH + "\\" + fSavename);
-				 if (f.exists() && f.length()<300000) { // 300kb 이하의 이미지는 그냥 원본을 가져온다
-			    	  smallSrc = fSavename;			     
-			    }
-			--%>
-			<%-- <div class="item profilebox profilebox1">
-				<img class="img" name="item" src="<%=PATH%>pictures/<%=smallSrc%>"  
-				onclick="veiwDetail(<%=Pdscust.getSeq()%>)" height="300" alt="이미지 못 찾음" >
-				<div class="SocialIcons">
-					<a> <img alt="" src="<%=PATH%>icons\\<%=like%>"
-						onmouseover="this.src='<%=PATH%>icons\\fullheart.png'"
-						onmouseout="this.src='<%=PATH%>icons\\<%=like%>'"
-						onclick="doLike()" class="btn-like"> <label><%=Pdscust.getLikeCount()%></label>
-					</a> <a href="#" style="text-decoration: none; color: white;"> <img
-						alt="" src="<%=PATH%>icons\\openbook.png"
-						onmouseover="this.src='<%=PATH%>icons\\fullopenbook.png'"
-						onmouseout="this.src='<%=PATH%>icons\\openbook.png'"> <label><%=Pdscust.getReadCount()%></label>
-					</a> <a href="#" style="text-decoration: none; color: white;"> <img
-						alt="" src="<%=PATH%>icons\\contract.png"
-						onmouseover="this.src='<%=PATH%>icons\\fullcontract.png'"
-						onmouseout="this.src='<%=PATH%>icons\\contract.png'"> <label><%=Pdscust.getReplyCount()%></label>
-					</a>
-				</div>
-				<div class="profileInfo">
-					<h3>
-						<a href="MemberController?command=userPage&id=<%=Pdscust.getId()%>"
-							style="text-decoration: none; color: white;"><%=Pdscust.getId()%></a>
-					</h3>
-				</div>
-			</div> --%>
-			<%--
-				}
-			--%>
 		</div>
 	</div>
 </body>
@@ -344,7 +280,7 @@ function doFollow(){ // 팔로우 눌렀을 때
 			type:"get",		// 데이터 전송 방식
 			data:"command=follow&followeeId=" + <%=pageMemDto.getId()%> + "&followerId=<%=loginMemDto.getId()%>" +"&followChk=" + followChk, // 전송할 데이터
 			success:function(data, status, xhr){
-				console.log(data);
+				/* console.log(data); */
 				
 				followChk = $("#ajax_follow").html(data).find("followChk").text();
 				if(followChk == "false"){

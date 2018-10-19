@@ -201,15 +201,12 @@ $(document).ready(function(){
 	$("#phone").focus(function () {
 		$("#phone").attr("placeholder","010-XXXX-XXXX");
 	});
-	
 	$("#phone").focusout (function () {
 		$("#phone").attr("placeholder","");
 	});
 	$("#email").focus(function () {
 		$("#email").attr("placeholder","hello@sagong.com");
-		
 	});
-	
 	$("#email").focusout (function () {
 		$("#email").attr("placeholder","");
 	});

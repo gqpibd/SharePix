@@ -1,13 +1,6 @@
 <%@page import="dto.MemberBean"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%
-	MemberBean user = (MemberBean)session.getAttribute("login");
-	if(user == null){
-		response.sendRedirect("index.jsp");
-	}
-%>        
-
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -58,7 +51,7 @@ var loadImageFile = function () {
 	  var uploadImage = document.getElementById("upload-Image"); //파일 요소 가져와서
 	  
 	  //check and retuns the length of uploded file.
-	  if (uploadImage.files.length === 0) {  // 업로드 된게 있는지 확인하고
+	  if (uploadImage.files.length == 0) {  // 업로드 된게 있는지 확인하고
 	    return; 
 	  }
 	  
@@ -74,6 +67,14 @@ var loadImageFile = function () {
 </script>
 </head>
 <body onload="loadImageFile();">
+<%
+	MemberBean user = (MemberBean)session.getAttribute("login");
+	if(user == null){%>
+	<script type="text/javascript">
+		loginView();
+	</script>
+	<%}
+%>
 
 	<div style="height: 100%"> <!-- 타이틀바 -->
 		<jsp:include page="titlebar.jsp">
@@ -131,7 +132,6 @@ var loadImageFile = function () {
 		<input type="submit" value="올리기">
 		</div>
 		</form>
-
 	</div>
 </body>
 </html>
