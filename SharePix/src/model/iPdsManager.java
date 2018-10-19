@@ -39,7 +39,13 @@ public interface iPdsManager {
 	public boolean updatePDS(PdsBean pds);
 	
 	public List<PdsBean> getMyLikeList(String id);
+<<<<<<< HEAD
 
 	public boolean increaseReadcount(int seq);
+=======
+
+	public boolean increaseReadcount(int seq);
+	
+>>>>>>> branch 'JAEWOO' of https://github.com/gqpibd/SharePix.git
 	
 }

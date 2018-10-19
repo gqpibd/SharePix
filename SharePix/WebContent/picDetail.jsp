@@ -1,3 +1,4 @@
+<%@page import="model.MemberManager"%>
 <%@page import="model.service.MemberService"%>
 <%@page import="model.service.PdsService"%>
 <%@page import="model.iPdsManager"%>
@@ -187,9 +188,14 @@
 				<a href="#" class="download" id="downBtn"  download="<%=pds.getFileName()%>">다운로드</a>
 				<img  id="downloadImg" name="imgData" width="0"></img>				
 			</div> --%>
-			<% if(ologin != null && pds.getId().equals(ologin.getId())){ %>
+			<% if(ologin != null && pds.getId().equals(ologin.getId()) ){ %>
 				<button onclick="location.href='updatePds.jsp?seq=<%=pds.getSeq()%>'">수정</button>
 			<%} %>
+	
+	<%-- 		<% if(pds.getId().auth==3 ){ %>
+				<button onclick="location.href='updatePds.jsp?seq=<%=pds.getSeq()%>'">수정</button>
+			<%} %> --%>
+			
 			<% if(ologin != null && !pds.getId().equals(ologin.getId())){ %>
 				<button onclick="doFollow()">
 					<img id="followImg" src="<%=follow%>" width="15" id="follow">&nbsp;&nbsp;팔로우

@@ -248,8 +248,11 @@ public class MemberManager implements iMemberManager {
 		return dto;
 	}
 	
+<<<<<<< HEAD
 	
 
+=======
+>>>>>>> branch 'JAEWOO' of https://github.com/gqpibd/SharePix.git
 	@Override
 	public boolean updateUser(MemberBean dto) {
 		
