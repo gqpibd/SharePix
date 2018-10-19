@@ -1,3 +1,4 @@
+
 .pagingbtn ul {  
     text-align:center;  
 }  
@@ -38,17 +39,14 @@ padding:0px;
 font: 67.5% "Lucida Sans Unicode", "Bitstream Vera Sans", "Trebuchet Unicode MS", "Lucida Grande", Verdana, Helvetica, sans-serif;
 font-size:14px;
 font-weight:bold;
-
 }
 
 .menubar ul{
-background: #7F9BB9;
+background: rgb(109,109,109);
 height:50px;
 list-style:none;
 margin:0;
 padding:0;
-float:right;
-    
 }
 
 .menubar li{
@@ -57,8 +55,8 @@ padding:0px;
 }
 
 .menubar li a{
-background: #7F9BB9;
-color:#ffffff;
+background: rgb(109,109,109);
+color:#cccccc;
 display:block;
 font-weight:normal;
 line-height:50px;
@@ -75,7 +73,7 @@ text-decoration:none;
 }
 
 .menubar li ul{
-background: #87CEFA;
+background: rgb(109,109,109);
 display:none; /* 평상시에는 드랍메뉴가 안보이게 하기 */
 height:auto;
 padding:0px;
@@ -123,5 +121,5 @@ text-decoration:none;
 }
 
 .menubar p{
-clear:right;
+clear:left;
 }

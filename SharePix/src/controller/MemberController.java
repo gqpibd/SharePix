@@ -59,15 +59,14 @@ public class MemberController extends HttpServlet {
 		    	out.flush();
 		    }
 		    
-		}else if(command.equals("regi")) { 
-			
+		}else if(command.equals("regi")) { 			
 			String id = req.getParameter("id");
 			String pwd = req.getParameter("pwd");
 			String name = req.getParameter("name");
 			String email = req.getParameter("email");
 			String phone = req.getParameter("phone");
 			
-			boolean isS = memService.addMember(new MemberBean(id, pwd, name, email, phone, 0));
+			boolean isS = memService.addMember(new MemberBean(id, name, pwd, email, phone, 0));
 
 			if(isS) {
 				

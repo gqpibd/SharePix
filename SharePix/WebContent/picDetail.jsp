@@ -61,6 +61,8 @@
 <link rel="stylesheet" href="style/picDetail.css">
 <link rel="stylesheet" href="style/imageArrange.css">
 <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
+<link rel="shortcut icon" href="images/icons/favicon.ico">
+<link rel="stylesheet" href="style/common.css">
 <style type="text/css">
 .mybtn:focus, .btn:focus{
 	outline: 0;
@@ -84,8 +86,8 @@
 		<div class="tagsContainer">
 			<%
 				for (int i = 0; i < pds.getTags().length; i++) { // 태그 표시 부분
-			%>
-			<span class="tag" onclick="location.href='PdsController?command=keyword&tags=<%=pds.getTags()[i] %>'">#<%=pds.getTags()[i]%></span>
+			%>			
+			<span class="tag" onclick="location.href='PdsController?command=keyword&choice=SEQ&tags=<%=pds.getTags()[i] %>'">#<%=pds.getTags()[i]%></span>
 			<%
 			}
 			%>

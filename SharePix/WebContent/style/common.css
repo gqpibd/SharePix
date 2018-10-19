@@ -1,0 +1,25 @@
+@charset "EUC-KR";
+
+.tag {
+	margin : 5px;
+	background-color: #ededed;
+	-moz-border-radius: 17px;
+	-webkit-border-radius: 17px;+
+	border-radius: 17px;
+	border: 1px solid #dcdcdc;
+	display: inline-block;
+	cursor: pointer;
+	color: #777777;
+	font-family: Arial;
+	font-size: 19px;
+	padding: 6px 29px;
+	text-decoration: none;
+}
+
+.tag:hover {
+	background-color: #dfdfdf;
+}
+
+.clickable{
+	cursor: pointer;
+}

@@ -4,7 +4,7 @@ public class pagingUtil {
 	
 	public static PagingBean setPagingInfo(PagingBean paging) {
 		
-		paging.setCountPerPage(10);		// [1]	-> 10
+		paging.setCountPerPage(20);		// [1]	-> 10
 		paging.setBlockCount(10);		// [1] ~ [10]
 		
 		paging.setStartNum( paging.getTotalCount() 

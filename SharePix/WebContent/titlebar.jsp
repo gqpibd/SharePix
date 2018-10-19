@@ -118,6 +118,7 @@
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 <link rel="stylesheet" href="style/loginModal.css">
 
 
@@ -232,7 +233,7 @@ $(document).ready(function(){
 		<form action="PdsController" method="get">
 		<input type="hidden" name="command" value="keyword"> 
 		<input class="search__input" type="text" name="tags" placeholder="Search">
-	
+		<input type="hidden" name="choice" value="SEQ"> 
 		<!-- <input class="searchbtn1" type="submit" value=""> -->
 		</form>
 	</td>
@@ -246,15 +247,9 @@ $(document).ready(function(){
             class='profile re-img' align='middle'
             onerror="this.src='images/profiles/default.png'">
 		<span><%=user.getName() %>님 환영합니다. <a href="MemberController?command=logout"><font size="2">로그아웃</font></a></span>
-		<%-- <button class="fill sagongBtn" onclick="location.href='MemberController?command=userPage&id=<%=user.getId()%>'">마이페이지</button>
-		<button class="fill sagongBtn" onclick="location.href='pdswrite.jsp'">사진 올리기</button> --%>
-	<%-- <%} %> --%>
-	<!-- <input type="submit" value="로그인"> -->
 	</td>
-</tr>
-<tr>
-<!-- 	<td></td>
-	<td></td> -->
+	</tr>
+	<tr>
 	<td align="center" class="mar">
 		<button class="fill sagongBtn" onclick="location.href='MemberController?command=userPage&id=<%=user.getId()%>'"><font>마이페이지</font></button>
 		<button class="fill sagongBtn" onclick="location.href='pdswrite.jsp'">사진 올리기</button>

@@ -6,7 +6,9 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
-public class Sorter {
+import dto.PdsBean;
+
+public class CollenctionUtil {
 	public static List<String> sortByValue(HashMap<String, Integer> map) {
 	    List<String> sortedList = new ArrayList<>();
 	    sortedList.addAll(map.keySet());
@@ -19,5 +21,21 @@ public class Sorter {
 	    });
 	    //Collections.reverse(sortedList); // 주석시 오름차순
 	    return sortedList;
+	}
+	
+	public static HashMap<String, Integer> getHashMap(List<PdsBean> list){
+		HashMap<String, Integer> map = new HashMap<>();
+		for(int i=0;i<list.size();i++) {
+			for(int j=0;j<list.get(i).getTags().length;j++) {
+				String key = list.get(i).getTags()[j];
+				if(map.containsKey(key)) {
+					int value = map.get(key);
+					map.put(key, value+1);
+				}else {
+					map.put(key, 1);
+				}
+			}
+		}	
+		return map;
 	}
 }

@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import dto.PdsBean;
 import model.service.PdsService;
-import utils.Sorter;
+import utils.CollenctionUtil;
 
 public class PdsController extends HttpServlet {	
 	
@@ -51,12 +51,14 @@ public class PdsController extends HttpServlet {
 			dispatch("picDetail.jsp", req, resp);			
 		} else if (command.equalsIgnoreCase("keyword")) {
 			String keyword = req.getParameter("tags");
+			String choice = req.getParameter("choice");
 			System.out.println("검색 키워드 : " + keyword);
-			System.out.println("전 확인keyword dto");
+			System.out.println("검색 키워드 : " + choice);
 /*			PagingBean paging = new PagingBean();
 			List<PdsBean> searchList = PdsService.getInstance().getPdsPagingList(paging, keyword);*/
-			System.out.println("후 확인keyword dto"+ keyword);
+
 			req.setAttribute("keyword", keyword);
+			req.setAttribute("choice", choice);
 			dispatch("SearchView.jsp", req, resp);
 		} else if(command.equalsIgnoreCase("likeChange")) {
 			int seq=0;
@@ -78,12 +80,10 @@ public class PdsController extends HttpServlet {
 			boolean isS = PdsService.getInstance().delPDS(seq);
 			if(isS) {
 				System.out.println("삭제 성공");
-				
 				//resp.sendRedirect("PdsController?command=detailview&seq=" + seq);
 				resp.sendRedirect("./index.jsp");
 			}	
 			else{
-				
 				PrintWriter out = resp.getWriter();
 				out.println("<script>alert('삭제 실패'); location.href='./updatePds.jsp';</script>");
 			}

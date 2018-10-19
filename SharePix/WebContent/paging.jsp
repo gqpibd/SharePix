@@ -19,6 +19,7 @@ int countPerPage = (sCountPerPage == null || sCountPerPage.trim().equals(""))?1:
 int countPerBlock = (sBlockCount == null || sBlockCount.trim().equals(""))?1:Integer.parseInt(sBlockCount);
 
 String keyword = request.getParameter("keyword");
+String choice = request.getParameter("choice");
 
 // total page
 int totalPage = (int)((totalCount - 1) / countPerPage) + 1;
@@ -77,7 +78,8 @@ System.out.println("lastPage = " + lastPage);
 	<input type="hidden" name="nowPage">
 	<input type="hidden" name="command" value="keyword">
 	<input type="hidden" name="tags" value="<%=keyword %>">
-	<input style="display: none;" type="submit" name="command" value="kekword" >
+	<input type="hidden" name="choice" value="<%=choice %>">
+	<input style="display: none;" type="submit" name="command" value="keyword" >
 	
 
 	<div class="pagingbtn" align="center">

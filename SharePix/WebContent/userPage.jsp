@@ -95,10 +95,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
+<link rel="stylesheet" href="style/common.css">
 <style type="text/css">
-.img_clickable {
-	cursor: pointer;
-}
 .td {
 	text-align: center;
 	padding: 10px;
@@ -115,6 +113,7 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="js/jquery.row-grid.js"></script>
 <link rel="stylesheet" href="style/imageArrange.css">
+<link rel="shortcut icon" href="images/icons/favicon.ico">
 </head>
 <body>
 
@@ -145,7 +144,7 @@
 	<tr><td style="height: 20px" align="center">
 			<%if(loginMemDto != null && pageMemDto.getId().equals(loginMemDto.getId())){
 			%>
-			<img class="img_clickable" style="width: 40px; position: relative; bottom: 40px; left: 100px;" title="개인정보 수정" alt="" src="./images/icons/edit.png" onclick="location.href='MemberController?command=userUpdatePage'">
+			<img class="clickable" style="width: 40px; position: relative; bottom: 40px; left: 100px;" title="개인정보 수정" alt="" src="./images/icons/edit.png" onclick="location.href='MemberController?command=userUpdatePage'">
 			
 			<%
 			}%>
@@ -218,6 +217,7 @@
 			pdslist = PdsService.getInstance().getSearchPdsNull();
 		}
 		String like = "heart.png";
+		String reverslike = "fullheart.png";
 		for (PdsBean Pdscust : pdslist) {
 			String fSavename = Pdscust.getfSaveName();
 			String smallSrc = fSavename.substring(0,fSavename.lastIndexOf('.')) + "_small" + fSavename.substring(fSavename.lastIndexOf('.'));
@@ -226,25 +226,32 @@
 			 if (f.exists() && f.length()<300000) { // 300kb 이하의 이미지는 그냥 원본을 가져온다
 		    	  smallSrc = fSavename;			     
 		    }
+			 
 		%>
 		<div class="item profilebox profilebox1">
 			<img class="img" name="item" src="<%=PATH%>pictures/<%=smallSrc%>"  
 				onclick="veiwDetail(<%=Pdscust.getSeq()%>)" height="300" alt="이미지 못 찾음" 
 				style="cursor: pointer">
 			<div class="SocialIcons">
-				<a> <img alt="" src="<%=PATH%>icons\\<%=like%>"
-					onmouseover="this.src='<%=PATH%>icons\\fullheart.png'"
+				<a style="text-decoration: none; color: white;">
+					<img class="clickable" id="like_<%=Pdscust.getSeq()%>" alt="" src="<%=PATH%>icons\\<%=like%>"
+					onmouseover="this.src='<%=PATH%>icons\\<%=reverslike %>'"
 					onmouseout="this.src='<%=PATH%>icons\\<%=like%>'"
-					onclick="javascript:doLike()" class="btn-like"> <label><%=Pdscust.getLikeCount()%></label>
-				</a> <a href="#" style="text-decoration: none; color: white;"> <img
-					alt="" src="<%=PATH%>icons\\openbook.png"
-					onmouseover="this.src='<%=PATH%>icons\\fullopenbook.png'"
-					onmouseout="this.src='<%=PATH%>icons\\openbook.png'"> <label><%=Pdscust.getReadCount()%></label>
-				</a> <a href="#" style="text-decoration: none; color: white;"> <img
-					alt="" src="<%=PATH%>icons\\contract.png"
+					onclick="doLike('<%=Pdscust.getSeq()%>', this)"
+					style="vertical-align: middle; width: 40%; height: auto;" > 
+					<p id ="likeCount_<%=Pdscust.getSeq()%>"><%=Pdscust.getLikeCount()%></p>
+				</a><a href="#" style="text-decoration: none; color: white;"> 
+					<img alt="" src="<%=PATH%>icons\\downloadC.png"
+					onmouseover="this.src='<%=PATH%>icons\\fulldownloadC.png'"
+					onmouseout="this.src='<%=PATH%>icons\\downloadC.png'"
+					style="vertical-align: middle; width: 40%; height: auto;" > 
+					<p><%=Pdscust.getDownCount()%></p>
+				</a> <a href="#" style="text-decoration: none; color: white;"> 
+					<img alt="" src="<%=PATH%>icons\\contract.png"
 					onmouseover="this.src='<%=PATH%>icons\\fullcontract.png'"
-					onmouseout="this.src='<%=PATH%>icons\\contract.png'"> <label><%=Pdscust.getReplyCount()%></label>
-				</a>
+					onmouseout="this.src='<%=PATH%>icons\\contract.png'"
+					style="vertical-align: middle; width: 40%; height: auto;" > 
+					<p><%=Pdscust.getReplyCount()%></p>
 			</div>
 			<div class="profileInfo">
 				<h3>
@@ -272,7 +279,7 @@
 		<div id="userCollect">
 			<jsp:include page="imageGrid.jsp" flush="true">
 				<jsp:param name="command" value="favorites" />
-				<jsp:param name="id" value="${pagePds.id }"/>
+				<jsp:param name="id" value="${pageMemDto.id }"/>
 			</jsp:include>
 		<!-- <div id="userCollect" class="mcontainer" style="visibility: hidden"> -->
 			<%--

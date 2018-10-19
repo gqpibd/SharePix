@@ -30,7 +30,7 @@ public interface iPdsManager {
 	
 	public List<PdsBean> getSearchPdsNull();
 
-	public List<PdsBean> getPdsPagingList(PagingBean paging, String keyword);
+	public List<PdsBean> getPdsPagingList(PagingBean paging, String keyword, String choice);
 	
 	public boolean writePds(PdsBean pds);
 	
@@ -41,5 +41,7 @@ public interface iPdsManager {
 	public List<PdsBean> getMyLikeList(String id);
 
 	public boolean increaseReadcount(int seq);
+
+	
 	 
 }
