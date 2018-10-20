@@ -35,7 +35,7 @@ public class ReplyService {
 		return rManager.getReply(reSeq);
 	}
 
-	public boolean updateReply(int reSeq, String content) {		
+	public boolean updateReply(int reSeq, String content) {
 		return rManager.updateReply(reSeq, content);
 	}
 

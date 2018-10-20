@@ -1,9 +1,16 @@
+<%@page import="model.service.AlarmService"%>
+<%@page import="dto.AlarmBean"%>
+<%@page import="java.util.List"%>
 <%@page import="dto.MemberBean"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
 	MemberBean user = (MemberBean) session.getAttribute("login");
 	String goBackTo = request.getParameter("goBackTo");
+	int alarmCount = 0;
+	if(user!=null){
+		alarmCount = AlarmService.getInstance().getAlarmList(user.getId()).size(); 
+	}
 	
 %>
 <!DOCTYPE html>
@@ -107,13 +114,11 @@
 
 </style> 
 
-
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <link rel="stylesheet" href="style/loginModal.css">
 <link rel="stylesheet" href="style/common.css">
-
 
 <script type="text/javascript">
 function idCheck() {
@@ -152,14 +157,11 @@ function pwdCheck() {
 	}	
 }
 
-function emailCheck() {
-	 
+function emailCheck() {	 
 	  // 이메일 검증 스크립트 작성
 	  var emailVal = $("#email").val();
-
 	  var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 	  // 검증에 사용할 정규식 변수 regExp에 저장
-
 	  if (emailVal.match(regExp) != null) {
 	    alert("이메일을 올바르게 입력했습니다.");
 	  }
@@ -168,16 +170,11 @@ function emailCheck() {
 	    $("#email").val("");
 	    $("#email").focus();  
 	  }
-	
-	
 }
 
-function phoneCheck() {
-	
-	var phoneVal = $("#phone").val();
-	
+function phoneCheck() {	
+	var phoneVal = $("#phone").val();	
 	var regExp = /^\d{3}-\d{3,4}-\d{4}$/;
-
 	if (phoneVal.match(regExp) != null) {
 	   alert("번호를 올바르게 입력했습니다.");
 	  }
@@ -186,15 +183,6 @@ function phoneCheck() {
 	    $("#phone").val("");
 	    $("#phone").focus();  
 	  }
-	
-	
-}
-
-function emailCheck() {
-	
-	
-	
-	
 }
 
 
@@ -214,9 +202,6 @@ $(document).ready(function(){
 })
 </script>
 
-
-
-
 </head>
 <body>
 <div id="top-menu" >
@@ -227,7 +212,6 @@ $(document).ready(function(){
 		<p class="title" onclick="location.href='index.jsp'"><font size="5">SaGong'ssi</font></p>
 	</td>
 	<td rowspan="2">
-
 		<form action="PdsController" method="get">
 		<input type="hidden" name="command" value="keyword"> 
 		<input class="search__input" type="text" name="tags" placeholder="Search">
@@ -238,8 +222,6 @@ $(document).ready(function(){
 	<td align="center" class="mar">
 	<% if(user==null){ %>
 		<button class="fill sagongBtn" id="titleBtn" href="#signup" data-toggle="modal" data-target=".log-sign">Sign In/Register</button>
-		<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" style="margin-right: 5px;">로그인</button>
-		<button type="button" class="btn btn-primary" onclick="location.href='regi.jsp'" style="margin-left: 5px;">회원가입</button> -->
 	<%}else{ %>
 		<img src='images/profiles/<%=user.getId()%>.png' width='100px'
             class='profile_img' align='middle'
@@ -248,18 +230,18 @@ $(document).ready(function(){
 	</td>
 	</tr>
 	<tr>
-	<td align="center" class="mar">
-		<button class="fill sagongBtn" onclick="location.href='MemberController?command=userPage&id=<%=user.getId()%>'"><font>마이페이지</font></button>
-		<button class="fill sagongBtn" onclick="location.href='pdswrite.jsp'">사진 올리기</button>
-		
-	<%-- 	<% if(user != null && user.getAuth == 3){ %>
-				<button class="fill sagongBtn" onclick="location.href='manager.jsp'">관리자모드</button>
-			<%} %> --%>
-			<!-- <button class="fill sagongBtn" onclick="location.href='manager.jsp'">관리자 모드</button> -->
-		<!-- <button class="fill sagongBtn" onclick="location.href='manager.jsp'">관리자 모드</button> -->
-	<!-- <input type="submit" value="로그인"> -->
-	</td>
+	<td align="center" class="mar">		
+		<%if(user.getAuth() == 3){ %>
+			<button class="fill sagongBtn" onclick="location.href='manager.jsp'">관리자모드</button>
+		<%}else{ %>
+			<button class="fill sagongBtn" onclick="location.href='MemberController?command=userPage&id=<%=user.getId()%>'"><font>마이페이지</font></button>
+			<button class="fill sagongBtn" onclick="location.href='pdswrite.jsp'">사진 올리기</button>	
+			<%if(alarmCount>0){ %>
+			<button class="fill sagongBtn" id="alarm" onclick="location.href='myAlarms.jsp'">새 소식(<%= alarmCount %>)</button>	
+			<%}
+		} %>			
 	<%} %>
+	</td>
 </tr>
 </table>
 </div> 
@@ -269,6 +251,9 @@ var header = document.getElementById("top-menu");
 var sticky = header.offsetTop;
 function loginView(){
 	$("#titleBtn").click();
+}
+function updateAlarm(newCount){
+	$("#alarm").text("새 소식("+newCount+")");
 }
 </script>
 
@@ -432,8 +417,7 @@ function loginView(){
               </div>
             </div>
           </fieldset>
-            </form>
-          
+          </form>
       </div>
     </div>
     

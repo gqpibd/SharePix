@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dto.PdsBean;
+import model.service.AlarmService;
 import model.service.PdsService;
 import utils.CollenctionUtil;
 import utils.FileUtil;
@@ -131,7 +132,20 @@ public class PdsController extends HttpServlet {
 				out.println("<script>alert('수정 실패'); location.href='./index.jsp';</script>");
 				out.flush();
 			}
-		} 
+		} else if(command.equals("readAlarm")) {
+			int alarmSeq = Integer.parseInt(req.getParameter("alarmSeq"));
+			int pdsSeq = Integer.parseInt(req.getParameter("pdsSeq"));
+			AlarmService.getInstance().deleteAlarm(alarmSeq);			
+			dispatch("PdsController?command=detailview&seq=" + pdsSeq, req, resp);			
+		} else if(command.equals("deleteAlarm")) {
+			int alarmSeq = Integer.parseInt(req.getParameter("seq"));
+			String id = req.getParameter("id");
+			AlarmService.getInstance().deleteAlarm(alarmSeq);
+			int count = AlarmService.getInstance().getAlarmList(id).size();
+			PrintWriter out = resp.getWriter();			
+			out.println(count);
+			out.flush();
+		}
 	}
 
 	public void dispatch(String urls, HttpServletRequest req, HttpServletResponse resp)

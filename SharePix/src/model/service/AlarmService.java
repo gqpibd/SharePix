@@ -43,6 +43,13 @@ public class AlarmService {
 		if(!fromId.equals(pdsWriter) && !toId.equals(pdsWriter)) { // 게시글 작성자와 댓글작성자 댓글 받는사람이 모두 다른 경우 게시글 작성자에게 따로 알람 추가해줌
 			manager.insertAlarm(new AlarmBean(pdsWriter,fromId,AlarmBean.NEWREPLY,pdsSeq));
 		}
-		
+	}
+	
+	public List<AlarmBean> getAlarmList(String id){
+		return manager.getAlarmList(id);
+	}
+
+	public void deleteAlarm(int alarmSeq) {
+		manager.deleteAlarm(alarmSeq);
 	}
 }

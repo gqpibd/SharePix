@@ -197,7 +197,7 @@ public class MemberController extends HttpServlet {
 			String email = req.getParameter("email");
 			String phone = req.getParameter("phone");
 			
-			boolean isS = memService.addMember(new MemberBean(id, name, pwd, email, phone, 0));
+			boolean isS = memService.addMember(new MemberBean(id, name, pwd, email, phone, 1));
 
 			if(isS) {
 				

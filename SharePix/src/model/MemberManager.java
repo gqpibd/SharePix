@@ -37,11 +37,10 @@ public class MemberManager implements iMemberManager {
 	/////////////////////////////////////////////////////
 	
 	@Override
-	public boolean addMember(MemberBean dto) {
-		
+	public boolean addMember(MemberBean dto) {		
 		String sql = " INSERT INTO MEMBER"
 				+ " (ID, PWD, NAME, EMAIL, PHONE, AUTH) "
-				+ " VALUES(?, ?, ?, ?, ?, 3) ";
+				+ " VALUES(?, ?, ?, ?, ?, 1) ";
 		
 		int count = 0;
 

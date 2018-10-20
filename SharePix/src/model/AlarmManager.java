@@ -13,6 +13,10 @@ import dto.AlarmBean;
 
 public class AlarmManager implements iAlarmManager {
 	
+	public AlarmManager() {
+		DBConnection.initConnection();
+	}
+	
 	@Override
 	public List<AlarmBean> getAlarmList(String id) {	// 내가 좋아요한 리스트
 		String sql  = " SELECT SEQ, TOID, FROMID, ATYPE, PDSSEQ, ADATE " 
@@ -37,12 +41,9 @@ public class AlarmManager implements iAlarmManager {
 			System.out.println("2/6 getAlarmList Success");
 
 			while (rs.next()) {
-				String regdate = rs.getString("UPLOADDATE");
-				regdate = regdate.substring(0, regdate.lastIndexOf('.'));
-
 				// TOID, FROMID, TYPE, PDSSEQ, ADATE
 				AlarmBean bean = new AlarmBean(rs.getInt("SEQ"), rs.getString("TOID"), rs.getString("FROMID"),
-						rs.getInt("TYPE"), rs.getInt("PDSSEQ"), rs.getString("ADATE"));
+						rs.getInt("ATYPE"), rs.getInt("PDSSEQ"), rs.getString("ADATE"));
 				list.add(bean);
 			}
 			System.out.println("3/6 getMyLikeList Success");
