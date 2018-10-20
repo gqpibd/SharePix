@@ -345,6 +345,12 @@ public class MemberController extends HttpServlet {
 			resp.getWriter().write("<followChk>" +!followChk +"</followChk>");
 			resp.getWriter().flush();
 		}
+		
+		
+		
+		
+		
+		
 	}
 	
 	public void dispatch( String urls, HttpServletRequest req, HttpServletResponse resp ) throws ServletException, IOException { 

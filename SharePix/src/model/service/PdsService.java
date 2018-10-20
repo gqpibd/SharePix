@@ -92,6 +92,7 @@ public class PdsService {
 	public List<PdsBean> getMyPdsAllList(String id){
 		return pDao.getMyPdsAllList(id);
 	}
+
 	
 	public boolean writePds(PdsBean pds) {
 		return pDao.writePds(pds);
@@ -126,5 +127,9 @@ public class PdsService {
 	public boolean updatereport(int seq) {
 		return pDao.updatereport(seq);
 
+	}
+	
+	public List<PdsBean> getsingoPdsAllList(){
+		return pDao.getsingoPdsAllList();
 	}
 } 

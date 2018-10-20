@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -12,6 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dto.FollowDto;
+import dto.MemberBean;
 import dto.PdsBean;
 import model.service.PdsService;
 import utils.CollenctionUtil;
@@ -136,8 +139,29 @@ public class PdsController extends HttpServlet {
 				out.flush();
 			}
 			
-			
 		} 
+		
+		/*else if (command.equals("manager")) {
+			System.out.println("command = " + command + "  들어옴"); // 확인용
+			// int report = Integer.parseInt(req.getParameter("report")); //이거 필요 없고	
+
+			List<PdsBean> list = PdsService.getInstance().getsingoPdsAllList(); 
+			
+			if(list==null){
+				list = new ArrayList<>();
+			}
+			System.out.println(list.size());		
+			req.setAttribute("list", list);		
+			
+			dispatch("manager.jsp", req, resp);
+			///여기서 리스트를 뭘로 보내줬죠?맞아요 list로 이름 붙였죠
+		}*/
+		
+		
+
+		
+		
+		
 	}
 
 	public void dispatch(String urls, HttpServletRequest req, HttpServletResponse resp)

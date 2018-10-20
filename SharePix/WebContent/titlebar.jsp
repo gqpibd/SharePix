@@ -3,6 +3,7 @@
     pageEncoding="UTF-8"%>
 <%
 	MemberBean user = (MemberBean) session.getAttribute("login");
+
 	String goBackTo = request.getParameter("goBackTo");
 	
 %>
@@ -251,13 +252,11 @@ $(document).ready(function(){
 	<td align="center" class="mar">
 		<button class="fill sagongBtn" onclick="location.href='MemberController?command=userPage&id=<%=user.getId()%>'"><font>마이페이지</font></button>
 		<button class="fill sagongBtn" onclick="location.href='pdswrite.jsp'">사진 올리기</button>
-		
-	<%-- 	<% if(user != null && user.getAuth == 3){ %>
+
+		<% if(user.getAuth() == 3){ %>
 				<button class="fill sagongBtn" onclick="location.href='manager.jsp'">관리자모드</button>
-			<%} %> --%>
-			<!-- <button class="fill sagongBtn" onclick="location.href='manager.jsp'">관리자 모드</button> -->
-		<!-- <button class="fill sagongBtn" onclick="location.href='manager.jsp'">관리자 모드</button> -->
-	<!-- <input type="submit" value="로그인"> -->
+			<%}//좋아요 다른데가요 ?네 근데 아이디를 굳이 안 보내도 될거같아요 끝되나 실행해볼까요 넵 !%> 
+
 	</td>
 	<%} %>
 </tr>

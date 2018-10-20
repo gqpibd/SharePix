@@ -881,5 +881,71 @@ public class PdsManager implements iPdsManager {
 		return count > 0 ? true : false;
 	}  
 	
+	@Override
+	   public List<PdsBean> getsingoPdsAllList() {// report 1에 해당하는 것들 list로 뽑아오기
+	      
+	      List<PdsBean> list = new ArrayList<>();
+	      
+	      String sql  = " SELECT SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, "
+	               + " READCOUNT, DOWNCOUNT, FSAVENAME "
+	               + " FROM PICPDS "  
+	               + " WHERE REPORT=1 "; // ㅋㅋ 미안해요 여기서 report 값이 필요하네 ㅋㅋ 미안해요 정신없네
+	      // 이게 PDSALL은 테이블이 아니고 VIEW인데.. 수저을 해야되겠네요..흠. 아 잘못갖져왓나보네요 ..아 그게 아니라.
+	      // 그럼 이렇게 가져오지말고
+	      // 사진 올릴때 PICPDS로 했잖아요? 그게 원래테이블이고
+	      // PICPDS + REPLYPDS + LIKEPDS 이거 다 합쳐서 만든게 PDSALL이에요
+	      // 근데 PDSALL에는 REPORT값이 없어서 우리는 여기서는 PICPDS를 사용할 거에요
+	      // 저는 그 저렇게된이미지를 그대로 불러야된다고 생각해서 그게 필요할거라고 생각이드는데
+	      // PICPDS랑 PDSALL이랑 거의 비슷한데 LIKECOUNT랑 REPLYCOUNT가 없는게 달라요
+	      // 그래서 HOVER할때 뜨는거는 안보일거에요. 근데 그게 개인페이지 내 컬렉션에서도 안 보이거든요
+	      // 어차피 그걸 불러서 쓸거라 괜찮은데 말로 설명하기 힘드네요// 넵 ㅠㅠ // 이렇게 하면 되요 그 밑에 where구절은 맞나여 ? 1인값 맞아요잘 하셨네요
+
+	      Connection conn = null;
+	      PreparedStatement psmt = null;
+	      ResultSet rs = null;
+	      
+	      PdsBean dto = null;
+	      
+	      try {
+	         conn = DBConnection.getConnection();
+	         System.out.println("1/6 getSingoPdsAllList success");
+	         psmt = conn.prepareStatement(sql);
+	         //psmt.setInt(1, report); // 이거는 ?에 값을 넣는건데 위에 쿼리문에는 ?가 없죠?네 필요없겠네요
+	         // 아까 여기서 report뺐으니까 받아올 필요 없어졌죠. 다 지웠어요아 아 넵
+	         
+	         rs = psmt.executeQuery();
+	         System.out.println("2/6 getSingoPdsAllList success");
+	         
+	         while(rs.next()) {
+	            
+	            String[] tag = rs.getString(4).substring(1).split("#");
+	            
+	            dto = new PdsBean(rs.getInt(1),             // seq
+	                    rs.getString(2),        //   id
+	                    rs.getString(3),       // CATEGORY
+	                    tag,        
+	                    rs.getString(5),     // uploaddate
+	                    rs.getString(6),    // filename     
+	                    rs.getInt(7),              // readcount    
+	                    rs.getInt(8),              // downcount    
+	                    0,       // likeCount
+	                    0,      //replyCount
+	                    rs.getString(9));      // fileSaveName
+	            
+	            list.add(dto);
+	            
+	         }
+	         
+	         System.out.println("3/6 getSingoPdsAllList success");
+	         
+	      } catch (SQLException e) {
+	         System.out.println("getSingoPdsAllList fail");
+	         e.printStackTrace();
+	      } finally {
+	         DBClose.close(psmt, conn, rs);
+	      }
+	      return list;
+	   } // 여기는 된거같아요 ^-^굿 그 다른데 보여드릴게요 일단
+	
 	
 }

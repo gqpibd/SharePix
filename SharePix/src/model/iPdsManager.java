@@ -45,4 +45,6 @@ public interface iPdsManager {
 	public boolean defaultProfileImg(String id);
 	 
 	 public boolean updatereport(int seq);
+
+	 public List<PdsBean> getsingoPdsAllList();
 }

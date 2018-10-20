@@ -20,8 +20,11 @@
 		list = PdsService.getInstance().myLikePdsList(id); // 즐겨찾기한 사진들을 모아서 보여줌
 		tagMap = CollenctionUtil.getHashMap(list);	
 		it = CollenctionUtil.sortByValue(tagMap).iterator();
-	}else if(command.equals("userPds")){
-		
+	}else if(command.equals("userPds")){// controller처럼 command로 가져올거에요 커맨드를 리포트로 해서 아래 코드는 손 안대고 여기만 고치면 되요
+		// 리스트를 컨트롤러에서 보내줄게 아니라 여기서 서비스로 받아야겠네.. 흠 조금 고쳐야겠어요
+	}else if(command.equals("manager")){ // 불러오는데서 명령어를 줘야겠죠 아까 매니저제이에스피로 돌아갈까요 그럼 컨트롤러에만들어놓은건 업어두?ㅇㅇ 없어두 되겠네요
+		// 컨트롤러에서 리스트 불러왔던 명령 있죠? 그거 여기서 적어주시면 되요다옿다오에서 불러오는거				
+		list = PdsService.getInstance().getsingoPdsAllList();// 그럼 끝인데
 	}
 %>
 
@@ -49,7 +52,7 @@
 }
 </style>	
 <div class="container" align="center" >
-<%	
+<%	if(tagMap!=null){
 //25 20 15 10
 int iter = 0; // 지금 위치가 몇 번째인지 갯수를 세자
 int size = 30;
@@ -69,7 +72,8 @@ while(it.hasNext()) {
     if(iter>15){
     	break;
     }
-   } %>
+   }
+}%>
 	
 </div>
 <div class="mcontainer" >
