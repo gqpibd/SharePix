@@ -58,8 +58,8 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="js/jquery.row-grid.min.js"></script>
 <link rel="stylesheet" href="style/imageArrange.css">
-<link rel="stylesheet" href="style/imagehover.css">
 <link rel="stylesheet" href="style/pagingbtn.css">
+<link rel="shortcut icon" href="images/icons/favicon.ico">
 </head>
 <body>
 	<div style="height: 100%"> <!-- 타이틀바 -->
@@ -159,7 +159,8 @@
 				</a> 
 			</div>
 			<div class="profileInfo">
-	        	<h3><a href= "MemberController?command=userPage&id=<%=Pdscust.getId()%>"><%=Pdscust.getId()%></a></h3>
+	        	<h3><a style="text-decoration:none; color: white;
+	        		   href= "MemberController?command=userPage&id=<%=Pdscust.getId()%>"><%=Pdscust.getId()%></a></h3>
 	    	</div>
 
 	</div>

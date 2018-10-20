@@ -38,6 +38,7 @@
 
 <script src="js/jquery.row-grid.min.js"></script>
 <link rel="stylesheet" href="style/imageArrange.css">
+<link rel="shortcut icon" href="images/icons/favicon.ico">
 <!-- 검색된 사진들 -->
 <% if (pdslist==null ||pdslist.size() == 0) { %>	
 <table style="width: 100%">

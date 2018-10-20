@@ -9,13 +9,10 @@
     pageEncoding="UTF-8"%>
 <%
    MemberBean user = (MemberBean)session.getAttribute("login");
-   if(user == null){
-      response.sendRedirect("index.jsp");
-   }
    
-   List<PdsBean> pdslist = PdsService.getInstance().getSearchPdsNull();
-   HashMap<String,Integer> tagMap = CollenctionUtil.getHashMap(pdslist);	
-   Iterator<String> it = CollenctionUtil.sortByValue(tagMap).iterator();
+   
+   HashMap<String,Integer> tagMap = CollenctionUtil.getHashMap(PdsService.getInstance().getSearchPds(""));	
+   Iterator<String> it = CollenctionUtil.sortByValueReverse(tagMap).iterator();
 %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -24,6 +21,7 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:100,300,400">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100">
+<link rel="shortcut icon" href="images/icons/favicon.ico">
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -106,6 +104,12 @@ var loadImageFile = function () {
 </script>
 </head>
 <body onload="loadImageFile();">
+	<%if(user == null){%> 
+		<script type="text/javascript">
+			loginView();
+		</script>
+	<%} %>
+   
 	<div style="height: 100%">
 		<!-- 타이틀바 -->
 		<jsp:include page="titlebar.jsp">
@@ -153,7 +157,7 @@ var loadImageFile = function () {
 						<!-- <select name="category" class="btn btn-default dropdown-toggle"><span class="caret"></span> -->
 						<div align="center">
 						<select name="category" class="btn btn-default dropdown-toggle">
-							<option disabled value="카테고리" selected="selected" >카테고리</option>
+							<option value="카테고리" selected="selected" >카테고리</option>
 							<option value="자연">자연</option>
 							<option value="인물">인물</option>
 							<option value="음식">음식</option>
@@ -165,7 +169,7 @@ var loadImageFile = function () {
 						<div style="width: 95%; margin: 15px">							
 							<textarea class="form-control" name="tags" id="tagArea" placeholder="태그(#구분)"></textarea>
 						</div><br>
-						<p style="margin-top: 5px; margin-bottom: 5px; font-weight: bold;">추천태그</p>
+						<p style="margin-top: 5px; margin-bottom: 5px; font-weight: bold;">이런 태그가 필요해요</p>
 						<div id="tags" align="center">
 							
 							<%
@@ -177,7 +181,7 @@ var loadImageFile = function () {
 								<span class="tag" onclick="addTag('<%=temp%>')" style="font-size: 15px; padding: 7px; margin: 2px">#<%=temp%></span>	
 							<%
 								iter++;
-								if(iter>13){ // 10개 까지만 보여줌
+								if(iter>18){ 
 								 	break;
 								}
 							}}%>
@@ -189,7 +193,7 @@ var loadImageFile = function () {
 			<div style="position: relative; float: bottom;">
 				<!--  <input type="right" name="command" value="pdsupload"> -->
 				<!-- <input align="right" type="submit"value="올리기"> -->
-				<input class="fill sagongBtn" type="submit" value="올리기">
+				<input class="fill sagongBtn" type="button" onclick="checkAndSubmit()" value="올리기">
 				<button class="fill sagongBtn" type="button" onclick="location.href='index.jsp'">나가기</button>
 			</div>
 
@@ -198,6 +202,15 @@ var loadImageFile = function () {
 	<script type="text/javascript">
 		function addTag(tagName) {
 			$("#tagArea").val($("#tagArea").val() + "#" + tagName);
+		}
+		function checkAndSubmit(){
+			if($("select[name='category']").val() == "카테고리"){
+				alert("카테고리를 입력해 주세요");
+				$("select[name='category']").focus();
+				return;
+			}else{
+				$("#pdswrite").submit();
+			}
 		}
 	</script>
 </body>

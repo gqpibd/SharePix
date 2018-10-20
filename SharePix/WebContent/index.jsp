@@ -22,9 +22,8 @@
 		pdslist = PdsService.getInstance().getSearchPdsNull();
 	}
 	System.out.println(pdslist.size());
-	HashMap<String,Integer> tagMap = CollenctionUtil.getHashMap(pdslist);	
+	HashMap<String,Integer> tagMap = CollenctionUtil.getHashMap(PdsService.getInstance().getSearchPds(""));	
 	Iterator<String> it = CollenctionUtil.sortByValue(tagMap).iterator();
-	System.out.println(pdslist.size());
 	PdsService pService = PdsService.getInstance();
 	MemberBean ologin = (MemberBean) session.getAttribute("login");
 	String id = "";
@@ -55,12 +54,13 @@
 	<%
 	if(it!=null){
 	int iter = 0; // 지금 위치가 몇 번째인지 갯수를 세자
-	int size = 30;
+	int size = 30; // 글자 크기
 	int prevCount = -1; // 이전 갯수
 	int currCount = -1; // 현재 갯수
-	while(it.hasNext()) {		
+	while(it.hasNext()) {
 		String temp = (String) it.next();        
 	    currCount = tagMap.get(temp);
+		//System.out.println(temp + " : " + currCount); 확인용 출력
 	    if(prevCount != -1 && prevCount > currCount){
 			size = size-3;       	
 	    }
@@ -165,8 +165,7 @@
 	function doLike(seq1, item){ // 좋아요 눌렀을 때			
 		<%if (ologin == null) {%>
 			loginView();
-		<%} else {
-		%> 
+		<%} else {%> 
 		 console.log(seq1);
 		 var selector2 = "#likeCount_" + seq1;
 			$.ajax({

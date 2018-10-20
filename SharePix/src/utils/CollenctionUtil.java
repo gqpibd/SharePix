@@ -9,7 +9,7 @@ import java.util.List;
 import dto.PdsBean;
 
 public class CollenctionUtil {
-	public static List<String> sortByValue(HashMap<String, Integer> map) {
+	public static List<String> sortByValue(HashMap<String, Integer> map) { // 내림차순
 	    List<String> sortedList = new ArrayList<>();
 	    sortedList.addAll(map.keySet());
 	    Collections.sort(sortedList,new Comparator<String>() {
@@ -19,7 +19,19 @@ public class CollenctionUtil {
 	            return (v2).compareTo(v1);
 	        }
 	    });
-	    //Collections.reverse(sortedList); // 주석시 오름차순
+	    return sortedList;
+	}
+	
+	public static List<String> sortByValueReverse(HashMap<String, Integer> map) { // 오름차순 정렬
+	    List<String> sortedList = new ArrayList<>();
+	    sortedList.addAll(map.keySet());
+	    Collections.sort(sortedList,new Comparator<String>() {
+	        public int compare(String o1,String o2) {
+	            Integer v1 = map.get(o1);
+	            Integer v2 = map.get(o2);     
+	            return (v1).compareTo(v2);
+	        }
+	    });
 	    return sortedList;
 	}
 	

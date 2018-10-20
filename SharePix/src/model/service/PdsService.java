@@ -3,10 +3,12 @@ package model.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import controller.FileController;
 import dto.PagingBean;
 import dto.PdsBean;
 import model.PdsManager;
 import model.iPdsManager;
+import utils.FileUtil;
 
 public class PdsService {
 	private static PdsService pdsService = new PdsService();
@@ -96,6 +98,8 @@ public class PdsService {
 	}
 	
 	public boolean delPDS(int seq) {
+		PdsBean delBean = PdsService.getInstance().getPdsDetail(seq); // 사진 파일을 삭제하기 위해서는 이름을 알아야 한다.
+		FileUtil.deleteFile(FileController.PATH + "/" + delBean.getfSaveName(), null);
 		return pDao.delPDS(seq);
 
 	}

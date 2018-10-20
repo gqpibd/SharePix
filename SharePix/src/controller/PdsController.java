@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import dto.PdsBean;
 import model.service.PdsService;
 import utils.CollenctionUtil;
+import utils.FileUtil;
 
 public class PdsController extends HttpServlet {	
 	
@@ -76,8 +77,9 @@ public class PdsController extends HttpServlet {
 			System.out.println("command = " + command + "  들어옴"); // 확인용
 			dispatch("./updatePds.jsp", req, resp);
 		} else if(command.equals("delete")) {
-			int seq = Integer.parseInt(req.getParameter("seq"));
-			boolean isS = PdsService.getInstance().delPDS(seq);
+			int seq = Integer.parseInt(req.getParameter("seq"));			
+			boolean isS = PdsService.getInstance().delPDS(seq);		
+			
 			if(isS) {
 				System.out.println("삭제 성공");
 				//resp.sendRedirect("PdsController?command=detailview&seq=" + seq);
