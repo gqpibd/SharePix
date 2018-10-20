@@ -2,6 +2,7 @@ package model;
 
 import java.util.List;
 
+import dto.AlarmBean;
 import dto.PagingBean;
 import dto.PdsBean;
 
@@ -44,5 +45,8 @@ public interface iPdsManager {
 
 	public boolean defaultProfileImg(String id);
 	 
-	 public boolean updatereport(int seq);
+	public boolean updatereport(int seq);
+
+	public int getCurrSeq();
+	
 }

@@ -115,11 +115,7 @@ public class PdsController extends HttpServlet {
 				out.println("<script>alert('수정 실패'); location.href='./pdswrite.jsp';</script>");
 				out.flush();
 			}
-			
-			
-		} 	
-		
-		else if(command.equals("singo")) {
+		} else if(command.equals("singo")) {
 			int seq = Integer.parseInt(req.getParameter("seq"));
 
 			PdsService singo = PdsService.getInstance();
@@ -135,8 +131,6 @@ public class PdsController extends HttpServlet {
 				out.println("<script>alert('수정 실패'); location.href='./index.jsp';</script>");
 				out.flush();
 			}
-			
-			
 		} 
 	}
 

@@ -1,6 +1,13 @@
 package dto;
 
-public class PagingBean {
+import java.io.Serializable;
+
+public class PagingBean implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7590262130489165234L;
 	
 	private int nowPage;	// 현재 페이지	[1][2][3][4] ~ [10]   [11][12][13][14] ~ [20]
 	private int startNum;	// 현재 첫번째 페이지의 row number  << [5][6] 7 [8][9] >>

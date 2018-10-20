@@ -23,6 +23,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import dto.PdsBean;
+import model.service.AlarmService;
 import model.service.PdsService;
 import utils.ImageResize;
 
@@ -144,6 +145,8 @@ public class FileController extends HttpServlet {
 			pds.setFileName(filename);
 			pds.setfSaveName(fSaveName);
 			boolean isS = pd.writePds(pds);
+			pds.setSeq(pd.getCurrSeq()); // 당연히 동기화 문제가 생길 수 있지만.. 일단 그냥 쓰자
+			AlarmService.getInstance().insertAlarm(pds);
 
 			if (isS) { // update가 되면 true 반환
 				resp.sendRedirect("index.jsp");

@@ -131,7 +131,7 @@
 						<div>
 					<%} %>
 						<div>
-					 	<img src="<%=src%>" class="profile re-img img_clickable" width="10" align="middle"
+					 	<img src="<%=src%>" class="profile re-img img_clickable" width="10" align="middle" 
 					 	onerror="this.src='<%=srcError%>'" onclick="location.href='MemberController?command=userPage&id=<%= re.getId()%>'">
 						<font style="font-size: 17px; font-weight: bold;" ><%=re.getId()%></font>
 						<% if (re.getId().equals(pds.getId())) { // 게시글 작성자 표시 %> 

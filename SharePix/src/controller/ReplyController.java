@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dto.ReplyBean;
+import model.service.AlarmService;
 import model.service.ReplyService;
 
 public class ReplyController extends HttpServlet {
@@ -50,6 +51,7 @@ public class ReplyController extends HttpServlet {
 			}
 
 			boolean isS = ReplyService.getInstance().addReply(id, toWhom, content, pdsSeq, refSeq);
+		
 			if (isS) {
 				System.out.println("댓글 등록 성공");
 			}

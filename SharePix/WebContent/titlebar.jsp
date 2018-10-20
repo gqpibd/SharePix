@@ -399,39 +399,6 @@ function loginView(){
 		</div>
 	</div>	
 	
-<%-- 	<form method="post" action="MemberController">
-		<input type="hidden" name="command" value="login"> 	
-		<input type="hidden" name="goBackTo" value="<%=goBackTo%>"> 		
-		 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		  <div class="modal-dialog">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title" id="exampleModalLabel">로그인</h4>
-		      </div>
-		      
-		      
-		      <div class="modal-body">		       
-		          <div class="form-group">
-		            <label for="recipient-name" class="control-label">아이디:</label>
-		            <input type="text" class="form-control" id="recipient-name" name="id" title="Username">
-		          </div>
-		          <div class="form-group">
-		            <label for="message-text" class="control-label">패스워드:</label>
-		            <input type="password" class="form-control" id="message-text" name="pwd" title="Password">
-		          </div>
-	          </div>
-	          
-	          
-			      <div class="modal-footer">
-			        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href='regi.jsp'">회원가입</button>
-			        <button type="submit" class="btn btn-primary" value="로그인">로그인</button>
-			      </div>
-		    </div>
-		  </div>
-		</div>
-	</form>  --%>
-
 <!--modal2-->
 
 <div class="modal fade bs-modal-sm" id="forgot-password" tabindex="0" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">

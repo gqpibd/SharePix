@@ -127,4 +127,8 @@ public class PdsService {
 		return pDao.updatereport(seq);
 
 	}
+
+	public int getCurrSeq() {
+		return pDao.getCurrSeq();
+	}
 } 

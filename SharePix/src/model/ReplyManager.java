@@ -256,7 +256,4 @@ public class ReplyManager implements iReplyManager {
 		return count > 0 ? true : false;
 	}
 	
-	
-	
-	
 }
