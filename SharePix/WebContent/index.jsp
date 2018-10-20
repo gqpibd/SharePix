@@ -40,6 +40,7 @@
 <script src="js/jquery.row-grid.min.js"></script>
 <link rel="stylesheet" href="style/imageArrange.css">
 <link rel="stylesheet" href="style/common.css">
+<link rel="shortcut icon" href="images/icons/favicon.ico">
 
 </head>
 <body bgcolor="#D5D5D5">

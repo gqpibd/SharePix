@@ -113,7 +113,6 @@
 
 <link rel="stylesheet" href="style/loginModal.css">
 <link rel="stylesheet" href="style/common.css">
-<link rel="shortcut icon" href="images/icons/favicon.ico">
 
 
 <script type="text/javascript">

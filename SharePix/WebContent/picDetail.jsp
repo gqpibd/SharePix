@@ -58,12 +58,11 @@
 <title>상세 화면</title><!-- 타이틀바 -->
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="js/jquery.row-grid.min.js"></script>
-
-<link rel="shortcut icon" href="images/icons/favicon.ico">
-<link rel="stylesheet" href="style/imageArrange.css">
-<link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
 <link rel="stylesheet" href="style/picDetail.css">
+<link rel="stylesheet" href="style/imageArrange.css">
 <link rel="stylesheet" href="style/common.css">
+<link rel="shortcut icon" href="images/icons/favicon.ico">
+<link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
 
 <style type="text/css">
 .mybtn:focus, .btn:focus{
@@ -131,11 +130,14 @@
 					<%}else{ %>
 						<div>
 					<%} %>
-					 	<img src="<%=src%>" class="profile re-img img_clickable" width="10" onerror="this.src='<%=srcError%>'" onclick="location.href='MemberController?command=userPage&id=<%= re.getId()%>'">
-						<font style="font-size: 17px; font-weight: bold;"><%=re.getId()%></font>
+						<div>
+					 	<img src="<%=src%>" class="profile re-img img_clickable" width="10" align="middle"
+					 	onerror="this.src='<%=srcError%>'" onclick="location.href='MemberController?command=userPage&id=<%= re.getId()%>'">
+						<font style="font-size: 17px; font-weight: bold;" ><%=re.getId()%></font>
 						<% if (re.getId().equals(pds.getId())) { // 게시글 작성자 표시 %> 
-					 	<img src="images/icons/writer.png" width="60" style="vertical-align: middle"> 
+					 	<img src="images/icons/writer.png" width="60"> 
 					 	<%} %> 	
+					 	</div>
 					 	<div class="reply_content"> 	
 						 	<% if (re.getToWhom() != null & re.getToWhom() != "") { %> <!-- 다른 사람 호출하는 태그가 있을 때 --> 
 						 	<b>@<%=re.getToWhom()%></b> 

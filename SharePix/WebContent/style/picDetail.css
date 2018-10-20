@@ -101,7 +101,6 @@ a{
 }
 
 .re-img{ /* 댓글 프로필 */	
-    float: left;
     width: 33px;
     height: 33px;
     border-radius: 33px;

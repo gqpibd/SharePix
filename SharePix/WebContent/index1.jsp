@@ -7,8 +7,8 @@
 <title>Insert title here</title>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Cute+Font|Gamja+Flower" rel="stylesheet">
 <link rel="shortcut icon" href="images/icons/favicon.ico">
-
 </head>
 <body>
 
@@ -25,23 +25,74 @@ myCnt = 0;
 function myFade(){
      if (myCnt != 16){
          document.bgColor = "#" + myColor[myCnt];
-         myTime = ( myCnt==0 || myCnt==15 ) ? 3000 : 50;
+         myTime = ( myCnt==0 ) ? 2500 : 30;
+         $(".after").css("color","#" + myColor[15-myCnt]);
          myCnt++;
+         if(myCnt==15){            	
+        	 setTimeout( "myFade2()", 1000 );
+         }
          setTimeout( "myFade()", myTime );
      }else{
-         location.href = "index.jsp";
+        //location.href = 'index.jsp'
+        return;
     }
 }
+
+function myFade2(){
+	$("#div1").toggle( "slide" );
+	$("#div2").toggle( "slide" );
+	$("#div3").toggle( "slide" );
+	setTimeout( function () {
+		location.href = 'index.jsp'
+	}, 2000 );
+	/* $("#div1").fadeIn();
+	$("#div2").fadeIn("slow");
+	$("#div3").fadeIn(3000, function () {
+		location.href = 'index.jsp'
+	}); */
+	/* $("#div1").fadeToggle( 1000,"linear" );
+	$("#div2").fadeToggle(2000,"linear" );
+	$("#div3").fadeToggle( 3000,"linear" , function () {
+		location.href = 'index.jsp'
+	});  */
+	
+	/* $("#div1").fadeIn("slow",function(){
+		$("#div2").fadeIn("slow",function(){
+			$("#div3").fadeIn(3000, function () {
+				location.href = 'index.jsp'
+			});
+		});
+	}); */
+	/* $("#div1").fadeIn("slow",function(){
+		$("#div2").fadeIn("slow" ,function(){
+			$("#div3").fadeIn("slow" , function () {
+				location.href = 'index.jsp'
+			});
+		});
+	});	 */
+};
+
 </script>
  
 <br><br><br><br><br><br><br>
 <p align="left">
 <font color="#FFFFFF" size="5">
-<strong>404 error: not found</strong>
+<strong>Status 404</strong>
 </font><br><br>
 <font color="#FFFFFF" size="6">
-<strong>The URL you requested was not found.</strong>
-</font><br><br>
+<strong><label class="after">Page</label> not found.</strong>
+</font>
+</p>
+
+<div class="after" style="font-family: 'Cute Font', cursive;">
+<font color="#000000" style="font-size:60px">사</font>
+<font color="#000000" style="font-size:30px"><label style="display:none" id="div1">진</label></font>
+<font color="#000000" style="font-size:60px">공</font>
+<font color="#000000" style="font-size:30px"><label style="display:none" id="div2">유</label></font>
+<font color="#000000" style="font-size:60px">사</font>
+<font color="#000000" style="font-size:30px"><label style="display:none" id="div3">이트</label></font>
+</div>
+<p>
 <font color="#000000" size="6">
 <strong>SaGong'ssi</strong>
 </font><br>
