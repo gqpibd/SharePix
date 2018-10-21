@@ -67,6 +67,8 @@
 	font-size: 19px;
 }
 
+
+
 </style>
 
 <script type="text/javascript">
@@ -141,6 +143,7 @@ var loadImageFile = function () {
 					<td class="td1" align="center">
 						 <div class="imgbox">
                <img class="holder" id="original-Img"/>
+               
                <label id="mlabel" for="fileload" >
                	<br><br><br><br><br><br><br><br>
                	

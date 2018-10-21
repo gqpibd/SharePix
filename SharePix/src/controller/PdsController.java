@@ -55,13 +55,16 @@ public class PdsController extends HttpServlet {
 			dispatch("picDetail.jsp", req, resp);			
 		} else if (command.equalsIgnoreCase("keyword")) {
 			String keyword = req.getParameter("tags");
+			String auth = req.getParameter("auth");
 			String choice = req.getParameter("choice");
 			System.out.println("검색 키워드 : " + keyword);
+			System.out.println("검색 키워드 : " + auth);
 			System.out.println("검색 키워드 : " + choice);
 /*			PagingBean paging = new PagingBean();
 			List<PdsBean> searchList = PdsService.getInstance().getPdsPagingList(paging, keyword);*/
 
 			req.setAttribute("keyword", keyword);
+			req.setAttribute("auth", auth);
 			req.setAttribute("choice", choice);
 			dispatch("SearchView.jsp", req, resp);
 		} else if(command.equalsIgnoreCase("likeChange")) {

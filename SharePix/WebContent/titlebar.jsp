@@ -115,7 +115,6 @@
 
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 
@@ -261,15 +260,8 @@ $(document).ready(function(){
 		<button class="fill sagongBtn" onclick="location.href='MemberController?command=userPage&id=<%=user.getId()%>'"><font>마이페이지</font></button>
 		
 		<button class="fill sagongBtn" id=picupload onclick="location.href='pdswrite.jsp'">사진 올리기</button>
-		
-<!-- 		<button class="fill sagongBtn"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></button>
-		<ul class="dropdown-menu" role="menu">
- 	  		 <li><a href="#">하나</a></li>
- 	 	 	 <li><a href="#">둘</a></li>
- 	  		 <li><a href="#">셋</a></li>
- 		</ul> -->
 
- 		<div class="btn-group">
+ 		 <div class="btn-group">
   	<button type="button" class="fill sagongBtn" data-toggle="dropdown" aria-expanded="false">
    	  <span class="glyphicon glyphicon-option-horizontal"></span>
   </button>
@@ -278,10 +270,8 @@ $(document).ready(function(){
     <li><a href="pdswrite.jsp">사진 올리기</a></li>
     <li><a href="#">알림</a></li>
   </ul>
-</div>
- 		
- 		
- 		
+</div> 
+
 	</td>
 	
 	<%} else if(user!=null && user.getAuth() == 3){ %>
@@ -289,13 +279,15 @@ $(document).ready(function(){
             class='profile_img' align='middle'
             onerror="this.src='images/profiles/default.png'">
 		<span><%=user.getName() %>님 환영합니다. <a href="MemberController?command=logout"><font size="2">로그아웃</font></a></span>
+	
+	
 	</td>
 	</tr>
 	<tr>
 	<td align="center" class="mar">
 	
 				<button class="fill sagongBtn" onclick="location.href='manager.jsp'">관리자모드</button></td>
-			<%}//좋아요 다른데가요 ?네 근데 아이디를 굳이 안 보내도 될거같아요 끝되나 실행해볼까요 넵 !%> 
+			<%}%> 
 			
 </tr>
 </table>
