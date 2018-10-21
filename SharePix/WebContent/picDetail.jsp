@@ -62,7 +62,7 @@
 <link rel="stylesheet" href="style/imageArrange.css">
 <link rel="stylesheet" href="style/common.css">
 <link rel="shortcut icon" href="images/icons/favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Noto+Sans|Do+Hyeon|Jua" rel="stylesheet">
 
 <style type="text/css">
 .mybtn:focus, .btn:focus{

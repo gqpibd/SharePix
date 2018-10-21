@@ -21,7 +21,12 @@
 <title>새소식</title>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <link rel="shortcut icon" href="images/icons/favicon.ico">
+<link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Jua" rel="stylesheet">
 <style type="text/css">
+.pds{
+  border-radius: 5px;
+  height : 60px;
+}
 
 .alarms {
   max-width: 1000px;
@@ -31,18 +36,19 @@
   padding-right: 10px;
 }
 
-h2 {
+.noNews {
   font-size: 26px;
   margin: 20px 0;
   text-align: center;
+  font-family: 'Do Hyeon', sans-serif;
 }
-h2 small {
+.noNews small {
   font-size: 0.5em;
 }
 
 .responsive-table li {
   border-radius: 3px;
-  padding: 25px 30px;
+  padding: 15px 15px;
   display: flex;
   justify-content: space-between;
   margin-bottom: 15px;
@@ -90,6 +96,7 @@ h2 small {
     content: attr(data-label);
     flex-basis: 50%;
     text-align: right;
+    margin: auto 0;
   }
 }
 
@@ -105,7 +112,7 @@ button:focus {
   width: 40px;
   height: 40px;
   background: transparent;
-  border: 4px solid #e91e63;
+  border: 4px solid #504848 ;
   -moz-border-radius: 50%;
   -webkit-border-radius: 50%;
   border-radius: 50%;
@@ -117,7 +124,7 @@ button:focus {
 .circle:after {
   width: 24px;
   height: 4px;
-  background-color: #e91e63;
+  background-color: #504848 ;
   content: "";
   left: 50%;
   top: 50%;
@@ -128,7 +135,6 @@ button:focus {
   -ms-transform: rotate(-45deg);
   -webkit-transform: rotate(-45deg);
   transform: rotate(-45deg);
-  /*@include transform-origin(100%,100%);*/
 }
 .circle:before {
   left: 50%;
@@ -137,22 +143,21 @@ button:focus {
   margin-top: -2px;
   width: 24px;
   height: 4px;
-  background-color: #e91e63;
+  background-color: #504848 ;
   content: "";
   position: absolute;
   -moz-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
-  /*@include transform-origin(0%,0%);*/
 }
 
 .circle[data-animation="xMarks"] {
   border: 0px solid white;
   overflow: hidden;
-  -moz-box-shadow: 0px 0px 0px 0px #e91e63 inset;
-  -webkit-box-shadow: 0px 0px 0px 0px #e91e63 inset;
-  box-shadow: 0px 0px 0px 0px #e91e63 inset;
+  -moz-box-shadow: 0px 0px 0px 0px #504848  inset;
+  -webkit-box-shadow: 0px 0px 0px 0px #504848  inset;
+  box-shadow: 0px 0px 0px 0px #504848  inset;
   -moz-transition: cubic-bezier(0.175, 0.885, 0.52, 1.775) 200ms;
   -o-transition: cubic-bezier(0.175, 0.885, 0.52, 1.775) 200ms;
   -webkit-transition: cubic-bezier(0.175, 0.885, 0.52, 1.775) 200ms;
@@ -165,9 +170,9 @@ button:focus {
   transition: cubic-bezier(0.175, 0.885, 0.52, 1.775) 200ms;
 }
 .circle[data-animation="xMarks"]:not(.xMarks):hover {
-  -moz-box-shadow: 0px 0px 0px 6px #e91e63 inset;
-  -webkit-box-shadow: 0px 0px 0px 6px #e91e63 inset;
-  box-shadow: 0px 0px 0px 6px #e91e63 inset;
+  -moz-box-shadow: 0px 0px 0px 6px #504848  inset;
+  -webkit-box-shadow: 0px 0px 0px 6px #504848  inset;
+  box-shadow: 0px 0px 0px 6px #504848  inset;
 }
 .circle[data-animation="xMarks"]:not(.xMarks):hover:before {
   -moz-transform: scale(0.7) rotate(45deg);
@@ -204,9 +209,9 @@ button:focus {
   -webkit-transform: scale(2);
   transform: scale(2);
   opacity: 0;
-  -moz-box-shadow: 0px 0px 0px 20px #e91e63 inset;
-  -webkit-box-shadow: 0px 0px 0px 20px #e91e63 inset;
-  box-shadow: 0px 0px 0px 20px #e91e63 inset;
+  -moz-box-shadow: 0px 0px 0px 20px #504848  inset;
+  -webkit-box-shadow: 0px 0px 0px 20px #504848  inset;
+  box-shadow: 0px 0px 0px 20px #504848  inset;
 }
 .circle.xMarks:before {
   background-color: white;
@@ -236,7 +241,7 @@ button:focus {
 
 	<div class="alarms" style="margin-top: 10em" >
 		<%if(aList.size()==0){%>
-			<h2>새로운 소식이 없습니다</h2>
+			<h2 class="noNews">새로운 소식이 없습니다</h2>
 		<% }else{%>
 			<ul class="responsive-table">
 		<% for(int i=0;i<aList.size();i++){ 
@@ -257,7 +262,7 @@ button:focus {
 		 	</div>
 			<div class="col col-2" data-label="아이디" onclick="veiwDetail(<%=aList.get(i).getSeq()%>,<%=aList.get(i).getPdsSeq()%>)"> <%=type %></div>
 			<div class="col col-3" data-label="관련 게시글" onclick="veiwDetail(<%=aList.get(i).getSeq()%>,<%=aList.get(i).getPdsSeq()%>)">
-				<img name="item" src="images/pictures/<%=fSaveName%>"  height="50" ></div>
+				<img class="pds" name="item" src="images/pictures/<%=fSaveName%>" ></div>
 			<div class="col col-4" data-label="내용" onclick="veiwDetail(<%=aList.get(i).getSeq()%>,<%=aList.get(i).getPdsSeq()%>)"><%=content %></div>	
 			<div class="col col-5" data-label=""><button class="circle" data-animation="xMarks" data-remove="3000" onclick="deleteAlarm(<%=aList.get(i).getSeq()%>,this)"></button></div>
 		</li>
@@ -276,7 +281,7 @@ button:focus {
 				data:"command=deleteAlarm&id=<%=user.getId()%>&seq="+aSeq, // 전송할 데이터
 				success:function(data, status, xhr){
 					if(data.trim() == '0'){
-						$(item).parent().parent().parent().replaceWith("<h2>새로운 소식이 없습니다</h2>")
+						$(item).parent().parent().parent().replaceWith("<h2 class='noNews'>새로운 소식이 없습니다</h2>")
 					}else{
 						$(item).parent().parent().remove();
 					}

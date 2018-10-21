@@ -80,6 +80,10 @@
 		}
 	}}%>
 	</div>
+	
+	
+	
+	
 	 <!-- jwekfjqwekrjlwejrasdfqewr  -->
 	<div class="mcontainer">
 		<%
@@ -155,7 +159,7 @@
 </form>
 
 	<script type="text/javascript">
-	$(document).ready(function() {
+	 $(document).ready(function() {
 	 function checkWidth() { // 윈도우 사이즈가 바뀔 때 보여주는 아이템 변경
 	    $("#tags").toggle($(window).width() > 500);
 	    $("span[name='more']").toggle($(window).width() > 1000);
@@ -163,7 +167,9 @@
 	 checkWidth();
 
 	 $(window).resize(checkWidth);
-	});
+	});  
+	
+	
 	function doLike(seq1, item){ // 좋아요 눌렀을 때			
 		<%if (ologin == null) {%>
 			loginView();

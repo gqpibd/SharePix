@@ -1,0 +1,137 @@
+@charset "EUC-KR";
+#top-menu {
+  width: 100%;
+  background-color: #F6F6F6;
+  top: 0px;
+  left: 0px;
+  position: fixed;
+  z-index: 1; 
+}
+
+.title_table {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.search__input {
+	width: 100%;
+	padding: 12px 24px;
+	
+	background-color: transparent;
+	transition: transform 250ms ease-in-out;
+	font-size: 14px;
+	line-height: 18px;
+	
+	color: #575756;
+	background-color: transparent;
+	background-image: url(http://mihaeltomic.com/codepen/input-search/ic_search_black_24px.svg);
+	background-repeat: no-repeat;
+	background-size: 18px 18px;
+	background-position: 95% center;
+	border-radius: 50px;
+	border: 1px solid #575756;
+	transition: all 250ms ease-in-out;
+	backface-visibility: hidden;
+	transform-style: preserve-3d;
+}
+    
+.search__input::placeholder {
+            color: rgba(87, 87, 86, 0.8);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+.search__input:hover, .search__input:focus {
+            padding: 12px 0;
+            outline: 0;
+            border: 1px solid transparent;
+            border-bottom: 1px solid #575756;
+            border-radius: 0;
+            background-position: 100% center;
+        }        
+.title{
+	text-transform: uppercase; 
+	letter-spacing: 1.5px;
+	font-weight: bold;
+	font-size:2em;
+}
+.title:hover{
+	cursor: pointer;
+}
+
+.fill:hover,
+.fill:focus {
+  box-shadow: inset 0 0 0 2em var(--hover);
+}
+
+.fill {
+  --color: #8C8C8C;
+  --hover: #1973bc;
+}
+
+.sagongBtn {
+  background: none;
+  border: 0px solid;
+  font: inherit;
+  border-radius: 12px;
+  line-height: 1;
+  margin: 0.5em;
+  padding: 0.5em 1em;
+}
+
+.sagongBtn:focus{
+	outline: none;
+}
+
+.sagongBtn {
+  color: var(--color);
+  transition: 0.25s;
+}
+
+.sagongBtn:hover, .sagongBtn:focus {
+  border-color: var(--hover);
+  color: #fff;
+}
+.outline{
+	border:0;
+	outline: none;
+}
+.open>.mdropdown-menu {
+    display: block;
+}
+.mdropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 100px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    font-size: 14px;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+}
+.mdropdown-menu>li>a {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: 400;
+    line-height: 1.42857143;
+    color: #333;
+    white-space: nowrap;
+}
+.mdropdown-menu>li>a:focus, .mdropdown-menu>li>a:hover {
+    color: #262626;
+    text-decoration: none;
+    background-color: #f5f5f5;
+}
