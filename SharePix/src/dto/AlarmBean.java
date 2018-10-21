@@ -26,14 +26,14 @@ public class AlarmBean implements Serializable {
 	private int type;
 	private int pdsSeq;
 	private String date;	
+	private String content;
 	
-	public AlarmBean() {}
-	
-	public AlarmBean(String toId, String fromId, int type, int pdsSeq) {
+	public AlarmBean(String toId, String fromId, int type, int pdsSeq, String content) {
 		this.toId = toId;
 		this.fromId = fromId;
 		this.type = type;
 		this.pdsSeq = pdsSeq;
+		this.content = content;
 	}	
 
 	public AlarmBean(int seq, String toId, String fromId, int type, int pdsSeq, String date) {
@@ -92,11 +92,21 @@ public class AlarmBean implements Serializable {
 	public void setDate(String date) {
 		this.date = date;
 	}
+	
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
 
 	@Override
 	public String toString() {
 		return "AlarmBean [seq=" + seq + ", toId=" + toId + ", fromId=" + fromId + ", type=" + type + ", pdsSeq="
-				+ pdsSeq + ", date=" + date + "]";
+				+ pdsSeq + ", date=" + date + ", content=" + content + "]";
 	}
+
 	
 }

@@ -236,10 +236,8 @@ $(document).ready(function(){
 		<%}else{ %>
 			<button class="fill sagongBtn" onclick="location.href='MemberController?command=userPage&id=<%=user.getId()%>'"><font>마이페이지</font></button>
 			<button class="fill sagongBtn" onclick="location.href='pdswrite.jsp'">사진 올리기</button>	
-			<%if(alarmCount>0){ %>
 			<button class="fill sagongBtn" id="alarm" onclick="location.href='myAlarms.jsp'">새 소식(<%= alarmCount %>)</button>	
-			<%}
-		} %>			
+		<%} %>			
 	<%} %>
 	</td>
 </tr>

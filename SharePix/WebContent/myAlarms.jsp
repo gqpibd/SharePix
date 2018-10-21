@@ -1,3 +1,4 @@
+<%@page import="dto.PdsBean"%>
 <%@page import="model.service.PdsService"%>
 <%@page import="dto.AlarmBean"%>
 <%@page import="java.util.List"%>
@@ -47,7 +48,7 @@ h2 small {
   padding: 25px 30px;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 25px;
+  margin-bottom: 15px;
 }
 .responsive-table .table-row {
   background-color: #ffffff;
@@ -58,10 +59,16 @@ h2 small {
   flex-basis: 10%;
 }
 .responsive-table .col-2 {
-  flex-basis: 40%;
+  flex-basis: 20%;
 }
 .responsive-table .col-3 {
-  flex-basis: 25%;
+  flex-basis: 15%;
+}
+.responsive-table .col-4 {
+  flex-basis: 45%;
+}
+.responsive-table .col-4 {
+  flex-basis: 10%;
 }
 @media all and (max-width: 767px) {
   .responsive-table li {
@@ -82,6 +89,137 @@ h2 small {
     text-align: right;
   }
 }
+
+/* x 버튼 */
+button:focus {
+  outline: none;
+}
+.circCont {
+  display: inline-block;
+}
+
+.circle {
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: 4px solid #e91e63;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+  margin: 10px 20px;
+}
+.circle:after {
+  width: 24px;
+  height: 4px;
+  background-color: #e91e63;
+  content: "";
+  left: 50%;
+  top: 50%;
+  margin-left: -12px;
+  margin-top: -2px;
+  position: absolute;
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  /*@include transform-origin(100%,100%);*/
+}
+.circle:before {
+  left: 50%;
+  top: 50%;
+  margin-left: -12px;
+  margin-top: -2px;
+  width: 24px;
+  height: 4px;
+  background-color: #e91e63;
+  content: "";
+  position: absolute;
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+  /*@include transform-origin(0%,0%);*/
+}
+
+.circle[data-animation="xMarks"] {
+  border: 0px solid white;
+  overflow: hidden;
+  -moz-box-shadow: 0px 0px 0px 0px #e91e63 inset;
+  -webkit-box-shadow: 0px 0px 0px 0px #e91e63 inset;
+  box-shadow: 0px 0px 0px 0px #e91e63 inset;
+  -moz-transition: cubic-bezier(0.175, 0.885, 0.52, 1.775) 200ms;
+  -o-transition: cubic-bezier(0.175, 0.885, 0.52, 1.775) 200ms;
+  -webkit-transition: cubic-bezier(0.175, 0.885, 0.52, 1.775) 200ms;
+  transition: cubic-bezier(0.175, 0.885, 0.52, 1.775) 200ms;
+}
+.circle[data-animation="xMarks"]:before, .circle[data-animation="xMarks"]:after {
+  -moz-transition: cubic-bezier(0.175, 0.885, 0.52, 1.775) 200ms;
+  -o-transition: cubic-bezier(0.175, 0.885, 0.52, 1.775) 200ms;
+  -webkit-transition: cubic-bezier(0.175, 0.885, 0.52, 1.775) 200ms;
+  transition: cubic-bezier(0.175, 0.885, 0.52, 1.775) 200ms;
+}
+.circle[data-animation="xMarks"]:not(.xMarks):hover {
+  -moz-box-shadow: 0px 0px 0px 6px #e91e63 inset;
+  -webkit-box-shadow: 0px 0px 0px 6px #e91e63 inset;
+  box-shadow: 0px 0px 0px 6px #e91e63 inset;
+}
+.circle[data-animation="xMarks"]:not(.xMarks):hover:before {
+  -moz-transform: scale(0.7) rotate(45deg);
+  -ms-transform: scale(0.7) rotate(45deg);
+  -webkit-transform: scale(0.7) rotate(45deg);
+  transform: scale(0.7) rotate(45deg);
+  -moz-transition-delay: 100ms;
+  -o-transition-delay: 100ms;
+  -webkit-transition-delay: 100ms;
+  transition-delay: 100ms;
+}
+.circle[data-animation="xMarks"]:not(.xMarks):hover:after {
+  -moz-transform: scale(0.7) rotate(-45deg);
+  -ms-transform: scale(0.7) rotate(-45deg);
+  -webkit-transform: scale(0.7) rotate(-45deg);
+  transform: scale(0.7) rotate(-45deg);
+  -moz-transition-delay: 100ms;
+  -o-transition-delay: 100ms;
+  -webkit-transition-delay: 100ms;
+  transition-delay: 100ms;
+}
+
+.circle.xMarks {
+  -moz-transition: -moz-transform 400ms ease-out, opacity 200ms ease-in;
+  -o-transition: -o-transform 400ms ease-out, opacity 200ms ease-in;
+  -webkit-transition: -webkit-transform 400ms ease-out, opacity 200ms ease-in;
+  transition: transform 400ms ease-out, opacity 200ms ease-in;
+  -moz-transition-delay: opacity 100ms;
+  -o-transition-delay: opacity 100ms;
+  -webkit-transition-delay: opacity 100ms;
+  transition-delay: opacity 100ms;
+  -moz-transform: scale(2);
+  -ms-transform: scale(2);
+  -webkit-transform: scale(2);
+  transform: scale(2);
+  opacity: 0;
+  -moz-box-shadow: 0px 0px 0px 20px #e91e63 inset;
+  -webkit-box-shadow: 0px 0px 0px 20px #e91e63 inset;
+  box-shadow: 0px 0px 0px 20px #e91e63 inset;
+}
+.circle.xMarks:before {
+  background-color: white;
+  -moz-transform: scale(2) rotate(45deg);
+  -ms-transform: scale(2) rotate(45deg);
+  -webkit-transform: scale(2) rotate(45deg);
+  transform: scale(2) rotate(45deg);
+}
+.circle.xMarks:after {
+  background-color: white;
+  -moz-transform: scale(2) rotate(-45deg);
+  -ms-transform: scale(2) rotate(-45deg);
+  -webkit-transform: scale(2) rotate(-45deg);
+  transform: scale(2) rotate(-45deg);
+}
+
 </style>
 <link rel="stylesheet" href="style/common.css">
 </head>
@@ -99,7 +237,14 @@ h2 small {
 		<% }else{%>
 			<ul class="responsive-table">
 		<% for(int i=0;i<aList.size();i++){ 
-			String type = (aList.get(i).getType()==AlarmBean.NEWPOST)?aList.get(i).getFromId()+"님의 새 게시글이 올라왔어요":aList.get(i).getFromId()+"님이 댓글을 달았어요";
+			String type = "";
+			String content = aList.get(i).getContent();
+			PdsBean pds = pService.getPdsDetail(aList.get(i).getPdsSeq());
+			if(aList.get(i).getType()==AlarmBean.NEWPOST){
+				type = aList.get(i).getFromId()+"님의 새 게시글이 올라왔어요";
+			}else{
+				type = aList.get(i).getFromId()+"님이 댓글을 달았어요";
+			}
 			String fSaveName = pService.getPdsDetail(aList.get(i).getPdsSeq()).getfSaveName();
 		%>		
 		<li class="table-row" onclick="veiwDetail(<%=aList.get(i).getSeq()%>,<%=aList.get(i).getPdsSeq()%>)">
@@ -109,9 +254,11 @@ h2 small {
 			<div class="col col-2" data-label="내용"> <%=type %></div>
 			<div class="col col-3" data-label="관련 게시글">
 				<img name="item" src="images/pictures/<%=fSaveName%>"  height="50" ></div>
-			
+			<div class="col col-4" data-label="관련 게시글">
+			<button class="circle" data-animation="xMarks" data-remove="3000" onclick="deleteAlarm(<%=aList.get(i).getSeq()%>,this)"></button>
+			</div>
 		</li>
-		<button onclick="deleteAlarm(<%=aList.get(i).getSeq()%>,this)"> 삭제 </button>
+		
 		<%}} %>
 		</ul>
 	</div>
@@ -133,6 +280,23 @@ h2 small {
 				}
 			});
 	 }
+	 
+	 
+	 $('.circle').on('click',function(){
+		  var animClass = $(this).data('animation');
+		  var removeTime = $(this).data('remove');
+		  if($(this).hasClass(animClass)){
+		     $(this).removeClass(animClass);
+		  }else{
+		    $(this).addClass(animClass);
+		    if(typeof removeTime != 'undefined'){
+		      var el = $(this);
+		       setTimeout(function(){
+		         el.removeClass(animClass);
+		       },removeTime);
+		    }
+		  }
+		});
 	</script>
 </body>
 </html>

@@ -30,18 +30,22 @@ public class AlarmService {
 		List<FollowDto> followerList = MemberService.getInstance().getMyFollowerList(pds.getId());
 		String fromId = pds.getId();
 		int pdsSeq = pds.getSeq();
+		String content="";
+		for(int i=0;i<pds.getTags().length;i++) {
+			content += "#" + pds.getTags()[i];
+		}
 		for (int i = 0; i < followerList.size(); i++) {
-			manager.insertAlarm(new AlarmBean(followerList.get(i).getFollowerId(),fromId,AlarmBean.NEWPOST,pdsSeq));
+			manager.insertAlarm(new AlarmBean(followerList.get(i).getFollowerId(),fromId,AlarmBean.NEWPOST,pdsSeq,content));
 		}
 	}
 	
-	public void insertAlarm(String fromId, String toId, int pdsSeq) {				
+	public void insertAlarm(String fromId, String toId, int pdsSeq, String content) {				
 		String pdsWriter = PdsService.getInstance().getPdsDetail(pdsSeq).getId();
 		if(toId!=null && !fromId.equals(toId)) { // toWhom이 있는 경우 && toWhom이 내가 아닌 경우
-			manager.insertAlarm(new AlarmBean(toId,fromId,AlarmBean.NEWREPLY,pdsSeq));
+			manager.insertAlarm(new AlarmBean(toId,fromId,AlarmBean.NEWREPLY,pdsSeq,content));
 		}
 		if(!fromId.equals(pdsWriter) && !toId.equals(pdsWriter)) { // 게시글 작성자와 댓글작성자 댓글 받는사람이 모두 다른 경우 게시글 작성자에게 따로 알람 추가해줌
-			manager.insertAlarm(new AlarmBean(pdsWriter,fromId,AlarmBean.NEWREPLY,pdsSeq));
+			manager.insertAlarm(new AlarmBean(pdsWriter,fromId,AlarmBean.NEWREPLY,pdsSeq,content));
 		}
 	}
 	

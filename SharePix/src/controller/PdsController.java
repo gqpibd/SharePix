@@ -2,9 +2,6 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -13,13 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dto.FollowDto;
-import dto.MemberBean;
 import dto.PdsBean;
 import model.service.AlarmService;
 import model.service.PdsService;
-import utils.CollenctionUtil;
-import utils.FileUtil;
 
 public class PdsController extends HttpServlet {	
 	

@@ -23,7 +23,7 @@ public class ReplyService {
 	}
 
 	public boolean addReply(String id, String toWhom, String content,  int pdsSeq, int refSeq) {
-		AlarmService.getInstance().insertAlarm(id,toWhom,pdsSeq);
+		AlarmService.getInstance().insertAlarm(id,toWhom,pdsSeq,content);
 		return rManager.addReply(id,toWhom,content,pdsSeq,refSeq);		
 	}
 
