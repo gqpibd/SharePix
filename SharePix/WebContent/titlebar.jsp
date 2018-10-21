@@ -10,8 +10,7 @@
 	int alarmCount = 0;
 	if(user!=null){
 		alarmCount = AlarmService.getInstance().getAlarmList(user.getId()).size(); 
-	}
-	
+	}	
 %>
 <!DOCTYPE html>
 <html>

@@ -153,7 +153,7 @@ var loadImageFile = function () {
                	<br>
                	
                	</label>
-               <input type="file" name="fileload" accept="image/gif, image/jpeg, image/png" class="upload" id = "upload-Image" onchange="loadImageFile();" >               
+               <input type="file" name="fileload" accept="image/gif, image/jpeg, image/png" class="upload" id = "upload-Image" onchange="loadImageFile()" >               
             </div>
 	
 					</td>

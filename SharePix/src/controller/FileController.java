@@ -27,8 +27,8 @@ import model.service.AlarmService;
 import model.service.PdsService;
 import utils.ImageResize;
 
-public class FileController extends HttpServlet {
-	public static final String PATH = "C:\\Users\\이호영\\git\\sharePix\\SharePix\\WebContent\\images\\pictures"; 
+public class FileController extends HttpServlet {/*"C:\\Users\\seung\\git\\SharePix\\SharePix\\WebContent\\images"*/ //// "C:\\Users\\이호영\\git\\sharePix\\SharePix\\WebContent\\images\\pictures";
+	public static final String PATH =  "C:\\Users\\seung\\git\\SharePix\\SharePix\\WebContent\\images";
 	 
 	private ServletConfig mConfig = null; // 업로드 폴더의 realpath에 접근하기 위해서 필요하다
 	private static final int BUFFER_SIZE = 10000000; // 10Mb
