@@ -128,6 +128,11 @@ public class PdsService {
 		return pDao.updatereport(seq);
 
 	}
+
+	public boolean noreport(int seq) {
+		return pDao.noreport(seq);
+
+	}
 	
 	public List<PdsBean> getsingoPdsAllList(){
 		return pDao.getsingoPdsAllList();

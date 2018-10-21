@@ -24,7 +24,7 @@ public class PdsManager implements iPdsManager {
    @Override
    public PdsBean getMyPdsAll( String id ) {       
       String sql  = " SELECT SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, "
-               + " READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT "
+               + " READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT, REPORT "
                + " FROM PDSALL "  
                + " WHERE ID=? ";
       
@@ -57,7 +57,9 @@ public class PdsManager implements iPdsManager {
                           rs.getInt(8),              // downcount    
                           rs.getInt(10),       // likeCount
                           rs.getInt(11),      //replyCount
-                          rs.getString(9));      // fileSaveName
+                          rs.getString(9),
+                          rs.getInt(12));      // fileSaveName
+            				
 
             System.out.println("getMyPdsAll 로부터 나오는 dto " + dto.toString());
          }
@@ -130,7 +132,7 @@ public class PdsManager implements iPdsManager {
    @Override
    public PdsBean getPdsDetail(int seq) {
       // SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT
-      String sql = " SELECT SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT "
+      String sql = " SELECT SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT, REPORT "
             + " FROM PDSALL " + " WHERE SEQ = ? ";
 
       Connection conn = null;
@@ -164,7 +166,8 @@ public class PdsManager implements iPdsManager {
                           rs.getInt("DOWNCOUNT"), 
                           rs.getInt("LIKECOUNT"),
                           rs.getInt("REPLYCOUNT"),
-                          rs.getString("FSAVENAME")
+                          rs.getString("FSAVENAME"),
+                          rs.getInt("REPORT")
                           );
          }
          System.out.println("4/6 getPdsDetail Success");
@@ -632,6 +635,40 @@ public class PdsManager implements iPdsManager {
 
 		} catch (SQLException e) {
 			System.out.println("updatereport fail");
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, null);
+			/*DBClose.close(psmt, conn, rs);*/
+		}
+
+		return count > 0 ? true : false;
+	}
+
+   public boolean noreport(int seq) {
+
+		String sql = " UPDATE PICPDS "
+					+" SET REPORT = 0 "
+					+" WHERE SEQ = ? ";
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		/*ResultSet rs = null;*/
+		
+		int count = 0;
+		
+		try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 noreport Success");
+
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, seq);
+			System.out.println("2/6 noreport Success");
+
+			count = psmt.executeUpdate();
+			System.out.println("3/6 noreport Success");
+
+		} catch (SQLException e) {
+			System.out.println("noreport fail");
 			e.printStackTrace();
 		} finally {
 			DBClose.close(psmt, conn, null);

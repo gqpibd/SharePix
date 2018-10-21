@@ -141,26 +141,25 @@ public class PdsController extends HttpServlet {
 			
 		} 
 		
-		/*else if (command.equals("manager")) {
-			System.out.println("command = " + command + "  들어옴"); // 확인용
-			// int report = Integer.parseInt(req.getParameter("report")); //이거 필요 없고	
+		else if(command.equals("singono")) {
+			int seq = Integer.parseInt(req.getParameter("seq"));
 
-			List<PdsBean> list = PdsService.getInstance().getsingoPdsAllList(); 
-			
-			if(list==null){
-				list = new ArrayList<>();
+			PdsService singono = PdsService.getInstance();
+			boolean isS = singono.noreport(seq);
+	
+			if(isS) {
+				dispatch("PdsController?command=detailview&seq=" + seq, req, resp);
+			}		
+			else {
+				resp.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = resp.getWriter();
+				
+				out.println("<script>alert('수정 실패'); location.href='./index.jsp';</script>");
+				out.flush();
 			}
-			System.out.println(list.size());		
-			req.setAttribute("list", list);		
 			
-			dispatch("manager.jsp", req, resp);
-			///여기서 리스트를 뭘로 보내줬죠?맞아요 list로 이름 붙였죠
-		}*/
-		
-		
-
-		
-		
+		} 
+	
 		
 	}
 
