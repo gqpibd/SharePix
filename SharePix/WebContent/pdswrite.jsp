@@ -22,6 +22,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:100,300,400">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100">
 <link rel="shortcut icon" href="images/icons/favicon.ico">
+<link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Jua" rel="stylesheet">
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">

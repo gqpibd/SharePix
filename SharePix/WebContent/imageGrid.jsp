@@ -51,7 +51,8 @@
 	background-color: #dfdfdf;
 }
 </style>	
-<link href="https://fonts.googleapis.com/css?family=Do+Hyeon" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Jua" rel="stylesheet">
 <div class="container" align="center" >
 <%	if(tagMap!=null){
 //25 20 15 10
