@@ -419,7 +419,7 @@ function updateAlarm(newCount){
           </fieldset>
           </form>
       </div>
-    </div>
+    </div> 
     
   </div>
 </div>

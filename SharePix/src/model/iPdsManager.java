@@ -49,4 +49,8 @@ public interface iPdsManager {
 
 	public int getCurrSeq();
 	
+	public boolean noreport(int seq);
+
+	 public List<PdsBean> getsingoPdsAllList();
+	
 }

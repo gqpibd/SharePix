@@ -44,6 +44,23 @@ public class PdsBean  implements Serializable {
 
 	public PdsBean() { }
 
+	public PdsBean(int seq, String id, String category, String[] tags, String uploadDate, String fileName,
+			int readCount, int downCount, int likeCount, int replyCount, String fSaveName, int report) {
+		super();
+		this.seq = seq;
+		this.id = id;
+		this.category = category;
+		this.tags = tags;
+		this.uploadDate = uploadDate;
+		this.fileName = fileName;
+		this.readCount = readCount;
+		this.downCount = downCount;
+		this.likeCount = likeCount;
+		this.replyCount = replyCount;
+		this.fSaveName = fSaveName;
+		this.report = report;
+	}
+
 	public PdsBean(int seq, String id, String category, String[] tags, String uploadDate, String fileName, int readCount,
 			int downCount, int likeCount, int replyCount, String fSaveName) {
 		super();

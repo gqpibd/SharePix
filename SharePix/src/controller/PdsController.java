@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -12,6 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dto.FollowDto;
+import dto.MemberBean;
 import dto.PdsBean;
 import model.service.AlarmService;
 import model.service.PdsService;
@@ -145,7 +148,24 @@ public class PdsController extends HttpServlet {
 			PrintWriter out = resp.getWriter();			
 			out.println(count);
 			out.flush();
-		}
+		}else if(command.equals("singono")) {
+			int seq = Integer.parseInt(req.getParameter("seq"));
+
+			PdsService singono = PdsService.getInstance();
+			boolean isS = singono.noreport(seq);
+	
+			if(isS) {
+				dispatch("PdsController?command=detailview&seq=" + seq, req, resp);
+			}		
+			else {
+				resp.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = resp.getWriter();
+				
+				out.println("<script>alert('수정 실패'); location.href='./index.jsp';</script>");
+				out.flush();
+			}
+			
+		} 
 	}
 
 	public void dispatch(String urls, HttpServletRequest req, HttpServletResponse resp)
