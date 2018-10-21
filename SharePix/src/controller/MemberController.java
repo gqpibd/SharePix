@@ -27,11 +27,12 @@ import dto.MemberBean;
 import dto.PdsBean;
 import model.service.MemberService;
 import model.service.PdsService;
+import utils.FileUtil;
 import utils.ImageResize;
 
-public class MemberController extends HttpServlet {
+public class MemberController extends HttpServlet {//"C:\\Users\\이호영\\git\\sharePix\\SharePix\\WebContent\\images\\profiles";
 	
-	public static final String PROFILEPATH = "C:\\Users\\이호영\\git\\sharePix\\SharePix\\WebContent\\images\\profiles";
+	public static final String PROFILEPATH = "C:\\Users\\seung\\git\\SharePix\\SharePix\\WebContent\\images\\profiles";
 	
 	private ServletConfig mConfig = null; // 업로드 폴더의 realpath에 접근하기 위해서 필요하다
 	
@@ -83,7 +84,7 @@ public class MemberController extends HttpServlet {
 		if (isMultipart) {
 			System.out.print("profile upload");					
 			
-			String filePathServer = mConfig.getServletContext().getRealPath("/images/pictures"); // 톰캣에도 저장하자
+			String filePathServer = mConfig.getServletContext().getRealPath("/images/profiles"); // 톰캣에도 저장하자
 			System.out.println(filePathServer);
 			
 			// form field 에 데이터(String)
@@ -92,10 +93,10 @@ public class MemberController extends HttpServlet {
 			String pwd = "";
 			String email = "";
 			String phone = "";
+			String profile_keep_or_default = "";
 
 			// file data
 			String filename = ""; // 어떤 파일이 넘어오는지 정보를 얻기 위한 것
-			String fSaveName = req.getParameter("id");
 
 			////////////////////// file
 			
@@ -125,24 +126,39 @@ public class MemberController extends HttpServlet {
 					if (item.isFormField()) {
 						if (item.getFieldName().equals("id")) {
 							id = item.getString("utf-8");
+							System.out.println("item id = " + id);
 						} else if (item.getFieldName().equals("name")) {
 							name = item.getString("utf-8");
+							System.out.println("item name = " + name);
 						} else if (item.getFieldName().equals("pwd")) {
 							pwd = item.getString("utf-8");
+							System.out.println("item pwd = " + pwd);
 						} else if (item.getFieldName().equals("email")) {
 							email = item.getString("utf-8");
+							System.out.println("item email = " + email);
 						} else if (item.getFieldName().equals("phone")) {
 							phone = item.getString("utf-8");
+							System.out.println("item phone = " + phone);
+						} else if (item.getFieldName().equals("profile_keep_or_default")) {
+							profile_keep_or_default = item.getString("utf-8");
+							System.out.println("item profile_keep_or_default = " + profile_keep_or_default);
 						}
 					} else { // fileload
 						if(item.getFieldName().equals("fileload")){
-							filename = profileUploadFile(item, fupload, filePathServer, fSaveName);							
-						}
-						if(filename != null){
-							System.out.println("저장 파일 경로 및 파일명: " + filename);							
-							fSaveName = fSaveName+filename.substring(filename.lastIndexOf("."));
-							System.out.println("저장 파일명: " + fSaveName);
-							ImageResize.resize25(PROFILEPATH,fSaveName, filePathServer);
+							if(item.getName()==null || item.getName().equals("")) {
+								System.out.println("item.getName() 이 null : 기본 프로필 유지 혹은 삭제");
+								
+								if(Boolean.parseBoolean(profile_keep_or_default)) { // true (keep) 일 때
+									System.out.println("filename : " + filename);
+								}else { // false (default) 일 때
+									//filename = profileUploadFile(item, fupload, filePathServer, id);
+									FileUtil.deleteFile(PROFILEPATH + "\\" + id + ".png", filePathServer + "\\" + id + ".png");
+									System.out.println("filename : " + filename);
+								}
+							}else {
+								filename = profileUploadFile(item, fupload, filePathServer, id);
+								System.out.println("item : profileUploadFile " + item.getName());
+							}
 						}
 					}
 				}
@@ -156,14 +172,16 @@ public class MemberController extends HttpServlet {
 			boolean isS = memberService.updateUser(memDto);
 
 			if (isS) { // update가 되면 true 반환
-				resp.sendRedirect("userPage.jsp?id=" + memDto.getId());
+				resp.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = resp.getWriter();
+				resp.sendRedirect("MemberController?command=userPage&id=" + memDto.getId());
 			} else {
 				resp.setContentType("text/html; charset=UTF-8");
 				PrintWriter out = resp.getWriter();
-				out.println("<script>alert('개인정보 수정 실패'); location.href='./userPage.jsp?id=" + memDto.getId() + "';</script>");
+				out.println("<script>alert('개인정보 수정 실패'); location.href='MemberController?command=userPage&id=" + memDto.getId() + "';</script>");
 				out.flush();
 			}
-		}
+		}else {
 			
 		String command = req.getParameter("command");
 		System.out.println("Member / doProcess로  들어온 command : " + command);		
@@ -344,6 +362,7 @@ public class MemberController extends HttpServlet {
 			memService.changeFollow(followerId, followeeId, !followChk); // follow 상태 바꿔줌
 			resp.getWriter().write("<followChk>" +!followChk +"</followChk>");
 			resp.getWriter().flush();
+		}
 		}
 	}
 	

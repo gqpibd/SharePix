@@ -29,7 +29,7 @@
 	List<PdsBean> lList 	= (List<PdsBean>)request.getAttribute("lList");// 페이지의 유저가 좋아요한 리스트 */
 	
 	if( pagePds == null || pageMemDto == null || list == null  || fList == null || sList == null  || lList == null ) {
-		System.out.println("뭐가 됐든 null");
+		System.out.println(" 유저 페이지 뭐가 됐든 null");
 	} else {
 		System.out.println("아무것도 null 아님");
 	}
@@ -75,13 +75,13 @@
 		sListName = "내가 구독한 사람이 없습니다.";
 	}
 	
-	String follow = "images/icons/like_empty.png";
+	String follow = "images/icons/follower_empty.png";
 	boolean isFollow = false;
 	if(loginMemDto!=null){
 		isFollow = memService.checkMemFollow(loginMemDto.getId(), pageId);
 	}
 	if (isFollow) {
-		follow = "images/icons/like_fill.png";
+		follow = "images/icons/following.png";
 	}
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -139,7 +139,6 @@
 			<%if(loginMemDto != null && pageMemDto.getId().equals(loginMemDto.getId())){
 			%>
 			<img class="clickable" style="width: 40px; position: relative; bottom: 40px; left: 100px;" title="개인정보 수정" alt="" src="./images/icons/edit.png" onclick="location.href='MemberController?command=userUpdatePage'">
-			
 			<%
 			}%>
 			</td>
@@ -167,15 +166,16 @@
 	<% if (ologin == null) { %> <!-- 로그인 하지 않았을 때 -->
 		<div align="center">
 		<button onclick="loginView()"> <!-- 팔로우 버튼 -->
-			<img id="followImg" src="<%=follow%>" width="15"> 
+			<img id="followImg" src="<%=follow%>" width="20"> 
 		</button>
 		<input type="hidden" id="ajax_follow">
 		</div>
 	<%} else if(loginMemDto != null && !pageMemDto.getId().equals(loginMemDto.getId())) {
 		%>
 		<div align="center">
-		<button onclick="doFollow()"> <!-- 팔로우 버튼 -->
-			<img id="followImg" src="<%=follow%>" width="15"> 
+		<button id="follow_Btn" onclick="javascript:doFollow()"> <!-- 팔로우 버튼 -->
+			<img id="followImg" src="<%=follow%>" width="20">
+			&nbsp;&nbsp;팔로우
 		</button>
 		<input type="hidden" id="ajax_follow">
 		</div>
@@ -249,18 +249,17 @@
 		%>
 	</div> 
 	
-	<div id="userSub" class="ifNotMeHide" style="display: none"> <!-- 불러오긴 하나 숨김 -->
+	<div align="center" id="userSub" class="ifNotMeHide" style="display: none"> <!-- 불러오긴 하나 숨김 -->
 		<jsp:include page="follow.jsp" flush="true">
 			<jsp:param name="followeeId" value="${pagePds.id }"/>
 		</jsp:include>
 	</div>
 	
-		<div id="userCollect">
-			<jsp:include page="imageGrid.jsp" flush="true">
-				<jsp:param name="command" value="favorites" />
-				<jsp:param name="id" value="${pageMemDto.id }"/>
-			</jsp:include>
-		</div>
+	<div id="userCollect">
+		<jsp:include page="imageGrid.jsp" flush="true">
+			<jsp:param name="command" value="favorites" />
+			<jsp:param name="id" value="${pageMemDto.id }"/>
+		</jsp:include>
 	</div>
 </body>
 
@@ -272,28 +271,26 @@ window.onload = function () {
 var followChk = '<%=isFollow%>';
 function doFollow(){ // 팔로우 눌렀을 때			
 	<%if (ologin == null) {%>
-		alert("로그인해 주십시오");
 		loginView();
 	<%} else {%>				
 		$.ajax({
 			url:"MemberController", // 접근대상
 			type:"get",		// 데이터 전송 방식
-			data:"command=follow&followeeId=" + <%=pageMemDto.getId()%> + "&followerId=<%=loginMemDto.getId()%>" +"&followChk=" + followChk, // 전송할 데이터
+			data:"command=follow&followeeId=<%=pageMemDto.getId()%>&followerId=<%=loginMemDto.getId()%>&followChk=" + followChk, // 전송할 데이터
 			success:function(data, status, xhr){
 				/* console.log(data); */
-				
 				followChk = $("#ajax_follow").html(data).find("followChk").text();
 				if(followChk == "false"){
-					$("#followImg").attr("src",'images/icons/like_empty.png');
+					$("#followImg").attr("src",'images/icons/follower_empty.png');
 				}else{
-					$("#followImg").attr("src",'images/icons/like_fill.png');
+					$("#followImg").attr("src",'images/icons/following.png');
 				}
 			},
 			error:function(){ // 또는					 
 				console.log("통신실패!");
 			}
 		});				
-		<%}%>
+	<%}%>
 }
 function gotoPds(){
 	$("#userSub").hide();
