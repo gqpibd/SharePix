@@ -18,13 +18,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>새소식</title>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <link rel="shortcut icon" href="images/icons/favicon.ico">
 <style type="text/css">
-body {
-  font-family: 'lato', sans-serif;
-}
 
 .alarms {
   max-width: 1000px;
@@ -57,18 +54,24 @@ h2 small {
 }
 .responsive-table .col-1 {
   flex-basis: 10%;
+  margin : auto;
 }
 .responsive-table .col-2 {
-  flex-basis: 20%;
+  flex-basis: 30%;
+  margin : auto;
 }
 .responsive-table .col-3 {
   flex-basis: 15%;
+  margin : auto;
+  text-align: center;
 }
 .responsive-table .col-4 {
-  flex-basis: 45%;
+  	flex-basis: 40%;
+ 	margin : auto;
 }
-.responsive-table .col-4 {
+.responsive-table .col-5 {
   flex-basis: 10%;
+  margin : auto;
 }
 @media all and (max-width: 767px) {
   .responsive-table li {
@@ -247,16 +250,16 @@ button:focus {
 			}
 			String fSaveName = pService.getPdsDetail(aList.get(i).getPdsSeq()).getfSaveName();
 		%>		
-		<li class="table-row" onclick="veiwDetail(<%=aList.get(i).getSeq()%>,<%=aList.get(i).getPdsSeq()%>)">
-		 	<div class="col col-1" data-label="작성자 프로필"> 
+		<li class="table-row" >
+			
+			<div class="col col-1" data-label="작성자 프로필" onclick="veiwDetail(<%=aList.get(i).getSeq()%>,<%=aList.get(i).getPdsSeq()%>)"> 
 		 		<img class="profile_img" name="item" src="images/profiles/<%=aList.get(i).getFromId()%>.png"  >
 		 	</div>
-			<div class="col col-2" data-label="내용"> <%=type %></div>
-			<div class="col col-3" data-label="관련 게시글">
+			<div class="col col-2" data-label="아이디" onclick="veiwDetail(<%=aList.get(i).getSeq()%>,<%=aList.get(i).getPdsSeq()%>)"> <%=type %></div>
+			<div class="col col-3" data-label="관련 게시글" onclick="veiwDetail(<%=aList.get(i).getSeq()%>,<%=aList.get(i).getPdsSeq()%>)">
 				<img name="item" src="images/pictures/<%=fSaveName%>"  height="50" ></div>
-			<div class="col col-4" data-label="관련 게시글">
-			<button class="circle" data-animation="xMarks" data-remove="3000" onclick="deleteAlarm(<%=aList.get(i).getSeq()%>,this)"></button>
-			</div>
+			<div class="col col-4" data-label="내용" onclick="veiwDetail(<%=aList.get(i).getSeq()%>,<%=aList.get(i).getPdsSeq()%>)"><%=content %></div>	
+			<div class="col col-5" data-label=""><button class="circle" data-animation="xMarks" data-remove="3000" onclick="deleteAlarm(<%=aList.get(i).getSeq()%>,this)"></button></div>
 		</li>
 		
 		<%}} %>
@@ -272,7 +275,11 @@ button:focus {
 				type:"get",		// 데이터 전송 방식
 				data:"command=deleteAlarm&id=<%=user.getId()%>&seq="+aSeq, // 전송할 데이터
 				success:function(data, status, xhr){
-					$(item).parent().parent().remove();
+					if(data.trim() == '0'){
+						$(item).parent().parent().parent().replaceWith("<h2>새로운 소식이 없습니다</h2>")
+					}else{
+						$(item).parent().parent().remove();
+					}
 					updateAlarm(data.trim());
 				},
 				error:function(){ // 또는					 

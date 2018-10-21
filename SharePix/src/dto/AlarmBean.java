@@ -45,6 +45,18 @@ public class AlarmBean implements Serializable {
 		this.date = date;
 	}
 	
+	
+	public AlarmBean(int seq, String toId, String fromId, int type, int pdsSeq, String date, String content) {
+		super();
+		this.seq = seq;
+		this.toId = toId;
+		this.fromId = fromId;
+		this.type = type;
+		this.pdsSeq = pdsSeq;
+		this.date = date;
+		this.content = content;
+	}
+
 	public int getSeq() {
 		return seq;
 	}

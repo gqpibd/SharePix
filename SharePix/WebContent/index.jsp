@@ -41,6 +41,7 @@
 <link rel="stylesheet" href="style/imageArrange.css">
 <link rel="stylesheet" href="style/common.css">
 <link rel="shortcut icon" href="images/icons/favicon.ico">
+<link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Jua" rel="stylesheet">
 
 </head>
 <body bgcolor="#D5D5D5">

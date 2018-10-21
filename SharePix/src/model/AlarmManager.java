@@ -19,7 +19,7 @@ public class AlarmManager implements iAlarmManager {
 	
 	@Override
 	public List<AlarmBean> getAlarmList(String id) {	// 내가 좋아요한 리스트
-		String sql  = " SELECT SEQ, TOID, FROMID, ATYPE, PDSSEQ, ADATE " 
+		String sql  = " SELECT SEQ, TOID, FROMID, ATYPE, PDSSEQ, ADATE, CONTENT " 
 					+ " FROM ALARM " 
 					+ " WHERE TOID = ?"
 					+ " ORDER BY ADATE DESC "; 
@@ -43,7 +43,7 @@ public class AlarmManager implements iAlarmManager {
 			while (rs.next()) {
 				// TOID, FROMID, TYPE, PDSSEQ, ADATE
 				AlarmBean bean = new AlarmBean(rs.getInt("SEQ"), rs.getString("TOID"), rs.getString("FROMID"),
-						rs.getInt("ATYPE"), rs.getInt("PDSSEQ"), rs.getString("ADATE"));
+						rs.getInt("ATYPE"), rs.getInt("PDSSEQ"), rs.getString("ADATE"), rs.getString("CONTENT"));
 				list.add(bean);
 			}
 			System.out.println("3/6 getMyLikeList Success");
