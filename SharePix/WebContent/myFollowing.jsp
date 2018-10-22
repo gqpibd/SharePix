@@ -9,8 +9,8 @@
 MemberService memService = MemberService.getInstance();
 PdsService pdsService = PdsService.getInstance();
 
-String followeeId = request.getParameter("followeeId");
-List<FollowDto> sList = memService.getMySubscribeList(followeeId); // 나를 구독하는 사람들 리스트 받기
+String pageId = request.getParameter("pageId");
+List<FollowDto> myFList = memService.getMyfollowingList(pageId); // 내가 구독하는 사람들 리스트 받기
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -30,13 +30,14 @@ List<FollowDto> sList = memService.getMySubscribeList(followeeId); // 나를 구
 </head>
 <body>
 
-<%if(sList.size()!=0){%>
-	<table style="margin: 20px;margin-right: 20px;margin-left:20px">
-	<col width="300px"><col width="300px"><col width="300px">
+<%if(myFList.size()!=0){%>
+<div align="center">
+<table style="margin: 20px;margin-right: 20px;margin-left:20px">
+<col width="300px"><col width="300px"><col width="300px">
 <tr style="height: 250px">
-<%for (int i = 0; i < sList.size(); i++) {
-	FollowDto fDto = sList.get(i);
-	MemberBean memDto = memService.getUserInfo(fDto.getFollowerId());
+<%for (int i = 0; i < myFList.size(); i++) {
+	FollowDto fDto = myFList.get(i);
+	MemberBean memDto = memService.getUserInfo(fDto.getFolloweeId());
 	%>
 		<td align="center" class="profiles_td">
 			<img src="images/profiles/<%=memDto.getId()%>.png" title="<%=memDto.getName()%>님" width="100"	class="profile img_clickable" align="middle"
@@ -49,12 +50,13 @@ List<FollowDto> sList = memService.getMySubscribeList(followeeId); // 나를 구
 	<%}
 }%>
 </tr>
-	</table>
+</table>
 <%}else{%>
-	<div align="center" class="noNews">
-	<p>와! 여긴 쌀 한 톨도 없네요!</p>
-	<p>새로운 친구를 사귀어봐요!</p>
+<div align="center" class="noNews">
+	<p>와! 여긴 사람 한명 없네요!</p>
+	<p>새 친구를 팔로우 해봐요!</p>
 	</div>
 <%}%>
+</div>
 </body>
 </html>

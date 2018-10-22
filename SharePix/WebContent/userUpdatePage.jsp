@@ -4,6 +4,7 @@
 	pageEncoding="UTF-8"%>
 <%
 	request.setCharacterEncoding("utf-8");
+
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -13,19 +14,13 @@
 <title>개인정보수정</title>
 <link rel="shortcut icon" href="images/icons/favicon.ico">
 <style type="text/css">
-.profile {
-    width: 300px; 
-    height: 300px;
-}
 .imgbox{
-	align-self: center;
 	position: relative;
 	width: 300px;
 	height: 300px;
 	vertical-align: middle;
 }
 .holder{
-	align-self: center;
 	max-height: 300px;
 	max-width: 300px;	
 	position: relative;
@@ -96,7 +91,6 @@ var loadImageFile = function () {
 		}
 
 		mem = (MemberBean) ologin;
-
 		System.out.println("수정 전 mem = " + mem.toString());
 
 		MemberService service = MemberService.getInstance();
@@ -130,7 +124,7 @@ var loadImageFile = function () {
 	<tr>
 	<td style="padding-left: 30px; padding-right: 30px;">
 		<div class="group">
-			<input required="required" class="input check_fill" name="id" id="id" type="text" maxlength="12" readonly="readonly" value="<%=updateDto.getId()%>">
+			<input required="required" class="input" name="id" id="id" type="text" maxlength="12" readonly="readonly" value="<%=updateDto.getId()%>">
 			<span class="highlight"></span>
 			<span class="bar"></span> 
 			<label class="label" for="date" id="id_label">ID&nbsp;&nbsp;&nbsp;(수정 불가)<span id="idcheck" style="font-size: 8px"></span></label>
@@ -139,7 +133,7 @@ var loadImageFile = function () {
 	<td style="padding-left: 30px; padding-right: 30px;">
 		<!-- ID input-->
 		<div class="group">
-			<input required="required" class="input check_fill" name="name" id="name" type="text" maxlength="12" value="<%=updateDto.getName()%>">
+			<input required="required" class="input" name="name" id="name" type="text" maxlength="12" value="<%=updateDto.getName()%>">
 			<span class="highlight"></span>
 			<span class="bar"></span> 
 			<label class="label" for="date" id="name_label">NICKNAME<span id="idcheck" style="font-size: 8px"></span></label>
@@ -150,11 +144,11 @@ var loadImageFile = function () {
 	<td style="padding-left: 30px; padding-right: 30px; padding-bottom : 20px" rowspan="4">
 			<div class="group">
 			<label class="label" for="date">IMAGE : 드래그 하거나 클릭하여 업로드</label>
-			</div>`
+			</div>
 			<br>
 			<div class="imgbox">
-			<img id="editable-Img" src='images/profiles/<%=updateDto.getId()%>.png' class='profile holder  check_fill' align='middle' onerror="this.src='images/profiles/default.png'">
-			<input type="file" name="fileload" accept="image/gif, image/jpeg, image/png" class="upload check_fill" id="upload-Image" onchange="loadImageFile();" >
+			<img id="editable-Img" src='<%=config.getServletContext().getRealPath("/images/profiles") %>/<%=updateDto.getId()%>.png' class='holder' align='middle' onerror="this.src='<%=config.getServletContext().getRealPath("/images/profiles") %>/default.png'">
+			<input type="file" name="fileload" accept="image/gif, image/jpeg, image/png" class="upload" id="upload-Image" onchange="loadImageFile();" >
 			</div>
 			<br>
 			<div align="center">
@@ -165,7 +159,7 @@ var loadImageFile = function () {
 		<!-- Password input-->
 		<td style="padding-left: 30px; padding-right: 30px;">
 		<div class="group">
-			<input required class="input" name="pwd" id="pwd" type="password" maxlength="12" placeholder="새 비밀번호">
+			<input class="input" name="pwd" id="pwd" type="password" maxlength="12" placeholder="새 비밀번호">
 			<span class="highlight"></span>
 			<span class="bar" id="pwd_bar"></span> 
 			<label class="label" for="date">&nbsp;&nbsp;새 PW</label>
@@ -176,7 +170,7 @@ var loadImageFile = function () {
 		<!-- Password input-->
 		<td style="padding-left: 30px; padding-right: 30px;">
 		<div class="group">
-			<input required="required" class="input check_fill" id="pwd2" type="password" maxlength="12" onkeyup="" placeholder="비밀번호 확인">
+			<input class="input" id="pwd2" type="password" maxlength="12" onkeyup="" placeholder="비밀번호 확인">
 			<span class="highlight"></span>
 			<span class="bar" id="pwd2_bar"></span> 
 			<label class="label" for="date">&nbsp;PW확인</label>
@@ -187,7 +181,7 @@ var loadImageFile = function () {
 		<!-- Email input-->
 		<td style="padding-left: 30px; padding-right: 30px;">
 		<div class="group">
-			<input required="required" class="input check_fill" name="email" type="text" id="email2" onchange="emailCheck()" value="<%=updateDto.getEmail()%>">
+			<input required="required" class="input" name="email" type="text" id="email2" onchange="emailCheck()" value="<%=updateDto.getEmail()%>">
 			<span class="highlight"></span>
 			<span class="bar"></span> 
 			<label class="label" for="date">&nbsp;&nbsp;EMAIL</label>
@@ -198,7 +192,7 @@ var loadImageFile = function () {
 		<!-- Tel input-->
 		<td style="padding-left: 30px; padding-right: 30px;">
 		<div class="group">
-			<input required="required" class="input check_fill" name="phone" type="text" id="phone2" onchange="phoneCheck()" value="<%=updateDto.getPhone()%>"/> <!-- pattern="\d{3}-\d{3,4}-\d{4}" -->
+			<input required="required" class="input" name="phone" type="text" id="phone2" onchange="phoneCheck()" value="<%=updateDto.getPhone()%>"/> <!-- pattern="\d{3}-\d{3,4}-\d{4}" -->
 			<span class="highlight"></span>
 			<span class="bar"></span> 
 			<label class="label" for="date">&nbsp;&nbsp;PHONE</label>
@@ -219,14 +213,14 @@ var loadImageFile = function () {
 	<br>
 	<br>
 	<hr>
-	<br> ㅁ todolist(181019 업데이트 중)
+	<br> ㅁ todolist(181022 업데이트 중)
 	<br> - ★ 일단 기능부터
-	<strike>개인정보 수정, 좋아요 카운트</strike>, 팔로우 페이지 꾸미기
-	<br> - ★ 개인사진 수정(사진 업로드)
+	<strike>개인정보 수정, 좋아요 카운트, 팔로우 페이지 꾸미기</strike>
+	<br> <strike>- ★ 개인사진 수정(사진 업로드)</strike>
 	<br> - ★ 닉네임 중복, 비밀번호 확인 안 되면 수정 완료버튼 비활성화
 	<br> - ★ 다운로드?
 	<br> - ★ 아무 것도 없으면 아무것도 없습니다.
-	<br> - ★ 구독 버튼 이미지 바꾸기
+	<br> <strike>- ★ 구독 버튼 이미지 바꾸기</strike>
 	<br> - ★ 내가 올린 사진들 그런 것 클릭 중일시 탭 누르는 효과처럼
 	<br> - ★ 자기가 올린 디테일 볼 때 팔로우 버튼 없애기
 	<br> - ★ 관리자 삭제 기능
@@ -249,7 +243,7 @@ var loadImageFile = function () {
 	<br> <strike>+ (추가) 이메일 select option?</strike>
 	<br> <strike>+ (추가) 문자, 숫자 포함한 비밀번호로 저장?</strike>
 	<br> + (추가) 휴대폰 번호 쓰면 자동으로 넘어가게?
-	<br> + (추가) 신고 삭제
+	<br> <strike>+ (추가) 신고 삭제</strike>
 	<br> <strike>+ (추가) 팔로우</strike>
 	<br>
 	<br>
@@ -298,13 +292,8 @@ $(document).ready(function () { // 전부 입력시에 수정버튼 활성화 �
 			alert("닉네임을 입력하세요.");
 			$("#name").focus();
 			return;
-		}else if($("#pwd").val()==""){// 새 비밀번호  빈 문자
-			alert("새 비밀번호를 입력하세요");
-			$("#pwd").focus();
-			return;
-		}else if($("#pwd2").val()==""){// 비밀번호 확인 빈 문자
-			alert("비밀번호 확인을 입력하세요");
-			$("#pwd2").focus();
+		}else if($("#pwd").val()=="" && $("#pwd2").val()==""){// 새 비밀번호  빈 문자
+			$("#pwd").val("<%=mem.getPwd()%>");
 			return;
 		}else if(!pwdCheck){ // 비밀번호 다를 때
 			alert("비밀번호가 같지 않습니다.");
@@ -330,24 +319,6 @@ function profile_default() {
 	console.log("profile_default() profile_keep_or_default : " + profile_keep_or_default);
 	$("#profile_keep_or_default").val(profile_keep_or_default);
 } 
-
-/* $(document).ready(function (){
-	$("#pwd, #pwd2").keyup(function () { // 키 누를 때마다 검사		// 안 이뻐서 바꾸고 싶다
-		if($("#pwd").val()==""){ // null 일 때 걸러내기만
-			
-		}else if($("#pwd").val()==$("#pwd2").val()){ 	// 비밀 번호 동일시
-			$("#pwd2").css("background", "linear-gradient(to top, #3366FF, white)");
-			$("#edit_Btn").css("background-color", "");
-			
-			if(!$(".check_fill").val()==""){	// 모든 내용이 다 기입 되어있으면
-				$("#edit_Btn").removeAttr("disabled");
-			}
-		}else{
-			$("#pwd2").css("background", "linear-gradient(to top, #FF6666, white)");
-			$("#edit_Btn").attr("disabled", "disabled");
-		}
-	});
-}); */
 
 $(document).ready(function(){ 
 	$("#phone2").focus(function () {

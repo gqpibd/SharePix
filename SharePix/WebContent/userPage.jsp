@@ -25,7 +25,7 @@
 	MemberBean pageMemDto	= (MemberBean)request.getAttribute("pageMemDto");
 	List<PdsBean> list 		= (List<PdsBean>)request.getAttribute("list");      
 	List<FollowDto> fList 	= (List<FollowDto>)request.getAttribute("fList");// 해당 페이지의 사용자를 팔로우 하는 사람 list
-	List<FollowDto> sList 	= (List<FollowDto>)request.getAttribute("sList");// 페이지의 유저가 구독하는 사람 리스트
+	List<FollowDto> sList 	= (List<FollowDto>)request.getAttribute("sList");// 페이지의 유저를 구독하는 사람 리스트
 	List<PdsBean> lList 	= (List<PdsBean>)request.getAttribute("lList");// 페이지의 유저가 좋아요한 리스트 */
 	
 	if( pagePds == null || pageMemDto == null || list == null  || fList == null || sList == null  || lList == null ) {
@@ -102,10 +102,32 @@
     border-radius: 50%;
     border: 0.1em solid grey;
 }
+.noNews {
+  font-size: 26px;
+  margin: 20px 0;
+  text-align: center;
+  font-family: 'Do Hyeon', sans-serif;
+}
+.mybtn {	
+	background:#dfeaef;
+	border-radius:4px;
+	border:1px solid #fff;
+	display:inline-block;
+	cursor:pointer;
+	color:#333333;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+}
+.mybtn:hover {	
+	background:linear-gradient(to bottom, #ecf9ff 5%, #cedde4 100%);	
+}
 </style>
 <title></title>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="js/jquery.row-grid.js"></script>
+<script src="js/jquery.row-grid.min.js"></script>
 <link rel="stylesheet" href="style/imageArrange.css">
 <link rel="shortcut icon" href="images/icons/favicon.ico">
 </head>
@@ -119,8 +141,8 @@
 
 	<div style="margin-top: 8em">
 	<!-- <div align=center> -->
-	<!-- background-color: #92A8D1;  -->
-<div style="padding: 50px; padding-top: 50px; padding-bottom: 50px; background: linear-gradient(to bottom, #92A8D1, white)">
+	<!-- background-color: #92A8D1;  --
+<div style="padding: 50px; padding-top: 50px; padding-bottom: 50px; background: linear-gradient(to bottom, #92A8D1, white)"><!--  -->
 	<table align="center" style="margin-bottom: 10px" > <!-- border="1" -->
 	<tr>
 		<td class="td" align="center" style="height: 100px">
@@ -166,14 +188,14 @@
 	<% if (ologin == null) { %> <!-- 로그인 하지 않았을 때 -->
 		<div align="center">
 		<button onclick="loginView()"> <!-- 팔로우 버튼 -->
-			<img id="followImg" src="<%=follow%>" width="20"> 
+			<img  id="followImg" src="<%=follow%>" width="20"> 
 		</button>
 		<input type="hidden" id="ajax_follow">
 		</div>
 	<%} else if(loginMemDto != null && !pageMemDto.getId().equals(loginMemDto.getId())) {
 		%>
 		<div align="center">
-		<button id="follow_Btn" onclick="javascript:doFollow()"> <!-- 팔로우 버튼 -->
+		<button id="follow_Btn" class="mybtn" onclick="javascript:doFollow()"> <!-- 팔로우 버튼 -->
 			<img id="followImg" src="<%=follow%>" width="20">
 			&nbsp;&nbsp;팔로우
 		</button>
@@ -186,8 +208,11 @@
 	
 	<hr>
 	<div align="center">
-	<a href="javascript:gotoPds()"><%=pageMemDto.getId()%>가 올린 이미지</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	<a href="javascript:gotoSub()">나를 구독한 사람들</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<a href="javascript:gotoPds()"><%=pageMemDto.getId()%>가 올린 이미지</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<%if(loginMemDto != null && pageMemDto.getId().equals(loginMemDto.getId())){%>
+		<a href="javascript:gotoMyFollow()">내가 구독한 사람들</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<%}%>
+	<a href="javascript:gotoSub()">나를 구독한 사람들</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	<a href="javascript:gotoLike()">내 컬렉션</a>
 	</div>
 	<hr>	
@@ -265,6 +290,12 @@
 			<jsp:param name="id" value="${pageMemDto.id }"/>
 		</jsp:include>
 	</div>
+	
+	<div id="userFollowing">
+		<jsp:include page="myFollowing.jsp" flush="true">
+			<jsp:param name="pageId" value="${pageMemDto.id }"/>
+		</jsp:include>
+	</div>
 </body>
 
 <script type="text/javascript">
@@ -299,20 +330,30 @@ function doFollow(){ // 팔로우 눌렀을 때
 function gotoPds(){
 	$("#userSub").hide();
 	$("#userCollect").hide();
+	$("#userFollowing").hide();
 	$("#userPds").show();	
 }
 
 function gotoSub() { 
 	$("#userPds").hide();	
 	$("#userCollect").hide();
+	$("#userFollowing").hide();
 	$("#userSub").show();
 }
 
 function gotoLike(){
 	$("#userPds").hide();
 	$("#userSub").hide();
+	$("#userFollowing").hide();
 	$("#userCollect").show();
 	$("#userCollect").css("visibility","visible");
+}
+
+function gotoMyFollow() {
+	$("#userPds").hide();	
+	$("#userCollect").hide();
+	$("#userSub").hide();
+	$("#userFollowing").show();
 }
 
 function veiwDetail(seq) { // 사진 상세 페이지로 이동
@@ -347,31 +388,19 @@ function doLike(){ // 좋아요 눌렀을 때
 	});				
 <%}%>
 }
-<%--
-// 이거 테스트하는 동안만 숨겨놓은 거라서 실제 사용시에는 주석 삭제해야 (미수정)
-//로그인한 id 와  유저페이지의 id 가 다를 때 숨기는 코드
-$(function () {
-	$(document).ready(function () {
-		var loginIdStr = '<%=loginMemDto.getId()%>';
-		var pageIdStr = '<%=pageMemDto.getId()%>';
-		if(loginIdStr != pageIdStr){	// 로그인한 id 와  유저페이지의 id 가 다를 때
-			alert("야호");
-			$(".ifNotMeHide").hide();	// 클래스로 한번에 숨기려고
-		}
-	});
-});
- --%>
  	$(document).ready(function() {
 		$.noConflict();
 		var options = {minMargin: 5, maxMargin: 15, itemSelector: ".item", firstItemClass: "first-item"};
 		$(".mcontainer").rowGrid(options);		
 	});
+ 	
  	function doDown(item, seq, fsavename, filename) {
  		location.href = "FileController?command=download&rate=100&pdsSeq=" + seq
  				+ "&fsavename=" + fsavename + "&filename=" + filename;
  		var dCount = parseInt($(item).siblings().text());
  		$(item).siblings().text(dCount + 1);
  	}
-</script>
+ 	
+	</script>
 
 </html>

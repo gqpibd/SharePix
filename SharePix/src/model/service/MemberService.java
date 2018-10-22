@@ -77,5 +77,8 @@ public class MemberService {
 		return manager.login(dto);
 	}
 	
+	public List<FollowDto> getMyfollowingList(String myId){
+		return manager.getMyfollowingList(myId);
+	}
 	
 }

@@ -34,4 +34,6 @@ public interface iMemberManager {
 	
 	public MemberBean getIdpwd(MemberBean dto);
 	
+	public List<FollowDto> getMyfollowingList(String myId);
+	
 }
