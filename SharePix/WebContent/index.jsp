@@ -52,7 +52,7 @@
 			<jsp:param name="goBackTo" value="index.jsp" />
 		</jsp:include>
 	</div>
-	<div style="margin-top: 9em"></div>
+	<div style="margin-top: 10em"></div>
 	<!-- 태그 출력 부분 -->
 	<div class="container" id="tags" align="center">
 		<%
@@ -156,13 +156,43 @@
 		%>
 	</div>
 	
-	<form action="PdsController?" method="get">
-		<input type="hidden" name="nowPage" value="2"> <input
-			type="hidden" name="command" value="keyword"> <input
-			type="hidden" name="tags" value=""> <input type="hidden"
-			name="choice" value="LIKECOUNT">
-		<button type="submit" name="command" value="keyword">더 둘러보기</button>
-	</form>
+
+
+	<div class="window1">
+		<form action="PdsController?" method="get">
+			<input type="hidden" name="nowPage" value="2"> 
+			<input type="hidden" name="command" value="keyword"> 
+			<input type="hidden" name="tags" value="">
+			<input type="hidden" name="choice" value="LIKECOUNT">
+			<button class="btn22" type="submit">더 둘러보기</button>
+		</form>
+	</div>
+	
+	<div class="footer_wrap">
+			<div class="total_count">
+				개인, 기업 누구나 쓸 수 있는 상업용 무료이미지 큐레이션				<span>프리큐레이션의 모든 이미지는 저작권 걱정없이 다운로드 및 수정, 배포할 수 있으며 상업적 용도로 어디에나 자유롭게 사용할 수 있습니다</span>
+			</div>
+
+			<div class="f_menu">
+					<a href="/about_us">회사소개</a>
+					<a href="/about_us#license">라이선스</a>
+					<a href="/about_us#faq">자주묻는질문</a>
+					<a href="/affiliate_program">제휴 프로그램</a>
+					<a href="javascript" onclick="window.open('/agreement','agreement','width=700,height=880,left=1,top=1');return false">Privacy &amp; Terms</a>       
+			 </div>
+			 <div class="f_menu">
+					<span class="lang_wrap">
+						<select name="lang_sel" id="lang_sel">
+							<option value="kr" selected="">한국어</option>
+							<option value="en">English</option>
+							<option value="jp">日本語</option>
+						</select>
+					</span>
+
+	 				<span class="octolab"><strong>octolab</strong> Inc.</span>
+
+			</div>
+		</div>
 
 	<script type="text/javascript">
 	function doLike(seq1, item){ // 좋아요 눌렀을 때			

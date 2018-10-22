@@ -78,16 +78,16 @@ System.out.println("lastPage = " + lastPage);
 	<input style="display: none;" type="submit" name="command" value="keyword" >
 	
 
-	<div class="pagingbtn" align="center">
-		
+	<div class="pagination-wrapper" align="center">
+		<div class="pagination" style="padding: 0 25px; border-radius: 35px;">
 		<!-- 첫페이지로 (총 글수가 100개 이상일 시에 보임)-->
-		<ul> 
+
 		<%if(firstPage > 0){ %>		
-			<li><a href="#" onclick="gotoPage('<%=firstPage %>')">처음페이지</a></li>
+			<a href="#" onclick="gotoPage('<%=firstPage %>')">처음페이지</a>
 		<%} %>
 		<!-- 이전페이지로 -->
 		<%if(prevPage > 0){ %>	
-			<li><a href="#" onclick="gotoPage('<%=prevPage %>')">이전</a></li>
+			<a class="prev page-numbers" href="#" onclick="gotoPage('<%=prevPage %>')">이전</a>
 		<%} %>
 		
 		<!-- [1][2][3]4[5][6] --> 
@@ -96,25 +96,26 @@ System.out.println("lastPage = " + lastPage);
 		for(int i = startPage; i <= endPage; i++){
 			if(i == nowPage){	
 			%>	
-				<%=i %>
+				 <span aria-current="page" class="page-numbers current"><%=i %></span>
 			<%	
 			}else{
 			%>
-				<li><a href="#" onclick="gotoPage('<%=i %>')"><%=i %></a></li>
+				<a class="page-numbers" href="#" onclick="gotoPage('<%=i %>')"><%=i %></a>
 			<%
 			}			
 		}		
 		%>
 		<!-- 다음 페이지 -->
 		<%if(nextPage > 0){ %>
-			<li><a href="#" onclick="gotoPage('<%=nextPage %>')">다음</a></li>
+			<a class="next page-numbers" href="#" onclick="gotoPage('<%=nextPage %>')">다음</a>
 		<%} %>
 		
 		<!-- 끝페이지 (총 글수가 100개 이상일 시에 보임)-->
 		<%if(lastPage > 0){ %>
-			<li><a href="#" onclick="gotoPage('<%=lastPage %>')">끝페이지</a></li>
+			<a href="#" onclick="gotoPage('<%=lastPage %>')">끝페이지</a>
 		<%} %>
-		</ul>
+			
+		</div>
 	</div>
 
 </form>
