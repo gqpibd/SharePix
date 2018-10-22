@@ -31,53 +31,105 @@ function idCheck() {
 		data:"id=" + $('#tbID').val(),
 		
 		success:function(data){
+			
+			var idCheck = false;
+			
 			if(data.trim() == "OK"){
-				$("#idcheck").css("color", "#0000ff");
+				$("#tbID").css("color", "#0000ff");
 				//$("#idcheck").html("사용할 수 있는 id입니다.");
-				$("#idcheck").val("");
-				$("#idcheck").focus();
-				alert("사용할 수 있는 id입니다.");
+				/* $("#tbID").css("background", "linear-gradient(to top, #3366FF, white)"); */
+				idCheck = true;
+				/* $("#idcheck").val("");
+				$("#idcheck").focus(); */
+				/* alert("사용할 수 있는 id입니다."); */
 		
 			}else{
-				$("#idcheck").css("color", "#ff0000");
-				//$("#idcheck").html("사용 중인 id입니다.");
+				//$("#tbID").css("color", "#ff0000");
+				$("#tbID").css("color", "#000");
+				/* $("#idcheck").html("사용 중인 id입니다."); */
+				/* $("#tbID").css("background", "linear-gradient(to top, #FF6666, white)"); */
 				alert("사용 중인 id입니다.");
 				$("#tbID").val("");
 				$("#tbID").focus();
-				
+				idCheck = true;
 			}
 		}
 	});	
 }
 
-function pwdCheck() {	
-	if($("#tbPwd").val() != ($("#cpass").val())){ 
+function pwdCheck() {
+	
+	/* if($("#tbPwd").val() != ($("#cpass").val())){ 
 	      alert("비밀번호가 다릅니다.");
 	      $("#tbPwd").val("");
 	      $("#cpass").val("");
 	      $("#tbPwd").focus();
 	      return false;
-	}	
+	}	 */
+	
+	var pwdCheck = false;
+	
+	$("input[type='password']").keyup(function () {
+		
+		if($("#tbPwd").val()==""){ // null 일 때 걸러내기만
+		}else if($("#tbPwd").val()==$("#cpass").val()){ 	// 비밀 번호 동일시
+			$("#cpass").css("color", "#0000ff");
+			//$("#cpass").css("background", "linear-gradient(to top, #3366FF, white)");
+			/* $("#edit_Btn").css("background-color", "");
+			$("#edit_Btn").removeAttr("disabled"); */
+			pwdCheck = true;
+		}else{
+			$("#cpass").css("color", "#ff0000");
+			//$("#cpass").css("background", "linear-gradient(to top, #FF6666, white)");
+			/* $("#edit_Btn").css("background-color", "red");
+			$("#edit_Btn").attr("disabled", "disabled"); */
+			pwdCheck = false;
+		}
+	});
+	
+	
 }
 
-function emailCheck() {	 
-	  // 이메일 검증 스크립트 작성
-	  var emailVal = $("#email").val();
-	  var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-	  // 검증에 사용할 정규식 변수 regExp에 저장
-	  if (emailVal.match(regExp) != null) {
-	    alert("이메일을 올바르게 입력했습니다.");
-	  }
-	  else {
-	    alert("이메일형식에 맞게 입력해주세요\nex)hello@sagong'ssi.com");
-	    $("#email").val("");
-	    $("#email").focus();  
-	  }
+function emailCheck() {
+	$.ajax({
+		type:"get",
+		url:"MemberController?command=emailcheck&email="+$("#email").val(),
+		data:"email=" + $('#email').val(),
+	
+		success:function(data){
+			
+			var emailVal = $("#email").val();
+			var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+			
+			var emailCheck = false;
+			
+			if(emailVal.match(regExp) != null &&  data.trim() == "OK" ) { // 올바르게 입력한 경우
+				$("#email").css("color", "#0000ff");
+				//$("#email").css("background", "linear-gradient(to top, #3366FF, white)");
+				/* alert("이메일을 올바르게 입력했습니다."); */
+				emailCheck = true;
+			}else if(emailVal.match(regExp) == null) { // 형식이 올바르지 않은 경우
+				$("#email").css("color", "#000");
+				//$("#email").css("background", "linear-gradient(to top, #FF6666, white)");
+				alert("이메일형식에 맞게 입력해주세요\nex)hello@sagong'ssi.com");
+				$("#email").val("");
+			    $("#email").focus();  
+				emailCheck = true;
+			}else { // 중복된 이메일
+				$("#email").css("color", "#000");
+				alert("사용 중인 id입니다.");
+				$("#email").val("");
+				$("#email").focus();
+				emailCheck = true;
+			}
+		}
+	});
 }
 
 function phoneCheck() {	
-	var phoneVal = $("#phone").val();	
+	/* var phoneVal = $("#phone").val();	
 	var regExp = /^\d{3}-\d{3,4}-\d{4}$/;
+
 	if (phoneVal.match(regExp) != null) {
 	   //alert("번호를 올바르게 입력했습니다.");
 	}
@@ -85,6 +137,27 @@ function phoneCheck() {
 	  alert("번호를 올바르게 입력해주세요\nex)010-XXXX-XXXX");
 	  $("#phone").val("");
 	  $("#phone").focus();  
+	} */
+	
+	
+	var phoneVal = $("#phone").val();	
+	var regExp = /^\d{3}-\d{3,4}-\d{4}$/;
+
+	var phoneCheck = false;
+	
+	if (phoneVal.match(regExp) != null) {
+		$("#phone").css("color", "#0000ff");
+		//$("#phone").css("background", "linear-gradient(to top, #3366FF, white)");
+		//alert("번호를 올바르게 입력했습니다.");
+		emailCheck = true;
+	}
+	else {
+	  $("#phone").css("color", "#000");
+	 //$("#phone").css("background", "linear-gradient(to top, #FF6666, white)");
+	  alert("번호를 올바르게 입력해주세요\nex)010-XXXX-XXXX");
+	  $("#phone").val("");
+	  $("#phone").focus();  
+	  emailCheck = true;
 	}
 }
 
@@ -119,7 +192,7 @@ $(document).ready(function(){
 
 <tr name="small" style="display: none;">
 	<td align="left">
-		<p class="title" onclick="location.href='index.jsp'" style="margin-left: 5px; font-size: 1.3em" >SaGong'ssi</p>
+		<p class="title" onclick="location.href='index.jsp'" style="margin-left: 5px; font-size: 1.3em" >SaGong'sa</p>
 	</td>
 	<td align="right" name="small" style="display:none;">
 		<% if(user==null){ // 로그아웃 상태 %>
@@ -160,7 +233,7 @@ $(document).ready(function(){
 
 <tr name="large">	
 	<td align="center" rowspan="2">
-		<p class="title" onclick="location.href='index.jsp'" style="font-size: 2em">SaGong'ssi</p>
+		<p class="title" onclick="location.href='index.jsp'" style="font-size: 2em">SaGong'sa</p>
 	</td>
 	<td rowspan="2">
 		<form action="PdsController" method="get">
@@ -277,7 +350,7 @@ function updateAlarm(newCount){
 
 					<!--  Password input-->
 					<div class="group">
-						<input required class="input" name="pwd" id="tbPwd" type="password" maxlength="12" >
+						<input required class="input" name="pwd" id="tbPwd" type="password" maxlength="12" onchange="pwdCheck()" >
 						<span class="highlight"></span>
 						<span class="bar"></span> 
 						<label class="label" for="date">PW</label>
@@ -285,7 +358,7 @@ function updateAlarm(newCount){
 
 					<!-- Password input-->
 					<div class="group">
-						<input required="required" class="input" id="cpass" type="password" maxlength="12" onchange="pwdCheck()" >
+						<input required="required" class="input" id="cpass" type="password" maxlength="12" > <!-- onchange="pwdCheck()" -->
 						<span class="highlight"></span>
 						<span class="bar"></span> 
 						<label class="label" for="date">PW확인</label>
@@ -343,22 +416,22 @@ function updateAlarm(newCount){
         <h4 class="modal-title" id="myModalLabel">아이디/비밀번호 찾기</h4>
       </div>
       <div class="modal-body">
-        <form class="form-horizontal">
+      
+        <form class="form-horizontal"  action="MemberController"  method="post">
+        <input type="hidden" name="command" value="IdPwC">
         <fieldset>
         <div class="group">
-			<input required="required" class="input" type="email" id="emailC"><span class="highlight"></span><span class="bar"></span>
-   			 <label class="label" for="date">Email 입력</label>
-   		</div>
-		 <div class="group">
-			<input required="required" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
-   			 <label class="label" for="date">ID 입력</label>
+			<input required="required" class="input" name="email" type="email">
+			<span class="highlight"></span>
+			<span class="bar"></span>
+   			<label class="label" for="date">Email 입력</label>
    		</div>
    		 <div class="group">
-			<input required="required" class="input" type="text"><span class="highlight"></span><span class="bar"></span>
-   			 <label class="label" for="date">Phone 입력</label>
-   		</div>		
-
-        
+			<input required="required" class="input" name="phone" type="tel">
+			<span class="highlight"></span>
+			<span class="bar"></span>
+   			<label class="label" for="date">Phone 입력</label>
+   		</div>
         <div class="control-group">
               <label class="control-label" for="forpassword"></label>
               <div class="controls">
@@ -366,7 +439,8 @@ function updateAlarm(newCount){
               </div>
             </div>
           </fieldset>
-          </form>
+         </form>
+          
       </div>
     </div> 
     

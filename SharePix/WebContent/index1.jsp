@@ -94,7 +94,7 @@ function myFade2(){
 </div>
 <p>
 <font color="#000000" size="6">
-<strong>SaGong'ssi</strong>
+<strong>SaGong'sa</strong>
 </font><br>
 </p>
  

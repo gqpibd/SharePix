@@ -20,6 +20,8 @@ public interface iMemberManager {
 
 	public boolean getId(String id);
 	
+	public boolean getEmail(String email); // 이메일 중복방지
+	
 	public List<FollowDto> getMyFollowerList(String myId);	//	나를 팔로우 하는 사람들의 리스트
 	
 	public List<FollowDto> getMySubscribeList(String myId);

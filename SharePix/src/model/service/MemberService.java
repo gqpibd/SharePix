@@ -33,6 +33,11 @@ public class MemberService {
 	public MemberBean getUserInfo(String id) {
 		return manager.getUserInfo(id);
 	}	
+	
+	public boolean getEmail(String email) {
+		return manager.getEmail(email);
+	}
+	
 	public boolean getId(String id) {
 		return manager.getId(id);
 	}
