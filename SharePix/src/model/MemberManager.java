@@ -465,12 +465,12 @@ public class MemberManager implements iMemberManager {
 	}
 
 	@Override
-	public List<FollowDto> getMySubscribeList(String myId) {	//	내가 구독한 사람들 구하기
+	public List<FollowDto> getMySubscribeList(String myId) {	//	나를 구독한 사람들 구하기
 		List<FollowDto> list = new ArrayList<>();
 		
 		String sql = " SELECT FOLLOWERID, FOLLOWEEID "
 			       + " FROM FOLLOW "
-			       + " WHERE FOLLOWERID=? ";
+			       + " WHERE FOLLOWEEID=? ";
 		
 		Connection conn = null;
 		PreparedStatement psmt = null;
@@ -571,5 +571,41 @@ public class MemberManager implements iMemberManager {
 		}
 		return count > 0 ? true : false;
 	}
+
+	@Override
+	public List<FollowDto> getMyfollowingList(String myId) {
+		List<FollowDto> list = new ArrayList<>();
+		
+		String sql = " SELECT FOLLOWERID, FOLLOWEEID "
+			       + " FROM FOLLOW "
+			       + " WHERE FOLLOWERID=? ";
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = DBConnection.getConnection();
+			psmt = conn.prepareStatement(sql);
+			
+			psmt.setString(1, myId);
+			
+			rs = psmt.executeQuery();
+			
+			while(rs.next()) {
+				FollowDto dto = new FollowDto(rs.getString(1), rs.getString(2));
+				
+				list.add(dto);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, rs);
+		}
+		
+		return list;
+	}
+	
+	
 	
 }
