@@ -51,7 +51,7 @@
 
 	</div>
 				
-				<h1 class="mainI" style="">사진을 같이 공유</h1>
+				<h1 class="mainI" style="">사진을 같이 공유합시다</h1>
 				
 	
 	
