@@ -47,7 +47,15 @@
 			<jsp:param name="goBackTo" value="index.jsp" />
 		</jsp:include>
 	</div>
-	 <!-- jwekfjqwekrjlwejrasdfqewr  -->
+	<div style="margin-top: 6em" >
+
+	</div>
+				
+				<h1 class="mainI" style="">사진을 같이 공유</h1>
+				
+	
+	
+	 <!--  사진 위치  -->
 	<div class="mcontainer"  style="margin-top: 10em">
 		<%
 			for (PdsBean Pdscust : pdslist) {

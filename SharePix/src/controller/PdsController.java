@@ -52,13 +52,16 @@ public class PdsController extends HttpServlet {
 		} else if (command.equalsIgnoreCase("keyword")) {
 			String keyword = req.getParameter("tags");
 			String choice = req.getParameter("choice");
+			String select = req.getParameter("select");
 			System.out.println("검색 키워드 : " + keyword);
 			System.out.println("검색 키워드 : " + choice);
+			System.out.println("검색 키워드select : " + select);
 /*			PagingBean paging = new PagingBean();
 			List<PdsBean> searchList = PdsService.getInstance().getPdsPagingList(paging, keyword);*/
 
 			req.setAttribute("keyword", keyword);
 			req.setAttribute("choice", choice);
+			req.setAttribute("select", select);
 			dispatch("SearchView.jsp", req, resp);
 		} else if(command.equalsIgnoreCase("likeChange")) {
 			int seq=0;

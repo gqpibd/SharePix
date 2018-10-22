@@ -82,4 +82,5 @@ public class ImageResize {
 
 		return resizedImage;
 	}
+
 }

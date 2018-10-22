@@ -1,3 +1,5 @@
+<%@page import="javax.imageio.ImageIO"%>
+<%@page import="java.awt.image.BufferedImage"%>
 <%@page import="dto.MemberBean"%>
 <%@page import="controller.FileController"%>
 <%@page import="java.io.File"%>
@@ -17,7 +19,8 @@
 	// 검색어	
 	String keyword = (String)request.getAttribute("keyword");	
 	String choice = (String)request.getAttribute("choice");
-	System.out.println("값이 들어오는지 안들어오는지 모르겠다. 왜 안들어올까 : " + keyword);
+	String select = (String)request.getAttribute("select");
+	System.out.println("keyword : " + keyword);
 %>
 
 <!-- 페이징 처리 정보 교환 -->
@@ -41,7 +44,7 @@
 	List<PdsBean> pdslist = pds.getPdsPagingList(paging, keyword, choice);
 	//PdsService.getPdsPagingList(paging, findWord);
 	
-	System.out.println("값이 들어오는지 안들어오는지 모르겠다. 왜 안들어올까 : " + pdslist); 
+	System.out.println("pdslist : " + pdslist); 
 	
 	System.out.println(pdslist.size());
 	PdsService pService = PdsService.getInstance();
@@ -81,10 +84,12 @@
                      <li><a href="PdsController?command=keyword&tags=<%=keyword %>&choice=DOWNCOUNT">다운로드수</a></li>
                      <li><a href="PdsController?command=keyword&tags=<%=keyword %>&choice=READCOUNT">읽은수</a></li>
                     </ul>
-                 </li>
-<!--                  <li><a href="#">Company</a></li> -->
-<!--                  <li><a href="#">Address</a></li> -->
-                </ul>
+                	<li><a href="#" id="current">방향</a>
+                		<ul>
+              			<li><a href="PdsController?command=keyword&tags=<%=keyword %>&choice=SEQ&select=width">가로</a></li>
+              			<li><a href="PdsController?command=keyword&tags=<%=keyword %>&choice=SEQ&select=height">세로</a></li> 
+						</ul>
+               		</ul>
            </div>
            <div style="margin-top: 1em" ></div>
 	
@@ -104,6 +109,8 @@
 	</table>
 	<%
 		} else {
+
+			
 	%>
 	
 	
@@ -116,8 +123,30 @@
 				
 				File f = new File(config.getServletContext().getRealPath("/images/pictures") + "\\" + fSavename);
 				 if (f.exists() && f.length()<300000) { // 300kb 이하의 이미지는 그냥 원본을 가져온다
-			    	  smallSrc = fSavename;			     
+   	 	   
+							smallSrc = fSavename;
 			    }
+							String smallSrc1 = "";
+				 try
+			        {
+				           File file = new File("C:\\Users\\Rezero\\git\\SharePix\\SharePix\\WebContent\\images\\pictures\\"+ fSavename);          
+				           BufferedImage bi = ImageIO.read( file );
+					 
+						if(select.equalsIgnoreCase("width")){
+							if(bi.getWidth() >  bi.getHeight()) {
+								smallSrc1 = smallSrc;
+							}
+						}else if(select.equalsIgnoreCase("height")){
+							if(bi.getHeight() >  bi.getWidth()){
+								smallSrc1 = smallSrc;
+							}
+						}else{
+								smallSrc1 = smallSrc;
+						}
+			        }catch( Exception e ) {
+			             System.out.println("이미지 파일이 아닙니다");
+			         }
+				 
 				 
 				    boolean isLike = false;
 					String like = "heart.png";
@@ -135,7 +164,7 @@
 			
 		%>
 		<div class="item profilebox profilebox1">
-			<img class="img" name="item" src="images/pictures/<%=smallSrc%>"  
+			<img class="img" name="item" src="images/pictures/<%=smallSrc1%>"  
 				onclick="veiwDetail(<%=Pdscust.getSeq()%>)" height="300" alt="이미지 못 찾음" 
 				style="cursor: pointer;">
 			<div class="SocialIcons">
