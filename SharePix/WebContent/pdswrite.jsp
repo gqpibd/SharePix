@@ -59,6 +59,7 @@
 	border-bottom: 1px solid #444444;
 	padding: 10px;
 	text-align: center;
+	/* color: #4a89dc !important; */
 }
 
 .td2 {
@@ -66,7 +67,8 @@
 	padding: 10px;
 	text-align: center;
 	font-size: 19px;
-}
+	/* color: #4a89dc !important; */
+	
 
 
 
@@ -194,6 +196,7 @@ var loadImageFile = function () {
 					</td>
 				</tr>
 			</table>
+			
 			<div style="position: relative; float: bottom;">
 				<!--  <input type="right" name="command" value="pdsupload"> -->
 				<!-- <input align="right" type="submit"value="올리기"> -->
@@ -216,6 +219,7 @@ var loadImageFile = function () {
 				$("#pdswrite").submit();
 			}
 		}
+		
 	</script>
 </body>
 </html>
