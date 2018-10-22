@@ -208,6 +208,27 @@ public class MemberController extends HttpServlet {
 			    	out.flush();
 			    }
 			    
+			/////////////////////////////
+			    
+			    
+			}else if(command.equals("emailcheck")) {	// 아이디 중복 확인			
+				String email = req.getParameter("email");
+			    System.out.println("email = " + email);
+			
+			    boolean isS = memService.getEmail(email);
+			   
+			    PrintWriter out = resp.getWriter();
+			    if(isS){
+			    	out.print("NO");
+			    	out.flush();
+			    }else{
+			    	out.print("OK");
+			    	out.flush();
+			    }
+			      
+		
+			////////////////////////////    
+			    
 			}else if(command.equals("regi")) { 			
 				String id = req.getParameter("id");
 				String pwd = req.getParameter("pwd");
@@ -238,6 +259,45 @@ public class MemberController extends HttpServlet {
 				}
 				
 				//dispatch("index.jsp", req, resp);
+				
+			////////////////////////////////////////	
+				
+			}else if(command.equals("IdPwC")) { 
+				
+				//String id = req.getParameter("id");
+				//String pwd = req.getParameter("pwd");
+				String email = req.getParameter("email");
+				String phone = req.getParameter("phone");
+				System.out.println(email);
+				System.out.println(phone);
+				
+				MemberBean mem = memService.getIdpwd(new MemberBean(null, null, null, email, phone, 0));
+				System.out.println(mem);
+				
+				if(mem != null && !mem.getId().equals("")){
+					session.setAttribute("login", mem);
+					session.setMaxInactiveInterval(30*60);
+					
+				
+					resp.setContentType("text/html; charset=UTF-8");
+					PrintWriter out = resp.getWriter();
+					
+					out.println("<script>alert('당신의 id는" + mem.getId() + "이고 pw는 " + mem.getPwd() + "입니다.'); location.href='userUpdatePage.jsp';</script>");
+					 
+					out.flush();
+					
+				}else{	
+					
+					resp.setContentType("text/html; charset=UTF-8");
+					PrintWriter out = resp.getWriter();
+					
+					out.println("<script>alert('id와 pw를 찾지 못했습니다.'); location.href='index.jsp';</script>");
+					 
+					out.flush();
+					
+				}
+			
+			/////////////////////////////////////////	
 			    
 			}else if(command.equals("login")) {	// 로그인 버튼 눌렀을 시 아이디 비밀번호 맞으면 페이지로 이동
 				System.out.println("command = " + command + " 들어옴");	// 확인용
