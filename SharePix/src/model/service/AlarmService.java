@@ -33,6 +33,7 @@ public class AlarmService {
 		String content="";
 		for(int i=0;i<pds.getTags().length;i++) {
 			content += "#" + pds.getTags()[i];
+			System.out.println(content);
 		}
 		for (int i = 0; i < followerList.size(); i++) {
 			manager.insertAlarm(new AlarmBean(followerList.get(i).getFollowerId(),fromId,AlarmBean.NEWPOST,pdsSeq,content));

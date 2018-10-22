@@ -52,7 +52,7 @@
 			<jsp:param name="goBackTo" value="index.jsp" />
 		</jsp:include>
 	</div>
-	<div style="margin-top: 10em"></div>
+	<div style="margin-top: 9em"></div>
 	<!-- 태그 출력 부분 -->
 	<div class="container" id="tags" align="center">
 		<%
@@ -155,9 +155,7 @@
 			}
 		%>
 	</div>
-
-
-
+	
 	<form action="PdsController?" method="get">
 		<input type="hidden" name="nowPage" value="2"> <input
 			type="hidden" name="command" value="keyword"> <input

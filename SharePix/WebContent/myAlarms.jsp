@@ -21,7 +21,7 @@
 <title>새소식</title>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <link rel="shortcut icon" href="images/icons/favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Jua" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Sunflower:300" rel="stylesheet">
 <style type="text/css">
 .pds{
   border-radius: 5px;
@@ -57,6 +57,9 @@
   background-color: #ffffff;
   box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
   cursor: pointer;
+  font-family: 'Sunflower';
+  font-size: 18px;
+  font-weight: bold;
 }
 .responsive-table .col-1 {
   flex-basis: 10%;
@@ -66,14 +69,15 @@
   flex-basis: 30%;
   margin : auto;
 }
-.responsive-table .col-3 {
+.responsive-table .col-3 { /* 게시글 사진 */
   flex-basis: 15%;
   margin : auto;
   text-align: center;
 }
-.responsive-table .col-4 {
+.responsive-table .col-4 {/* 내용 */
   	flex-basis: 40%;
  	margin : auto;
+ 	padding-left: 10px;
 }
 .responsive-table .col-5 {
   flex-basis: 10%;
@@ -97,6 +101,9 @@
     flex-basis: 50%;
     text-align: right;
     margin: auto 0;
+  }
+  .mdate{
+  	display: none;
   }
 }
 
@@ -258,9 +265,11 @@ button:focus {
 		<li class="table-row" >
 			
 			<div class="col col-1" data-label="작성자 프로필" onclick="veiwDetail(<%=aList.get(i).getSeq()%>,<%=aList.get(i).getPdsSeq()%>)"> 
-		 		<img class="profile_img" name="item" src="images/profiles/<%=aList.get(i).getFromId()%>.png"  >
+		 		<img class="profile_img" name="item" src="images/profiles/<%=aList.get(i).getFromId()%>.png"
+		 			 onerror="this.src='images/profiles/default.png'" >
 		 	</div>
-			<div class="col col-2" data-label="아이디" onclick="veiwDetail(<%=aList.get(i).getSeq()%>,<%=aList.get(i).getPdsSeq()%>)"> <%=type %></div>
+			<div class="col col-2" data-label="알림" onclick="veiwDetail(<%=aList.get(i).getSeq()%>,<%=aList.get(i).getPdsSeq()%>)"> <%=type %><br>
+			<font class="mdate" style="font-size: 13px; font-weight: normal;"><%=aList.get(i).getDate()%></font></div>
 			<div class="col col-3" data-label="관련 게시글" onclick="veiwDetail(<%=aList.get(i).getSeq()%>,<%=aList.get(i).getPdsSeq()%>)">
 				<img class="pds" name="item" src="images/pictures/<%=fSaveName%>" ></div>
 			<div class="col col-4" data-label="내용" onclick="veiwDetail(<%=aList.get(i).getSeq()%>,<%=aList.get(i).getPdsSeq()%>)"><%=content %></div>	

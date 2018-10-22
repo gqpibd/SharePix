@@ -8,15 +8,11 @@
   width: 100%;   
   max-width: 1400px;   
   margin: 1rem auto;
-/*   background-color: #FAFAFA; */ 
-  /* color: #040605;  */
   overflow:hidden;  
 }
 
 @media screen and (min-width: 55em) {
   .main {
-    /* margin: auto; */
-    /* margin-top: 150px; */
     overflow: visible;
   }
 }
@@ -55,11 +51,15 @@
   padding: 0.8rem 0 1rem 1rem;
   /* background: #F6F6F6; */
 }
+span[name='large']{
+	display: inline;
+}
 @media screen and (min-width: 55em) {
   .rightbar {
     width: 30%;
     float: right;
   }
+  
 }
 
 a{
@@ -116,27 +116,6 @@ a{
     font-size: 20px;   
     font-weight: bold;
 }
-
-/* .download {	
-	box-shadow:inset 0px 1px 0px 0px #ffffff;	
-	background:linear-gradient(to bottom, #ffffff 5%, #d9d9d9 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#d9d9d9',GradientType=0);
-	background-color:#ffffff;
-	border:1px solid #bfbfbf;
-	display:inline-block;
-	cursor:pointer;
-	color:#666666;
-	font-family:Arial;
-	font-size:24px;
-	font-weight:bold;
-	padding:7px 62px;
-	text-decoration:none;
-}
-.download:hover {	
-	background:linear-gradient(to bottom, #d9d9d9 5%, #ffffff 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#d9d9d9', endColorstr='#ffffff',GradientType=0);
-	background-color:#d9d9d9;
-} */
 
 .download:focus{
 	outline: none;

@@ -103,7 +103,7 @@ $(document).ready(function(){
 	});
 		
 	function checkWidth() { // 윈도우 사이즈가 바뀔 때 보여주는 아이템 변경
-		$("[name='large']").toggle($(window).width() > 900);
+		$("[name='large']").toggle($(window).width() >= 900);
 		$("[name='small']").toggle($(window).width() < 900);
 	}
 	checkWidth();
@@ -125,9 +125,9 @@ $(document).ready(function(){
 		<% if(user==null){ // 로그아웃 상태 %>
 			<button class="fill sagongBtn" id="titleBtn" href="#signup" data-toggle="modal" data-target=".log-sign">Sign In/Register</button>
 		<%}else{ %>
-			<img src='images/profiles/<%=user.getId()%>.png' width='100px'
+			<img src='<%=config.getServletContext().getRealPath("images/profiles/") %>/<%=user.getId()%>.png' width='100px'
 	            class='profile_img' align='middle'
-	            onerror="this.src='images/profiles/default.png'">
+	            onerror="this.src='<%=config.getServletContext().getRealPath("images/profiles/") %>/default.png'">
 		<span><%=user.getName() %>님 <span name="large">환영합니다.</span> <a href="MemberController?command=logout"><font size="2">로그아웃</font></a></span>	
 		<div id="menuBtn" class="btn-group">
 	  		<button type="button" class="fill sagongBtn" data-toggle="dropdown" aria-expanded="false">
@@ -141,7 +141,7 @@ $(document).ready(function(){
 		  	<ul class="mdropdown-menu" role="menu">
 			    <li><a href='MemberController?command=userPage&id=<%=user.getId()%>'>마이페이지</a></li>
 			    <li><a href="pdswrite.jsp">사진 올리기</a></li>
-			    <li><a href="myAlarms.jsp" class="alarm" >새소식(<%= alarmCount %>)</a></li>
+			    <li><a href="myAlarms.jsp" name="alarm" >새소식(<%= alarmCount %>)</a></li>
 			</ul>
 			<%} %>		  
 		</div> 
@@ -187,7 +187,7 @@ $(document).ready(function(){
 		<%}else{ // 일반회원 로그인 상태 %>
 			<button class="fill sagongBtn" onclick="location.href='MemberController?command=userPage&id=<%=user.getId()%>'"><font>마이페이지</font></button>
 			<button class="fill sagongBtn" onclick="location.href='pdswrite.jsp'">사진 올리기</button>	
-			<button class="fill sagongBtn" class="alarm" onclick="location.href='myAlarms.jsp'">새 소식(<%= alarmCount %>)</button>	
+			<button class="fill sagongBtn" name="alarm" onclick="location.href='myAlarms.jsp'">새소식(<%= alarmCount %>)</button>	
 		<%} %>	
 		<%} %>		
 	</td>	
@@ -202,7 +202,7 @@ function loginView(){
 	$("#titleBtn").click();
 }
 function updateAlarm(newCount){
-	$(".alarm").text("새소식("+newCount+")");
+	$("[name='alarm']").text("새소식("+newCount+")");
 }
 </script>
 

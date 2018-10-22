@@ -42,8 +42,15 @@ public class AlarmManager implements iAlarmManager {
 
 			while (rs.next()) {
 				// TOID, FROMID, TYPE, PDSSEQ, ADATE
-				AlarmBean bean = new AlarmBean(rs.getInt("SEQ"), rs.getString("TOID"), rs.getString("FROMID"),
-						rs.getInt("ATYPE"), rs.getInt("PDSSEQ"), rs.getString("ADATE"), rs.getString("CONTENT"));
+				String adate = rs.getString("ADATE");
+				adate=adate.substring(0,adate.lastIndexOf(':'));
+				AlarmBean bean = new AlarmBean(rs.getInt("SEQ"), 
+											   rs.getString("TOID"), 
+											   rs.getString("FROMID"),
+											   rs.getInt("ATYPE"), 
+											   rs.getInt("PDSSEQ"), 
+											   adate, 
+											   rs.getString("CONTENT"));
 				list.add(bean);
 			}
 			System.out.println("3/6 getMyLikeList Success");
@@ -59,8 +66,8 @@ public class AlarmManager implements iAlarmManager {
 	@Override
 	public boolean insertAlarm(AlarmBean bean) {		
 		String sql = " INSERT INTO ALARM "
-				+ " (SEQ, TOID, FROMID, ATYPE, PDSSEQ, ADATE) "
-				+ " VALUES((SELECT NVL(MAX(SEQ),0)+1 FROM ALARM), ?, ?, ?, ?, SYSDATE) ";
+				+ " (SEQ, TOID, FROMID, ATYPE, PDSSEQ, ADATE, CONTENT) "
+				+ " VALUES((SELECT NVL(MAX(SEQ),0)+1 FROM ALARM), ?, ?, ?, ?, SYSDATE, ?) ";
 		int count = 0;
 
 		Connection conn = null;
@@ -77,6 +84,7 @@ public class AlarmManager implements iAlarmManager {
 			psmt.setString(2, bean.getFromId());
 			psmt.setInt(3, bean.getType());
 			psmt.setInt(4, bean.getPdsSeq());
+			psmt.setString(5, bean.getContent());
 			
 			count = psmt.executeUpdate();
 			System.out.println("3/6 insertAlarm Success");

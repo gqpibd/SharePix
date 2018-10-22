@@ -3,9 +3,7 @@ package controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -28,7 +26,6 @@ import dto.PdsBean;
 import model.service.MemberService;
 import model.service.PdsService;
 import utils.FileUtil;
-import utils.ImageResize;
 
 public class MemberController extends HttpServlet {
 	
@@ -358,9 +355,11 @@ public class MemberController extends HttpServlet {
 				String followeeId = req.getParameter("followeeId");
 				boolean followChk = Boolean.parseBoolean(req.getParameter("followChk"));
 				
+				
 				System.out.println("followChk : "+ followChk);
 				memService.changeFollow(followerId, followeeId, !followChk); // follow 상태 바꿔줌
-				resp.getWriter().write("<followChk>" +!followChk +"</followChk>");
+				int followCount = memService.getMyFollowerList(followeeId).size();
+				resp.getWriter().write("<followChk>" +!followChk +"</followChk><followCount>" + followCount + "</followCount>");
 				resp.getWriter().flush();
 			}		
 		}
