@@ -12,12 +12,10 @@
 <!DOCTYPE html> 
 <%
 	request.setCharacterEncoding("utf-8");
-%>
-<%	
+	String PATH = "images/";
 	// 검색어	
 	String keyword = (String)request.getAttribute("keyword");	
 	String choice = (String)request.getAttribute("choice");
-	System.out.println("값이 들어오는지 안들어오는지 모르겠다. 왜 안들어올까 : " + keyword);
 %>
 
 <!-- 페이징 처리 정보 교환 -->
@@ -37,11 +35,7 @@
 		keyword = "";		
 	}
 	iPdsManager pds = new PdsManager();
-	// List<BbsDto> bbslist = dao.getBbsList();
 	List<PdsBean> pdslist = pds.getPdsPagingList(paging, keyword, choice);
-	//PdsService.getPdsPagingList(paging, findWord);
-	
-	System.out.println("값이 들어오는지 안들어오는지 모르겠다. 왜 안들어올까 : " + pdslist); 
 	
 	System.out.println(pdslist.size());
 	MemberBean ologin = (MemberBean) session.getAttribute("login");
@@ -57,6 +51,7 @@
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="js/jquery.row-grid.min.js"></script>
+<script src="js/imgGridFunction.js"></script>
 <link rel="stylesheet" href="style/imageArrange.css">
 <link rel="stylesheet" href="style/pagingbtn.css">
 <link rel="shortcut icon" href="images/icons/favicon.ico">
@@ -134,29 +129,29 @@
 				onclick="veiwDetail(<%=Pdscust.getSeq()%>)" height="300" onerror="$(this).parent().remove()" 
 				style="cursor: pointer;">
 			<div class="SocialIcons">
-				<a style="text-decoration: none; color: white;">
-					<img class="clickable" id="like_<%=Pdscust.getSeq()%>" alt="" src="images/icons\\<%=like%>"
-					onmouseover="this.src='images/icons\\<%=reverslike %>'"
-					onmouseout="this.src='images/icons\\<%=like%>'"
+				<a style="text-decoration: none; color: white;"> <img
+					class="clickable" id="like_<%=Pdscust.getSeq()%>" alt=""
+					src="<%=PATH%>icons\\<%=like%>"
+					onmouseover="this.src='<%=PATH%>icons\\<%=reverslike %>'"
+					onmouseout="this.src='<%=PATH%>icons\\<%=like%>'"
 					onclick="doLike('<%=Pdscust.getSeq()%>', this)"
-					style="vertical-align: middle; width: 40%; height: auto;" > 
-					<p id ="likeCount_<%=Pdscust.getSeq()%>"><%=Pdscust.getLikeCount()%></p>
-					
-	            <a href="#" style="text-decoration:none; color: white;">
-					<img alt="" src="images/icons\\downloadC.png"
-					onmouseover="this.src='images/icons\\fulldownloadC.png'"
-					onmouseout="this.src='images/icons\\downloadC.png'"
-					style="width: 40%; height: auto;">
+					style="vertical-align: middle; width: 40%; height: auto;">
+					<p id="likeCount_<%=Pdscust.getSeq()%>"><%=Pdscust.getLikeCount()%></p>
+				</a><a style="text-decoration: none; color: white;"> 
+					<img src="<%=PATH%>icons\\downloadC.png"
+					class="clickable" onmouseover="this.src='<%=PATH%>icons\\fulldownloadC.png'"
+					onmouseout="this.src='<%=PATH%>icons\\downloadC.png'"
+					style="vertical-align: middle; width: 40%; height: auto;" 
+					onclick="doDown(this,'<%=Pdscust.getSeq()%>','<%=Pdscust.getfSaveName()%>','<%=Pdscust.getFileName()%>')">
 					<p><%=Pdscust.getDownCount()%></p>
-				</a>
-				
-	            <a href="#" style="text-decoration:none; color: white;">
-	            	<img alt="" src="images/icons/contract.png" 
-					onmouseover="this.src='images/icons/fullcontract.png'"
-					onmouseout="this.src='images/icons/contract.png'"
-					style="width: 40%; height: auto;">
+				</a> <a style="text-decoration: none; color: white;"> <img alt=""
+					src="<%=PATH%>icons\\contract.png"
+					class="clickable" onmouseover="this.src='<%=PATH%>icons\\fullcontract.png'"
+					onmouseout="this.src='<%=PATH%>icons\\contract.png'"
+					style="vertical-align: middle; width: 40%; height: auto;"
+					onclick="veiwDetail(<%=Pdscust.getSeq()%>)" >
 					<p><%=Pdscust.getReplyCount()%></p>
-				</a> 
+				</a>
 			</div>
 			<div class="profileInfo">
 	        	<h3><a style="text-decoration:none; color: white;
@@ -166,8 +161,6 @@
 	</div>
 	<%} %>
 	</div>
-
-
 	<%
 		}
 	%>
@@ -225,18 +218,6 @@
 			});				
 		<%}%>
 	}
-	
-		$(document).ready(function() {
-		  var options = {minMargin: 5, maxMargin: 15, itemSelector: ".item", firstItemClass: "first-item"};
-		  $(".mcontainer").rowGrid(options);
-		});
-		
-		
-		function veiwDetail(seq) {
-			console.log(seq);
-			location.href="PdsController?command=detailview&seq=" + seq;
-		}		
-
 	</script>
 
 

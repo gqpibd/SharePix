@@ -23,11 +23,12 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import dto.PdsBean;
+import model.service.AlarmService;
 import model.service.PdsService;
 import utils.ImageResize;
 
-public class FileController extends HttpServlet {
-	public static final String PATH = "C:\\Users\\이호영\\git\\sharePix\\SharePix\\WebContent\\images\\pictures"; 
+public class FileController extends HttpServlet {/*"C:\\Users\\seung\\git\\SharePix\\SharePix\\WebContent\\images"*/ //// "C:\\Users\\이호영\\git\\sharePix\\SharePix\\WebContent\\images\\pictures";
+	public static final String PATH =  "C:\\Users\\seung\\git\\SharePix\\SharePix\\WebContent\\images";
 	 
 	private ServletConfig mConfig = null; // 업로드 폴더의 realpath에 접근하기 위해서 필요하다
 	private static final int BUFFER_SIZE = 10000000; // 10Mb
@@ -144,6 +145,8 @@ public class FileController extends HttpServlet {
 			pds.setFileName(filename);
 			pds.setfSaveName(fSaveName);
 			boolean isS = pd.writePds(pds);
+			pds.setSeq(pd.getCurrSeq()); // 당연히 동기화 문제가 생길 수 있지만.. 일단 그냥 쓰자
+			AlarmService.getInstance().insertAlarm(pds);
 
 			if (isS) { // update가 되면 true 반환
 				resp.sendRedirect("index.jsp");

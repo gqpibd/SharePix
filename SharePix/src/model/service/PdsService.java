@@ -129,6 +129,9 @@ public class PdsService {
 
 	}
 
+	public int getCurrSeq() {
+		return pDao.getCurrSeq();
+	}
 	public boolean noreport(int seq) {
 		return pDao.noreport(seq);
 

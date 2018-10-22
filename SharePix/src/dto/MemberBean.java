@@ -1,5 +1,7 @@
 package dto;
 
+import java.io.Serializable;
+
 //DROP TABLE MEMBER
 //CASCADE CONSTRAINTS;
 //
@@ -12,7 +14,12 @@ package dto;
 //   AUTH NUMBER(1) NOT NULL
 //);
 
-public class MemberBean {
+public class MemberBean implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4237192799176982249L;
 	
 	private String id;
 	private String name;

@@ -2,9 +2,6 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -13,12 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dto.FollowDto;
-import dto.MemberBean;
 import dto.PdsBean;
+import model.service.AlarmService;
 import model.service.PdsService;
-import utils.CollenctionUtil;
-import utils.FileUtil;
 
 public class PdsController extends HttpServlet {	
 	
@@ -121,11 +115,7 @@ public class PdsController extends HttpServlet {
 				out.println("<script>alert('수정 실패'); location.href='./pdswrite.jsp';</script>");
 				out.flush();
 			}
-			
-			
-		} 	
-		
-		else if(command.equals("singo")) {
+		} else if(command.equals("singo")) {
 			int seq = Integer.parseInt(req.getParameter("seq"));
 
 			PdsService singo = PdsService.getInstance();
@@ -141,10 +131,20 @@ public class PdsController extends HttpServlet {
 				out.println("<script>alert('수정 실패'); location.href='./index.jsp';</script>");
 				out.flush();
 			}
-			
-		} 
-		
-		else if(command.equals("singono")) {
+		} else if(command.equals("readAlarm")) {
+			int alarmSeq = Integer.parseInt(req.getParameter("alarmSeq"));
+			int pdsSeq = Integer.parseInt(req.getParameter("pdsSeq"));
+			AlarmService.getInstance().deleteAlarm(alarmSeq);			
+			dispatch("PdsController?command=detailview&seq=" + pdsSeq, req, resp);			
+		} else if(command.equals("deleteAlarm")) {
+			int alarmSeq = Integer.parseInt(req.getParameter("seq"));
+			String id = req.getParameter("id");
+			AlarmService.getInstance().deleteAlarm(alarmSeq);
+			int count = AlarmService.getInstance().getAlarmList(id).size();
+			PrintWriter out = resp.getWriter();			
+			out.println(count);
+			out.flush();
+		}else if(command.equals("singono")) {
 			int seq = Integer.parseInt(req.getParameter("seq"));
 
 			PdsService singono = PdsService.getInstance();
@@ -162,8 +162,6 @@ public class PdsController extends HttpServlet {
 			}
 			
 		} 
-	
-		
 	}
 
 	public void dispatch(String urls, HttpServletRequest req, HttpServletResponse resp)

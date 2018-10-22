@@ -9,7 +9,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>userUpdatePage</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<title>개인정보수정</title>
+<link rel="shortcut icon" href="images/icons/favicon.ico">
 <style type="text/css">
 .profile {
     width: 300px; 
@@ -54,32 +56,31 @@
 var fileReader = new FileReader();
 var filterType = /^(?:image\/bmp|image\/cis\-cod|image\/gif|image\/ief|image\/jpeg|image\/jpeg|image\/jpeg|image\/pipeg|image\/png|image\/svg\+xml|image\/tiff|image\/x\-cmu\-raster|image\/x\-cmx|image\/x\-icon|image\/x\-portable\-anymap|image\/x\-portable\-bitmap|image\/x\-portable\-graymap|image\/x\-portable\-pixmap|image\/x\-rgb|image\/x\-xbitmap|image\/x\-xpixmap|image\/x\-xwindowdump)$/i;
 fileReader.onload = function (event) { // 파일이 로드 되었을 때
-	var image = new Image(); // 새로운 이미지를 생성한다.
-	image.onload = function() {		
-		document.getElementById("editable-Img").src = image.src;
-	}
-	image.src = event.target.result;
+   var image = new Image(); // 새로운 이미지를 생성한다.
+   image.onload = function() {      
+      document.getElementById("editable-Img").src = image.src;
+   }
+   image.src = event.target.result;
 };
 var loadImageFile = function () {
 	  var uploadImage = document.getElementById("upload-Image"); //파일 요소 가져와서
 	  
 	  //check and retuns the length of uploded file.
 	  if (uploadImage.files.length == 0) {  // 업로드 된게 있는지 확인하고
-	  	return; 
-	  }
+	    return; 
+	  }	 
 	  
 	  //Is Used for validate a valid file.
 	  var uploadFile = document.getElementById("upload-Image").files[0]; // 업로드된 파일중 첫 번째를 가져온다.
-	  console.log(uploadFile);
+	  
 	  if (!filterType.test(uploadFile.type)) {
-	    alert("적합한 이미지를 올려주세요."); 
+	    alert("Please select a valid image."); 
 	    return;
 	  }	  
 	  fileReader.readAsDataURL(uploadFile); // 파일 리더를 이용해 파일을 읽는다
-}
+};
 </script>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<link rel="shortcut icon" href="images/icons/favicon.ico">
+
 </head>
 <body onload="loadImageFile();">
 	<%
@@ -92,7 +93,6 @@ var loadImageFile = function () {
 			loginView();
 		</script>
 		<%
-		return;
 		}
 
 		mem = (MemberBean) ologin;
@@ -118,7 +118,7 @@ var loadImageFile = function () {
 	</div>
 	<br>
 	<br>
-	<form action="MemberController">
+	<form action="MemberController" method="post" enctype="multipart/form-data">
 	<div align="center" style="margin-top: 6em">
 	<table>
 	<col style="width: 350px"><col style="width: 350px">
@@ -130,7 +130,7 @@ var loadImageFile = function () {
 	<tr>
 	<td style="padding-left: 30px; padding-right: 30px;">
 		<div class="group">
-			<input required="required" class="input" name="id" id="tbID" type="text" maxlength="12" readonly="readonly" value="<%=updateDto.getId()%>">
+			<input required="required" class="input check_fill" name="id" id="id" type="text" maxlength="12" readonly="readonly" value="<%=updateDto.getId()%>">
 			<span class="highlight"></span>
 			<span class="bar"></span> 
 			<label class="label" for="date" id="id_label">ID&nbsp;&nbsp;&nbsp;(수정 불가)<span id="idcheck" style="font-size: 8px"></span></label>
@@ -139,7 +139,7 @@ var loadImageFile = function () {
 	<td style="padding-left: 30px; padding-right: 30px;">
 		<!-- ID input-->
 		<div class="group">
-			<input required="required" class="input" name="name" id="tbID" type="text" maxlength="12" value="<%=updateDto.getName()%>">
+			<input required="required" class="input check_fill" name="name" id="name" type="text" maxlength="12" value="<%=updateDto.getName()%>">
 			<span class="highlight"></span>
 			<span class="bar"></span> 
 			<label class="label" for="date" id="name_label">NICKNAME<span id="idcheck" style="font-size: 8px"></span></label>
@@ -150,24 +150,25 @@ var loadImageFile = function () {
 	<td style="padding-left: 30px; padding-right: 30px; padding-bottom : 20px" rowspan="4">
 			<div class="group">
 			<label class="label" for="date">IMAGE : 드래그 하거나 클릭하여 업로드</label>
-			</div>
+			</div>`
 			<br>
 			<div class="imgbox">
-			<img id="editable-Img" src='images/profiles/<%=updateDto.getId()%>.png' class='profile holder' align='middle' onerror="this.src='images/profiles/default.png'">
-			<input type="file" name="fileload" accept="image/gif, image/jpeg, image/png" class="upload" id = "upload-Image" onchange="loadImageFile();" >
+			<img id="editable-Img" src='images/profiles/<%=updateDto.getId()%>.png' class='profile holder  check_fill' align='middle' onerror="this.src='images/profiles/default.png'">
+			<input type="file" name="fileload" accept="image/gif, image/jpeg, image/png" class="upload check_fill" id="upload-Image" onchange="loadImageFile();" >
 			</div>
 			<br>
 			<div align="center">
-			<a href="javascript:profile_default()" id="profile_default" >사진 삭제하기</a>
+			<a href="javascript:profile_default()" id="profile_default">기본 프로필 사진으로 변경</a>
+			<input type="hidden" name="profile_keep_or_default" id="profile_keep_or_default" value="true">
 			</div>
 		</td>
 		<!-- Password input-->
 		<td style="padding-left: 30px; padding-right: 30px;">
 		<div class="group">
-			<input required class="input" name="pwd" id="pwd" type="password" maxlength="12" >
+			<input required class="input" name="pwd" id="pwd" type="password" maxlength="12" placeholder="새 비밀번호">
 			<span class="highlight"></span>
 			<span class="bar" id="pwd_bar"></span> 
-			<label class="label" for="date">&nbsp;&nbsp;PW</label>
+			<label class="label" for="date">&nbsp;&nbsp;새 PW</label>
 		</div>
 		</td>
 	</tr>
@@ -175,7 +176,7 @@ var loadImageFile = function () {
 		<!-- Password input-->
 		<td style="padding-left: 30px; padding-right: 30px;">
 		<div class="group">
-			<input required="required" class="input" id="pwd2" type="password" maxlength="12" onkeyup="javascript:isPwdSame()" >
+			<input required="required" class="input check_fill" id="pwd2" type="password" maxlength="12" onkeyup="" placeholder="비밀번호 확인">
 			<span class="highlight"></span>
 			<span class="bar" id="pwd2_bar"></span> 
 			<label class="label" for="date">&nbsp;PW확인</label>
@@ -186,7 +187,7 @@ var loadImageFile = function () {
 		<!-- Email input-->
 		<td style="padding-left: 30px; padding-right: 30px;">
 		<div class="group">
-			<input required="required" class="input" name="email" type="text" id="email" onchange="emailCheck()" value="<%=updateDto.getEmail()%>">
+			<input required="required" class="input check_fill" name="email" type="text" id="email2" onchange="emailCheck()" value="<%=updateDto.getEmail()%>">
 			<span class="highlight"></span>
 			<span class="bar"></span> 
 			<label class="label" for="date">&nbsp;&nbsp;EMAIL</label>
@@ -197,7 +198,7 @@ var loadImageFile = function () {
 		<!-- Tel input-->
 		<td style="padding-left: 30px; padding-right: 30px;">
 		<div class="group">
-			<input required="required" class="input" name="phone" type="text" id="phone" onchange="phoneCheck()" value="<%=updateDto.getPhone()%>"/> <!-- pattern="\d{3}-\d{3,4}-\d{4}" -->
+			<input required="required" class="input check_fill" name="phone" type="text" id="phone2" onchange="phoneCheck()" value="<%=updateDto.getPhone()%>"/> <!-- pattern="\d{3}-\d{3,4}-\d{4}" -->
 			<span class="highlight"></span>
 			<span class="bar"></span> 
 			<label class="label" for="date">&nbsp;&nbsp;PHONE</label>
@@ -206,7 +207,7 @@ var loadImageFile = function () {
 	</tr>
 	<tr>
 	<td colspan="2" align="center" style="height: 80px">
-	<button id="edit_Btn" type="submit" style="background-color: red;" disabled="disabled">수정</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<button id="edit_Btn" type="submit" style="background-color: red;">수정</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	<button type="button" onclick="location.href='MemberController?command=userPage&id=<%=updateDto.getId()%>'">뒤로</button>
 	</td>
 	</tr>
@@ -275,47 +276,91 @@ var loadImageFile = function () {
 <script type="text/javascript">
 
 $(document).ready(function () { // 전부 입력시에 수정버튼 활성화 되게끔 만들 생각
-	/* $(".input").keyup(function () {	// 미구현
-		if($(".input").val() != ""){	// 전부 입력되었을 때
-			$("#edit_Btn").removeAttr("disabled");		// 버튼 활성화	 
+	var pwdCheck = false;
+	$("input[type='password']").keyup(function () {
+		if($("#pwd").val()==""){ // null 일 때 걸러내기만
+			
+		}else if($("#pwd").val()==$("#pwd2").val()){ 	// 비밀 번호 동일시
+			$("#pwd2").css("background", "linear-gradient(to top, #3366FF, white)");
+			$("#edit_Btn").css("background-color", "");
+			$("#edit_Btn").removeAttr("disabled");
+			pwdCheck = true;
+		}else{
+			$("#pwd2").css("background", "linear-gradient(to top, #FF6666, white)");
+			$("#edit_Btn").css("background-color", "red");
+			$("#edit_Btn").attr("disabled", "disabled");
+			pwdCheck = false;
 		}
-	}); */
+	});
+	
+	$(document).on("click", "#edit_Btn", function () {// 수정 버튼 눌렸을 때
+		if($("#name").val()==""){	//	닉네임 빈문자
+			alert("닉네임을 입력하세요.");
+			$("#name").focus();
+			return;
+		}else if($("#pwd").val()==""){// 새 비밀번호  빈 문자
+			alert("새 비밀번호를 입력하세요");
+			$("#pwd").focus();
+			return;
+		}else if($("#pwd2").val()==""){// 비밀번호 확인 빈 문자
+			alert("비밀번호 확인을 입력하세요");
+			$("#pwd2").focus();
+			return;
+		}else if(!pwdCheck){ // 비밀번호 다를 때
+			alert("비밀번호가 같지 않습니다.");
+			$("#pwd2").focus();
+			return;
+		}else if($("#email2").val()==""){	// 이메일 빈문자
+			alert("이메일을 입력하세요.");
+			$("#email2").focus();
+			return;
+		}else if($("#phone2").val()==""){
+			alert("핸드폰 번호를 입력하세요.");
+			$("#phone2").focus();
+			return;
+		}
+	});
 });
+
+var profile_keep_or_default = $("#profile_keep_or_default").val(); // 초기값 true == keep;
 
 function profile_default() {
 	$("#editable-Img").attr("src", "images/profiles/default.png");
-	/* $.ajax({ // 이거 여기 있으면 안 돼 이따가 옮기렴 승재야
-		url:"MemberController",
-		type:"get",
-		data:"command="
-		
-	}); */
+	profile_keep_or_default = false;
+	console.log("profile_default() profile_keep_or_default : " + profile_keep_or_default);
+	$("#profile_keep_or_default").val(profile_keep_or_default);
 } 
 
-$(document).ready(function (){
+/* $(document).ready(function (){
 	$("#pwd, #pwd2").keyup(function () { // 키 누를 때마다 검사		// 안 이뻐서 바꾸고 싶다
 		if($("#pwd").val()==""){ // null 일 때 걸러내기만
 			
 		}else if($("#pwd").val()==$("#pwd2").val()){ 	// 비밀 번호 동일시
-			$("#pwd2").css("background-color", "#3366FF");
+			$("#pwd2").css("background", "linear-gradient(to top, #3366FF, white)");
+			$("#edit_Btn").css("background-color", "");
+			
+			if(!$(".check_fill").val()==""){	// 모든 내용이 다 기입 되어있으면
+				$("#edit_Btn").removeAttr("disabled");
+			}
 		}else{
-			$("#pwd2").css("background-color", "#FF6666");
+			$("#pwd2").css("background", "linear-gradient(to top, #FF6666, white)");
+			$("#edit_Btn").attr("disabled", "disabled");
 		}
 	});
-});
+}); */
 
 $(document).ready(function(){ 
-	$("#phone").focus(function () {
-		$("#phone").attr("placeholder","010-XXXX-XXXX");
+	$("#phone2").focus(function () {
+		$("#phone2").attr("placeholder","010-XXXX-XXXX");
 	});
-	$("#phone").focusout (function () {
-		$("#phone").attr("placeholder","");
+	$("#phone2").focusout (function () {
+		$("#phone2").attr("placeholder","");
 	});
-	$("#email").focus(function () {
-		$("#email").attr("placeholder","hello@sagong.com");
+	$("#email2").focus(function () {
+		$("#email2").attr("placeholder","hello@sagong.com");
 	});
-	$("#email").focusout (function () {
-		$("#email").attr("placeholder","");
+	$("#email2").focusout (function () {
+		$("#email2").attr("placeholder","");
 	});
 });
 </script>

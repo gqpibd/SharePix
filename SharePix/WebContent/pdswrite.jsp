@@ -22,6 +22,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:100,300,400">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100">
 <link rel="shortcut icon" href="images/icons/favicon.ico">
+<link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Jua" rel="stylesheet">
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -154,7 +155,7 @@ var loadImageFile = function () {
                	<br>
                	
                	</label>
-               <input type="file" name="fileload" accept="image/gif, image/jpeg, image/png" class="upload" id = "upload-Image" onchange="loadImageFile();" >               
+               <input type="file" name="fileload" accept="image/gif, image/jpeg, image/png" class="upload" id = "upload-Image" onchange="loadImageFile()" >               
             </div>
 	
 					</td>

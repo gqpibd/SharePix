@@ -5,16 +5,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-
+	request.setCharacterEncoding("utf-8");
 	Object ologin = session.getAttribute("login");
-	MemberBean mem = null;
-	
+	MemberBean mem = null;	
 	String seqStr = request.getParameter("seq");
 	int seq = Integer.parseInt(seqStr);
-	PdsBean dto = PdsService.getInstance().getPdsDetail(seq);
-
-	
-	request.setCharacterEncoding("utf-8");
+	PdsBean dto = PdsService.getInstance().getPdsDetail(seq);	
 %>
 <!DOCTYPE html>
 <html>

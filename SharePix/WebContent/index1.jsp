@@ -25,7 +25,7 @@ myCnt = 0;
 function myFade(){
      if (myCnt != 16){
          document.bgColor = "#" + myColor[myCnt];
-         myTime = ( myCnt==0 ) ? 2500 : 30;
+         myTime = ( myCnt==0 ) ? 2500 : 50;
          $(".after").css("color","#" + myColor[15-myCnt]);
          myCnt++;
          if(myCnt==15){            	

@@ -9,14 +9,13 @@ import java.util.List;
 
 import db.DBClose;
 import db.DBConnection;
+import dto.AlarmBean;
 import dto.PagingBean;
 import dto.PdsBean;
 import dto.pagingUtil;
 
 public class PdsManager implements iPdsManager {
-
-
-   
+	
    public PdsManager() {
       DBConnection.initConnection();
    }
@@ -128,7 +127,8 @@ public class PdsManager implements iPdsManager {
       }
       return list;
    }
-    
+   
+   
    @Override
    public PdsBean getPdsDetail(int seq) {
       // SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT
@@ -909,15 +909,40 @@ public class PdsManager implements iPdsManager {
 	}
 
 	@Override
-	public boolean defaultProfileImg(String id) {
-		
-		String sql = "  ";
-		
-		int count = 0;
-		
+	public boolean defaultProfileImg(String id) {		
+		String sql = "  ";		
+		int count = 0;		
 		return count > 0 ? true : false;
-	}  
-	
+	}
+
+	@Override
+	public int getCurrSeq() {
+		String sql = " SELECT MAX(SEQ) FROM PICPDS "; // CURRVAL은 CURRENT SESSION에서 NEXTVAL 사용했을 때만 쓸 수 있음
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		int seq = 0;
+		try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 getCurrSeq success");
+			psmt = conn.prepareStatement(sql);
+
+			rs = psmt.executeQuery();
+			System.out.println("2/6 getCurrSeq success");
+
+			if (rs.next()) {				
+				seq = rs.getInt(1);
+			}
+			System.out.println("3/6 getCurrSeq success");
+
+		} catch (SQLException e) {
+			System.out.println("getCurrSeq fail");
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, rs);
+		}
+		return seq;
+	}
 	@Override
 	   public List<PdsBean> getsingoPdsAllList() {// report 1에 해당하는 것들 list로 뽑아오기
 	      

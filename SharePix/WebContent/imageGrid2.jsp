@@ -11,8 +11,8 @@
 <%
 	request.setCharacterEncoding("utf-8");
 	// 검색어	
-	String keyword = (String)request.getAttribute("keyword");	
-	String choice = (String)request.getAttribute("choice");
+	String keyword = request.getParameter("keyword");	
+	String choice = request.getParameter("choice");
 	
 	/* 페이징 처리 정보 교환 */ 
 	PagingBean paging = new PagingBean();
