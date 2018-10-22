@@ -31,6 +31,7 @@
 		id = ologin.getId();
 	}
 %>
+<!-- 아아안올라가 -->
 <!DOCTYPE html>
 <html>
 <head>
