@@ -56,7 +56,7 @@
 <link rel="stylesheet" href="style/pagingbtn.css">
 <link rel="shortcut icon" href="images/icons/favicon.ico">
 </head>
-<body>
+<body style="background-color: #f6f6f6">
 	<div style="height: 100%"> <!-- 타이틀바 -->
 		<jsp:include page="titlebar.jsp">
 			<jsp:param name="goBackTo" value="index.jsp" />
