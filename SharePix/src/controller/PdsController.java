@@ -83,7 +83,7 @@ public class PdsController extends HttpServlet {
 			if(isS) {
 				System.out.println("삭제 성공");
 				//resp.sendRedirect("PdsController?command=detailview&seq=" + seq);
-				resp.sendRedirect("./index.jsp");
+				resp.sendRedirect("./main.jsp");
 			}	
 			else{
 				PrintWriter out = resp.getWriter();
@@ -128,7 +128,7 @@ public class PdsController extends HttpServlet {
 				resp.setContentType("text/html; charset=UTF-8");
 				PrintWriter out = resp.getWriter();
 				
-				out.println("<script>alert('수정 실패'); location.href='./index.jsp';</script>");
+				out.println("<script>alert('수정 실패'); location.href='./main.jsp';</script>");
 				out.flush();
 			}
 		} else if(command.equals("readAlarm")) {
@@ -157,7 +157,7 @@ public class PdsController extends HttpServlet {
 				resp.setContentType("text/html; charset=UTF-8");
 				PrintWriter out = resp.getWriter();
 				
-				out.println("<script>alert('수정 실패'); location.href='./index.jsp';</script>");
+				out.println("<script>alert('수정 실패'); location.href='./main.jsp';</script>");
 				out.flush();
 			}
 			

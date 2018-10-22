@@ -187,46 +187,33 @@ public class MemberController extends HttpServlet {
 			
 			HttpSession session = req.getSession();
 			
-			if(command.equals("addUserPage")){		// 회원가입으로 이동
-				System.out.println("command = " + command + " 들어옴");	// 확인용			
-				dispatch("addUserPage.jsp", req, resp);			
-			}else if(command.equals("idcheck")) {	// 아이디 중복 확인			
+			if(command.equals("idcheck")) {	// 아이디 중복 확인			
 				String id = req.getParameter("id");
-			    System.out.println("id = " + id);
-			
-			    boolean isS = memService.getId(id);
-			   
+			    System.out.println("id = " + id);			
+			    boolean isS = memService.getId(id);			   
 			    PrintWriter out = resp.getWriter();
-			    if(isS){
+			    if(isS){ // 중복된 아이디 있음
 			    	out.print("NO");
 			    	out.flush();
-			    }else{
+			    }else{ // 중복된 아이디 없음
 			    	out.print("OK");
 			    	out.flush();
 			    }
-			    
-			/////////////////////////////
-			    
-			    
-			}else if(command.equals("emailcheck")) {	// 아이디 중복 확인			
+			}else if(command.equals("emailcheck")) {	// 이메일 중복 확인			
 				String email = req.getParameter("email");
 			    System.out.println("email = " + email);
 			
 			    boolean isS = memService.getEmail(email);
 			   
 			    PrintWriter out = resp.getWriter();
-			    if(isS){
+			    if(isS){ // 중복된 이메일 있음
 			    	out.print("NO");
 			    	out.flush();
-			    }else{
+			    }else{ // 중복된 이메일 없음
 			    	out.print("OK");
 			    	out.flush();
 			    }
-			      
-		
-			////////////////////////////    
-			    
-			}else if(command.equals("regi")) { 			
+			}else if(command.equals("regi")) { 	// 회원 가입		
 				String id = req.getParameter("id");
 				String pwd = req.getParameter("pwd");
 				String name = req.getParameter("name");
@@ -236,33 +223,17 @@ public class MemberController extends HttpServlet {
 				boolean isS = memService.addMember(new MemberBean(id, name, pwd, email, phone, 1));
 	
 				if(isS) {
-					
 					resp.setContentType("text/html; charset=UTF-8");
-					PrintWriter out = resp.getWriter();
-					
+					PrintWriter out = resp.getWriter();					
 					out.println("<script>alert('성공적으로 가입하셨습니다'); location.href='index.jsp';</script>");
-					 
-					out.flush();
-				
+					out.flush();				
 				}else {	
-					
 					resp.setContentType("text/html; charset=UTF-8");
 					PrintWriter out = resp.getWriter();
-					
-					out.println("<script>alert('다시 기입해 주십시오.'); location.href='regi.jsp';</script>");
-					 
-					out.flush();
-					
+					out.println("<script>alert('다시 기입해 주십시오.');</script>");
+					out.flush();					
 				}
-				
-				//dispatch("index.jsp", req, resp);
-				
-			////////////////////////////////////////	
-				
-			}else if(command.equals("IdPwC")) { 
-				
-				//String id = req.getParameter("id");
-				//String pwd = req.getParameter("pwd");
+			}else if(command.equals("findIdPwd")) {	 // 아이디 비밀번호 찾기
 				String email = req.getParameter("email");
 				String phone = req.getParameter("phone");
 				System.out.println(email);
@@ -270,32 +241,15 @@ public class MemberController extends HttpServlet {
 				
 				MemberBean mem = memService.getIdpwd(new MemberBean(null, null, null, email, phone, 0));
 				System.out.println(mem);
-				
-				if(mem != null && !mem.getId().equals("")){
+				PrintWriter out = resp.getWriter();	
+				if(mem != null && !mem.getId().equals("")){ // 일치하는 회원 정보를 찾은 경우
 					session.setAttribute("login", mem);
 					session.setMaxInactiveInterval(30*60);
-					
-				
-					resp.setContentType("text/html; charset=UTF-8");
-					PrintWriter out = resp.getWriter();
-					
-					out.println("<script>alert('당신의 id는" + mem.getId() + "이고 pw는 " + mem.getPwd() + "입니다.'); location.href='userUpdatePage.jsp';</script>");
-					 
-					out.flush();
-					
-				}else{	
-					
-					resp.setContentType("text/html; charset=UTF-8");
-					PrintWriter out = resp.getWriter();
-					
-					out.println("<script>alert('id와 pw를 찾지 못했습니다.'); location.href='index.jsp';</script>");
-					 
-					out.flush();
-					
+					out.print(mem.getId());		
+				}else{
+					out.print("");
 				}
-			
-			/////////////////////////////////////////	
-			    
+				out.flush();	
 			}else if(command.equals("login")) {	// 로그인 버튼 눌렀을 시 아이디 비밀번호 맞으면 페이지로 이동
 				System.out.println("command = " + command + " 들어옴");	// 확인용
 				String id = req.getParameter("id");
@@ -321,7 +275,7 @@ public class MemberController extends HttpServlet {
 					resp.setContentType("text/html; charset=UTF-8");
 					PrintWriter out = resp.getWriter();
 					
-					out.println("<script>alert('아이디 혹은 비밀번호가 틀렸습니다.'); location.href='index.jsp';</script>");
+					out.println("<script>alert('아이디 혹은 비밀번호가 틀렸습니다.'); location.href='main.jsp';</script>");
 					out.flush();
 					return;
 				}
@@ -331,7 +285,7 @@ public class MemberController extends HttpServlet {
 				
 				resp.setContentType("text/html; charset=UTF-8");
 				PrintWriter out = resp.getWriter();
-				out.println("<script>alert('안녕히 가십시오'); location.href='./index.jsp';</script>");
+				out.println("<script>alert('안녕히 가십시오'); location.href='./main.jsp';</script>");
 				out.flush();
 				
 				return;

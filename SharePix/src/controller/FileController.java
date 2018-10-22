@@ -149,7 +149,7 @@ public class FileController extends HttpServlet {/*"C:\\Users\\seung\\git\\Share
 			AlarmService.getInstance().insertAlarm(pds);
 
 			if (isS) { // update가 되면 true 반환
-				resp.sendRedirect("index.jsp");
+				resp.sendRedirect("main.jsp");
 			} else {
 				resp.setContentType("text/html; charset=UTF-8");
 				PrintWriter out = resp.getWriter();

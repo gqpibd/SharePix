@@ -11,11 +11,8 @@
 <%
     request.setCharacterEncoding("utf-8");
 
-	// 비회원로그인시 정해주어야. 
-	Object ologin = session.getAttribute("login");
-	MemberBean loginMemDto = null;
-	
- 	loginMemDto = (MemberBean)ologin;// 세션에 담겨있던 로그인한 사람의 dto
+	// 비회원로그인시 정해주어야. 	
+	MemberBean loginMemDto = (MemberBean)session.getAttribute("login");// 세션에 담겨있던 로그인한 사람의 dto
 
 	MemberService memService = MemberService.getInstance();
 
@@ -122,7 +119,6 @@
 
 </head>
 <body>
-
 	<div style="height: 100%"> <!-- 타이틀바 -->
 		<jsp:include page="titlebar.jsp">
 			<jsp:param name="goBackTo" value="MemberController?command=userPage&id=${pageMemDto.id}" />
@@ -147,13 +143,12 @@
 		</span>
 		</td>
 	</tr>
-	<tr><td style="height: 20px" align="center">
-			<%if(loginMemDto != null && pageMemDto.getId().equals(loginMemDto.getId())){
-			%>
-			<img class="clickable" style="width: 40px; position: relative; bottom: 40px; left: 100px;" title="개인정보 수정" alt="" src="./images/icons/edit.png" onclick="location.href='MemberController?command=userUpdatePage'">
-			<%
-			}%>
-			</td>
+	<tr>
+		<td style="height: 20px" align="center">
+			<%if(loginMemDto != null && pageMemDto.getId().equals(loginMemDto.getId())){%>
+				<img class="clickable" style="width: 40px; position: relative; bottom: 40px; left: 100px;" title="개인정보 수정" alt="" src="./images/icons/edit.png" onclick="location.href='MemberController?command=userUpdatePage'">
+			<%}%>
+		</td>
 	</tr>
 	<tr>
 		<td class="td">
@@ -175,7 +170,7 @@
 	</tr>
 	</table>
 	
-	<% if (ologin == null) { %> <!-- 로그인 하지 않았을 때 -->
+	<% if (loginMemDto == null) { %> <!-- 로그인 하지 않았을 때 -->
 		<div align="center">
 		<button onclick="loginView()"> <!-- 팔로우 버튼 -->
 			<img  id="followImg" src="<%=follow%>" width="20"> 
@@ -205,13 +200,24 @@
 		<a href="javascript:gotoMyFollow()">내가 구독한 사람들</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	<%}%>
 	<a href="javascript:gotoSub()"><%=whom %>를 구독한 사람들</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	<a href="javascript:gotoLike()">내 컬렉션</a>
+	<a href="javascript:gotoLike()"><%=who%> 컬렉션</a>
 	</div>
 	<hr>	
 	
 	<!-- 내가 올린 사진들 -->	
 	<div class="mcontainer" id="userPds">
 		<%
+		if(list.size() == 0){ // 게시글이 없는 경우
+			if(pageId.equals(loginMemDto.getId())){ // 다른사람 정보보기 일 때
+		%>
+			<h2 class="noNews">아직 게시글이 없네요. 사진을 올려주실래요?</h2>
+			<h2 class="noNews" ><button class="fill sagongBtn" onclick="location.href='pdswrite.jsp'">사진 올리기</button></h2>		
+		<%}else{ // 내 정보 보기 일 때
+		%>
+			<h2 class="noNews">게시글이 없습니다</h2>
+		<%
+		  }
+		}else{	
 		String PATH = "images/";		
 		String like = "heart.png";
 		String reverslike = "fullheart.png";
@@ -262,7 +268,8 @@
 			</div>
 		</div> 
 		<%
-			}
+			}// for문 끝
+		} // else문 끝
 		%>
 	</div> 
 	
@@ -273,10 +280,24 @@
 	</div>
 	
 	<div id="userCollect"> <!-- 컬렉션 -->
+	<%
+	if(lList.size() == 0){ // 게시글이 없는 경우
+		if(pageId.equals(loginMemDto.getId())){ // 내 정보 보기 일 때
+	%>
+		<br>
+		<h2 class="noNews">와! 여긴 먼지 하나 없네요!</h2>
+		<h2 class="noNews">좋아하는 사진을 찾아 봐요!</h2>			
+	<%}else{ // 다른사람 정보보기 일 때
+	%>	
+		<br>
+		<h2 class="noNews">맘에 드는 사진이 없나봐요</h2>		
+	<%}
+	}else{%>
 		<jsp:include page="imageGrid.jsp" flush="true">
 			<jsp:param name="command" value="favorites" />
 			<jsp:param name="id" value="${pageMemDto.id }"/>
 		</jsp:include>
+	<%} %>
 	</div>
 	<%if(loginMemDto != null && pageMemDto.getId().equals(loginMemDto.getId())){%>
 	<div align="center" id="userFollowing"> <!-- 내가 구독하는 사람들 -->
@@ -294,7 +315,7 @@ window.onload = function () {
 
 var followChk = '<%=isFollow%>';
 function doFollow(){ // 팔로우 눌렀을 때			
-	<%if (ologin == null) {%>
+	<%if (loginMemDto == null) {%>
 		loginView();
 	<%} else {%>				
 		$.ajax({
@@ -350,31 +371,36 @@ function veiwDetail(seq) { // 사진 상세 페이지로 이동
    location.href="PdsController?command=detailview&seq=" + seq;
 }     	
 
-function doLike(){ // 좋아요 눌렀을 때			
-<%if (ologin == null) {%>
-	loginView();
-<%} else {%>				
-	$.ajax({
-		url:"PdsController", // 접근대상
-		type:"get",		// 데이터 전송 방식
-		data:"command=likeChange&like="+like+"&id=<%=pageMemDto.getId()%>&seq=", // 전송할 데이터
-		success:function(data, status, xhr){
-			/* console.log(data); */
-			like = $("#ajax_hidden").html(data).find("like").text();
-			var count = $("#ajax_hidden").html(data).find("count").text();
-			if(like == "false"){
-				$("#like").attr("src",'<%=PATH%>icons\\heart.png');
-				$("#likeCount").text(count);
-			}else{
-				$("#like").attr("src",'<%=PATH%>icons\\fullheart.png');
-				$("#likeCount").text(count);
+function doLike(seq1, item){ // 좋아요 눌렀을 때			
+	<%if (loginMemDto == null) {%>
+		loginView();
+	<%} else {%> 
+	 console.log(seq1);
+	 var selector2 = "#likeCount_" + seq1;
+		$.ajax({
+			url:"PdsController", // 접근대상
+			type:"get",		// 데이터 전송 방식
+			data:"command=likeChange&id=<%=loginMemDto.getId()%>&seq="+seq1, // 전송할 데이터
+			success:function(data, status, xhr){
+				var like = $(item).html(data).find("like").text();
+				var count = $(item).html(data).find("count").text();
+				if(like == "false"){
+					$(item).attr("src",'images/icons/heart.png');
+					$(item).attr("onmouseover","this.src='images/icons/fullheart.png'");
+					$(item).attr("onmouseout","this.src='images/icons/heart.png'");
+					$(selector2).text(count);
+				}else{
+					$(item).attr("src",'images/icons/fullheart.png');
+					$(item).attr("onmouseover","this.src='images/icons/heart.png'");
+					$(item).attr("onmouseout","this.src='images/icons/fullheart.png'");
+					$(selector2).text(count);
+				}
+			},
+			error:function(){ // 또는					 
+				console.log("통신실패!");
 			}
-		},
-		error:function(){ // 또는					 
-			console.log("통신실패!");
-		}
-	});				
-<%}%>
+		});				
+	<%}%>
 }
 	
 	$(document).ready(function() {

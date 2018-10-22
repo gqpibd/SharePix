@@ -51,13 +51,9 @@ while(it.hasNext()) {
    }
 }%>
 </div>
-<% 
-if(command.equals("favorites") && list.size() == 0){%>
-<div align="center" class="noNews">
-	<p>와! 여긴 먼지 하나 없네요!</p>
-	<p>좋아하는 사진을 찾아 봐요!</p>
-</div>
-<%}else{%>
+
+
+
 	
 
 	<div class="mcontainer" >
@@ -77,6 +73,6 @@ if(command.equals("favorites") && list.size() == 0){%>
 		</div>
 		<%} %>
 	</div>
-<%} %>
+
 	
 	

@@ -35,6 +35,7 @@ List<FollowDto> sList = memService.getMySubscribeList(followeeId); // 나를 구
 	</table>
 <%}else{%>
 	<div align="center" class="noNews">
+	<br>
 	<p>와! 여긴 쌀 한 톨도 없네요!</p>
 	<p>새로운 친구를 사귀어봐요!</p>
 	</div>

@@ -59,7 +59,7 @@
 <body style="background-color: #f6f6f6">
 	<div style="height: 100%"> <!-- 타이틀바 -->
 		<jsp:include page="titlebar.jsp">
-			<jsp:param name="goBackTo" value="index.jsp" />
+			<jsp:param name="goBackTo" value="main.jsp" />
 		</jsp:include>
 	</div>
 	<% if(ologin==null){ %>

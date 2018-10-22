@@ -12,11 +12,7 @@
 		alarmCount = AlarmService.getInstance().getAlarmList(user.getId()).size(); 
 	}	
 %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>SaGong'ssi</title>
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="style/loginModal.css">
@@ -31,23 +27,11 @@ function idCheck() {
 		data:"id=" + $('#tbID').val(),
 		
 		success:function(data){
-			
-			var idCheck = false;
-			
+			var idCheck = false;			
 			if(data.trim() == "OK"){
-				$("#tbID").css("color", "#0000ff");
-				//$("#idcheck").html("사용할 수 있는 id입니다.");
-				/* $("#tbID").css("background", "linear-gradient(to top, #3366FF, white)"); */
-				idCheck = true;
-				/* $("#idcheck").val("");
-				$("#idcheck").focus(); */
-				/* alert("사용할 수 있는 id입니다."); */
-		
+				$("#tbID").css("color", "#0000ff");		
 			}else{
-				//$("#tbID").css("color", "#ff0000");
 				$("#tbID").css("color", "#000");
-				/* $("#idcheck").html("사용 중인 id입니다."); */
-				/* $("#tbID").css("background", "linear-gradient(to top, #FF6666, white)"); */
 				alert("사용 중인 id입니다.");
 				$("#tbID").val("");
 				$("#tbID").focus();
@@ -58,36 +42,17 @@ function idCheck() {
 }
 
 function pwdCheck() {
-	
-	/* if($("#tbPwd").val() != ($("#cpass").val())){ 
-	      alert("비밀번호가 다릅니다.");
-	      $("#tbPwd").val("");
-	      $("#cpass").val("");
-	      $("#tbPwd").focus();
-	      return false;
-	}	 */
-	
-	var pwdCheck = false;
-	
-	$("input[type='password']").keyup(function () {
-		
+	var pwdCheck = false;	
+	$("input[type='password']").keyup(function () {		
 		if($("#tbPwd").val()==""){ // null 일 때 걸러내기만
-		}else if($("#tbPwd").val()==$("#cpass").val()){ 	// 비밀 번호 동일시
+		}else if($("#tbPwd").val()==$("#cpass").val()){ // 비밀 번호 동일시
 			$("#cpass").css("color", "#0000ff");
-			//$("#cpass").css("background", "linear-gradient(to top, #3366FF, white)");
-			/* $("#edit_Btn").css("background-color", "");
-			$("#edit_Btn").removeAttr("disabled"); */
 			pwdCheck = true;
 		}else{
 			$("#cpass").css("color", "#ff0000");
-			//$("#cpass").css("background", "linear-gradient(to top, #FF6666, white)");
-			/* $("#edit_Btn").css("background-color", "red");
-			$("#edit_Btn").attr("disabled", "disabled"); */
 			pwdCheck = false;
 		}
 	});
-	
-	
 }
 
 function emailCheck() {
@@ -127,19 +92,6 @@ function emailCheck() {
 }
 
 function phoneCheck() {	
-	/* var phoneVal = $("#phone").val();	
-	var regExp = /^\d{3}-\d{3,4}-\d{4}$/;
-
-	if (phoneVal.match(regExp) != null) {
-	   //alert("번호를 올바르게 입력했습니다.");
-	}
-	else {
-	  alert("번호를 올바르게 입력해주세요\nex)010-XXXX-XXXX");
-	  $("#phone").val("");
-	  $("#phone").focus();  
-	} */
-	
-	
 	var phoneVal = $("#phone").val();	
 	var regExp = /^\d{3}-\d{3,4}-\d{4}$/;
 
@@ -181,11 +133,34 @@ $(document).ready(function(){
 	}
 	checkWidth();
 	$(window).resize(checkWidth);
+	
+	// 아이디 비밀번호 확인
+	$("#forpassword").click(function() { 
+		console.log("forpassword");
+		var email = $("#findIdEmail").val();
+		var phone = $("#findIdPhone").val();
+		$.ajax({
+			url:"MemberController", // 접근대상
+			type:"get",		// 데이터 전송 방식
+			data:"command=findIdPwd&email="+email+"&phone="+phone, 
+			success:function(data, status, xhr){
+				var id = data.trim();
+				console.log(id);
+				if(id!=""){ // 일치하는 아이디를 찾은 경우
+					alert("당신의 id는" + id + "입니다. 비밀번호를 변경해 주세요");
+					location.href='userUpdatePage.jsp';
+				}else{ // 일치하는 아이디가 없는 경우
+					alert("일치하는 회원 정보가 없습니다. 다시 확인해 주세요");
+				}			
+			},
+			error:function(){ // 또는					 
+				console.log("통신실패!");
+			}
+		});	
+	});
 });
 </script>
 
-</head>
-<body>
 <div id="top-menu" >
 <table border="0" align="center" width="100%" class="title_table">
 <col width="100"><col width="300"><col width="300">
@@ -277,6 +252,11 @@ function loginView(){
 function updateAlarm(newCount){
 	$("[name='alarm']").text("새소식("+newCount+")");
 }
+function loginView(){
+	$("#titleBtn").click();
+}
+
+
 </script>
 
 	<!-- 로그인 -->
@@ -293,162 +273,152 @@ function updateAlarm(newCount){
 	</div>
 	<div class="modal-body">
 	<div id="myTabContent" class="tab-content">
+	
+	<!-- 로그인 -->
 	<div class="tab-pane fade active in" id="signin">
 		<form class="form-horizontal" method="post" action="MemberController">
-		<input type="hidden" name="command" value="login"> 	
-		<input type="hidden" name="goBackTo" value="<%=goBackTo%>"> 		
-		
-				<fieldset>
-				<!-- Sign In Form -->
-				<!-- Text input-->
+			<input type="hidden" name="command" value="login"> 	
+			<input type="hidden" name="goBackTo" value="<%=goBackTo%>"> 		
+	
+			<fieldset>
+			<div class="group">
+				<input required="required" class="input" name="id" type="text">
+				<span class="highlight" ></span><span class="bar"></span> 
+				<label class="label" for="date">ID</label>
+			</div>
 
+
+			<!-- Password input-->
+			<div class="group">
+				<input required="required" class="input" name="pwd" type="password">
+				<span class="highlight"></span>
+				<span class="bar"></span> 
+				<label class="label" for="date">PW</label>
+			</div>
+	
+			<div class="forgot-link">
+         		<a href="#forgot" data-toggle="modal" data-target="#forgot-password"> 아이디/비밀번호 찾기</a>
+         	</div>
+	
+			<!-- Button -->
+			<div class="control-group">
+				<label class="control-label" for="signin"></label>
+				<div class="controls">
+					<button id="signin" name="signin"
+					class="btn btn-primary btn-block">Log In</button>
+				</div>
+			</div>
+			</fieldset>
+		</form>
+	</div>
+
+	<!-- 회원가입 -->
+	<div class="tab-pane fade" id="signup">
+		<form class="form-horizontal" action="MemberController"  method="post" id="regiform">
+			<input type="hidden" name="command" value="regi"> 
+			<fieldset>
+				<!-- ID input-->
 				<div class="group">
-					<input required="required" class="input" name="id" type="text">
-					<span class="highlight" ></span><span class="bar"></span> 
-					<label class="label" for="date">ID</label>
+					<input required="required" class="input" name="id" id="tbID" type="text" maxlength="12" onchange="idCheck()">
+					<span class="highlight"></span>
+					<span class="bar"></span> 
+					<label class="label" for="date">ID <span id="idcheck" style="font-size: 8px"></span></label>
 				</div>
 
-
-				<!-- Password input-->
+				<!--  Password input-->
 				<div class="group">
-					<input required="required" class="input" name="pwd" type="password">
+					<input required class="input" name="pwd" id="tbPwd" type="password" maxlength="12" onchange="pwdCheck()" >
 					<span class="highlight"></span>
 					<span class="bar"></span> 
 					<label class="label" for="date">PW</label>
 				</div>
-				<!-- <em>minimum 6 characters</em> -->
+
+				<!-- Password input-->
+				<div class="group">
+					<input required="required" class="input" id="cpass" type="password" maxlength="12" > <!-- onchange="pwdCheck()" -->
+					<span class="highlight"></span>
+					<span class="bar"></span> 
+					<label class="label" for="date">PW확인</label>
+				</div>
+
+				<!-- Name input-->
+				<div class="group">
+					<input required="required" class="input" name="name" type="text" maxlength="12" >
+					<span class="highlight"></span>
+					<span class="bar"></span> 
+					<label class="label" for="date">NAME</label>
+				</div>
+
+				<!-- Email input-->
+				<div class="group">
+					<input required="required" class="input" name="email" type="text" id="email" onchange="emailCheck()" placeholder="">
+					<span class="highlight"></span>
+					<span class="bar"></span> 
+					<label class="label" for="date">EMAIL</label>
+				</div>
 				
-				<div class="forgot-link">
-            		<a href="#forgot" data-toggle="modal" data-target="#forgot-password"> I forgot my password</a>
-            	</div>
-				
+				<!-- Tel input-->
+				<div class="group">
+					<input required="required" class="input" name="phone" type="text" id="phone" onchange="phoneCheck()" placeholder=""> <!-- pattern="\d{3}-\d{3,4}-\d{4}" -->
+					<span class="highlight"></span>
+					<span class="bar"></span> 
+					<label class="label" for="date">PHONE</label>
+				</div>
+
+
 				<!-- Button -->
 				<div class="control-group">
-					<label class="control-label" for="signin"></label>
+					<label class="control-label" for="confirmsignup"></label>
 					<div class="controls">
-						<button id="signin" name="signin"
-						class="btn btn-primary btn-block">Log In</button>
+						<button id="confirmsignup" name="confirmsignup"
+							class="btn btn-primary btn-block">Sign Up</button>
 					</div>
 				</div>
-				</fieldset>
-			</form>
-		</div>
-
-
-		<div class="tab-pane fade" id="signup">
-			<form class="form-horizontal" action="MemberController"  method="post" id="regiform">
-			<input type="hidden" name="command" value="regi"> 
-				<fieldset>
-					<!-- Sign Up Form -->
-					<!-- ID input-->
-					<div class="group">
-						<input required="required" class="input" name="id" id="tbID" type="text" maxlength="12" onchange="idCheck()">
-						<span class="highlight"></span>
-						<span class="bar"></span> 
-						<label class="label" for="date">ID <span id="idcheck" style="font-size: 8px"></span></label>
-					</div>
-
-					<!--  Password input-->
-					<div class="group">
-						<input required class="input" name="pwd" id="tbPwd" type="password" maxlength="12" onchange="pwdCheck()" >
-						<span class="highlight"></span>
-						<span class="bar"></span> 
-						<label class="label" for="date">PW</label>
-					</div>
-
-					<!-- Password input-->
-					<div class="group">
-						<input required="required" class="input" id="cpass" type="password" maxlength="12" > <!-- onchange="pwdCheck()" -->
-						<span class="highlight"></span>
-						<span class="bar"></span> 
-						<label class="label" for="date">PW확인</label>
-					</div>
-
-					<!-- Name input-->
-					<div class="group">
-						<input required="required" class="input" name="name" type="text" maxlength="12" >
-						<span class="highlight"></span>
-						<span class="bar"></span> 
-						<label class="label" for="date">NAME</label>
-					</div>
-
-					<!-- Email input-->
-					<div class="group">
-						<input required="required" class="input" name="email" type="text" id="email" onchange="emailCheck()" placeholder="">
-						<span class="highlight"></span>
-						<span class="bar"></span> 
-						<label class="label" for="date">EMAIL</label>
-					</div>
-					
-					<!-- Tel input-->
-					<div class="group">
-						<input required="required" class="input" name="phone" type="text" id="phone" onchange="phoneCheck()" placeholder=""> <!-- pattern="\d{3}-\d{3,4}-\d{4}" -->
-						<span class="highlight"></span>
-						<span class="bar"></span> 
-						<label class="label" for="date">PHONE</label>
-					</div>
-
-
-					<!-- Button -->
-					<div class="control-group">
-						<label class="control-label" for="confirmsignup"></label>
-						<div class="controls">
-							<button id="confirmsignup" name="confirmsignup"
-								class="btn btn-primary btn-block">Sign Up</button>
-						</div>
-					</div>
-				</fieldset>
-			</form>
-		</div>
-		</div>
-		</div>				
-		</div>
-		</div>
-	</div>	
-	
-<!--modal2-->
-
-<div class="modal fade bs-modal-sm" id="forgot-password" tabindex="0" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-        <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">아이디/비밀번호 찾기</h4>
-      </div>
-      <div class="modal-body">
-      
-        <form class="form-horizontal"  action="MemberController"  method="post">
-        <input type="hidden" name="command" value="IdPwC">
-        <fieldset>
-        <div class="group">
-			<input required="required" class="input" name="email" type="email">
-			<span class="highlight"></span>
-			<span class="bar"></span>
-   			<label class="label" for="date">Email 입력</label>
-   		</div>
-   		 <div class="group">
-			<input required="required" class="input" name="phone" type="tel">
-			<span class="highlight"></span>
-			<span class="bar"></span>
-   			<label class="label" for="date">Phone 입력</label>
-   		</div>
-        <div class="control-group">
-              <label class="control-label" for="forpassword"></label>
-              <div class="controls">
-                <button id="forpasswodr" name="forpassword" class="btn btn-primary btn-block">Send</button>
-              </div>
-            </div>
-          </fieldset>
-         </form>
-          
-      </div>
-    </div> 
-    
-  </div>
+			</fieldset>
+		</form>
+	</div>
 </div>
-
-
-
-
-</body>
-</html>
+</div>				
+</div>
+</div>
+</div>	
+	
+<!--아이디, 비밀번호 찾기-->
+<div class="modal fade bs-modal-sm" id="forgot-password" tabindex="0" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-sm">
+<div class="modal-content">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal"
+			aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<h4 class="modal-title" id="myModalLabel">아이디/비밀번호 찾기</h4>
+	</div>
+	<div class="modal-body">
+		<form class="form-horizontal" action="MemberController" method="post">
+			<input type="hidden" name="command" value="findIdPwd">
+			<fieldset>
+				<div class="group">
+					<input required="required" class="input" name="email" type="email" id="findIdEmail">
+					<!-- 이메일 입력 -->
+					<span class="highlight"></span> <span class="bar"></span>
+					<label class="label" for="date">Email 입력</label>
+				</div>
+				<div class="group">
+					<input required="required" class="input" name="phone" type="tel" id="findIdPhone">
+					<!-- 전화번호 입력 -->
+					<span class="highlight"></span> <span class="bar"></span> 
+					<label class="label" for="date">Phone 입력</label>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="forpassword"></label>
+					<div class="controls">
+						<button type="button" id="forpassword" name="forpassword" class="btn btn-primary btn-block">Send</button>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</div>
+</div>
+</div>

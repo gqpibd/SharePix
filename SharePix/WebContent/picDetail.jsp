@@ -193,33 +193,30 @@
 			</p>
 			
 			<hr>
-			<div align="center" style="vertical-align: middle;">		
+			<div align="center" style="vertical-align: middle;">	
 				<%
 				if((ologin != null && !pds.getId().equals(ologin.getId())&& ologin.getAuth() != 3) || ologin==null ){ //내가 로그인 한게 아닌 경우%>
 					<button onclick="doLike()" class="mybtn" title="컬렉션에 추가"> <!-- 좋아요 버튼 -->
 						<img src="<%=like%>" width="20" id="like">
-						<span id="likeCount" name="large"><font size="3">&nbsp;&nbsp; <%=pds.getLikeCount()%></font></span>
-					</button>&nbsp;&nbsp; 
-					
+						<span name="detailLarge">&nbsp;&nbsp;<span id="likeCount"><%=pds.getLikeCount()%></span></span>
+					</button>&nbsp;&nbsp;
 					<button class="mybtn" onclick="doFollow()" title="팔로우"><!-- 팔로우 버튼 -->
 					<% if (isFollow ) { %>
-						<img id="followImg" src="images/icons/following.png" 
-						width="20" id="follow"
-						 ><span id="fCount" name="large">&nbsp;&nbsp;<%=followerCount%></span>
+						<img id="followImg" src="images/icons/following.png" width="20" id="follow" >						
 					<%}else{%>
 						<img id="followImg" src="images/icons/follower_empty.png" width="20" id="follow">
-						<span id="fCount" name="large">&nbsp;&nbsp;<%=followerCount%>&nbsp;&nbsp;</span>							
 					<%} %>
+					<span name="detailLarge">&nbsp;&nbsp;<span id="fCount" ><%=followerCount%></span></span>					
 					</button>&nbsp;&nbsp;
 					<button class="mybtn" type="button" onclick="dosingo()"  title="신고" >
 						<span class="glyphicon glyphicon-flag" aria-hidden="true" width="20"></span>
-						<span name="large">신고</span>
+						<span name="detailLarge">신고</span>
 					</button><!-- 신고 버튼  -->
 
 				<%}%>	
 				<% if(ologin != null && pds.getId().equals(ologin.getId())&& ologin.getAuth() != 3){ %>
-						<button class="mybtn" onclick="location.href='updatePds.jsp?seq=<%=pds.getSeq()%>'">수  정</button>
-				<%}else if(ologin != null && ologin.getAuth() == 3){	%>			
+					<button class="mybtn" onclick="location.href='updatePds.jsp?seq=<%=pds.getSeq()%>'">수  정</button>
+				<%}else if(ologin != null && ologin.getAuth() == 3){ // 관리자 로그인인 경우	%>			
 					<button class="mybtn" onclick="deletePds()">삭제</button>
 				<% if(pds.getReport() == 1){ %>
 					<button class="mybtn" onclick="donosingo()">신고 해제</button>
@@ -450,7 +447,9 @@
 			<%} else {%>			
 			var check = confirm("정말 신고하시겠습니까?");			
 			if (check) {
+				alert("신고되었습니다");
 				location.href = "PdsController?command=singo&seq=<%= pds.getSeq() %>";
+				
 			}
 			<%}%>
 		}
@@ -480,11 +479,10 @@
 		}
 		
 		function checkWidth() { // 윈도우 사이즈가 바뀔 때 보여주는 아이템 변경
-			$("[name='large']").show($(".rightbar").width() > 400);
-			console.log($(".rightbar").width());
+			$("[name='detailLarge']").toggle($(".rightbar").width() > 325);	
 		}
 		checkWidth();
-		$(".rightbar").resize(checkWidth);
+		$(window).resize(checkWidth);
 		
 	</script>
 	

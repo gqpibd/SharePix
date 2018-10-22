@@ -70,3 +70,38 @@ textarea {
   text-align: center;
   font-family: 'Do Hyeon', sans-serif;
 }
+
+/* 사공 버튼 */
+.sagongBtn {
+  background: none;
+  border: 0px solid;
+  font: inherit;
+  border-radius: 12px;
+  line-height: 1;
+  margin: 0.5em;
+  padding: 0.5em 1em;
+}
+
+.sagongBtn:focus{
+	outline: none;
+}
+
+.sagongBtn {
+  color: var(--color);
+  transition: 0.25s;
+}
+
+.sagongBtn:hover, .sagongBtn:focus {
+  border-color: var(--hover);
+  color: #fff;
+}
+
+.fill:hover,
+.fill:focus {
+  box-shadow: inset 0 0 0 2em var(--hover);
+}
+
+.fill {
+  --color: #8C8C8C;
+  --hover: #1973bc;
+}

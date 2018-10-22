@@ -43,8 +43,7 @@
 	top: -20px !important;
 	transform: scale(.75) !important ; left:-15px !important;
     /* font-size: 14px; */
-    color: #4a89dc !important;
-    
+    color: #4a89dc !important;    
 }
 </style>
 <script type="text/javascript">
@@ -136,18 +135,18 @@ var loadImageFile = function () {
 			<input required="required" class="input" name="name" id="name" type="text" maxlength="12" value="<%=updateDto.getName()%>">
 			<span class="highlight"></span>
 			<span class="bar"></span> 
-			<label class="label" for="date" id="name_label">NICKNAME<span id="idcheck" style="font-size: 8px"></span></label>
+			<label class="label" for="date" id="name_label">이름<span style="font-size: 8px"></span></label>
 		</div>
 	</td>
 	</tr>
 	<tr>
 	<td style="padding-left: 30px; padding-right: 30px; padding-bottom : 20px" rowspan="4">
 			<div class="group">
-			<label class="label" for="date">IMAGE : 드래그 하거나 클릭하여 업로드</label>
+			<label class="label" for="date">프로필 사진 : 드래그 하거나 클릭하여 업로드</label>
 			</div>
 			<br>
-			<div class="imgbox">
-			<img id="editable-Img" src='<%=config.getServletContext().getRealPath("/images/profiles") %>/<%=updateDto.getId()%>.png' class='holder' align='middle' onerror="this.src='<%=config.getServletContext().getRealPath("/images/profiles") %>/default.png'">
+			<div class="imgbox" align="center">
+			<img id="editable-Img" src='images/profiles/<%=updateDto.getId()%>.png' class='holder' align='middle' onerror="this.src='images/profiles/default.png'">
 			<input type="file" name="fileload" accept="image/gif, image/jpeg, image/png" class="upload" id="upload-Image" onchange="loadImageFile();" >
 			</div>
 			<br>
@@ -162,7 +161,7 @@ var loadImageFile = function () {
 			<input class="input" name="pwd" id="pwd" type="password" maxlength="12" placeholder="새 비밀번호">
 			<span class="highlight"></span>
 			<span class="bar" id="pwd_bar"></span> 
-			<label class="label" for="date">&nbsp;&nbsp;새 PW</label>
+			<label class="label" for="date">&nbsp;&nbsp;비밀번호</label>
 		</div>
 		</td>
 	</tr>
@@ -173,7 +172,7 @@ var loadImageFile = function () {
 			<input class="input" id="pwd2" type="password" maxlength="12" onkeyup="" placeholder="비밀번호 확인">
 			<span class="highlight"></span>
 			<span class="bar" id="pwd2_bar"></span> 
-			<label class="label" for="date">&nbsp;PW확인</label>
+			<label class="label" for="date">&nbsp;비밀번호 확인</label>
 		</div>
 		</td>
 	</tr>
@@ -184,7 +183,7 @@ var loadImageFile = function () {
 			<input required="required" class="input" name="email" type="text" id="email2" onchange="emailCheck()" value="<%=updateDto.getEmail()%>">
 			<span class="highlight"></span>
 			<span class="bar"></span> 
-			<label class="label" for="date">&nbsp;&nbsp;EMAIL</label>
+			<label class="label" for="date">&nbsp;&nbsp;이메일</label>
 		</div>
 		</td>
 	</tr>
@@ -195,14 +194,14 @@ var loadImageFile = function () {
 			<input required="required" class="input" name="phone" type="text" id="phone2" onchange="phoneCheck()" value="<%=updateDto.getPhone()%>"/> <!-- pattern="\d{3}-\d{3,4}-\d{4}" -->
 			<span class="highlight"></span>
 			<span class="bar"></span> 
-			<label class="label" for="date">&nbsp;&nbsp;PHONE</label>
+			<label class="label" for="date">&nbsp;&nbsp;전화번호</label>
 		</div>
 		</td>
 	</tr>
 	<tr>
 	<td colspan="2" align="center" style="height: 80px">
-	<button id="edit_Btn" type="submit" style="background-color: red;">수정</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	<button type="button" onclick="location.href='MemberController?command=userPage&id=<%=updateDto.getId()%>'">뒤로</button>
+	<button id="edit_Btn" class="sagongBtn fill" type="submit" >수정</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<button type="button" class="sagongBtn fill" onclick="location.href='MemberController?command=userPage&id=<%=updateDto.getId()%>'">뒤로</button>
 	</td>
 	</tr>
 	</table>
@@ -277,11 +276,13 @@ $(document).ready(function () { // 전부 입력시에 수정버튼 활성화 �
 		}else if($("#pwd").val()==$("#pwd2").val()){ 	// 비밀 번호 동일시
 			$("#pwd2").css("background", "linear-gradient(to top, #3366FF, white)");
 			$("#edit_Btn").css("background-color", "");
+			$("#edit_Btn").addClass('fill');
 			$("#edit_Btn").removeAttr("disabled");
 			pwdCheck = true;
 		}else{
 			$("#pwd2").css("background", "linear-gradient(to top, #FF6666, white)");
-			$("#edit_Btn").css("background-color", "red");
+			$("#edit_Btn").css("background-color","red");
+			$("#edit_Btn").removeClass('fill');
 			$("#edit_Btn").attr("disabled", "disabled");
 			pwdCheck = false;
 		}
