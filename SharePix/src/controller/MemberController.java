@@ -314,11 +314,7 @@ public class MemberController extends HttpServlet {
 				req.setCharacterEncoding("utf-8");
 				
 				String pageId = req.getParameter("id");
-							
-				PdsBean pagePds = pdsService.getMyPdsAll(pageId); // 해당 유저 페이지의 유저 id로 찾은 pdsDto
-				if(pagePds==null){
-					pagePds = new PdsBean();
-				}
+											
 				MemberBean pageMemDto = memService.getUserInfo(pageId);	//해당 페이지의 사용자 정보 가져온 memDto
 				if(pageMemDto==null){
 					pageMemDto = new MemberBean();
@@ -339,8 +335,7 @@ public class MemberController extends HttpServlet {
 				if(lList==null){
 					lList = new ArrayList<>();
 				}
-				
-				req.setAttribute("pagePds", pagePds);
+								
 				req.setAttribute("pageMemDto", pageMemDto);
 				req.setAttribute("list", list);
 				req.setAttribute("fList", fList);

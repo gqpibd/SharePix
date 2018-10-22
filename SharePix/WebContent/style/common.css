@@ -44,3 +44,29 @@ textarea {
 	border-radius: 3px;
 	outline:none; /* 포커스 되었을 때 아웃라인 없앰 */	
 }
+
+/* 좋아요 버튼 */
+.mybtn {	
+	background:#dfeaef;
+	border-radius:4px;
+	border:1px solid #fff;
+	display:inline-block;
+	cursor:pointer;
+	color:#333333;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+}
+.mybtn:hover {	
+	background:linear-gradient(to bottom, #ecf9ff 5%, #cedde4 100%);	
+}
+
+/* 자료 없음 글씨 */
+.noNews {
+  font-size: 26px;
+  margin: 20px 0;
+  text-align: center;
+  font-family: 'Do Hyeon', sans-serif;
+}

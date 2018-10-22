@@ -27,14 +27,7 @@
 
 <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Jua" rel="stylesheet">
 <link href="style/common.css" rel="stylesheet">
-<style type="text/css">
-.noNews {
-  font-size: 26px;
-  margin: 20px 0;
-  text-align: center;
-  font-family: 'Do Hyeon', sans-serif;
-}
-</style>
+
 <div class="container" align="center" >
 <%	if(tagMap!=null){
 int iter = 0; // 지금 위치가 몇 번째인지 갯수를 세자
@@ -56,30 +49,34 @@ while(it.hasNext()) {
     	break;
     }
    }
-}
-if(list.size() == 0){%>
+}%>
+</div>
+<% 
+if(command.equals("favorites") && list.size() == 0){%>
 <div align="center" class="noNews">
 	<p>와! 여긴 먼지 하나 없네요!</p>
 	<p>좋아하는 사진을 찾아 봐요!</p>
 </div>
-<%}%>
+<%}else{%>
 	
-</div>
-<div class="mcontainer" >
-	<%for(PdsBean pds : list){
-		String fSavename = pds.getfSaveName();
-		String smallSrc = fSavename.substring(0,fSavename.lastIndexOf('.')) + "_small" + fSavename.substring(fSavename.lastIndexOf('.'));
-		
-		File f = new File(config.getServletContext().getRealPath("/images/pictures") + "\\" + fSavename);
-		 if (f.exists() && f.length()<300000) { // 300kb 이하의 이미지는 그냥 원본을 가져온다
-	    	  smallSrc = fSavename;			     
-	    }
-	%>
-	<div class="item">
-		<img class="img clickable" name="item" src="images/pictures/<%=smallSrc%>"
-		onerror="$(this).parent().remove()"  
-		onclick="veiwDetail(<%=pds.getSeq()%>)" height="300">
+
+	<div class="mcontainer" >
+		<%for(PdsBean pds : list){
+			String fSavename = pds.getfSaveName();
+			String smallSrc = fSavename.substring(0,fSavename.lastIndexOf('.')) + "_small" + fSavename.substring(fSavename.lastIndexOf('.'));
+			
+			File f = new File(config.getServletContext().getRealPath("/images/pictures") + "\\" + fSavename);
+			 if (f.exists() && f.length()<300000) { // 300kb 이하의 이미지는 그냥 원본을 가져온다
+		    	  smallSrc = fSavename;			     
+		    }
+		%>
+		<div class="item">
+			<img class="img clickable" name="item" src="images/pictures/<%=smallSrc%>"
+			onerror="$(this).parent().remove()"  
+			onclick="veiwDetail(<%=pds.getSeq()%>)" height="300">
+		</div>
+		<%} %>
 	</div>
-	<%} %>
-</div>	
+<%} %>
+	
 	

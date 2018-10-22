@@ -125,9 +125,9 @@ $(document).ready(function(){
 		<% if(user==null){ // 로그아웃 상태 %>
 			<button class="fill sagongBtn" id="titleBtn" href="#signup" data-toggle="modal" data-target=".log-sign">Sign In/Register</button>
 		<%}else{ %>
-			<img src='<%=config.getServletContext().getRealPath("images/profiles/") %>/<%=user.getId()%>.png' width='100px'
+			<img src='./images/profiles/<%=user.getId()%>.png' width='100px'
 	            class='profile_img' align='middle'
-	            onerror="this.src='<%=config.getServletContext().getRealPath("images/profiles/") %>/default.png'">
+	            onerror="this.src='images/profiles/default.png'">
 		<span><%=user.getName() %>님 <span name="large">환영합니다.</span> <a href="MemberController?command=logout"><font size="2">로그아웃</font></a></span>	
 		<div id="menuBtn" class="btn-group">
 	  		<button type="button" class="fill sagongBtn" data-toggle="dropdown" aria-expanded="false">

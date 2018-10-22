@@ -20,15 +20,14 @@
 	MemberService memService = MemberService.getInstance();
 
 	String pageId = request.getParameter("id");	// 해당 유저 페이지의 유저 id                      
-	                                                                              
-	PdsBean pagePds 		= (PdsBean)request.getAttribute("pagePds");
+	                                                                   
 	MemberBean pageMemDto	= (MemberBean)request.getAttribute("pageMemDto");
-	List<PdsBean> list 		= (List<PdsBean>)request.getAttribute("list");      
+	List<PdsBean> list 		= (List<PdsBean>)request.getAttribute("list"); // 내가 올린 게시글 list     
 	List<FollowDto> fList 	= (List<FollowDto>)request.getAttribute("fList");// 해당 페이지의 사용자를 팔로우 하는 사람 list
 	List<FollowDto> sList 	= (List<FollowDto>)request.getAttribute("sList");// 페이지의 유저를 구독하는 사람 리스트
 	List<PdsBean> lList 	= (List<PdsBean>)request.getAttribute("lList");// 페이지의 유저가 좋아요한 리스트 */
 	
-	if( pagePds == null || pageMemDto == null || list == null  || fList == null || sList == null  || lList == null ) {
+	if( pageMemDto == null || list == null  || fList == null || sList == null  || lList == null ) {
 		System.out.println(" 유저 페이지 뭐가 됐든 null");
 	} else {
 		System.out.println("아무것도 null 아님");
@@ -83,14 +82,25 @@
 	if (isFollow) {
 		follow = "images/icons/following.png";
 	}
+	
+	String whom = pageMemDto.getId();
+	String who = pageMemDto.getId();
+	if(loginMemDto != null && pageMemDto.getId().equals(loginMemDto.getId())){
+		whom = "나";		
+		who = "내";
+	}
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="js/jquery.row-grid.min.js"></script>
+<link rel="stylesheet" href="style/imageArrange.css">
+<link rel="shortcut icon" href="images/icons/favicon.ico">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Do+Hyeon|Jua">
 <link rel="stylesheet" href="style/common.css">
-<link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Jua" rel="stylesheet">
+
 <style type="text/css">
 .td {
 	text-align: center;
@@ -103,47 +113,26 @@
     border-radius: 50%;
     border: 0.1em solid grey;
 }
-.noNews {
-  font-size: 26px;
-  margin: 20px 0;
-  text-align: center;
-  font-family: 'Do Hyeon', sans-serif;
+.mybtn:focus{
+	outline: none;
 }
-.mybtn {	
-	background:#dfeaef;
-	border-radius:4px;
-	border:1px solid #fff;
-	display:inline-block;
-	cursor:pointer;
-	color:#333333;
-	font-family:Arial;
-	font-size:15px;
-	font-weight:bold;
-	padding:6px 24px;
-	text-decoration:none;
-}
-.mybtn:hover {	
-	background:linear-gradient(to bottom, #ecf9ff 5%, #cedde4 100%);	
-}
+
 </style>
 <title></title>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="js/jquery.row-grid.min.js"></script>
-<link rel="stylesheet" href="style/imageArrange.css">
-<link rel="shortcut icon" href="images/icons/favicon.ico">
+
 </head>
 <body>
 
 	<div style="height: 100%"> <!-- 타이틀바 -->
 		<jsp:include page="titlebar.jsp">
-			<jsp:param name="goBackTo" value="index.jsp" />
+			<jsp:param name="goBackTo" value="MemberController?command=userPage&id=${pageMemDto.id}" />
 		</jsp:include>
 	</div>
 
-	<div style="margin-top: 8em">
+	<div style="margin-top: 8em"></div>
 	<!-- <div align=center> -->
-	<!-- background-color: #92A8D1;  --
-<div style="padding: 50px; padding-top: 50px; padding-bottom: 50px; background: linear-gradient(to bottom, #92A8D1, white)"><!--  -->
+	<!-- background-color: #92A8D1;  -->
+	<div style="padding: 50px; padding-top: 50px; padding-bottom: 50px; background: linear-gradient(to bottom, #92A8D1, white)">
 	<table align="center" style="margin-bottom: 10px" > <!-- border="1" -->
 	<tr>
 		<td class="td" align="center" style="height: 100px">
@@ -180,7 +169,7 @@
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<span><img title="팔로워의 수" src="./images/icons/many_follower.png" style="width: 40px; height:auto">&nbsp;:&nbsp;<%=fList.size()%></span>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<span class="ifNotMeHide">
+		<span>
 		<img title="<%=pageMemDto.getName()%>이(가) 좋아요한 사진 수" src="./images/icons/collection_empty.png" style="width: 25px">&nbsp;:&nbsp;<%=lList.size()%>&nbsp;&nbsp;</span>	
 		</td>
 	</tr>
@@ -209,26 +198,24 @@
 	
 	<hr>
 	<div align="center">
-	<a href="javascript:gotoPds()"><%=pageMemDto.getId()%>가 올린 이미지</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	<%if(loginMemDto != null && pageMemDto.getId().equals(loginMemDto.getId())){%>
+	<a href="javascript:gotoPds()"><%=who%>가 올린 이미지</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<%	
+		if(loginMemDto != null && pageMemDto.getId().equals(loginMemDto.getId())){				
+	%>
 		<a href="javascript:gotoMyFollow()">내가 구독한 사람들</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	<%}%>
-	<a href="javascript:gotoSub()">나를 구독한 사람들</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<a href="javascript:gotoSub()"><%=whom %>를 구독한 사람들</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	<a href="javascript:gotoLike()">내 컬렉션</a>
 	</div>
 	<hr>	
 	
-	
+	<!-- 내가 올린 사진들 -->	
 	<div class="mcontainer" id="userPds">
 		<%
-		String PATH = "images/";
-		List<PdsBean> pdslist = null;
-		if ((pdslist = (List<PdsBean>) request.getAttribute("list")) == null) {
-			pdslist = PdsService.getInstance().getSearchPdsNull();
-		}
+		String PATH = "images/";		
 		String like = "heart.png";
 		String reverslike = "fullheart.png";
-		for (PdsBean Pdscust : pdslist) {
+		for (PdsBean Pdscust : list) {
 			String fSavename = Pdscust.getfSaveName();
 			String smallSrc = fSavename.substring(0,fSavename.lastIndexOf('.')) + "_small" + fSavename.substring(fSavename.lastIndexOf('.'));
 			
@@ -279,24 +266,25 @@
 		%>
 	</div> 
 	
-	<div align="center" id="userSub" class="ifNotMeHide" style="display: none"> <!-- 불러오긴 하나 숨김 -->
+	<div align="center" id="userSub"> <!-- 나를 구독하는 사람들. 불러오긴 하나 숨김 -->
 		<jsp:include page="follow.jsp" flush="true">
-			<jsp:param name="followeeId" value="${pagePds.id }"/>
+			<jsp:param name="followeeId" value="${pageMemDto.id }"/>
 		</jsp:include>
 	</div>
 	
-	<div id="userCollect">
+	<div id="userCollect"> <!-- 컬렉션 -->
 		<jsp:include page="imageGrid.jsp" flush="true">
 			<jsp:param name="command" value="favorites" />
 			<jsp:param name="id" value="${pageMemDto.id }"/>
 		</jsp:include>
 	</div>
-	
-	<div id="userFollowing">
+	<%if(loginMemDto != null && pageMemDto.getId().equals(loginMemDto.getId())){%>
+	<div align="center" id="userFollowing"> <!-- 내가 구독하는 사람들 -->
 		<jsp:include page="myFollowing.jsp" flush="true">
 			<jsp:param name="pageId" value="${pageMemDto.id }"/>
 		</jsp:include>
 	</div>
+	<%} %>
 </body>
 
 <script type="text/javascript">
@@ -347,7 +335,7 @@ function gotoLike(){
 	$("#userSub").hide();
 	$("#userFollowing").hide();
 	$("#userCollect").show();
-	$("#userCollect").css("visibility","visible");
+	//$("#userCollect").css("visibility","visible");
 }
 
 function gotoMyFollow() {
@@ -364,8 +352,7 @@ function veiwDetail(seq) { // 사진 상세 페이지로 이동
 
 function doLike(){ // 좋아요 눌렀을 때			
 <%if (ologin == null) {%>
-	alert("로그인해 주십시오");	
-	location.href="index.jsp";
+	loginView();
 <%} else {%>				
 	$.ajax({
 		url:"PdsController", // 접근대상
@@ -389,8 +376,8 @@ function doLike(){ // 좋아요 눌렀을 때
 	});				
 <%}%>
 }
- 	$(document).ready(function() {
-		$.noConflict();
+	
+	$(document).ready(function() {
 		var options = {minMargin: 5, maxMargin: 15, itemSelector: ".item", firstItemClass: "first-item"};
 		$(".mcontainer").rowGrid(options);		
 	});

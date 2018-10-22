@@ -12,23 +12,6 @@ PdsService pdsService = PdsService.getInstance();
 String followeeId = request.getParameter("followeeId");
 List<FollowDto> sList = memService.getMySubscribeList(followeeId); // 나를 구독하는 사람들 리스트 받기
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<style type="text/css">
-.noNews {
-  font-size: 26px;
-  margin: 20px 0;
-  text-align: center;
-  font-family: 'Do Hyeon', sans-serif;
-}
-</style>
-<title></title>
-
-</head>
-<body>
 
 <%if(sList.size()!=0){%>
 	<table style="margin: 20px;margin-right: 20px;margin-left:20px">
@@ -56,5 +39,3 @@ List<FollowDto> sList = memService.getMySubscribeList(followeeId); // 나를 구
 	<p>새로운 친구를 사귀어봐요!</p>
 	</div>
 <%}%>
-</body>
-</html>
