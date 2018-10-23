@@ -128,8 +128,36 @@
     font-weight: bold;
     overflow: hidden;
     position: relative;
-    font-family: 'Nanum Gothic', sans-serif;
+/*     font-family: 'Nanum Gothic', sans-serif; */
     
+}
+
+.tab-box{
+	margin: 0 auto 0 auto;
+	width: 100%;
+}
+
+a:visited{
+	text-decoration: none;
+}
+
+.tab-box li{
+	float:left;
+	width: auto;
+	height:30px;      
+	line-height:30px;          /* 중앙정렬 */
+	text-align: center;
+	/* border-radius:3px 3px 0 0; */
+	cursor: pointer;
+	font-family: 'Nanum Gothic', sans-serif;
+}
+
+.tab-box li.selected{
+	background-color: #ccc;
+	border-spacing: 100px 100px 20px 20px;
+	border-top: 1px solid blue;
+	border-bottom: 2px solid blue;
+	text-decoration: none;
 }
 
 </style>
@@ -210,15 +238,17 @@
 	<br>
 	
 	<hr>
-	<div align="center">
-	<a href="javascript:gotoPds()" class="tabs"><%=who%>가 올린 이미지</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	<%	
-		if(loginMemDto != null && pageMemDto.getId().equals(loginMemDto.getId())){				
-	%>
-		<a href="javascript:gotoMyFollow()" class="tabs">내가 구독한 사람들</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	<%}%>
-	<a href="javascript:gotoSub()" class="tabs"><%=whom %>를 구독한 사람들</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	<a href="javascript:gotoLike()" class="tabs"><%=who%> 컬렉션</a>
+	<div class="tab-box" align="center">
+		<ul class="ul_cls" style="text-align:center; list-style:none; display: inline-block;" ><br>
+		<li id="li1">&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:gotoPds()" class="tabs"><%=who%>가 올린 이미지</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+		<%	
+			if(loginMemDto != null && pageMemDto.getId().equals(loginMemDto.getId())){				
+		%>	
+			<li id="li2">&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:gotoMyFollow()" class="tabs" >내가 구독한 사람들</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+		<%}%>
+		<li id="li3">&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:gotoSub()" class="tabs" ><%=whom %>를 구독한 사람들</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+		<li id="li4">&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:gotoLike()" class="tabs" ><%=who%>가 좋아요한 사진들</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+		</ul>
 	</div>
 	<hr>	
 	
@@ -323,6 +353,7 @@
 		</jsp:include>
 	</div>
 	<%} %>
+	
 </body>
 
 <script type="text/javascript">
@@ -359,6 +390,10 @@ function gotoPds(){
 	$("#userCollect").hide();
 	$("#userFollowing").hide();
 	$("#userPds").show();	
+	$("#li2").removeClass("selected");
+	$("#li3").removeClass("selected");
+	$("#li4").removeClass("selected");
+	$("#li1").addClass("selected");
 }
 
 function gotoSub() { 
@@ -366,6 +401,10 @@ function gotoSub() {
 	$("#userCollect").hide();
 	$("#userFollowing").hide();
 	$("#userSub").show();
+	$("#li1").removeClass("selected");
+	$("#li2").removeClass("selected");
+	$("#li4").removeClass("selected");
+	$("#li3").addClass("selected");
 }
 
 function gotoLike(){
@@ -373,6 +412,10 @@ function gotoLike(){
 	$("#userSub").hide();
 	$("#userFollowing").hide();
 	$("#userCollect").show();
+	$("#li1").removeClass("selected");
+	$("#li2").removeClass("selected");
+	$("#li3").removeClass("selected");
+	$("#li4").addClass("selected");
 	//$("#userCollect").css("visibility","visible");
 }
 
@@ -381,6 +424,10 @@ function gotoMyFollow() {
 	$("#userCollect").hide();
 	$("#userSub").hide();
 	$("#userFollowing").show();
+	$("#li1").removeClass("selected");
+	$("#li3").removeClass("selected");
+	$("#li4").removeClass("selected");
+	$("#li2").addClass("selected");
 }
 
 function veiwDetail(seq) { // 사진 상세 페이지로 이동
