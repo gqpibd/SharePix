@@ -1,0 +1,305 @@
+.footer{ 
+	margin-top:40px;
+	font-size:12px; 
+	color:#222222; 
+	-webkit-transition:margin-left ease 0.3s; 	
+	transition:margin-left ease 0.3s;
+	background-color:#fafafa;
+}
+.footer .f_menu{
+	position:relative; 
+	text-align:left;
+}
+
+.footer .f_menu:last-child{
+	margin:30px 0 20px;
+}
+
+.footer .f_menu a{
+	margin-right:10px; 
+	font-size:10px;
+	text-align:left;
+}
+.footer .f_menu.kr a{
+	font-weight:400;
+}
+
+.footer .f_menu>a:last-child{margin-right:0;}
+.footer .f_menu a:hover{color:#ff243b;}
+.footer .f_sns {
+	position:relative; 
+	text-align:center;
+}
+.footer span.octolab {
+	font-size: 15px;
+	margin-bottom:0px;
+	display: block;
+	text-align: center;
+	float:right;
+}
+
+.footer .total_count{
+	font-size: 13px;
+	font-weight:400;
+	color:#111111;
+	letter-spacing:-0.05em;
+	max-width:400px;
+	margin:auto;
+	width:90%;
+}
+
+.footer .total_count strong{
+	font-weight: 200;
+	font-size: 32px;
+	text-align: center;
+	display: block;
+	letter-spacing: 0.2em;
+}
+
+.footer .total_count span{
+    display: block; 
+    text-align: center;
+    font-size: 11px;
+    margin-top: 15px;
+    color: #999;
+}
+
+.footer .footer_wrap{
+	max-width:1200px;
+	margin:50px auto 0 auto;
+	padding:10% 5%;
+}
+
+.footer .footer_wrap div{
+	display:block;
+	vertical-align:top;
+	text-align:center;
+}
+
+html:lang(kr) .footer .total_count{
+	font-style:normal;
+	font-family:"Open Sans", Helvetica, Arial, "Helvetica Neue", "Malgun Gothic";
+
+}
+
+html:lang(jp) .footer .total_count{
+	font-style:normal;
+	font-family:Helvetica, Arial,Yu Gothic, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro",Osaka, "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+	font-weight:500;
+}
+
+.footer .f_sns a,
+.share_area .share{
+	display:block;
+	border-radius:2px;
+	overflow:hidden;
+	text-indent:10px;
+	background-repeat:no-repeat;
+	background-size:32px;
+	background-position:10px 50%;
+	width:100%;
+	height:40px;
+	font-size:15px;
+	font-weight:200;
+	line-height:40px;
+/*	color:#ffffff;*/
+	text-align:center;
+	margin:5px 0;
+	}
+	
+	.footer .f_sns a{
+    font-size: 12px;
+    display: inline-block;
+    font-weight: normal;
+    text-align: left;
+    height: auto; 
+    line-height: normal;
+	margin:25px 3vw;
+	width:auto;
+	text-indent:0;
+}
+
+.footer a{
+	padding:5px 0;
+}
+
+footer{
+	background-color:#f2f2f2;
+}
+
+.m_footer{
+	overflow:hidden;
+	height:0;
+	opacity: 0;
+}
+.m_top.m_top_view,
+.m_center.m_center_view,
+.m_footer.m_footer_view{
+	height:auto;
+	opacity: 1;
+}
+
+.m_footer_title{
+	display:inline-block;
+	height:40px;
+	margin:15px 10px;
+	padding:5px 0;
+	color:#999999;
+	font-size:12px;
+	background-color:transparent;
+	border:0;
+	cursor:pointer;
+}
+
+.tab-title.topSelected,
+.tab-title.centerSelected,
+.m_footer_title.footerSelected{
+	color:#111111;
+	font-weight:600;
+	border-bottom:2px solid #666666;
+}
+
+#newsletter_box .download_weekly:after{
+	content:'';
+	z-index:-1;
+	position:absolute;
+	left:0;
+	top:0;
+	width:100%;
+	height:180px;
+	background-image:url(/common/octo/images/footer_download_weekly.jpg);
+	background-position:center;
+	background-repeat:no-repeat;
+	background-size: cover;
+}
+
+	.footer .f_menu a{
+		display:block;
+		font-size:12px;
+	}
+	.footer .f_sns a {
+		margin-right:5px;
+		display:block;
+		margin:0;
+	}
+	.footer span.octolab{
+		display:inline-block; 
+		text-align:left; 
+		margin-left:105px;}
+	.left_wrap .footer{
+		margin-left:0;
+	}
+		.m_footer_title{
+		margin:15px;
+		font-size:12px;
+	}
+	
+	.footer .footer_wrap{
+		padding:5%;
+		text-align:center;
+	}
+
+	.footer .total_count strong{
+		display:inline;
+	}
+
+	.footer .total_count strong{
+		font-size:inherit;
+		letter-spacing: normal;
+	}
+
+	.footer .total_count span{
+		font-size:12px;
+	}
+
+	.footer .footer_wrap div{
+		display: inline-block;
+		vertical-align: top;
+	}
+
+	.footer .footer_wrap .total_count{
+		max-width:540px;
+		margin:auto;
+			display:block;
+		font-size:16px;
+		margin:20px auto 50px;
+	}
+
+	.footer .f_sns{
+		display:block;
+	}
+
+	.footer .f_menu{
+		margin-left:80px;
+	}
+
+	.footer .f_menu:last-child{
+		margin:0 0 0 80px;
+	}
+	
+	.footer .footer_wrap .total_count{
+		text-align: left;
+		margin:0;
+	}
+
+	.footer .total_count span{
+		text-align:left;
+		font-size:12px;
+	}
+
+	.footer .footer_wrap{
+		max-width:860px;
+		margin: 70px auto 0 auto;
+		text-align:right;
+	}
+	
+	.footer .footer_wrap div{
+		text-align:left;
+	}
+
+	.footer .f_menu {
+		margin-left: 50px;
+	}
+
+	.footer .f_menu:last-child{
+		margin-left:50px;
+	}
+
+	.footer span.octolab{
+		margin-left:70px;
+	}
+	
+	@media screen and (min-width:1280px){
+		.footer .total_count{
+		padding-left:0;
+		
+	}
+	
+	.footer .footer_wrap{
+		max-width:1200px;
+		padding:70px;
+	}
+
+	.footer .footer_wrap .total_count{
+		max-width:450px;
+	}
+
+	.footer .total_count span{
+		font-size:13px;
+	}
+
+	.footer .f_menu{
+		margin-left:80px;
+	}
+
+	.footer .f_menu:last-child{
+		margin-left:100px;
+	}
+
+	.footer span.octolab{
+		margin-left: 120px;
+	}
+		.m_footer_title{
+		font-size:14px;
+	}
+	}
