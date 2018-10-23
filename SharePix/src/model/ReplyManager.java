@@ -57,8 +57,7 @@ public class ReplyManager implements iReplyManager {
 											  rs.getInt("REREF"),
 											  wdate,
 											  rs.getInt("DEL"),
-											  rs.getString("TOWHOM"),
-											  rs.getInt("READ")
+											  rs.getString("TOWHOM")
 											  );
 				replyList.add(bean);
 			}
@@ -90,7 +89,7 @@ public class ReplyManager implements iReplyManager {
 			// PDSSEQ, RESEQ, ID, CONTENT, REREF, WDATE, DEL
 			if (refSeq > 0) { // 새 댓글일 때
 				sql = " INSERT INTO PDSREPLY "
-					+ " VALUES (?, PDSREPLY_RESEQ.NEXTVAL, ?, ?, ?, SYSDATE, 0, ?, 0) ";
+					+ " VALUES (?, PDSREPLY_RESEQ.NEXTVAL, ?, ?, ?, SYSDATE, 0, ?) ";
 				psmt = conn.prepareStatement(sql);
 				psmt.setInt(1, pdsSeq);
 				psmt.setString(2, id);
@@ -99,7 +98,7 @@ public class ReplyManager implements iReplyManager {
 				psmt.setString(5, toWhom);
 			}else { // 대댓일 때
 				sql = " INSERT INTO PDSREPLY "
-						+ " VALUES (?, PDSREPLY_RESEQ.NEXTVAL, ?, ?, PDSREPLY_RESEQ.CURRVAL, SYSDATE, 0, ?, 0) ";
+						+ " VALUES (?, PDSREPLY_RESEQ.NEXTVAL, ?, ?, PDSREPLY_RESEQ.CURRVAL, SYSDATE, 0, ?) ";
 					psmt = conn.prepareStatement(sql);
 					psmt.setInt(1, pdsSeq);
 					psmt.setString(2, id);
@@ -184,8 +183,7 @@ public class ReplyManager implements iReplyManager {
 								  rs.getInt("REREF"),
 								  wdate,
 								  rs.getInt("DEL"),
-								  rs.getString("TOWHOM"),
-								  rs.getInt("READ")
+								  rs.getString("TOWHOM")
 								  );
 			}
 			System.out.println("4/6 getReply Success");					
@@ -200,7 +198,7 @@ public class ReplyManager implements iReplyManager {
 	@Override
 	public boolean updateReply(int reSeq, String content) {
 		String sql = " UPDATE PDSREPLY "
-				   + " SET CONTENT = ?, READ = 0 "
+				   + " SET CONTENT = ? "
 				   + " WHERE RESEQ = ? ";
 		
 		Connection conn = null;
@@ -225,35 +223,5 @@ public class ReplyManager implements iReplyManager {
 			DBClose.close(psmt, conn, null);
 		}
 		return count > 0 ? true : false;
-	}
-
-	@Override
-	public boolean readReply(int reSeq) {
-		String sql = " UPDATE PDSREPLY "
-				   + " SET READ = 1 "
-				   + " WHERE RESEQ = ? ";
-		
-		Connection conn = null;
-		PreparedStatement psmt = null; 
-		int count=0;
-
-		try {			
-			conn = DBConnection.getConnection();
-			System.out.println("1/6 readReply Success");
-			
-			psmt = conn.prepareStatement(sql);
-			psmt.setInt(1, reSeq);			
-			
-			System.out.println("2/6 readReply Success");
-
-			count = psmt.executeUpdate();
-			System.out.println("3/6 readReply Success");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			DBClose.close(psmt, conn, null);
-		}
-		return count > 0 ? true : false;
-	}
-	
+	}	
 }
