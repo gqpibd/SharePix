@@ -190,9 +190,8 @@
 	
 	<% if (loginMemDto == null) { %> <!-- 로그인 하지 않았을 때 -->
 		<div align="center">
-		<button onclick="loginView()" class="mybtn"> <!-- 팔로우 버튼 -->
-			<img  id="followImg" src="<%=follow%>" width="20">
-			&nbsp;&nbsp;팔로우 
+		<button onclick="loginView()"> <!-- 팔로우 버튼 -->
+			<img  id="followImg" src="<%=follow%>" width="20"> 
 		</button>
 		<input type="hidden" id="ajax_follow">
 		</div>

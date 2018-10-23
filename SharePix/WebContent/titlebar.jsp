@@ -80,7 +80,7 @@ function emailCheck() {
 				alert("이메일형식에 맞게 입력해주세요\nex)hello@sagong'ssi.com");
 				$("#email").val("");
 			    $("#email").focus();  
-				emailCheck = true;
+				emailCheck = false;
 			}else { // 중복된 이메일
 				$("#email").css("color", "#000");
 				alert("사용 중인 id입니다.");
