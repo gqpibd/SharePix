@@ -181,6 +181,16 @@
 			</div>
 		</div>
 	</section>
+	
+	<div class="move" style="position:fixed;display:none;bottom:0;padding-right:10px;padding-bottom:5px;">
+		<span id="top_move" style="float:right;">
+			<img alt="" src="images/icons\\upblack.png"
+			onmouseover="this.src='images/icons\\upwhite.png'"
+			onmouseout="this.src='images/icons\\upblack.png'">
+		</span>
+	</div>
+ 
+
 
 	<script type="text/javascript">
 	function doLike(seq1, item){ // 좋아요 눌렀을 때			
@@ -211,9 +221,32 @@
 				error:function(){ // 또는					 
 					console.log("통신실패!");
 				}
-			});				
+			});
 		<%}%>
 	}
+	  $(document).ready(function()
+			    {
+			        var speed = 700; // 스크롤되는 속도
+			        $("#top_move").css("cursor", "pointer").click(function()
+			        {
+			            $('body, html').animate({scrollTop:0}, speed);
+			        });
+			        
+			        $(window).scroll(function() {  //탑 메뉴 보이고 사라지게 하기
+
+			        if($(this).scrollTop() > 50) {
+
+			         $('.move').fadeIn();
+
+			        } else {
+
+			         $('.move').fadeOut();
+
+			        }
+
+			       });
+			        
+			    });
    </script>
 </body>
 </html>

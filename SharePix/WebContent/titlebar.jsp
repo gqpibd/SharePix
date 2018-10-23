@@ -11,6 +11,8 @@
 	if(user!=null){
 		alarmCount = AlarmService.getInstance().getAlarmList(user.getId()).size(); 
 	}	
+
+	String choice = (String)request.getAttribute("choice");
 %>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -194,7 +196,11 @@ $(document).ready(function(){
 			</ul>
 			<%} %>		  
 		</div> 
-		<%} %>
+		<%}
+		if(choice == null ){
+			choice = "SEQ";
+		}
+		%>
 	</td>
 </tr>
 <tr name="small" style="display: none;" >
@@ -202,7 +208,7 @@ $(document).ready(function(){
 		<form action="PdsController" method="get">
 		<input type="hidden" name="command" value="keyword"> 
 		<input class="search__input" type="text" name="tags" placeholder="Search" style="width: 95%">
-		<input type="hidden" name="choice" value="SEQ"> 
+		<input type="hidden" name="choice" value="<%=choice %>"> 
 		</form>
 	</td>
 </tr>
@@ -215,7 +221,7 @@ $(document).ready(function(){
 		<form action="PdsController" method="get">
 		<input type="hidden" name="command" value="keyword"> 
 		<input class="search__input" type="text" name="tags" placeholder="Search">
-		<input type="hidden" name="choice" value="SEQ"> 
+		<input type="hidden" name="choice" value="<%=choice %>"> 
 		</form>
 	</td>
 	
