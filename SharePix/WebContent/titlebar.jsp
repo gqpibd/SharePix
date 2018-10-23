@@ -176,7 +176,7 @@ $(document).ready(function(){
 		<%}else{ %>
 			<img src='./images/profiles/<%=user.getId()%>.png' width='100px'
 	            class='profile_img'
-	            onerror="this.src='images/profiles/default.png'">
+	            onerror="this.src='images/profiles/default.png'"> 
 		<span><%=user.getName() %>님 <span name="large">환영합니다.</span> <a href="MemberController?command=logout"><font size="2">로그아웃</font></a></span>	
 		<div id="menuBtn" class="btn-group">
 	  		<button type="button" class="fill sagongBtn" data-toggle="dropdown" aria-expanded="false">
@@ -320,7 +320,7 @@ function loginView(){
 			<fieldset>
 				<!-- ID input-->
 				<div class="group">
-					<input required="required" class="input" name="id" id="tbID" type="text" maxlength="12" onchange="idCheck()">
+					<input required="required" class="input" name="newId" id="tbID" type="text" maxlength="12" onchange="idCheck()">
 					<span class="highlight"></span>
 					<span class="bar"></span> 
 					<label class="label" for="date">ID <span id="idcheck" style="font-size: 8px"></span></label>
@@ -328,7 +328,7 @@ function loginView(){
 
 				<!--  Password input-->
 				<div class="group">
-					<input required class="input" name="pwd" id="tbPwd" type="password" maxlength="12" onchange="pwdCheck()" >
+					<input required class="input" name="newPwd" id="tbPwd" type="password" maxlength="12" onchange="pwdCheck()" >
 					<span class="highlight"></span>
 					<span class="bar"></span> 
 					<label class="label" for="date">PW</label>
