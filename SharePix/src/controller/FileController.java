@@ -28,7 +28,7 @@ import model.service.PdsService;
 import utils.ImageResize;
 
 public class FileController extends HttpServlet {/*"C:\\Users\\seung\\git\\SharePix\\SharePix\\WebContent\\images"*/ //// "C:\\Users\\이호영\\git\\sharePix\\SharePix\\WebContent\\images\\pictures";
-	public static final String PATH =  "C:\\Users\\이호영\\git\\sharePix\\SharePix\\WebContent\\images";
+	public static final String PATH =  "C:\\Users\\이호영\\git\\sharePix\\SharePix\\WebContent\\images\\pictures";
 	 
 	private ServletConfig mConfig = null; // 업로드 폴더의 realpath에 접근하기 위해서 필요하다
 	private static final int BUFFER_SIZE = 10000000; // 10Mb
@@ -129,8 +129,11 @@ public class FileController extends HttpServlet {/*"C:\\Users\\seung\\git\\Share
 							filename = processUploadedFile(item, fupload, filePathServer, fSaveName);							
 						}
 						if(filename != null){
-							System.out.println("저장 파일 경로 및 파일명: " + filename);							
-							fSaveName = fSaveName+filename.substring(filename.lastIndexOf("."));
+							System.out.println("저장 파일 경로 및 파일명: " + filename);
+							
+							if(filename.lastIndexOf(".")!=-1) {
+								fSaveName = fSaveName+filename.substring(filename.lastIndexOf("."));
+							}
 							System.out.println("저장 파일명: " + fSaveName);
 							ImageResize.resize25(PATH,fSaveName, filePathServer);
 						}
@@ -144,12 +147,13 @@ public class FileController extends HttpServlet {/*"C:\\Users\\seung\\git\\Share
 			PdsBean pds = new PdsBean(id, category, tags);
 			pds.setFileName(filename);
 			pds.setfSaveName(fSaveName);
-			boolean isS = pd.writePds(pds);
-			pds.setSeq(pd.getCurrSeq()); // 당연히 동기화 문제가 생길 수 있지만.. 일단 그냥 쓰자
-			AlarmService.getInstance().insertAlarm(pds);
+			boolean isS = pd.writePds(pds);			
 
 			if (isS) { // update가 되면 true 반환
-				resp.sendRedirect("main.jsp");
+				int seq = PdsService.getInstance().getCurrSeq(); // 당연히 동기화 문제가 생길 수 있지만.. 일단 그냥 쓰자
+				pds.setSeq(seq);
+				AlarmService.getInstance().insertAlarm(pds);
+				resp.sendRedirect("PdsController?command=detailview&seq=" + seq);
 			} else {
 				resp.setContentType("text/html; charset=UTF-8");
 				PrintWriter out = resp.getWriter();

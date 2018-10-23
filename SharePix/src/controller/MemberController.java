@@ -117,7 +117,7 @@ public class MemberController extends HttpServlet {
 			try {
 				items = upload.parseRequest(req);
 				Iterator<FileItem> it = items.iterator();
-
+				boolean noNewImg = false;
 				while (it.hasNext()) {
 					FileItem item = it.next();
 					if (item.isFormField()) {
@@ -143,19 +143,20 @@ public class MemberController extends HttpServlet {
 					} else { // fileload
 						if(item.getFieldName().equals("fileload")){
 							if(item.getName()==null || item.getName().equals("")) { // 새로운 프로필 파일이 들어오지 않은 경우
-								System.out.println("item.getName() 이 null : 기본 프로필 유지 혹은 삭제");
-								
-								if(Boolean.parseBoolean(profile_keep_or_default)) { // true (keep) 일 때
-									System.out.println("filename : " + filename);
-								}else { // false (default) 일 때
-									//filename = profileUploadFile(item, fupload, filePathServer, id);
-									FileUtil.deleteFile(PROFILEPATH + "\\" + id + ".png", filePathServer + "\\" + id + ".png");
-									System.out.println("filename : " + filename);
-								}
+								noNewImg = true;
+								continue;
 							}else { // 새로운 프로필 파일이 들어온 경우
 								filename = profileUploadFile(item, fupload, filePathServer, id);
 								System.out.println("item : profileUploadFile : " + item.getName());
 							}
+						}
+					}					
+					if(noNewImg) { // 새로운 프로필 파일이 들어오지 않은 경우
+						System.out.println("새로들어온 사진 없음. 프로필 유지 혹은 삭제");								
+						if(Boolean.parseBoolean(profile_keep_or_default) == false) { 
+							//기본이미지로 변경합니다.
+							FileUtil.deleteFile(PROFILEPATH + "\\" + id + ".png", filePathServer + "\\" + id + ".png");
+							System.out.println("filename : " + filename);
 						}
 					}
 				}

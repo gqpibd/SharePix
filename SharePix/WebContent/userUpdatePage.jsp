@@ -312,13 +312,10 @@ $(document).ready(function () { // 전부 입력시에 수정버튼 활성화 �
 	});
 });
 
-var profile_keep_or_default = $("#profile_keep_or_default").val(); // 초기값 true == keep;
-
 function profile_default() {
 	$("#editable-Img").attr("src", "images/profiles/default.png");
-	profile_keep_or_default = false;
-	console.log("profile_default() profile_keep_or_default : " + profile_keep_or_default);
-	$("#profile_keep_or_default").val(profile_keep_or_default);
+	console.log("profile_default() profile_keep_or_default : false");
+	$("#profile_keep_or_default").val('false');
 } 
 
 $(document).ready(function(){ 

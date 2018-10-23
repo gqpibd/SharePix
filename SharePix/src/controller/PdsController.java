@@ -112,7 +112,7 @@ public class PdsController extends HttpServlet {
 				resp.setContentType("text/html; charset=UTF-8");
 				PrintWriter out = resp.getWriter();
 				
-				out.println("<script>alert('수정 실패'); location.href='./pdswrite.jsp';</script>");
+				out.println("<script>alert('수정 실패'); location.href='./updatePds.jsp';</script>");
 				out.flush();
 			}
 		} else if(command.equals("singo")) {
