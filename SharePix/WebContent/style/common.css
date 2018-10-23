@@ -31,6 +31,7 @@
     border-radius: 33px;
     margin: 5px;
     vertical-align: middle;
+    object-fit: cover;
 }
 
 textarea {

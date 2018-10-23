@@ -35,7 +35,7 @@ List<FollowDto> myFList = memService.getMyfollowingList(pageId); // 내가 구�
 </tr>
 </table>
 <%}else{%>
-<div align="center" class="noNews">
+	<div align="center" class="noNews">
 	<br>
 	<p>와! 여긴 사람 한명 없네요!</p>
 	<p>새 친구를 팔로우 해봐요!</p>

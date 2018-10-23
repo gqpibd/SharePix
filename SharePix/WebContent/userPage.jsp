@@ -113,9 +113,27 @@
 .mybtn:focus{
 	outline: none;
 }
+.tabs{
+ 	margin: 0;
+    padding: 0;
+    list-style: none;
+    height: 32px;
+    width: 100%;
+    font-size:15px;
+    
+    text-align:center;
+    cursor: pointer;
+    height: 30px;
+    line-height: 30px;
+    font-weight: bold;
+    overflow: hidden;
+    position: relative;
+    font-family: 'Nanum Gothic', sans-serif;
+    
+}
 
 </style>
-<title></title>
+<title>유저 페이지</title>
 
 </head>
 <body>
@@ -193,14 +211,14 @@
 	
 	<hr>
 	<div align="center">
-	<a href="javascript:gotoPds()"><%=who%>가 올린 이미지</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<a href="javascript:gotoPds()" class="tabs"><%=who%>가 올린 이미지</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	<%	
 		if(loginMemDto != null && pageMemDto.getId().equals(loginMemDto.getId())){				
 	%>
-		<a href="javascript:gotoMyFollow()">내가 구독한 사람들</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="javascript:gotoMyFollow()" class="tabs">내가 구독한 사람들</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	<%}%>
-	<a href="javascript:gotoSub()"><%=whom %>를 구독한 사람들</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	<a href="javascript:gotoLike()"><%=who%> 컬렉션</a>
+	<a href="javascript:gotoSub()" class="tabs"><%=whom %>를 구독한 사람들</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<a href="javascript:gotoLike()" class="tabs"><%=who%> 컬렉션</a>
 	</div>
 	<hr>	
 	

@@ -43,6 +43,7 @@ public class MemberController extends HttpServlet {
 				idx = fileName.lastIndexOf("/"); // /를 찾아라
 			}
 			fileName = fileName.substring(idx+1); // 파일 이름부터 확장자까지 가져옴
+			System.out.println("1/6 profileUploadFile : " + fileName);
 			
 			File uploadedFile = new File(dir, fSaveName + ".png");
 			File uploadedFile2 = new File(dir2, fSaveName + ".png");
@@ -276,7 +277,7 @@ public class MemberController extends HttpServlet {
 					resp.setContentType("text/html; charset=UTF-8");
 					PrintWriter out = resp.getWriter();
 					
-					out.println("<script>alert('아이디 혹은 비밀번호가 틀렸습니다.'); location.href='main.jsp';</script>");
+					out.println("<script>alert('아이디 혹은 비밀번호가 틀렸습니다.'); history.back();</script>");
 					out.flush();
 					return;
 				}
@@ -293,38 +294,7 @@ public class MemberController extends HttpServlet {
 			} else if(command.equals("userUpdatePage")){ // 회원정보 수정 페이지로 이동
 				System.out.println("command = " + command + "  들어옴");	// 확인용
 				dispatch("./userUpdatePage.jsp", req, resp);
-			} /*else if(command.equals("userUpdateAf")) {
-				System.out.println("command = " + command + "  들어옴");	// 확인용
-				
-					String id			= req.getParameter("id");
-					String name 		= req.getParameter("name");
-					String pwd 		= req.getParameter("pwd");
-					String email 		= req.getParameter("email");
-					String phone		= req.getParameter("phone");
-					
-			  //String str_Phone1 	= req.getParameter("phone1");
-			  //String str_Phone2 	= req.getParameter("phone2");
-			  //String str_Phone3 	= req.getParameter("phone3");
-			  //String phone = str_Phone1 + "-" + str_Phone2 + "-" + str_Phone3; // 번호 사이에 - 넣기
-			    
-			    MemberBean dto = new MemberBean(id, name, pwd, email, phone, -1);
-			    
-			    System.out.println("dto 출력 : " + dto.toString());
-			    
-				if(memService.updateUser(dto)) {	//	update가 되면 true 반환
-					resp.setContentType("text/html; charset=UTF-8");
-					PrintWriter out = resp.getWriter();
-					out.println("<script>alert('정보가 수정되었습니다.'); location.href='./userUpdatePage.jsp'; </script>");
-					out.flush();
-					
-				}else {
-					resp.setContentType("text/html; charset=UTF-8");
-					PrintWriter out = resp.getWriter();
-					out.println("<script>alert('수정 실패'); location.href='./userUpdatePage.jsp';</script>");
-					out.flush();
-					
-				}
-			}*/ else if(command.equals("userPage")) { // userPage 로 이동
+			} else if(command.equals("userPage")) { // userPage 로 이동
 				System.out.println("command = " + command + " 들어옴");	// 확인용
 				req.setCharacterEncoding("utf-8");
 				

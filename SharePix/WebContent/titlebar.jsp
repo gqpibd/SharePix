@@ -19,6 +19,7 @@
 <link rel="stylesheet" href="style/common.css">
 <link rel="stylesheet" href="style/titlebar.css">
 
+
 <script type="text/javascript">
 function idCheck() {
 	$.ajax({
@@ -79,7 +80,7 @@ function emailCheck() {
 				alert("이메일형식에 맞게 입력해주세요\nex)hello@sagong'ssi.com");
 				$("#email").val("");
 			    $("#email").focus();  
-				emailCheck = true;
+				emailCheck = false;
 			}else { // 중복된 이메일
 				$("#email").css("color", "#000");
 				alert("사용 중인 id입니다.");
@@ -101,7 +102,7 @@ function phoneCheck() {
 		$("#phone").css("color", "#0000ff");
 		//$("#phone").css("background", "linear-gradient(to top, #3366FF, white)");
 		//alert("번호를 올바르게 입력했습니다.");
-		emailCheck = true;
+		phoneCheck = true;
 	}
 	else {
 	  $("#phone").css("color", "#000");
@@ -109,7 +110,7 @@ function phoneCheck() {
 	  alert("번호를 올바르게 입력해주세요\nex)010-XXXX-XXXX");
 	  $("#phone").val("");
 	  $("#phone").focus();  
-	  emailCheck = true;
+	  phoneCheck = false;
 	}
 }
 
@@ -174,7 +175,7 @@ $(document).ready(function(){
 			<button class="fill sagongBtn" id="titleBtn" href="#signup" data-toggle="modal" data-target=".log-sign">Sign In/Register</button>
 		<%}else{ %>
 			<img src='./images/profiles/<%=user.getId()%>.png' width='100px'
-	            class='profile_img' align='middle'
+	            class='profile_img'
 	            onerror="this.src='images/profiles/default.png'">
 		<span><%=user.getName() %>님 <span name="large">환영합니다.</span> <a href="MemberController?command=logout"><font size="2">로그아웃</font></a></span>	
 		<div id="menuBtn" class="btn-group">
