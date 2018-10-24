@@ -548,7 +548,7 @@ public class PdsManager implements iPdsManager {
 	public boolean delPDS(int seq) {
 		int count=0;
 		String sql=" DELETE FROM PICPDS  " +
-				" WHERE  SEQ = ? " ;
+				   " WHERE SEQ = ? " ;
 		Connection conn=null;
 		PreparedStatement psmt=null;
 		
@@ -556,9 +556,9 @@ public class PdsManager implements iPdsManager {
 			conn=DBConnection.getConnection();
 			System.out.println("2/6 S delPDS");
 			psmt=conn.prepareStatement(sql);
+			System.out.println(seq);
 			
-			int i=1;
-			psmt.setInt(i++, seq );
+			psmt.setInt(1, seq);
 			System.out.println("3/6 S delPDS");
 			
 			count=psmt.executeUpdate();

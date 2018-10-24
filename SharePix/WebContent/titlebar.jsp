@@ -11,6 +11,8 @@
 	if(user!=null){
 		alarmCount = AlarmService.getInstance().getAlarmList(user.getId()).size(); 
 	}	
+
+	String choice = (String)request.getAttribute("choice");
 %>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -18,6 +20,7 @@
 <link rel="stylesheet" href="style/loginModal.css">
 <link rel="stylesheet" href="style/common.css">
 <link rel="stylesheet" href="style/titlebar.css">
+
 
 <script type="text/javascript">
 function idCheck() {
@@ -79,7 +82,7 @@ function emailCheck() {
 				alert("이메일형식에 맞게 입력해주세요\nex)hello@sagong'ssi.com");
 				$("#email").val("");
 			    $("#email").focus();  
-				emailCheck = true;
+				emailCheck = false;
 			}else { // 중복된 이메일
 				$("#email").css("color", "#000");
 				alert("사용 중인 id입니다.");
@@ -101,7 +104,7 @@ function phoneCheck() {
 		$("#phone").css("color", "#0000ff");
 		//$("#phone").css("background", "linear-gradient(to top, #3366FF, white)");
 		//alert("번호를 올바르게 입력했습니다.");
-		emailCheck = true;
+		phoneCheck = true;
 	}
 	else {
 	  $("#phone").css("color", "#000");
@@ -109,7 +112,7 @@ function phoneCheck() {
 	  alert("번호를 올바르게 입력해주세요\nex)010-XXXX-XXXX");
 	  $("#phone").val("");
 	  $("#phone").focus();  
-	  emailCheck = true;
+	  phoneCheck = false;
 	}
 }
 
@@ -174,8 +177,8 @@ $(document).ready(function(){
 			<button class="fill sagongBtn" id="titleBtn" href="#signup" data-toggle="modal" data-target=".log-sign">Sign In/Register</button>
 		<%}else{ %>
 			<img src='./images/profiles/<%=user.getId()%>.png' width='100px'
-	            class='profile_img' align='middle'
-	            onerror="this.src='images/profiles/default.png'">
+	            class='profile_img'
+	            onerror="this.src='images/profiles/default.png'"> 
 		<span><%=user.getName() %>님 <span name="large">환영합니다.</span> <a href="MemberController?command=logout"><font size="2">로그아웃</font></a></span>	
 		<div id="menuBtn" class="btn-group">
 	  		<button type="button" class="fill sagongBtn" data-toggle="dropdown" aria-expanded="false">
@@ -193,7 +196,11 @@ $(document).ready(function(){
 			</ul>
 			<%} %>		  
 		</div> 
-		<%} %>
+		<%}
+		if(choice == null ){
+			choice = "SEQ";
+		}
+		%>
 	</td>
 </tr>
 <tr name="small" style="display: none;" >
@@ -201,7 +208,7 @@ $(document).ready(function(){
 		<form action="PdsController" method="get">
 		<input type="hidden" name="command" value="keyword"> 
 		<input class="search__input" type="text" name="tags" placeholder="Search" style="width: 95%">
-		<input type="hidden" name="choice" value="SEQ"> 
+		<input type="hidden" name="choice" value="<%=choice %>"> 
 		</form>
 	</td>
 </tr>
@@ -214,7 +221,7 @@ $(document).ready(function(){
 		<form action="PdsController" method="get">
 		<input type="hidden" name="command" value="keyword"> 
 		<input class="search__input" type="text" name="tags" placeholder="Search">
-		<input type="hidden" name="choice" value="SEQ"> 
+		<input type="hidden" name="choice" value="<%=choice %>"> 
 		</form>
 	</td>
 	
@@ -318,7 +325,7 @@ function loginView(){
 			<fieldset>
 				<!-- ID input-->
 				<div class="group">
-					<input required="required" class="input" name="id" id="tbID" type="text" maxlength="12" onchange="idCheck()">
+					<input required="required" class="input" name="newId" id="tbID" type="text" maxlength="12" onchange="idCheck()">
 					<span class="highlight"></span>
 					<span class="bar"></span> 
 					<label class="label" for="date">ID</label>
@@ -326,7 +333,7 @@ function loginView(){
 
 				<!--  Password input-->
 				<div class="group">
-					<input required class="input" name="pwd" id="tbPwd" type="password" maxlength="12" onchange="pwdCheck()" >
+					<input required class="input" name="newPwd" id="tbPwd" type="password" maxlength="12" onchange="pwdCheck()" >
 					<span class="highlight"></span>
 					<span class="bar"></span> 
 					<label class="label" for="date">PW</label>

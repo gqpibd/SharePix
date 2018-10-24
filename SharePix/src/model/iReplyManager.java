@@ -16,7 +16,4 @@ public interface iReplyManager {
 
 	public boolean updateReply(int reSeq, String content);
 
-	public boolean readReply(int reSeq);
-
-
 }

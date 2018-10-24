@@ -58,36 +58,28 @@
 	<table border="0" bgcolor="white" style='border-left:0;border-right:0;border-bottom:0;border-top:0'>
 		<col width="500"><col width="200">
 	<tr align="center">
-            <td class = "td2" colspan="2"><br>Image Update/Delete
-            </td>
-            </tr>
-                <tr align="center">
-            <td class = "td1" colspan="2" >
-            <img src='images/profiles/<%=dto.getId()%>.png' width='100px'
-            class='profile_img' align='middle' onerror="this.src='images/profiles/default.png'">
-            <br>
-            </td>
-			</tr>
-		<tr>
-			<td class = "td1" align="center">				
-				<img src = "images/pictures/<%=dto.getfSaveName() %>" width="500">			
-			</td>
-			<td class = "td1" border="1">		
-				<select name="category" class="btn btn-default dropdown-toggle">	
-		            <option disabled value="카테고리" selected="selected"> 카테고리 </option>	
-		     	    <option value="자연"> 자연 </option>	 
-		            <option value="인물"> 인물 </option>	
-		            <option value="음식"> 음식 </option>	            
-		            <option value="과학"> 과학 </option>	            
-		            <option value="디자인"> 디자인 </option>	            
-		            <option value="기타"> 기타 </option>	            
-		            </select> 
-			<br><br>
-			<div style="position:relative; float:left; text-align:left;">
-		    	<textarea class="form-control" rows="3" cols="20" name="tags"><%for(int i=0;i<dto.getTags().length;i++){ %>#<%=dto.getTags()[i]%><%}%></textarea>
-		    </div>
-		   </td>
-		</tr>
+    	<td class = "td2" colspan="2"><br>Image Update/Delete</td>
+	</tr>               
+	<tr>
+		<td class = "td1" align="center">				
+			<img src = "images/pictures/<%=dto.getfSaveName() %>" width="500">			
+		</td>
+		<td class = "td1" border="1">		
+			<select name="category" class="btn btn-default dropdown-toggle">	
+	            <option disabled value="카테고리" selected="selected"> 카테고리 </option>	
+	     	    <option value="자연"> 자연 </option>	 
+	            <option value="인물"> 인물 </option>	
+	            <option value="음식"> 음식 </option>	            
+	            <option value="과학"> 과학 </option>	            
+	            <option value="디자인"> 디자인 </option>	            
+	            <option value="기타"> 기타 </option>	            
+	            </select> 
+		<br><br>
+		<div style="position:relative; float:left; text-align:left;">
+	    	<textarea class="form-control" rows="3" cols="20" name="tags"><%for(int i=0;i<dto.getTags().length;i++){ %>#<%=dto.getTags()[i]%><%}%></textarea>
+	    </div>
+	   </td>
+	</tr>
 	
 	</table>
 	<input class="fill sagongBtn" type="submit" value="수정하기">	

@@ -55,6 +55,7 @@
 <link rel="stylesheet" href="style/imageArrange.css">
 <link rel="stylesheet" href="style/pagingbtn.css">
 <link rel="shortcut icon" href="images/icons/favicon.ico">
+<link href="https://fonts.googleapis.com/css?family=Jua" rel="stylesheet">
 </head>
 <body style="background-color: #f6f6f6">
 	<div style="height: 100%"> <!-- 타이틀바 -->
@@ -68,19 +69,53 @@
 	<%}else{ %>
 	<div style="margin-top: 8em" >
 	</div>
-	<%} %>
+	<%} %> 
+		
+	<% 
+	String choicekey =  "";
+	if(choice.equalsIgnoreCase("SEQ")){
+		choicekey = "최신순"; 	
+	}else if(choice.equalsIgnoreCase("LIKECOUNT")){
+		choicekey = "좋아요수"; 	
+	}else if(choice.equalsIgnoreCase("DOWNCOUNT")){
+		choicekey = "다운로드수"; 
+	}else if(choice.equalsIgnoreCase("READCOUNT")){
+		choicekey = "읽은수"; 
+	}
+	String keywordkey = "카테고리";
+	if(keyword.equalsIgnoreCase("자연")){
+		keywordkey = "자연"; 	
+	}else if(keyword.equalsIgnoreCase("인물")){
+		keywordkey = "인물"; 	
+	}else if(keyword.equalsIgnoreCase("과학")){
+		keywordkey = "과학"; 
+	}else if(keyword.equalsIgnoreCase("디자인")){
+		keywordkey = "디자인"; 
+	}else if(keyword.equalsIgnoreCase("기타")){
+		keywordkey = "기타"; 
+	}
+	%>
 	<div class="menubar">
                 <ul>
 <!--                  <li><a href="#">Home</a></li> -->
-                 <li><a href="#" id="current">정렬조건</a>
+                 <li><a href="#" id="current"><%=choicekey %></a>
                     <ul>
                      <li><a href="PdsController?command=keyword&tags=<%=keyword %>&choice=SEQ">최신순</a></li>
-                     <li><a href="PdsController?command=keyword&tags=<%=keyword %>&choice=LIKECOUNT">추천수</a></li>
+                     <li><a href="PdsController?command=keyword&tags=<%=keyword %>&choice=LIKECOUNT">좋아요수</a></li>
                      <li><a href="PdsController?command=keyword&tags=<%=keyword %>&choice=DOWNCOUNT">다운로드수</a></li>
                      <li><a href="PdsController?command=keyword&tags=<%=keyword %>&choice=READCOUNT">읽은수</a></li>
                     </ul>
                  </li>
-<!--                  <li><a href="#">Company</a></li> -->
+                 	<li><a href="#" id="current"><%=keywordkey %></a>
+                    <ul>
+                     <li><a href="PdsController?command=keyword&tags=자연&choice=<%=choice %>">자연</a></li>
+                     <li><a href="PdsController?command=keyword&tags=인물&choice=<%=choice %>">인물</a></li>
+                     <li><a href="PdsController?command=keyword&tags=음식&choice=<%=choice %>">음식</a></li>
+                     <li><a href="PdsController?command=keyword&tags=과학&choice=<%=choice %>">과학</a></li>
+                     <li><a href="PdsController?command=keyword&tags=디자인&choice=<%=choice %>">디자인</a></li>
+                     <li><a href="PdsController?command=keyword&tags=기타&choice=<%=choice %>">기타</a></li>
+                    </ul>
+                 </li>
 <!--                  <li><a href="#">Address</a></li> -->
                 </ul>
            </div>
