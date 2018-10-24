@@ -87,7 +87,7 @@
 		<div style="position:relative; float:left; text-align:left;">
 	    	<textarea class="form-control" id="tagArea" rows="3" cols="50" name="tags" style="overflow-x:hidden; overflow-y:auto"><%for(int i=0;i<dto.getTags().length;i++){ %>#<%=dto.getTags()[i]%><%}%></textarea>
 	    </div><br><br><br><br>
-					<p style="margin-top: 5px; margin-bottom: 5px; font-weight: bold;">이런 태그가 필요해요</p>
+					<p style="margin-top: 5px; margin-bottom: 5px; font-weight: bold;">이런 태그가 필요해요</p><br>
 				<div id="tags" align="center">
 						
 						<%
