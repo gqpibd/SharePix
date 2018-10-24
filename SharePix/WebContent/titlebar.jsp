@@ -170,7 +170,7 @@ $(document).ready(function(){
 
 <tr name="small" style="display: none;">
 	<td align="left">
-		<p class="title" onclick="location.href='index.jsp'" style="margin-left: 5px; font-size: 1.3em" >SaGong'sa</p>
+		<p class="title" onclick="location.href='main.jsp'" style="margin-left: 5px; font-size: 1.3em" >SaGong'sa</p>
 	</td>
 	<td align="right" name="small" style="display:none;">
 		<% if(user==null){ // 로그아웃 상태 %>
@@ -215,7 +215,7 @@ $(document).ready(function(){
 
 <tr name="large">	
 	<td align="center" rowspan="2">
-		<p class="title" onclick="location.href='index.jsp'" style="font-size: 2em">SaGong'sa</p>
+		<p class="title" onclick="location.href='main.jsp'" style="font-size: 2em">SaGong'sa</p>
 	</td>
 	<td rowspan="2">
 		<form action="PdsController" method="get">

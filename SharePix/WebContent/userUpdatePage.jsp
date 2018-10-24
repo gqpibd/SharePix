@@ -4,6 +4,11 @@
 	pageEncoding="UTF-8"%>
 <%
 	request.setCharacterEncoding("utf-8");
+	Object ologin = session.getAttribute("login");
+	if (ologin == null) {
+		System.out.println("로그인 해야됨");
+		response.sendRedirect("main.jsp");
+	}
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -77,18 +82,8 @@ var loadImageFile = function () {
 
 </head>
 <body onload="loadImageFile();">
-	<%
-		Object ologin = session.getAttribute("login");
+	<%		
 		MemberBean mem = null;
-
-		if (ologin == null) {
-		%>
-		<script type="text/javascript">
-			loginView();
-		</script>
-		<%
-		}
-
 		mem = (MemberBean) ologin;
 		System.out.println("수정 전 mem = " + mem.toString());
 
@@ -110,7 +105,7 @@ var loadImageFile = function () {
 	<div style="position: relative; height: 100% ; z-index: 50;">
 		<!-- 타이틀바 -->
 		<jsp:include page="titlebar.jsp">
-			<jsp:param name="goBackTo" value="index.jsp" />
+			<jsp:param name="goBackTo" value="MemberController?command=userUpdatePage" />
 		</jsp:include>
 	</div>
 	<br>
