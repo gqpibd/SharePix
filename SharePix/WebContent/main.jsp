@@ -182,7 +182,7 @@
 		</div>
 	</section>
 	
-	<div class="move" style="position:fixed;display:none;bottom:0;padding-right:10px;padding-bottom:5px;">
+	<div class="move"  style="position:fixed;display:none;bottom:0;padding-right:10px;padding-bottom:5px; right: 0px">
 		<span id="top_move" style="float:right;">
 			<img alt="" src="images/icons\\upblack.png"
 			onmouseover="this.src='images/icons\\upwhite.png'"

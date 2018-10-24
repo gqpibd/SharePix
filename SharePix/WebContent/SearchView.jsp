@@ -93,6 +93,8 @@
 		keywordkey = "디자인"; 
 	}else if(keyword.equalsIgnoreCase("기타")){
 		keywordkey = "기타"; 
+	}else if(keyword.equalsIgnoreCase("음식")){
+		keywordkey = "음식"; 
 	}
 	%>
 	<div class="menubar">
@@ -187,13 +189,14 @@
 					onclick="veiwDetail(<%=Pdscust.getSeq()%>)" >
 					<p><%=Pdscust.getReplyCount()%></p>
 				</a>
-			</div>			
-	    	<div class="profileInfo">
-				<h3>
-					<a href="MemberController?command=userPage&id=<%=Pdscust.getId()%>"
-						style="text-decoration: none; color: white;"><%=Pdscust.getId()%></a>
-				</h3>
 			</div>
+
+			<div class="profileInfo">
+	        	<h3>
+	        	<a style="text-decoration:none; color: white;"
+	        		   href= "MemberController?command=userPage&id=<%=Pdscust.getId()%>"><%=Pdscust.getId()%></a>
+	        		   </h3>
+	    	</div>
 
 	</div>
 	<%} %>
