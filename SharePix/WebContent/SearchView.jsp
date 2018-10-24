@@ -187,11 +187,13 @@
 					onclick="veiwDetail(<%=Pdscust.getSeq()%>)" >
 					<p><%=Pdscust.getReplyCount()%></p>
 				</a>
+			</div>			
+	    	<div class="profileInfo">
+				<h3>
+					<a href="MemberController?command=userPage&id=<%=Pdscust.getId()%>"
+						style="text-decoration: none; color: white;"><%=Pdscust.getId()%></a>
+				</h3>
 			</div>
-			<div class="profileInfo">
-	        	<h3><a style="text-decoration:none; color: white;
-	        		   href= "MemberController?command=userPage&id=<%=Pdscust.getId()%>"><%=Pdscust.getId()%></a></h3>
-	    	</div>
 
 	</div>
 	<%} %>

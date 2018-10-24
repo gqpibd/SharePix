@@ -85,23 +85,13 @@
 	<input class="fill sagongBtn" type="submit" value="수정하기">	
 	<button class="fill sagongBtn" type="button" onclick="deletePds()" >삭제하기</button>   
 	<button class="fill sagongBtn" type="button" onclick = "history.back()">나가기</button> 
-	
-	
-	
-	
 	</form>	  	
-
 </div>
 
 <script type="text/javascript">
 	$(function () {	// 카테고리 값 설정
-		$("select[name='category']").val('<%=dto.getCategory() %>');	
-
-	$(document).on("keyup", "input[name='name']", function () { // (미수정) 닉네임 중복 검사하려고 써둔
-			
-		});
+		$("select[name='category']").val('<%=dto.getCategory() %>');
 	}); 
-
 		
 	function deletePds() {
 		var check = confirm("정말 삭제하시겠습니까?");			

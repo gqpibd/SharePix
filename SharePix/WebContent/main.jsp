@@ -99,7 +99,7 @@
 		    if (f.exists() && f.length()<300000) { // 300kb 이하의 이미지는 그냥 원본을 가져온다
 		    	  smallSrc = fSavename;
 		      	  System.out.println(smallSrc);
-		    }
+		    }	    
 		    
 		    boolean isLike = false;
 			String like = "heart.png";

@@ -17,7 +17,7 @@
 	Iterator<String> it = null;
 	if(command.equals("favorites")){	
 	    id = request.getParameter("id");
-		list = PdsService.getInstance().myLikePdsList(id); // 즐겨찾기한 사진들을 모아서 보여줌
+		list = PdsService.getInstance().getMyLikeList(id); // 즐겨찾기한 사진들을 모아서 보여줌
 		tagMap = CollenctionUtil.getHashMap(list);	
 		it = CollenctionUtil.sortByValue(tagMap).iterator();
 	}else if(command.equals("manager")){ 

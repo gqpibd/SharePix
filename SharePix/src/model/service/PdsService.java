@@ -46,10 +46,6 @@ public class PdsService {
 	public boolean increaseDowncount(int pdsSeq) {
 		return pDao.increaseDowncount(pdsSeq);		
 	}
-
-	public List<PdsBean> myLikePdsList(String id) {
-		return pDao.myLikePdsList(id);
-	}
 	
 	public List<PdsBean> getSearchPdsNull(){
 		return pDao.getSearchPdsNull();
@@ -85,9 +81,9 @@ public class PdsService {
 		return selectedList;
 	}
 	
-	public PdsBean getMyPdsAll(String id) {
+	/*public PdsBean getMyPdsAll(String id) {
 		return pDao.getMyPdsAll(id);
-	}
+	}*/
 	
 	public List<PdsBean> getMyPdsAllList(String id){
 		return pDao.getMyPdsAllList(id);
@@ -98,11 +94,10 @@ public class PdsService {
 		return pDao.writePds(pds);
 	}
 	
-	public boolean delPDS(int seq) {
+	public boolean delPDS(int seq, String path) {
 		PdsBean delBean = PdsService.getInstance().getPdsDetail(seq); // 사진 파일을 삭제하기 위해서는 이름을 알아야 한다.
-		FileUtil.deleteFile(FileController.PATH + "/" + delBean.getfSaveName(), null);
+		FileUtil.deleteFile(path + "/" + delBean.getfSaveName());
 		return pDao.delPDS(seq);
-
 	}
 	
 	public PdsBean updatePDS(int seq, String category, String tags) {

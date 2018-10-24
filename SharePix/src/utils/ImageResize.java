@@ -47,7 +47,10 @@ public class ImageResize {
 		int height = 0;
 		String newName = "";
 		
+		String path = imgPath;		
+		
 		try {
+			
 			System.out.println(imgPath+"/"+fSaveName);
 			BufferedImage originalImage = ImageIO.read(new File(imgPath+"/"+fSaveName));
 			System.out.println(originalImage.getWidth());

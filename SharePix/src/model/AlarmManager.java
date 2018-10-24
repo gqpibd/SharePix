@@ -67,7 +67,7 @@ public class AlarmManager implements iAlarmManager {
 	public boolean insertAlarm(AlarmBean bean) {		
 		String sql = " INSERT INTO ALARM "
 				+ " (SEQ, TOID, FROMID, ATYPE, PDSSEQ, ADATE, CONTENT) "
-				+ " VALUES((SELECT NVL(MAX(SEQ),0)+1 FROM ALARM), ?, ?, ?, ?, SYSDATE, ?) ";
+				+ " VALUES((SELECT NVL(MAX(SEQ),0)+1 FROM ALARM), ?, ?, ?, ?, CURRENT_DATE, ?) ";
 		int count = 0;
 
 		Connection conn = null;

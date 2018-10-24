@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +16,15 @@ import model.service.AlarmService;
 import model.service.PdsService;
 
 public class PdsController extends HttpServlet {	
+		
+	private ServletConfig mConfig = null; 
 	
+	@Override
+	public void init(ServletConfig config) throws ServletException { // mConfig값을 받기 위해 사용
+		super.init(config);
+		mConfig = config;
+	}
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		doProcess(req, resp);
@@ -77,8 +86,9 @@ public class PdsController extends HttpServlet {
 			System.out.println("command = " + command + "  들어옴"); // 확인용
 			dispatch("./updatePds.jsp", req, resp);
 		} else if(command.equals("delete")) {
-			int seq = Integer.parseInt(req.getParameter("seq"));			
-			boolean isS = PdsService.getInstance().delPDS(seq);		
+			int seq = Integer.parseInt(req.getParameter("seq"));		
+			
+			boolean isS = PdsService.getInstance().delPDS(seq, mConfig.getServletContext().getRealPath("/images/pictures"));		
 			
 			if(isS) {
 				System.out.println("삭제 성공");

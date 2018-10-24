@@ -55,7 +55,6 @@
 	border-bottom: 1px solid #444444;
 	padding: 10px;
 	text-align: center;
-	/* color: #4a89dc !important; */
 }
 
 .td2 {
@@ -63,7 +62,6 @@
 	padding: 10px;
 	text-align: center;
 	font-size: 19px;
-	/* color: #4a89dc !important; */
 }
 </style>
 
@@ -85,9 +83,6 @@ var loadImageFile = function () {
 	  if (uploadImage.files.length == 0) {  // 업로드 된게 있는지 확인하고
 	    return; 
 	  }
-	  /* for(i=0;i<uploadImage.files.length;i++){ // 파일이 여러개일 때
-		  console.log(document.getElementById("upload-Image").files[i].name);
-	  } */
 	  
 	  //Is Used for validate a valid file.
 	  var uploadFile = document.getElementById("upload-Image").files[0]; // 업로드된 파일중 첫 번째를 가져온다.

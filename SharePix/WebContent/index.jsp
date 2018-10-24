@@ -43,31 +43,6 @@ function myFade2(){
 	setTimeout( function () {
 		location.href = 'main.jsp'
 	}, 2000 );
-	/* $("#div1").fadeIn();
-	$("#div2").fadeIn("slow");
-	$("#div3").fadeIn(3000, function () {
-		location.href = 'main.jsp'
-	}); */
-	/* $("#div1").fadeToggle( 1000,"linear" );
-	$("#div2").fadeToggle(2000,"linear" );
-	$("#div3").fadeToggle( 3000,"linear" , function () {
-		location.href = 'main.jsp'
-	});  */
-	
-	/* $("#div1").fadeIn("slow",function(){
-		$("#div2").fadeIn("slow",function(){
-			$("#div3").fadeIn(3000, function () {
-				location.href = 'main.jsp'
-			});
-		});
-	}); */
-	/* $("#div1").fadeIn("slow",function(){
-		$("#div2").fadeIn("slow" ,function(){
-			$("#div3").fadeIn("slow" , function () {
-				location.href = 'main.jsp'
-			});
-		});
-	});	 */
 };
 </script>
  

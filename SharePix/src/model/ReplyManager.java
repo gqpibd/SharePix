@@ -89,7 +89,7 @@ public class ReplyManager implements iReplyManager {
 			// PDSSEQ, RESEQ, ID, CONTENT, REREF, WDATE, DEL
 			if (refSeq > 0) { // 새 댓글일 때
 				sql = " INSERT INTO PDSREPLY "
-					+ " VALUES (?, PDSREPLY_RESEQ.NEXTVAL, ?, ?, ?, SYSDATE, 0, ?) ";
+					+ " VALUES (?, PDSREPLY_RESEQ.NEXTVAL, ?, ?, ?, CURRENT_DATE, 0, ?) ";
 				psmt = conn.prepareStatement(sql);
 				psmt.setInt(1, pdsSeq);
 				psmt.setString(2, id);
@@ -98,12 +98,12 @@ public class ReplyManager implements iReplyManager {
 				psmt.setString(5, toWhom);
 			}else { // 대댓일 때
 				sql = " INSERT INTO PDSREPLY "
-						+ " VALUES (?, PDSREPLY_RESEQ.NEXTVAL, ?, ?, PDSREPLY_RESEQ.CURRVAL, SYSDATE, 0, ?) ";
-					psmt = conn.prepareStatement(sql);
-					psmt.setInt(1, pdsSeq);
-					psmt.setString(2, id);
-					psmt.setString(3, content);
-					psmt.setString(4, toWhom);
+						+ " VALUES (?, PDSREPLY_RESEQ.NEXTVAL, ?, ?, PDSREPLY_RESEQ.CURRVAL, CURRENT_DATE, 0, ?) ";
+				psmt = conn.prepareStatement(sql);
+				psmt.setInt(1, pdsSeq);
+				psmt.setString(2, id);
+				psmt.setString(3, content);
+				psmt.setString(4, toWhom);
 			}
 			
 			System.out.println("2/6 addReply Success");

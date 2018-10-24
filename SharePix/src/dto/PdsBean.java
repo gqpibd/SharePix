@@ -1,6 +1,7 @@
 package dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 //	DROP TABLE PICPDS
 //	CASCADE CONSTRAINTS;
@@ -88,16 +89,26 @@ public class PdsBean  implements Serializable {
 	}
 	
 
-	public PdsBean(String id, String category, String tags) {		
+	public PdsBean(String id, String category, String tags) {
+		this(category,tags);
 		this.id = id;
-		this.category = category;
-		this.tags = tags.replaceAll(" ", "").substring(1).split("#");
-	
 	}
 	
 	public PdsBean(String category, String tags) {		
 		this.category = category;
-		this.tags = tags.replaceAll(" ", "").substring(1).split("#");	
+		String temp = tags.replaceAll(" ", "#"); // 한 칸 공백은 #으로 만든다
+		int startIndex = 1;
+		if(!temp.startsWith("#")) { // #으로 시작하지 않으면 맨 처음부터
+			startIndex = 0;
+		}
+		String tempArr[] = temp.substring(startIndex).split("#");
+		ArrayList<String> tempList = new ArrayList<>(); 
+		for(int i=0;i<tempArr.length;i++) {
+			if(tempArr[i].length() != 0) {
+				tempList.add(tempArr[i]);
+			}
+		}		
+		this.tags = tempList.toArray(new String[tempList.size()]);
 	}
 	
 	public PdsBean(int seq, int report) {
