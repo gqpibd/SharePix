@@ -15,7 +15,7 @@ a {
 
 .pagination {
   display: inline-block;
-  height: 70px;
+  height: 60px;
   margin-top: 70px;
   padding: 0 25px;
   border-radius: 35px;
@@ -33,13 +33,13 @@ a {
 
 .page-numbers {
   display: block;
-  padding: 0 25px;
+  padding: 0 20px;
   float: left;
   transition: 400ms ease;
   color: #595959;
   font-size: 20px;
   letter-spacing: 0.1em;
-  line-height: 70px;
+  line-height: 60px;
 }
 .page-numbers:hover, .page-numbers.current {
   background-color: #86c023;
@@ -103,7 +103,7 @@ padding:0px;
 }
 
 .menubar li a{
-background: #FFAAAA;
+background: #FFBFCA;
     color: #ffffff;
 display:block;
 font-weight:normal;
@@ -113,10 +113,12 @@ padding:0px 25px;
 text-align:center;
 text-decoration:none;
 border-radius: 30px;
+font-size: 20px;
+font-family: 'Jua', sans-serif;
 }
 
 .menubar li a:hover, .menubar ul li:hover a{
-background: #FFBFCA;
+background: #FFAAAA;
 color:#FFFFFF;
 text-decoration:none;
 }
@@ -131,6 +133,7 @@ border:0px;
 position:absolute;
 width:200px;
 z-index:200;
+border-radius: 35px;
 /*top:1em;
 /*left:0;*/
 }
@@ -140,7 +143,7 @@ display:block; /* 마우스 커서 올리면 드랍메뉴 보이게 하기 */
 }
 
 .menubar li li {
-background: rgb(109,109,109);
+background: #FFBFCA;
 display:block;
 float:none;
 margin:0px;
@@ -155,15 +158,16 @@ background:none;
 .menubar li ul a{
 display:block;
 height:50px;
-font-size:12px;
+font-size:20px;
 font-style:normal;
 margin:0px;
 padding:0px 10px 0px 15px;
 text-align:left;
+font-family: 'Jua', sans-serif;
 }
 
 .menubar li ul a:hover, .menubar li ul li:hover a{
-background: #FFBFCA;
+background: #FFAAAA;
 border:0px;
 color:#ffffff;
 text-decoration:none;

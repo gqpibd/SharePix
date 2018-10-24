@@ -87,7 +87,7 @@ public class PdsController extends HttpServlet {
 			}	
 			else{
 				PrintWriter out = resp.getWriter();
-				out.println("<script>alert('삭제 실패'); location.href='./updatePds.jsp';</script>");
+				out.println("<script>alert('삭제 실패'); history.back();</script>");
 			}
 			
 		} else if(command.equals("pdsupdate")) {

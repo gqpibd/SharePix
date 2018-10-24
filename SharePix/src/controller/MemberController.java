@@ -216,8 +216,8 @@ public class MemberController extends HttpServlet {
 			    	out.flush();
 			    }
 			}else if(command.equals("regi")) { 	// 회원 가입		
-				String id = req.getParameter("id");
-				String pwd = req.getParameter("pwd");
+				String id = req.getParameter("newId");
+				String pwd = req.getParameter("newPwd");
 				String name = req.getParameter("name");
 				String email = req.getParameter("email");
 				String phone = req.getParameter("phone");

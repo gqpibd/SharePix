@@ -14,7 +14,6 @@ import java.io.Serializable;
 //		   WDATE DATE NOT NULL,
 //		   DEL NUMBER(1) NOT NULL,
 //		   TOWHOM VARCHAR2(50),
-//		   READ NUMBER(1),
 //		   CONSTRAINT fk_TOWHOM FOREIGN KEY(TOWHOM) REFERENCES MEMBER(ID),
 //		   CONSTRAINT fk_pdsreply_seq FOREIGN KEY(PDSSEQ) REFERENCES PICPDS(SEQ),
 //		   CONSTRAINT fk_pdsreply_reref FOREIGN KEY(REREF) REFERENCES PDSREPLY(RESEQ)
@@ -44,7 +43,6 @@ public class ReplyBean implements Serializable {
 	private String wdate;
 	private int del;
 	private String toWhom;
-	private int read;
 	/* READ */
 	// 아무도 안 읽었으면 0
 	// 게시글 작성자가 읽었으면 1
@@ -53,20 +51,7 @@ public class ReplyBean implements Serializable {
 
 	public ReplyBean() { }
 
-	public ReplyBean(int pdsSeq, int reSeq, String id, String content, int reRef, String wdate, int del) {
-		super();
-		this.pdsSeq = pdsSeq;
-		this.reSeq = reSeq;
-		this.id = id;
-		this.content = content;
-		this.reRef = reRef;
-		this.wdate = wdate;
-		this.del = del;
-		this.toWhom = "";
-		this.read = 0;		
-	}
-
-	public ReplyBean(int pdsSeq, int reSeq, String id, String content, int reRef, String wdate, int del, String toWhom,	int read) {
+	public ReplyBean(int pdsSeq, int reSeq, String id, String content, int reRef, String wdate, int del, String toWhom) {
 		super();
 		this.pdsSeq = pdsSeq;
 		this.reSeq = reSeq;
@@ -76,7 +61,6 @@ public class ReplyBean implements Serializable {
 		this.wdate = wdate;
 		this.del = del;
 		this.toWhom = toWhom;
-		this.read = read;
 	}
 
 	public int getPdsSeq() {
@@ -143,18 +127,11 @@ public class ReplyBean implements Serializable {
 		this.toWhom = toWhom;
 	}
 
-	public int getRead() {
-		return read;
-	}
-
-	public void setRead(int read) {
-		this.read = read;
-	}
 
 	@Override
 	public String toString() {
 		return "ReplyBean [pdsSeq=" + pdsSeq + ", reSeq=" + reSeq + ", id=" + id + ", content=" + content + ", reRef="
-				+ reRef + ", wdate=" + wdate + ", del=" + del + ", toWhom=" + toWhom + ", read=" + read + "]";
+				+ reRef + ", wdate=" + wdate + ", del=" + del + ", toWhom=" + toWhom + "]";
 	}
 
 	
