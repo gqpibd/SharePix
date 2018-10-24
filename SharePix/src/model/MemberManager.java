@@ -113,6 +113,49 @@ public class MemberManager implements iMemberManager {
 		return dto;
 	}
 	
+	//////////////////////////////////
+	
+	
+	@Override
+	public boolean getEmail(String email) {
+	
+		String sql = " SELECT ID FROM MEMBER "
+				+ " WHERE EMAIL = ? ";
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null; 
+		
+		boolean findEmail = false; 
+		
+		try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 getEmail Success");
+			
+			psmt = conn.prepareStatement(sql);
+			System.out.println("2/6 getEmail Success");
+			
+			psmt.setString(1, email.trim()); 
+			
+			rs = psmt.executeQuery();
+			System.out.println("3/6 getEmail Success");
+			
+			while(rs.next()) {
+				findEmail = true;
+			}
+			
+		} catch (Exception e) {
+			System.out.println("getEmail fail");
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, null);
+		}
+		
+		System.out.println("findEmail = " + findEmail);
+		
+		return findEmail;
+	}
+	
 	
 	/////////////////////////////////
 	
@@ -157,8 +200,7 @@ public class MemberManager implements iMemberManager {
 	}
 	
 	////////////////////////////////
-	
-	
+
 	@Override
 	public MemberBean getEmail(MemberBean dto) {
 		
@@ -258,7 +300,7 @@ public class MemberManager implements iMemberManager {
 		
 		String sql = " SELECT ID, PWD, NAME, EMAIL, PHONE, AUTH "
 				+ " FROM MEMBER "
-				+ " WHERE ID=? AND PHONE=? AND EMAIL=? ";
+				+ " WHERE EMAIL=? AND PHONE=? ";
 		
 		Connection conn = null;
 		PreparedStatement psmt = null;
@@ -271,13 +313,14 @@ public class MemberManager implements iMemberManager {
 			psmt = conn.prepareStatement(sql);
 			System.out.println("1/6 getIdpwd Success");
 			
-			psmt.setString(1, dto.getId());
+			//psmt.setString(1, dto.getId());
+			psmt.setString(1, dto.getEmail());
 			psmt.setString(2, dto.getPhone());
-			psmt.setString(3, dto.getEmail());
 			System.out.println("2/6 getIdpwd Success");
 			
 			rs = psmt.executeQuery();
 			if (rs.next()) {
+				System.out.println("결과 있음");
 				String id = rs.getString(1);
 				String pwd = rs.getString(3);
 				String email = rs.getString(4);
@@ -465,12 +508,12 @@ public class MemberManager implements iMemberManager {
 	}
 
 	@Override
-	public List<FollowDto> getMySubscribeList(String myId) {	//	내가 구독한 사람들 구하기
+	public List<FollowDto> getMySubscribeList(String myId) {	//	나를 구독한 사람들 구하기
 		List<FollowDto> list = new ArrayList<>();
 		
 		String sql = " SELECT FOLLOWERID, FOLLOWEEID "
 			       + " FROM FOLLOW "
-			       + " WHERE FOLLOWERID=? ";
+			       + " WHERE FOLLOWEEID=? ";
 		
 		Connection conn = null;
 		PreparedStatement psmt = null;
@@ -571,5 +614,41 @@ public class MemberManager implements iMemberManager {
 		}
 		return count > 0 ? true : false;
 	}
+
+	@Override
+	public List<FollowDto> getMyfollowingList(String myId) {
+		List<FollowDto> list = new ArrayList<>();
+		
+		String sql = " SELECT FOLLOWERID, FOLLOWEEID "
+			       + " FROM FOLLOW "
+			       + " WHERE FOLLOWERID=? ";
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = DBConnection.getConnection();
+			psmt = conn.prepareStatement(sql);
+			
+			psmt.setString(1, myId);
+			
+			rs = psmt.executeQuery();
+			
+			while(rs.next()) {
+				FollowDto dto = new FollowDto(rs.getString(1), rs.getString(2));
+				
+				list.add(dto);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, rs);
+		}
+		
+		return list;
+	}
+	
+	
 	
 }

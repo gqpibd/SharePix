@@ -33,6 +33,11 @@ public class MemberService {
 	public MemberBean getUserInfo(String id) {
 		return manager.getUserInfo(id);
 	}	
+	
+	public boolean getEmail(String email) {
+		return manager.getEmail(email);
+	}
+	
 	public boolean getId(String id) {
 		return manager.getId(id);
 	}
@@ -77,5 +82,8 @@ public class MemberService {
 		return manager.login(dto);
 	}
 	
+	public List<FollowDto> getMyfollowingList(String myId){
+		return manager.getMyfollowingList(myId);
+	}
 	
 }

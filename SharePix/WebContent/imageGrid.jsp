@@ -27,6 +27,7 @@
 
 <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Jua" rel="stylesheet">
 <link href="style/common.css" rel="stylesheet">
+
 <div class="container" align="center" >
 <%	if(tagMap!=null){
 int iter = 0; // 지금 위치가 몇 번째인지 갯수를 세자
@@ -49,23 +50,29 @@ while(it.hasNext()) {
     }
    }
 }%>
-	
 </div>
-<div class="mcontainer" >
-	<%for(PdsBean pds : list){
-		String fSavename = pds.getfSaveName();
-		String smallSrc = fSavename.substring(0,fSavename.lastIndexOf('.')) + "_small" + fSavename.substring(fSavename.lastIndexOf('.'));
-		
-		File f = new File(config.getServletContext().getRealPath("/images/pictures") + "\\" + fSavename);
-		 if (f.exists() && f.length()<300000) { // 300kb 이하의 이미지는 그냥 원본을 가져온다
-	    	  smallSrc = fSavename;			     
-	    }
-	%>
-	<div class="item">
-		<img class="img clickable" name="item" src="images/pictures/<%=smallSrc%>"
-		onerror="$(this).parent().remove()"  
-		onclick="veiwDetail(<%=pds.getSeq()%>)" height="300">
+
+
+
+	
+
+	<div class="mcontainer" >
+		<%for(PdsBean pds : list){
+			String fSavename = pds.getfSaveName();
+			String smallSrc = fSavename.substring(0,fSavename.lastIndexOf('.')) + "_small" + fSavename.substring(fSavename.lastIndexOf('.'));
+			
+			File f = new File(config.getServletContext().getRealPath("/images/pictures") + "\\" + fSavename);
+			 if (f.exists() && f.length()<300000) { // 300kb 이하의 이미지는 그냥 원본을 가져온다
+		    	  smallSrc = fSavename;			     
+		    }
+		%>
+		<div class="item">
+			<img class="img clickable" name="item" src="images/pictures/<%=smallSrc%>"
+			onerror="$(this).parent().remove()"  
+			onclick="veiwDetail(<%=pds.getSeq()%>)" height="300">
+		</div>
+		<%} %>
 	</div>
-	<%} %>
-</div>	
+
+	
 	

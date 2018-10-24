@@ -55,11 +55,12 @@
 <link rel="stylesheet" href="style/imageArrange.css">
 <link rel="stylesheet" href="style/pagingbtn.css">
 <link rel="shortcut icon" href="images/icons/favicon.ico">
+<link href="https://fonts.googleapis.com/css?family=Jua" rel="stylesheet">
 </head>
-<body>
+<body style="background-color: #f6f6f6">
 	<div style="height: 100%"> <!-- 타이틀바 -->
 		<jsp:include page="titlebar.jsp">
-			<jsp:param name="goBackTo" value="index.jsp" />
+			<jsp:param name="goBackTo" value="main.jsp" />
 		</jsp:include>
 	</div>
 	<% if(ologin==null){ %>
@@ -75,7 +76,7 @@
                  <li><a href="#" id="current">정렬조건</a>
                     <ul>
                      <li><a href="PdsController?command=keyword&tags=<%=keyword %>&choice=SEQ">최신순</a></li>
-                     <li><a href="PdsController?command=keyword&tags=<%=keyword %>&choice=LIKECOUNT">추천수</a></li>
+                     <li><a href="PdsController?command=keyword&tags=<%=keyword %>&choice=LIKECOUNT">좋아요수</a></li>
                      <li><a href="PdsController?command=keyword&tags=<%=keyword %>&choice=DOWNCOUNT">다운로드수</a></li>
                      <li><a href="PdsController?command=keyword&tags=<%=keyword %>&choice=READCOUNT">읽은수</a></li>
                     </ul>

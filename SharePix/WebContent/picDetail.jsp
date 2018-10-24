@@ -39,6 +39,7 @@
 	// 댓글목록 
 	ReplyService rService = ReplyService.getInstance();
 	List<ReplyBean> reList = rService.getReplyList(pds.getSeq());
+	int followerCount = MemberService.getInstance().getMyFollowerList(pds.getId()).size();
 	
 	// 팔로우 
 	String follow = "images/icons/follower_empty.png";
@@ -192,32 +193,30 @@
 			</p>
 			
 			<hr>
-			<div align="center" style="vertical-align: middle;">		
+			<div align="center" style="vertical-align: middle;">	
 				<%
 				if((ologin != null && !pds.getId().equals(ologin.getId())&& ologin.getAuth() != 3) || ologin==null ){ //내가 로그인 한게 아닌 경우%>
-					<button onclick="doLike()" class="mybtn"> <!-- 좋아요 버튼 -->
-						<img src="<%=like%>" width="20" id="like">&nbsp;&nbsp; 
-						<span id="likeCount"><font size="3"><%=pds.getLikeCount()%></font></span>
-					</button>&nbsp;&nbsp; 
-					
-					<button class="mybtn" onclick="doFollow()"><!-- 팔로우 버튼 -->
-					<% if (isFollow ) { %>
-						<img id="followImg" src="images/icons/following.png" 
-						width="20" id="follow">&nbsp;&nbsp;팔로우
-					<%}else{%>
-						<img id="followImg" src="images/icons/follower_empty.png" width="20" id="follow">&nbsp;&nbsp;팔로우&nbsp;&nbsp;	
-							
-					<%} %>
+					<button onclick="doLike()" class="mybtn" title="컬렉션에 추가"> <!-- 좋아요 버튼 -->
+						<img src="<%=like%>" width="20" id="like">
+						<span name="detailLarge">&nbsp;&nbsp;<span id="likeCount"><%=pds.getLikeCount()%></span></span>
 					</button>&nbsp;&nbsp;
-					<button class="mybtn" type="button" onclick="dosingo()">
+					<button class="mybtn" onclick="doFollow()" title="팔로우"><!-- 팔로우 버튼 -->
+					<% if (isFollow ) { %>
+						<img id="followImg" src="images/icons/following.png" width="20" id="follow" >						
+					<%}else{%>
+						<img id="followImg" src="images/icons/follower_empty.png" width="20" id="follow">
+					<%} %>
+					<span name="detailLarge">&nbsp;&nbsp;<span id="fCount" ><%=followerCount%></span></span>					
+					</button>&nbsp;&nbsp;
+					<button class="mybtn" type="button" onclick="dosingo()"  title="신고" >
 						<span class="glyphicon glyphicon-flag" aria-hidden="true" width="20"></span>
-						신고
+						<span name="detailLarge">신고</span>
 					</button><!-- 신고 버튼  -->
 
 				<%}%>	
 				<% if(ologin != null && pds.getId().equals(ologin.getId())&& ologin.getAuth() != 3){ %>
-						<button class="mybtn" onclick="location.href='updatePds.jsp?seq=<%=pds.getSeq()%>'">수  정</button>
-				<%}else if(ologin != null && ologin.getAuth() == 3){	%>			
+					<button class="mybtn" onclick="location.href='updatePds.jsp?seq=<%=pds.getSeq()%>'">수  정</button>
+				<%}else if(ologin != null && ologin.getAuth() == 3){ // 관리자 로그인인 경우	%>			
 					<button class="mybtn" onclick="deletePds()">삭제</button>
 				<% if(pds.getReport() == 1){ %>
 					<button class="mybtn" onclick="donosingo()">신고 해제</button>
@@ -427,11 +426,13 @@
 					success:function(data, status, xhr){
 						/* console.log(data); */
 						followChk = $("#ajax_hidden").html(data).find("followChk").text();
+						var fCount = $("#ajax_hidden").html(data).find("followCount").text();
 						if(followChk == "false"){
 							$("#followImg").attr({"src":"images/icons/follower_empty.png"});
 						}else{
 							$("#followImg").attr({"src":"images/icons/following.png"});							
 						}
+						$("#fCount").text(fCount);
 					},
 					error:function(){ // 또는					 
 						console.log("통신실패!");
@@ -446,7 +447,9 @@
 			<%} else {%>			
 			var check = confirm("정말 신고하시겠습니까?");			
 			if (check) {
+				alert("신고되었습니다");
 				location.href = "PdsController?command=singo&seq=<%= pds.getSeq() %>";
+				
 			}
 			<%}%>
 		}
@@ -474,6 +477,12 @@
 				location.href = "PdsController?command=delete&seq=<%= pds.getSeq() %>";
 			}
 		}
+		
+		function checkWidth() { // 윈도우 사이즈가 바뀔 때 보여주는 아이템 변경
+			$("[name='detailLarge']").toggle($(".rightbar").width() > 325);	
+		}
+		checkWidth();
+		$(window).resize(checkWidth);
 		
 	</script>
 	

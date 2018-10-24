@@ -39,8 +39,7 @@
 
 	<% if(ologin == null){ %>	
 		<script type="text/javascript">
-		alert("로그인 해 주십시오.");
-		location.href = "./index.jsp";
+			loginView();
 		</script>
 		<%
 	}
@@ -48,7 +47,7 @@
 	%>
 	<div class="left__heading" style="height: 100%"> <!-- 타이틀바 -->
 		<jsp:include page="titlebar.jsp">
-			<jsp:param name="goBackTo" value="index.jsp" />
+			<jsp:param name="goBackTo" value="main.jsp" />
 		</jsp:include>
 	</div>
 	
@@ -93,7 +92,7 @@
 	</table>
 	<input class="fill sagongBtn" type="submit" value="수정하기">	
 	<button class="fill sagongBtn" type="button" onclick="deletePds()" >삭제하기</button>   
-	<button class="fill sagongBtn" type="button" onclick = "location.href='index.jsp'">나가기</button> 
+	<button class="fill sagongBtn" type="button" onclick = "history.back()">나가기</button> 
 	
 	
 	

@@ -3,9 +3,7 @@ package controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -28,7 +26,6 @@ import dto.PdsBean;
 import model.service.MemberService;
 import model.service.PdsService;
 import utils.FileUtil;
-import utils.ImageResize;
 
 public class MemberController extends HttpServlet {
 	
@@ -46,6 +43,7 @@ public class MemberController extends HttpServlet {
 				idx = fileName.lastIndexOf("/"); // /를 찾아라
 			}
 			fileName = fileName.substring(idx+1); // 파일 이름부터 확장자까지 가져옴
+			System.out.println("1/6 profileUploadFile : " + fileName);
 			
 			File uploadedFile = new File(dir, fSaveName + ".png");
 			File uploadedFile2 = new File(dir2, fSaveName + ".png");
@@ -120,7 +118,7 @@ public class MemberController extends HttpServlet {
 			try {
 				items = upload.parseRequest(req);
 				Iterator<FileItem> it = items.iterator();
-
+				boolean noNewImg = false;
 				while (it.hasNext()) {
 					FileItem item = it.next();
 					if (item.isFormField()) {
@@ -146,19 +144,20 @@ public class MemberController extends HttpServlet {
 					} else { // fileload
 						if(item.getFieldName().equals("fileload")){
 							if(item.getName()==null || item.getName().equals("")) { // 새로운 프로필 파일이 들어오지 않은 경우
-								System.out.println("item.getName() 이 null : 기본 프로필 유지 혹은 삭제");
-								
-								if(Boolean.parseBoolean(profile_keep_or_default)) { // true (keep) 일 때
-									System.out.println("filename : " + filename);
-								}else { // false (default) 일 때
-									//filename = profileUploadFile(item, fupload, filePathServer, id);
-									FileUtil.deleteFile(PROFILEPATH + "\\" + id + ".png", filePathServer + "\\" + id + ".png");
-									System.out.println("filename : " + filename);
-								}
+								noNewImg = true;
+								continue;
 							}else { // 새로운 프로필 파일이 들어온 경우
 								filename = profileUploadFile(item, fupload, filePathServer, id);
 								System.out.println("item : profileUploadFile : " + item.getName());
 							}
+						}
+					}					
+					if(noNewImg) { // 새로운 프로필 파일이 들어오지 않은 경우
+						System.out.println("새로들어온 사진 없음. 프로필 유지 혹은 삭제");								
+						if(Boolean.parseBoolean(profile_keep_or_default) == false) { 
+							//기본이미지로 변경합니다.
+							FileUtil.deleteFile(PROFILEPATH + "\\" + id + ".png", filePathServer + "\\" + id + ".png");
+							System.out.println("filename : " + filename);
 						}
 					}
 				}
@@ -190,27 +189,35 @@ public class MemberController extends HttpServlet {
 			
 			HttpSession session = req.getSession();
 			
-			if(command.equals("addUserPage")){		// 회원가입으로 이동
-				System.out.println("command = " + command + " 들어옴");	// 확인용			
-				dispatch("addUserPage.jsp", req, resp);			
-			}else if(command.equals("idcheck")) {	// 아이디 중복 확인			
+			if(command.equals("idcheck")) {	// 아이디 중복 확인			
 				String id = req.getParameter("id");
-			    System.out.println("id = " + id);
-			
-			    boolean isS = memService.getId(id);
-			   
+			    System.out.println("id = " + id);			
+			    boolean isS = memService.getId(id);			   
 			    PrintWriter out = resp.getWriter();
-			    if(isS){
+			    if(isS){ // 중복된 아이디 있음
 			    	out.print("NO");
 			    	out.flush();
-			    }else{
+			    }else{ // 중복된 아이디 없음
 			    	out.print("OK");
 			    	out.flush();
 			    }
-			    
-			}else if(command.equals("regi")) { 			
-				String id = req.getParameter("id");
-				String pwd = req.getParameter("pwd");
+			}else if(command.equals("emailcheck")) {	// 이메일 중복 확인			
+				String email = req.getParameter("email");
+			    System.out.println("email = " + email);
+			
+			    boolean isS = memService.getEmail(email);
+			   
+			    PrintWriter out = resp.getWriter();
+			    if(isS){ // 중복된 이메일 있음
+			    	out.print("NO");
+			    	out.flush();
+			    }else{ // 중복된 이메일 없음
+			    	out.print("OK");
+			    	out.flush();
+			    }
+			}else if(command.equals("regi")) { 	// 회원 가입		
+				String id = req.getParameter("newId");
+				String pwd = req.getParameter("newPwd");
 				String name = req.getParameter("name");
 				String email = req.getParameter("email");
 				String phone = req.getParameter("phone");
@@ -218,27 +225,33 @@ public class MemberController extends HttpServlet {
 				boolean isS = memService.addMember(new MemberBean(id, name, pwd, email, phone, 1));
 	
 				if(isS) {
-					
 					resp.setContentType("text/html; charset=UTF-8");
-					PrintWriter out = resp.getWriter();
-					
+					PrintWriter out = resp.getWriter();					
 					out.println("<script>alert('성공적으로 가입하셨습니다'); location.href='index.jsp';</script>");
-					 
-					out.flush();
-				
+					out.flush();				
 				}else {	
-					
 					resp.setContentType("text/html; charset=UTF-8");
 					PrintWriter out = resp.getWriter();
-					
-					out.println("<script>alert('다시 기입해 주십시오.'); location.href='regi.jsp';</script>");
-					 
-					out.flush();
-					
+					out.println("<script>alert('다시 기입해 주십시오.');</script>");
+					out.flush();					
 				}
+			}else if(command.equals("findIdPwd")) {	 // 아이디 비밀번호 찾기
+				String email = req.getParameter("email");
+				String phone = req.getParameter("phone");
+				System.out.println(email);
+				System.out.println(phone);
 				
-				//dispatch("index.jsp", req, resp);
-			    
+				MemberBean mem = memService.getIdpwd(new MemberBean(null, null, null, email, phone, 0));
+				System.out.println(mem);
+				PrintWriter out = resp.getWriter();	
+				if(mem != null && !mem.getId().equals("")){ // 일치하는 회원 정보를 찾은 경우
+					session.setAttribute("login", mem);
+					session.setMaxInactiveInterval(30*60);
+					out.print(mem.getId());		
+				}else{
+					out.print("");
+				}
+				out.flush();	
 			}else if(command.equals("login")) {	// 로그인 버튼 눌렀을 시 아이디 비밀번호 맞으면 페이지로 이동
 				System.out.println("command = " + command + " 들어옴");	// 확인용
 				String id = req.getParameter("id");
@@ -264,7 +277,7 @@ public class MemberController extends HttpServlet {
 					resp.setContentType("text/html; charset=UTF-8");
 					PrintWriter out = resp.getWriter();
 					
-					out.println("<script>alert('아이디 혹은 비밀번호가 틀렸습니다.'); location.href='index.jsp';</script>");
+					out.println("<script>alert('아이디 혹은 비밀번호가 틀렸습니다.'); history.back();</script>");
 					out.flush();
 					return;
 				}
@@ -274,54 +287,19 @@ public class MemberController extends HttpServlet {
 				
 				resp.setContentType("text/html; charset=UTF-8");
 				PrintWriter out = resp.getWriter();
-				out.println("<script>alert('안녕히 가십시오'); location.href='./index.jsp';</script>");
+				out.println("<script>alert('안녕히 가십시오'); location.href='./main.jsp';</script>");
 				out.flush();
 				
 				return;
 			} else if(command.equals("userUpdatePage")){ // 회원정보 수정 페이지로 이동
 				System.out.println("command = " + command + "  들어옴");	// 확인용
 				dispatch("./userUpdatePage.jsp", req, resp);
-			} /*else if(command.equals("userUpdateAf")) {
-				System.out.println("command = " + command + "  들어옴");	// 확인용
-				
-					String id			= req.getParameter("id");
-					String name 		= req.getParameter("name");
-					String pwd 		= req.getParameter("pwd");
-					String email 		= req.getParameter("email");
-					String phone		= req.getParameter("phone");
-					
-			  //String str_Phone1 	= req.getParameter("phone1");
-			  //String str_Phone2 	= req.getParameter("phone2");
-			  //String str_Phone3 	= req.getParameter("phone3");
-			  //String phone = str_Phone1 + "-" + str_Phone2 + "-" + str_Phone3; // 번호 사이에 - 넣기
-			    
-			    MemberBean dto = new MemberBean(id, name, pwd, email, phone, -1);
-			    
-			    System.out.println("dto 출력 : " + dto.toString());
-			    
-				if(memService.updateUser(dto)) {	//	update가 되면 true 반환
-					resp.setContentType("text/html; charset=UTF-8");
-					PrintWriter out = resp.getWriter();
-					out.println("<script>alert('정보가 수정되었습니다.'); location.href='./userUpdatePage.jsp'; </script>");
-					out.flush();
-					
-				}else {
-					resp.setContentType("text/html; charset=UTF-8");
-					PrintWriter out = resp.getWriter();
-					out.println("<script>alert('수정 실패'); location.href='./userUpdatePage.jsp';</script>");
-					out.flush();
-					
-				}
-			}*/ else if(command.equals("userPage")) { // userPage 로 이동
+			} else if(command.equals("userPage")) { // userPage 로 이동
 				System.out.println("command = " + command + " 들어옴");	// 확인용
 				req.setCharacterEncoding("utf-8");
 				
 				String pageId = req.getParameter("id");
-							
-				PdsBean pagePds = pdsService.getMyPdsAll(pageId); // 해당 유저 페이지의 유저 id로 찾은 pdsDto
-				if(pagePds==null){
-					pagePds = new PdsBean();
-				}
+											
 				MemberBean pageMemDto = memService.getUserInfo(pageId);	//해당 페이지의 사용자 정보 가져온 memDto
 				if(pageMemDto==null){
 					pageMemDto = new MemberBean();
@@ -342,8 +320,7 @@ public class MemberController extends HttpServlet {
 				if(lList==null){
 					lList = new ArrayList<>();
 				}
-				
-				req.setAttribute("pagePds", pagePds);
+								
 				req.setAttribute("pageMemDto", pageMemDto);
 				req.setAttribute("list", list);
 				req.setAttribute("fList", fList);
@@ -358,9 +335,11 @@ public class MemberController extends HttpServlet {
 				String followeeId = req.getParameter("followeeId");
 				boolean followChk = Boolean.parseBoolean(req.getParameter("followChk"));
 				
+				
 				System.out.println("followChk : "+ followChk);
 				memService.changeFollow(followerId, followeeId, !followChk); // follow 상태 바꿔줌
-				resp.getWriter().write("<followChk>" +!followChk +"</followChk>");
+				int followCount = memService.getMyFollowerList(followeeId).size();
+				resp.getWriter().write("<followChk>" +!followChk +"</followChk><followCount>" + followCount + "</followCount>");
 				resp.getWriter().flush();
 			}		
 		}

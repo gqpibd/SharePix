@@ -1,52 +1,100 @@
-
-.pagingbtn ul {  
-    text-align:center;  
-}  
-.pagingbtn ul li {  
-    display:inline;  
-    vertical-align:middle;  
-}  
-.pagingbtn ul li a {  
-    display:-moz-inline-stack;  /*FF2*/  
-    display:inline-block;  
-    vertical-align:top;  
-    padding:4px;  
-    margin-right:3px;  
-    width:15px !important;  
-    color:#000;  
-    font:bold 12px tahoma;  
-    border:1px solid #eee;  
-    text-align:center;  
-    text-decoration:none;  
-    width /**/:26px;    /*IE 5.5*/  
-}  
-.pagingbtn ul li a.now {  
-    color:#fff;  
-    background-color:#f40;  
-    border:1px solid #f40;  
-}  
-.pagingbtn ul li a:hover, ul li a:focus {  
-    color:#fff;  
-    border:1px solid #f40;  
-    background-color:#f40;  
+a {
+  text-decoration: none;
 }
 
+.pagination-wrapper {
+  text-align: center;
+  margin: 40px 0;
+}
+
+.prev page-numbers {
+
+   border-top-right-radius: 35px;
+   border-bottom-right-radius: 35px;
+}
+
+.pagination {
+  display: inline-block;
+  height: 60px;
+  margin-top: 70px;
+  padding: 0 25px;
+  border-radius: 35px;
+  background-color: #cfecbc;
+
+}
+@media only screen and (max-width: 1199px) {
+  .pagination {
+    height: 50px;
+    margin-top: 50px;
+    padding: 0 10px;
+    border-radius: 25px;
+  }
+}
+
+.page-numbers {
+  display: block;
+  padding: 0 20px;
+  float: left;
+  transition: 400ms ease;
+  color: #595959;
+  font-size: 20px;
+  letter-spacing: 0.1em;
+  line-height: 60px;
+}
+.page-numbers:hover, .page-numbers.current {
+  background-color: #86c023;
+  color: #fff;
+}
+.page-numbers.prev:hover, .page-numbers.next:hover {
+  background-color: transparent;
+  color: #86c023;
+}
+@media only screen and (max-width: 1199px) {
+  .page-numbers {
+    padding: 0 15px;
+    font-size: 16px;
+    line-height: 50px;
+  }
+}
+@media only screen and (min-width: 120px) and (max-width: 1024px) {
+  .page-numbers {
+    padding: 0 14px;
+    display: none;
+  }
+  .page-numbers:nth-of-type(2) {
+    position: relative;
+    padding-right: 50px;
+  }
+  .page-numbers:nth-of-type(2)::after {
+    content: '...';
+    position: absolute;
+    font-size: 25px;
+    top: 0;
+    left: 45px;
+  }
+  .page-numbers:nth-child(-n+3), .page-numbers:nth-last-child(-n+3) {
+    display: block;
+  }
+  .page-numbers:nth-last-child(-n+4) {
+    padding-right: 14px;
+  }
+  .page-numbers:nth-last-child(-n+4)::after {
+    content: none;
+  }
+}
+
+
 .menubar{
-border:none;
-border:0px;
-margin:0px;
-padding:0px;
-font: 67.5% "Lucida Sans Unicode", "Bitstream Vera Sans", "Trebuchet Unicode MS", "Lucida Grande", Verdana, Helvetica, sans-serif;
-font-size:14px;
-font-weight:bold;
+	background: #f6f6f6;
 }
 
 .menubar ul{
-background: rgb(109,109,109);
+background: #f6f6f6;
 height:50px;
 list-style:none;
 margin:0;
 padding:0;
+margin-top: 17ex;
 }
 
 .menubar li{
@@ -55,19 +103,22 @@ padding:0px;
 }
 
 .menubar li a{
-background: rgb(109,109,109);
-color:#cccccc;
+background: #FFBFCA;
+    color: #ffffff;
 display:block;
 font-weight:normal;
 line-height:50px;
-margin:0px;
+    margin-left: 20px;
 padding:0px 25px;
 text-align:center;
 text-decoration:none;
+border-radius: 30px;
+font-size: 20px;
+font-family: 'Jua', sans-serif;
 }
 
 .menubar li a:hover, .menubar ul li:hover a{
-background: rgb(71,71,71);
+background: #FFAAAA;
 color:#FFFFFF;
 text-decoration:none;
 }
@@ -82,6 +133,7 @@ border:0px;
 position:absolute;
 width:200px;
 z-index:200;
+border-radius: 35px;
 /*top:1em;
 /*left:0;*/
 }
@@ -91,7 +143,7 @@ display:block; /* 마우스 커서 올리면 드랍메뉴 보이게 하기 */
 }
 
 .menubar li li {
-background: rgb(109,109,109);
+background: #FFBFCA;
 display:block;
 float:none;
 margin:0px;
@@ -106,15 +158,16 @@ background:none;
 .menubar li ul a{
 display:block;
 height:50px;
-font-size:12px;
+font-size:20px;
 font-style:normal;
 margin:0px;
 padding:0px 10px 0px 15px;
 text-align:left;
+font-family: 'Jua', sans-serif;
 }
 
 .menubar li ul a:hover, .menubar li ul li:hover a{
-background: rgb(71,71,71);
+background: #FFAAAA;
 border:0px;
 color:#ffffff;
 text-decoration:none;

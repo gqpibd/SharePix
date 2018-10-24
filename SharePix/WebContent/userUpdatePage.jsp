@@ -4,6 +4,7 @@
 	pageEncoding="UTF-8"%>
 <%
 	request.setCharacterEncoding("utf-8");
+
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -13,19 +14,13 @@
 <title>개인정보수정</title>
 <link rel="shortcut icon" href="images/icons/favicon.ico">
 <style type="text/css">
-.profile {
-    width: 300px; 
-    height: 300px;
-}
 .imgbox{
-	align-self: center;
 	position: relative;
 	width: 300px;
 	height: 300px;
 	vertical-align: middle;
 }
 .holder{
-	align-self: center;
 	max-height: 300px;
 	max-width: 300px;	
 	position: relative;
@@ -48,8 +43,7 @@
 	top: -20px !important;
 	transform: scale(.75) !important ; left:-15px !important;
     /* font-size: 14px; */
-    color: #4a89dc !important;
-    
+    color: #4a89dc !important;    
 }
 </style>
 <script type="text/javascript">
@@ -96,13 +90,16 @@ var loadImageFile = function () {
 		}
 
 		mem = (MemberBean) ologin;
-
 		System.out.println("수정 전 mem = " + mem.toString());
 
 		MemberService service = MemberService.getInstance();
 		MemberBean updateDto = service.getUserInfo(mem.getId());
 
 		session.setAttribute("login", updateDto);
+		session.setMaxInactiveInterval(30*60);
+		Object updateLogin = session.getAttribute("login");
+		
+		updateDto = (MemberBean)updateLogin;
 	%>
 	<script type="text/javascript">
 		location.href = "#";
@@ -130,7 +127,7 @@ var loadImageFile = function () {
 	<tr>
 	<td style="padding-left: 30px; padding-right: 30px;">
 		<div class="group">
-			<input required="required" class="input check_fill" name="id" id="id" type="text" maxlength="12" readonly="readonly" value="<%=updateDto.getId()%>">
+			<input required="required" class="input" name="id" id="id" type="text" maxlength="12" readonly="readonly" value="<%=updateDto.getId()%>">
 			<span class="highlight"></span>
 			<span class="bar"></span> 
 			<label class="label" for="date" id="id_label">ID&nbsp;&nbsp;&nbsp;(수정 불가)<span id="idcheck" style="font-size: 8px"></span></label>
@@ -139,22 +136,22 @@ var loadImageFile = function () {
 	<td style="padding-left: 30px; padding-right: 30px;">
 		<!-- ID input-->
 		<div class="group">
-			<input required="required" class="input check_fill" name="name" id="name" type="text" maxlength="12" value="<%=updateDto.getName()%>">
+			<input required="required" class="input" name="name" id="name" type="text" maxlength="12" value="<%=updateDto.getName()%>">
 			<span class="highlight"></span>
 			<span class="bar"></span> 
-			<label class="label" for="date" id="name_label">NICKNAME<span id="idcheck" style="font-size: 8px"></span></label>
+			<label class="label" for="date" id="name_label">이름<span style="font-size: 8px"></span></label>
 		</div>
 	</td>
 	</tr>
 	<tr>
 	<td style="padding-left: 30px; padding-right: 30px; padding-bottom : 20px" rowspan="4">
 			<div class="group">
-			<label class="label" for="date">IMAGE : 드래그 하거나 클릭하여 업로드</label>
-			</div>`
+			<label class="label" for="date">프로필 사진 : 드래그 하거나 클릭하여 업로드</label>
+			</div>
 			<br>
-			<div class="imgbox">
-			<img id="editable-Img" src='images/profiles/<%=updateDto.getId()%>.png' class='profile holder  check_fill' align='middle' onerror="this.src='images/profiles/default.png'">
-			<input type="file" name="fileload" accept="image/gif, image/jpeg, image/png" class="upload check_fill" id="upload-Image" onchange="loadImageFile();" >
+			<div class="imgbox" align="center">
+			<img id="editable-Img" src='images/profiles/<%=updateDto.getId()%>.png' class='holder' align='middle' onerror="this.src='images/profiles/default.png'">
+			<input type="file" name="fileload" accept="image/gif, image/jpeg, image/png" class="upload" id="upload-Image" onchange="loadImageFile();" >
 			</div>
 			<br>
 			<div align="center">
@@ -165,10 +162,10 @@ var loadImageFile = function () {
 		<!-- Password input-->
 		<td style="padding-left: 30px; padding-right: 30px;">
 		<div class="group">
-			<input required class="input" name="pwd" id="pwd" type="password" maxlength="12" placeholder="새 비밀번호">
+			<input class="input" name="pwd" id="pwd" type="password" maxlength="12">
 			<span class="highlight"></span>
 			<span class="bar" id="pwd_bar"></span> 
-			<label class="label" for="date">&nbsp;&nbsp;새 PW</label>
+			<label class="label" for="date">&nbsp;&nbsp;비밀번호</label>
 		</div>
 		</td>
 	</tr>
@@ -176,10 +173,10 @@ var loadImageFile = function () {
 		<!-- Password input-->
 		<td style="padding-left: 30px; padding-right: 30px;">
 		<div class="group">
-			<input required="required" class="input check_fill" id="pwd2" type="password" maxlength="12" onkeyup="" placeholder="비밀번호 확인">
+			<input class="input" id="pwd2" type="password" maxlength="12" onkeyup="">
 			<span class="highlight"></span>
 			<span class="bar" id="pwd2_bar"></span> 
-			<label class="label" for="date">&nbsp;PW확인</label>
+			<label class="label" for="date">&nbsp;비밀번호 확인</label>
 		</div>
 		</td>
 	</tr>
@@ -187,10 +184,10 @@ var loadImageFile = function () {
 		<!-- Email input-->
 		<td style="padding-left: 30px; padding-right: 30px;">
 		<div class="group">
-			<input required="required" class="input check_fill" name="email" type="text" id="email2" onchange="emailCheck()" value="<%=updateDto.getEmail()%>">
+			<input required="required" class="input" name="email" type="text" id="email2" onchange="email2Check()" value="<%=updateDto.getEmail()%>">
 			<span class="highlight"></span>
 			<span class="bar"></span> 
-			<label class="label" for="date">&nbsp;&nbsp;EMAIL</label>
+			<label class="label" for="date">&nbsp;&nbsp;이메일</label>
 		</div>
 		</td>
 	</tr>
@@ -198,47 +195,48 @@ var loadImageFile = function () {
 		<!-- Tel input-->
 		<td style="padding-left: 30px; padding-right: 30px;">
 		<div class="group">
-			<input required="required" class="input check_fill" name="phone" type="text" id="phone2" onchange="phoneCheck()" value="<%=updateDto.getPhone()%>"/> <!-- pattern="\d{3}-\d{3,4}-\d{4}" -->
+			<input required="required" class="input" name="phone" type="text" id="phone2" onchange="phoneCheck()" value="<%=updateDto.getPhone()%>"/> <!-- pattern="\d{3}-\d{3,4}-\d{4}" -->
 			<span class="highlight"></span>
 			<span class="bar"></span> 
-			<label class="label" for="date">&nbsp;&nbsp;PHONE</label>
+			<label class="label" for="date">&nbsp;&nbsp;전화번호</label>
 		</div>
 		</td>
 	</tr>
 	<tr>
 	<td colspan="2" align="center" style="height: 80px">
-	<button id="edit_Btn" type="submit" style="background-color: red;">수정</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	<button type="button" onclick="location.href='MemberController?command=userPage&id=<%=updateDto.getId()%>'">뒤로</button>
+	<button id="edit_Btn" class="sagongBtn fill" type="submit" >수정</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<button type="button" class="sagongBtn fill" onclick="location.href='MemberController?command=userPage&id=<%=updateDto.getId()%>'">뒤로</button>
 	</td>
 	</tr>
 	</table>
 	</div>
 	</form>
-	
+	<!-- 
 	<hr>
 	<br>
 	<br>
 	<hr>
-	<br> ㅁ todolist(181019 업데이트 중)
-	<br> - ★ 일단 기능부터
-	<strike>개인정보 수정, 좋아요 카운트</strike>, 팔로우 페이지 꾸미기
-	<br> - ★ 개인사진 수정(사진 업로드)
-	<br> - ★ 닉네임 중복, 비밀번호 확인 안 되면 수정 완료버튼 비활성화
+	<br> ㅁ todolist(181023  업데이트 중)
 	<br> - ★ 다운로드?
-	<br> - ★ 아무 것도 없으면 아무것도 없습니다.
-	<br> - ★ 구독 버튼 이미지 바꾸기
 	<br> - ★ 내가 올린 사진들 그런 것 클릭 중일시 탭 누르는 효과처럼
-	<br> - ★ 자기가 올린 디테일 볼 때 팔로우 버튼 없애기
-	<br> - ★ 관리자 삭제 기능
 	<br> - ★ a 태그 /  버튼 처럼, 탭처럼
 	<br>
 	
-	<br> - 이미 사용하고 계신 비밀번호를 입력하셨습니다.
 	<br> - 아이디 중복 검사시 창 변하게
-	<br> - 비밀번호 다르면 수정 못 하게?
-	<br> - 비밀번호 공백이면 수정 못 하게?
-	<br> - jpg 파일인지, png 파일인지 확장자 문제
+	<br> - jpg 파일인지, png 파일인지 확장자 문제 있나?
 	<br> - top버튼
+	<br> + (추가) 휴대폰 번호 쓰면 자동으로 넘어가게?
+	<br> - ★ 일단 기능부터
+	<strike>개인정보 수정, 좋아요 카운트, 팔로우 페이지 꾸미기</strike>
+	<br> <strike>- ★ 개인사진 수정(사진 업로드)</strike>
+	<br> <strike>- ★ 닉네임 중복, 비밀번호 확인 안 되면 수정 완료버튼 비활성화</strike>
+	<br> <strike>- ★ 아무 것도 없으면 아무것도 없습니다.</strike>
+	<br> <strike>- ★ 구독 버튼 이미지 바꾸기</strike>
+	<br> <strike>- ★ 자기가 올린 디테일 볼 때 팔로우 버튼 없애기</strike>
+	<br> <strike>- ★ 관리자 삭제 기능</strike>
+	<br> <strike>- 이미 사용하고 계신 비밀번호를 입력하셨습니다.</strike>
+	<br> <strike>- 비밀번호 다르면 수정 못 하게?</strike>
+	<br> <strike>- 비밀번호 공백이면 수정 못 하게?</strike>
 	<br> <strike>- ★ 사진에서 바로 좋아요 기능이 이상하다</strike>
 	<br> <strike>- ★ 히든 부분의 아쉬움</strike>
 	<br> <strike>- ★ 팔로우 버튼 디자인</strike>
@@ -248,8 +246,7 @@ var loadImageFile = function () {
 	<br> <strike>? 세션에 저장된 거 없으면 반환하는 것 그거 매 jsp 마다 해야 하나? : 필요한 페이지만 쓰면 된다</strike>
 	<br> <strike>+ (추가) 이메일 select option?</strike>
 	<br> <strike>+ (추가) 문자, 숫자 포함한 비밀번호로 저장?</strike>
-	<br> + (추가) 휴대폰 번호 쓰면 자동으로 넘어가게?
-	<br> + (추가) 신고 삭제
+	<br> <strike>+ (추가) 신고 삭제</strike>
 	<br> <strike>+ (추가) 팔로우</strike>
 	<br>
 	<br>
@@ -271,6 +268,7 @@ var loadImageFile = function () {
 	<br>
 	<strike>- 비밀번호 확인</strike>
 	<br>
+	-->
 </body>
 
 <script type="text/javascript">
@@ -278,16 +276,19 @@ var loadImageFile = function () {
 $(document).ready(function () { // 전부 입력시에 수정버튼 활성화 되게끔 만들 생각
 	var pwdCheck = false;
 	$("input[type='password']").keyup(function () {
-		if($("#pwd").val()==""){ // null 일 때 걸러내기만
-			
-		}else if($("#pwd").val()==$("#pwd2").val()){ 	// 비밀 번호 동일시
-			$("#pwd2").css("background", "linear-gradient(to top, #3366FF, white)");
+		if($("#pwd").val()=="" && $("#pwd2").val()==""){// 다시 null이 되었을 때 버튼 정상으로
 			$("#edit_Btn").css("background-color", "");
 			$("#edit_Btn").removeAttr("disabled");
+		}else if($("#pwd").val()==$("#pwd2").val()){ 	// 비밀 번호 동일시
+			$("#pwd2").css("color", "#0000ff");
+			$("#edit_Btn").css("background-color", "");
+			$("#edit_Btn").addClass('fill');
+			$("#edit_Btn").removeAttr("disabled");
 			pwdCheck = true;
-		}else{
-			$("#pwd2").css("background", "linear-gradient(to top, #FF6666, white)");
-			$("#edit_Btn").css("background-color", "red");
+		}else if($("#pwd").val()!=$("#pwd2").val()){
+			$("#pwd2").css("color", "#ff0000");
+			$("#edit_Btn").css("background-color","red");
+			$("#edit_Btn").removeClass('fill');
 			$("#edit_Btn").attr("disabled", "disabled");
 			pwdCheck = false;
 		}
@@ -298,13 +299,9 @@ $(document).ready(function () { // 전부 입력시에 수정버튼 활성화 �
 			alert("닉네임을 입력하세요.");
 			$("#name").focus();
 			return;
-		}else if($("#pwd").val()==""){// 새 비밀번호  빈 문자
-			alert("새 비밀번호를 입력하세요");
-			$("#pwd").focus();
-			return;
-		}else if($("#pwd2").val()==""){// 비밀번호 확인 빈 문자
-			alert("비밀번호 확인을 입력하세요");
-			$("#pwd2").focus();
+		}else if($("#pwd").val()=="" && $("#pwd2").val()==""){// 새 비밀번호  빈 문자
+			$("#pwd").val("<%=mem.getPwd()%>");
+			$("#pwd2").val("<%=mem.getPwd()%>");
 			return;
 		}else if(!pwdCheck){ // 비밀번호 다를 때
 			alert("비밀번호가 같지 않습니다.");
@@ -322,32 +319,11 @@ $(document).ready(function () { // 전부 입력시에 수정버튼 활성화 �
 	});
 });
 
-var profile_keep_or_default = $("#profile_keep_or_default").val(); // 초기값 true == keep;
-
 function profile_default() {
 	$("#editable-Img").attr("src", "images/profiles/default.png");
-	profile_keep_or_default = false;
-	console.log("profile_default() profile_keep_or_default : " + profile_keep_or_default);
-	$("#profile_keep_or_default").val(profile_keep_or_default);
+	console.log("profile_default() profile_keep_or_default : false");
+	$("#profile_keep_or_default").val('false');
 } 
-
-/* $(document).ready(function (){
-	$("#pwd, #pwd2").keyup(function () { // 키 누를 때마다 검사		// 안 이뻐서 바꾸고 싶다
-		if($("#pwd").val()==""){ // null 일 때 걸러내기만
-			
-		}else if($("#pwd").val()==$("#pwd2").val()){ 	// 비밀 번호 동일시
-			$("#pwd2").css("background", "linear-gradient(to top, #3366FF, white)");
-			$("#edit_Btn").css("background-color", "");
-			
-			if(!$(".check_fill").val()==""){	// 모든 내용이 다 기입 되어있으면
-				$("#edit_Btn").removeAttr("disabled");
-			}
-		}else{
-			$("#pwd2").css("background", "linear-gradient(to top, #FF6666, white)");
-			$("#edit_Btn").attr("disabled", "disabled");
-		}
-	});
-}); */
 
 $(document).ready(function(){ 
 	$("#phone2").focus(function () {
@@ -363,5 +339,58 @@ $(document).ready(function(){
 		$("#email2").attr("placeholder","");
 	});
 });
+function email2Check() {
+	$.ajax({
+		type:"get",
+		url:"MemberController?command=emailcheck&email="+$("#email2").val(),
+		data:"email=" + $('#email2').val(),
+	
+		success:function(data){
+			
+			var emailVal = $("#email2").val();
+			var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+			
+			var emailCheck = false;
+			
+			if(emailVal.match(regExp) != null &&  data.trim() == "OK" ) { // 올바르게 입력한 경우
+				$("#email2").css("color", "#0000ff");
+				emailCheck = true;
+			}else if(emailVal.match(regExp) == null) { // 형식이 올바르지 않은 경우
+				$("#email2").css("color", "#000");
+				alert("이메일형식에 맞게 입력해주세요\nex)hello@sagong'ssi.com");
+				$("#email2").val("");
+			    $("#email2").focus();  
+				emailCheck = false;
+			}else { // 중복된 이메일
+				$("#email2").css("color", "#000");
+				alert("사용 중인 id입니다.");
+				$("#email2").val("");
+				$("#email2").focus();
+				emailCheck = false;
+			}
+		}
+	});
+}
+
+function phoneCheck() {	
+	var phoneVal = $("#phone2").val();	
+	var regExp = /^\d{3}-\d{3,4}-\d{4}$/;
+
+	var phoneCheck = false;
+	
+	if (phoneVal.match(regExp) != null) {
+		$("#phone2").css("color", "#0000ff");
+		//$("#phone").css("background", "linear-gradient(to top, #3366FF, white)");
+		//alert("번호를 올바르게 입력했습니다.");
+		phoneCheck = true;
+	}
+	else {
+	  $("#phone2").css("color", "#000");
+	 //$("#phone").css("background", "linear-gradient(to top, #FF6666, white)");
+	  alert("번호를 올바르게 입력해주세요\nex)010-XXXX-XXXX");
+	  $("#phone2").focus();  
+	  phoneCheck = false;
+	}
+}
 </script>
 </html>

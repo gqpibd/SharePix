@@ -104,7 +104,7 @@ String pdsSeq = request.getParameter("pdsSeq");
 			<br> 
 			<font style="font-size: 3px; color: graytext;"><%=re.getWdate()%></font><br> <!-- 날짜 -->
 			<% if (loginId != null) { %>
-			<button class="mybtn" name="<%=re.getReRef()%>" onclick="addReply(this)" id="<%=re.getReSeq()%>" toWhom="<%=re.getId()%>">답변</button>
+			<button class="btn btn-navy btn-border" name="<%=re.getReRef()%>" onclick="addReply(this)" id="<%=re.getReSeq()%>" toWhom="<%=re.getId()%>">답변</button>
 			<% } %>									
 		</div>
 		</div>
