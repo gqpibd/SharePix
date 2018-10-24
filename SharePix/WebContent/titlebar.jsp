@@ -167,7 +167,7 @@ $(document).ready(function(){
 
 <tr name="small" style="display: none;">
 	<td align="left">
-		<p class="title" onclick="location.href='index.jsp'" style="margin-left: 5px; font-size: 1.3em" >SaGong'sa</p>
+		<p class="title" onclick="location.href='main.jsp'" style="margin-left: 5px; font-size: 1.3em" >SaGong'sa</p>
 	</td>
 	<td align="right" name="small" style="display:none;">
 		<% if(user==null){ // 로그아웃 상태 %>
@@ -208,7 +208,7 @@ $(document).ready(function(){
 
 <tr name="large">	
 	<td align="center" rowspan="2">
-		<p class="title" onclick="location.href='index.jsp'" style="font-size: 2em">SaGong'sa</p>
+		<p class="title" onclick="location.href='main.jsp'" style="font-size: 2em">SaGong'sa</p>
 	</td>
 	<td rowspan="2">
 		<form action="PdsController" method="get">
@@ -304,8 +304,7 @@ function loginView(){
 			<div class="control-group">
 				<label class="control-label" for="signin"></label>
 				<div class="controls">
-					<button id="signin" name="signin"
-					class="btn btn-primary btn-block">Log In</button>
+					<button id="signin" name="signin" class="btn btn-primary btn-block">Log In</button>
 				</div>
 			</div>
 			</fieldset>
@@ -322,7 +321,7 @@ function loginView(){
 					<input required="required" class="input" name="id" id="tbID" type="text" maxlength="12" onchange="idCheck()">
 					<span class="highlight"></span>
 					<span class="bar"></span> 
-					<label class="label" for="date">ID <span id="idcheck" style="font-size: 8px"></span></label>
+					<label class="label" for="date">ID</label>
 				</div>
 
 				<!--  Password input-->
@@ -399,7 +398,7 @@ function loginView(){
 			<input type="hidden" name="command" value="findIdPwd">
 			<fieldset>
 				<div class="group">
-					<input required="required" class="input" name="email" type="email" id="findIdEmail">
+					<input required="required" class="input" name="email" type="text" id="findIdEmail">
 					<!-- 이메일 입력 -->
 					<span class="highlight"></span> <span class="bar"></span>
 					<label class="label" for="date">Email 입력</label>

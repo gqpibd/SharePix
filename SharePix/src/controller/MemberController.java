@@ -285,7 +285,7 @@ public class MemberController extends HttpServlet {
 				
 				resp.setContentType("text/html; charset=UTF-8");
 				PrintWriter out = resp.getWriter();
-				out.println("<script>alert('안녕히 가십시오'); location.href='./main.jsp';</script>");
+				out.println("<script>alert('로그아웃 되었습니다.'); location.href='./main.jsp';</script>");
 				out.flush();
 				
 				return;
