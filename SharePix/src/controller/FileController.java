@@ -27,8 +27,8 @@ import model.service.AlarmService;
 import model.service.PdsService;
 import utils.ImageResize;
 
-public class FileController extends HttpServlet {/*"C:\\Users\\seung\\git\\SharePix\\SharePix\\WebContent\\images"*/ //// "C:\\Users\\이호영\\git\\sharePix\\SharePix\\WebContent\\images\\pictures";
-	public static final String PATH =  "C:\\Users\\이호영\\git\\sharePix\\SharePix\\WebContent\\images\\pictures";
+public class FileController extends HttpServlet {
+	//public static final String PATH =  "C:\\Users\\이호영\\git\\sharePix\\SharePix\\WebContent\\images\\pictures";
 	 
 	private ServletConfig mConfig = null; // 업로드 폴더의 realpath에 접근하기 위해서 필요하다
 	private static final int BUFFER_SIZE = 10000000; // 10Mb
@@ -44,10 +44,10 @@ public class FileController extends HttpServlet {/*"C:\\Users\\seung\\git\\Share
 			}
 			fileName = fileName.substring(idx+1); // 파일 이름부터 확장자까지 가져옴
 			
-			File uploadedFile = new File(dir, fSaveName + fileName.substring(fileName.lastIndexOf(".")));
+			//File uploadedFile = new File(dir, fSaveName + fileName.substring(fileName.lastIndexOf(".")));
 			File uploadedFile2 = new File(dir2, fSaveName + fileName.substring(fileName.lastIndexOf(".")));
 			try{
-				fileItem.write(uploadedFile);
+				//fileItem.write(uploadedFile);
 				fileItem.write(uploadedFile2);
 			}catch(Exception e){
 				e.printStackTrace();
@@ -93,9 +93,11 @@ public class FileController extends HttpServlet {/*"C:\\Users\\seung\\git\\Share
 
 			////////////////////// file
 			
-			String fupload = PATH;
-			System.out.println("파일업로드:" + fupload);
-			String yourTempDirectory = fupload;
+			//String fupload = PATH;
+			//System.out.println("파일업로드:" + fupload);
+			//String yourTempDirectory = fupload;
+			
+			String yourTempDirectory = filePathServer;
 			
 			int yourMaxRequestSize = 1000 * 1024 * 1024; // 10M
 			int yourMaxMemorySize = 1000 * 1024;
@@ -126,7 +128,8 @@ public class FileController extends HttpServlet {/*"C:\\Users\\seung\\git\\Share
 						}
 					} else { // fileload
 						if(item.getFieldName().equals("fileload")){
-							filename = processUploadedFile(item, fupload, filePathServer, fSaveName);							
+							//filename = processUploadedFile(item, fupload, filePathServer, fSaveName);
+							filename = processUploadedFile(item, null, filePathServer, fSaveName);
 						}
 						if(filename != null){
 							System.out.println("저장 파일 경로 및 파일명: " + filename);
@@ -135,7 +138,7 @@ public class FileController extends HttpServlet {/*"C:\\Users\\seung\\git\\Share
 								fSaveName = fSaveName+filename.substring(filename.lastIndexOf("."));
 							}
 							System.out.println("저장 파일명: " + fSaveName);
-							ImageResize.resize25(PATH,fSaveName, filePathServer);
+							ImageResize.resize25(null,fSaveName, filePathServer);
 						}
 					}
 				}
@@ -162,8 +165,7 @@ public class FileController extends HttpServlet {/*"C:\\Users\\seung\\git\\Share
 			}			
 		}else {
 			String command = req.getParameter("command");
-			System.out.println("filemanager command : " + command);
-			
+			System.out.println("filemanager command : " + command);			
 			if (command.equalsIgnoreCase("download")) { // 파일 다운로드
 				boolean success= false;
 				int rate = Integer.parseInt(req.getParameter("rate"));

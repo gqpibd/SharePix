@@ -4,6 +4,11 @@
 	pageEncoding="UTF-8"%>
 <%
 	request.setCharacterEncoding("utf-8");
+	Object ologin = session.getAttribute("login");
+	if (ologin == null) {
+		System.out.println("로그인 해야됨");
+		response.sendRedirect("main.jsp");
+	}
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -77,40 +82,30 @@ var loadImageFile = function () {
 
 </head>
 <body onload="loadImageFile();">
-	<%
-		Object ologin = session.getAttribute("login");
+	<%		
 		MemberBean mem = null;
-
-		if (ologin == null) {
-		%>
-		<script type="text/javascript">
-			loginView();
-		</script>
-		<%
-		}
-
 		mem = (MemberBean) ologin;
 		System.out.println("수정 전 mem = " + mem.toString());
 
-		MemberService service = MemberService.getInstance();
-		MemberBean updateDto = service.getUserInfo(mem.getId());
+		//MemberService service = MemberService.getInstance();
+		//MemberBean updateDto = service.getUserInfo(mem.getId());
 
-		session.setAttribute("login", updateDto);
-		session.setMaxInactiveInterval(30*60);
-		Object updateLogin = session.getAttribute("login");
+		//session.setAttribute("login", updateDto);
+		//session.setMaxInactiveInterval(30*60);
+		//Object updateLogin = session.getAttribute("login");
 		
-		updateDto = (MemberBean)updateLogin;
+		//updateDto = (MemberBean)updateLogin;
 	%>
 	<script type="text/javascript">
 		location.href = "#";
 	</script>
 	<%
-		System.out.println("수정 후 updateDto = " + updateDto.toString());
+		System.out.println("수정 후 updateDto = " + mem.toString());
 	%>
 	<div style="position: relative; height: 100% ; z-index: 50;">
 		<!-- 타이틀바 -->
 		<jsp:include page="titlebar.jsp">
-			<jsp:param name="goBackTo" value="index.jsp" />
+			<jsp:param name="goBackTo" value="MemberController?command=userUpdatePage" />
 		</jsp:include>
 	</div>
 	<br>
@@ -127,7 +122,7 @@ var loadImageFile = function () {
 	<tr>
 	<td style="padding-left: 30px; padding-right: 30px;">
 		<div class="group">
-			<input required="required" class="input" name="id" id="id" type="text" maxlength="12" readonly="readonly" value="<%=updateDto.getId()%>">
+			<input required="required" class="input" name="id" id="id" type="text" maxlength="12" readonly="readonly" value="<%=mem.getId()%>">
 			<span class="highlight"></span>
 			<span class="bar"></span> 
 			<label class="label" for="date" id="id_label">ID&nbsp;&nbsp;&nbsp;(수정 불가)<span id="idcheck" style="font-size: 8px"></span></label>
@@ -136,7 +131,7 @@ var loadImageFile = function () {
 	<td style="padding-left: 30px; padding-right: 30px;">
 		<!-- ID input-->
 		<div class="group">
-			<input required="required" class="input" name="name" id="name" type="text" maxlength="12" value="<%=updateDto.getName()%>">
+			<input required="required" class="input" name="name" id="name" type="text" maxlength="12" value="<%=mem.getName()%>">
 			<span class="highlight"></span>
 			<span class="bar"></span> 
 			<label class="label" for="date" id="name_label">이름<span style="font-size: 8px"></span></label>
@@ -150,7 +145,7 @@ var loadImageFile = function () {
 			</div>
 			<br>
 			<div class="imgbox" align="center">
-			<img id="editable-Img" src='images/profiles/<%=updateDto.getId()%>.png' class='holder' align='middle' onerror="this.src='images/profiles/default.png'">
+			<img id="editable-Img" src='images/profiles/<%=mem.getId()%>.png' class='holder' align='middle' onerror="this.src='images/profiles/default.png'">
 			<input type="file" name="fileload" accept="image/gif, image/jpeg, image/png" class="upload" id="upload-Image" onchange="loadImageFile();" >
 			</div>
 			<br>
@@ -184,7 +179,7 @@ var loadImageFile = function () {
 		<!-- Email input-->
 		<td style="padding-left: 30px; padding-right: 30px;">
 		<div class="group">
-			<input required="required" class="input" name="email" type="text" id="email2" onchange="email2Check()" value="<%=updateDto.getEmail()%>">
+			<input required="required" class="input" name="email" type="text" id="email2" onchange="email2Check()" value="<%=mem.getEmail()%>">
 			<span class="highlight"></span>
 			<span class="bar"></span> 
 			<label class="label" for="date">&nbsp;&nbsp;이메일</label>
@@ -195,7 +190,7 @@ var loadImageFile = function () {
 		<!-- Tel input-->
 		<td style="padding-left: 30px; padding-right: 30px;">
 		<div class="group">
-			<input required="required" class="input" name="phone" type="text" id="phone2" onchange="phoneCheck()" value="<%=updateDto.getPhone()%>"/> <!-- pattern="\d{3}-\d{3,4}-\d{4}" -->
+			<input required="required" class="input" name="phone" type="text" id="phone2" onchange="phoneCheck()" value="<%=mem.getPhone()%>"/> <!-- pattern="\d{3}-\d{3,4}-\d{4}" -->
 			<span class="highlight"></span>
 			<span class="bar"></span> 
 			<label class="label" for="date">&nbsp;&nbsp;전화번호</label>
@@ -205,7 +200,7 @@ var loadImageFile = function () {
 	<tr>
 	<td colspan="2" align="center" style="height: 80px">
 	<button id="edit_Btn" class="sagongBtn fill" type="submit" >수정</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	<button type="button" class="sagongBtn fill" onclick="location.href='MemberController?command=userPage&id=<%=updateDto.getId()%>'">뒤로</button>
+	<button type="button" class="sagongBtn fill" onclick="location.href='MemberController?command=userPage&id=<%=mem.getId()%>'">뒤로</button>
 	</td>
 	</tr>
 	</table>

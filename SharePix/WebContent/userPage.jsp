@@ -113,32 +113,22 @@
 .mybtn:focus{
 	outline: none;
 }
-.tabs{
- 	margin: 0;
-    padding: 0;
-    list-style: none;
-    height: 32px;
-    width: 100%;
+a{
+	text-decoration: none !important;
+}
+a.tabs{
+    height: 45px;
     font-size:15px;
-    
-    text-align:center;
-    cursor: pointer;
-    height: 30px;
-    line-height: 30px;
-    font-weight: bold;
-    overflow: hidden;
-    position: relative;
-/*     font-family: 'Nanum Gothic', sans-serif; */
-    
+     font-weight: bold;	
+}
+
+li.selected:selected ~ a.tabs{
+	color: red;
 }
 
 .tab-box{
 	margin: 0 auto 0 auto;
 	width: 100%;
-}
-
-a:visited{
-	text-decoration: none;
 }
 
 .tab-box li{
@@ -152,12 +142,8 @@ a:visited{
 	font-family: 'Nanum Gothic', sans-serif;
 }
 
-.tab-box li.selected{
-	background-color: #ccc;
-	border-spacing: 100px 100px 20px 20px;
-	border-top: 1px solid blue;
-	border-bottom: 2px solid blue;
-	text-decoration: none;
+li.selected{
+	border-top: 3px solid #F7CAC9;
 }
 
 </style>
@@ -174,7 +160,7 @@ a:visited{
 	<div style="margin-top: 8em"></div>
 	<!-- <div align=center> -->
 	<!-- background-color: #92A8D1;  -->
-	<div style="padding: 50px; padding-top: 50px; padding-bottom: 50px; background: linear-gradient(to bottom, #92A8D1, white)">
+	<div style="padding: 50px; padding-top: 50px; padding-bottom: 50px; background: linear-gradient(to bottom, #92A8D1, #F7CAC9)">
 	<table align="center" style="margin-bottom: 10px" > <!-- border="1" -->
 	<tr>
 		<td class="td" align="center" style="height: 100px">
@@ -218,8 +204,9 @@ a:visited{
 	
 	<% if (loginMemDto == null) { %> <!-- 로그인 하지 않았을 때 -->
 		<div align="center">
-		<button onclick="loginView()"> <!-- 팔로우 버튼 -->
+		<button onclick="loginView()"  class="mybtn" > <!-- 팔로우 버튼 -->
 			<img  id="followImg" src="<%=follow%>" width="20"> 
+			&nbsp;&nbsp;팔로우
 		</button>
 		<input type="hidden" id="ajax_follow">
 		</div>
@@ -237,9 +224,9 @@ a:visited{
 </div>
 	<br>
 	
-	<hr>
-	<div class="tab-box" align="center">
-		<ul class="ul_cls" style="text-align:center; list-style:none; display: inline-block;" ><br>
+	<hr style="margin-bottom: 15px">
+	<div class="tab-box" align="center" style="vertical-align: middle;">
+		<ul class="ul_cls" style="text-align:center; list-style:none; display: inline-block;" >
 		<li id="li1">&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:gotoPds()" class="tabs"><%=who%>가 올린 이미지</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 		<%	
 			if(loginMemDto != null && pageMemDto.getId().equals(loginMemDto.getId())){				
@@ -250,7 +237,7 @@ a:visited{
 		<li id="li4">&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:gotoLike()" class="tabs" ><%=who%>가 좋아요한 사진들</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 		</ul>
 	</div>
-	<hr>	
+	<hr style="margin-top: 0px" >	
 	
 	<!-- 내가 올린 사진들 -->	
 	<div class="mcontainer" id="userPds">

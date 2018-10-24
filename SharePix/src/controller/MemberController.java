@@ -29,7 +29,7 @@ import utils.FileUtil;
 
 public class MemberController extends HttpServlet {
 	
-	public static final String PROFILEPATH = "C:\\Users\\이호영\\git\\sharePix\\SharePix\\WebContent\\images\\profiles";
+	//public static final String PROFILEPATH = "C:\\Users\\이호영\\git\\sharePix\\SharePix\\WebContent\\images\\profiles";
 	
 	private ServletConfig mConfig = null; // 업로드 폴더의 realpath에 접근하기 위해서 필요하다
 	
@@ -83,7 +83,7 @@ public class MemberController extends HttpServlet {
 			System.out.println("profile upload");					
 			
 			String filePathServer = mConfig.getServletContext().getRealPath("/images/profiles"); // 톰캣에도 저장하자
-			System.out.println(filePathServer);
+			System.out.println("프로필 저장 경로 : " + filePathServer);
 			
 			// form field 에 데이터(String)
 			String id = "";
@@ -98,9 +98,8 @@ public class MemberController extends HttpServlet {
 
 			////////////////////// file
 			
-			String fupload = PROFILEPATH;
-			System.out.println("파일업로드:" + fupload);
-			String yourTempDirectory = fupload;
+			//String fupload = PROFILEPATH;	
+			String yourTempDirectory = filePathServer;
 			
 			int yourMaxRequestSize = 1000 * 1024 * 1024; // 10M
 			int yourMaxMemorySize = 1000 * 1024;
@@ -147,7 +146,7 @@ public class MemberController extends HttpServlet {
 								noNewImg = true;
 								continue;
 							}else { // 새로운 프로필 파일이 들어온 경우
-								filename = profileUploadFile(item, fupload, filePathServer, id);
+								filename = profileUploadFile(item, null, filePathServer, id);
 								System.out.println("item : profileUploadFile : " + item.getName());
 							}
 						}
@@ -156,7 +155,7 @@ public class MemberController extends HttpServlet {
 						System.out.println("새로들어온 사진 없음. 프로필 유지 혹은 삭제");								
 						if(Boolean.parseBoolean(profile_keep_or_default) == false) { 
 							//기본이미지로 변경합니다.
-							FileUtil.deleteFile(PROFILEPATH + "\\" + id + ".png", filePathServer + "\\" + id + ".png");
+							FileUtil.deleteFile(filePathServer + "\\" + id + ".png");
 							System.out.println("filename : " + filename);
 						}
 					}

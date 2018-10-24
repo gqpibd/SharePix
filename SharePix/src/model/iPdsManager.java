@@ -21,11 +21,7 @@ public interface iPdsManager {
 	
 	public boolean increaseDowncount(int pdsSeq);
 
-	public List<PdsBean> myLikePdsList(String id);
-
 	public List<PdsBean> relatedList(String category, int seq);
-	
-	public PdsBean getMyPdsAll(String id);
 	
 	public List<PdsBean> getMyPdsAllList(String id);
 	
@@ -42,8 +38,6 @@ public interface iPdsManager {
 	public List<PdsBean> getMyLikeList(String id);
 
 	public boolean increaseReadcount(int seq);
-
-	public boolean defaultProfileImg(String id);
 	 
 	public boolean updatereport(int seq);
 

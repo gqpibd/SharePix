@@ -55,7 +55,6 @@
 	border-bottom: 1px solid #444444;
 	padding: 10px;
 	text-align: center;
-	/* color: #4a89dc !important; */
 }
 
 .td2 {
@@ -63,7 +62,6 @@
 	padding: 10px;
 	text-align: center;
 	font-size: 19px;
-	/* color: #4a89dc !important; */
 }
 </style>
 
@@ -85,9 +83,6 @@ var loadImageFile = function () {
 	  if (uploadImage.files.length == 0) {  // 업로드 된게 있는지 확인하고
 	    return; 
 	  }
-	  /* for(i=0;i<uploadImage.files.length;i++){ // 파일이 여러개일 때
-		  console.log(document.getElementById("upload-Image").files[i].name);
-	  } */
 	  
 	  //Is Used for validate a valid file.
 	  var uploadFile = document.getElementById("upload-Image").files[0]; // 업로드된 파일중 첫 번째를 가져온다.
@@ -127,13 +122,13 @@ var loadImageFile = function () {
 				<tr align="center">
 					<td class="td2" colspan="2">Image Upload<br>
 					</td>
-				</tr>				
+				</tr>
 				<tr>
 				<td class="td1" align="center">
 					<div class="imgbox">
 						<img class="holder" id="original-Img"/>               
 						<label id="mlabel" for="fileload" ><br><br><br><br><br><br><br><br>               	
-							<span class="glyphicon glyphicon-paperclip" aria-hidden="true"  ></span>드래그 하거나 클릭하여 업로드<br>
+							<span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span>드래그 하거나 클릭하여 업로드<br>
 						</label>
 						<input type="file" name="fileload" accept="image/gif, image/jpeg, image/png" class="upload" id = "upload-Image" onchange="loadImageFile()" >               
 					</div>	
@@ -151,7 +146,7 @@ var loadImageFile = function () {
 					</select>
 					</div><br>
 					<div style="width: 95%; margin: 15px">							
-						<textarea class="form-control" name="tags" id="tagArea" placeholder="태그(#구분)"></textarea>
+						<textarea class="form-control" name="tags" id="tagArea" placeholder="태그(#구분)" style="overflow-x:hidden; overflow-y:auto"></textarea>
 					</div><br>
 					<p style="margin-top: 5px; margin-bottom: 5px; font-weight: bold;">이런 태그가 필요해요</p>
 					<div id="tags" align="center">

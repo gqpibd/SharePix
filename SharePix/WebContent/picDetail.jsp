@@ -212,12 +212,12 @@
 						<span class="glyphicon glyphicon-flag" aria-hidden="true" width="20"></span>
 						<span name="detailLarge">신고</span>
 					</button><!-- 신고 버튼  -->
-
 				<%}%>	
 				<% if(ologin != null && pds.getId().equals(ologin.getId())&& ologin.getAuth() != 3){ %>
-					<button class="mybtn" onclick="location.href='updatePds.jsp?seq=<%=pds.getSeq()%>'">수  정</button>
+					<button class="mybtn" onclick="location.href='updatePds.jsp?seq=<%=pds.getSeq()%>'">수  정</button>	
+					<button class="mybtn" onclick="deletePds()">삭  제</button>
 				<%}else if(ologin != null && ologin.getAuth() == 3){ // 관리자 로그인인 경우	%>			
-					<button class="mybtn" onclick="deletePds()">삭제</button>
+					<button class="mybtn" onclick="deletePds()">삭  제</button>
 				<% if(pds.getReport() == 1){ %>
 					<button class="mybtn" onclick="donosingo()">신고 해제</button>
 				<%}
@@ -252,7 +252,7 @@
 					String fSavename = bean.getfSaveName();
 					String smallSrc = fSavename.substring(0,fSavename.lastIndexOf('.')) + "_small" + fSavename.substring(fSavename.lastIndexOf('.'));
 
-					File f = new File(FileController.PATH + "\\" + fSavename);
+					File f = new File(config.getServletContext().getRealPath("/images/pictures") + "\\" + fSavename);
 				    if (f.exists() && f.length()<300000) { // 300kb 이하의 이미지는 그냥 원본을 가져온다
 				    	  smallSrc = fSavename;			     
 				    }
