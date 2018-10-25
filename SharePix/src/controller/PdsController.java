@@ -175,6 +175,7 @@ public class PdsController extends HttpServlet {
 			}
 			
 		} else if (command.equals("getCategoryTags")) {
+			resp.setCharacterEncoding("utf-8");
 			String category = req.getParameter("category");
 			List<PdsBean> list = PdsService.getInstance().getSearchPds(category); 
 			
@@ -185,9 +186,11 @@ public class PdsController extends HttpServlet {
 				int iter = 0; // 지금 위치가 몇 번째인지 갯수를 세자			 
 				
 				while(it.hasNext()) {		
-					data += it.next() + "#";
+					data += it.next();
 					if(iter > 18) {
 						break;
+					}else {
+						data +=  "#";
 					}
 					iter++;
 				}

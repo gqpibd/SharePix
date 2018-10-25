@@ -728,8 +728,6 @@ public class PdsManager implements iPdsManager {
 	      PreparedStatement psmt = null;
 	      ResultSet rs = null;
 	      
-	      PdsBean dto = null;
-	      
 	      try {
 	         conn = DBConnection.getConnection();
 	         System.out.println("1/6 getSingoPdsAllList success");

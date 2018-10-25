@@ -143,6 +143,25 @@
 		}
 	}
 	
+	$("select[name='category']").change(function(){
+		var category = $("select[name='category']").val();
+		$.ajax({
+			url:"PdsController", // 접근대상
+			type:"get",		// 데이터 전송 방식
+			data:"command=getCategoryTags&category=" + category, // 전송할 데이터
+			success:function(data, status, xhr){					
+				var tags = data.split("#");
+				for(var i=0;i<tags.length;i++){
+					console.log(tags[i]);
+					$("#tags").children().eq(i).text("#" + tags[i]);						
+				}
+			},
+			error:function(){ // 또는					 
+				console.log("통신실패!");
+			}
+		});	
+	});
+	
 	
 	
 </script>	

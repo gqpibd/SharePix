@@ -156,7 +156,7 @@ var loadImageFile = function () {
 							while(it.hasNext()) {		
 								String temp = (String) it.next();
 							%>
-								<span class="tag" onclick="addTag('<%=temp%>')" style="font-size: 15px; padding: 7px; margin: 2px">#<%=temp%></span>	
+								<span class="tag" onclick="addTag(this)" style="font-size: 15px; padding: 7px; margin: 2px">#<%=temp%></span>	
 							<%
 								iter++;
 								if(iter>18){ 
@@ -177,7 +177,7 @@ var loadImageFile = function () {
 		</div>
 	<script type="text/javascript">
 		function addTag(tagName) {
-			$("#tagArea").val($("#tagArea").val() + "#" + tagName);
+			$("#tagArea").val($("#tagArea").val() + "#" + $(tagName).text);
 		}
 		function checkAndSubmit(){
 			if($("select[name='category']").val() == "카테고리"){
@@ -190,23 +190,19 @@ var loadImageFile = function () {
 			}else{
 				$("#pdswrite").submit();
 			}
-		}
+		};
 		
-		$(document).ready(function(
+		$("select[name='category']").change(function(){
+			var category = $("select[name='category']").val();
 			$.ajax({
 				url:"PdsController", // 접근대상
 				type:"get",		// 데이터 전송 방식
-				data:"command=getCategoryTags&category="", // 전송할 데이터
-				success:function(data, status, xhr){
-					/* console.log(data); */
-					var like = $("#ajax_hidden").html(data).find("like").text();
-					var count = $("#ajax_hidden").html(data).find("count").text();
-					if(like == "false"){
-						$("#like").attr("src",'images/icons/collection_empty.png');
-						$("#likeCount").text(count);
-					}else{
-						$("#like").attr("src",'images/icons/collection_fill.png');
-						$("#likeCount").text(count);
+				data:"command=getCategoryTags&category=" + category, // 전송할 데이터
+				success:function(data, status, xhr){					
+					var tags = data.split("#");
+					for(var i=0;i<tags.length;i++){
+						console.log(tags[i]);
+						$("#tags").children().eq(i).text("#" + tags[i]);						
 					}
 				},
 				error:function(){ // 또는					 
@@ -214,7 +210,6 @@ var loadImageFile = function () {
 				}
 			});	
 		});
-		
 	</script>
 </body>
 </html>
