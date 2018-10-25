@@ -1,3 +1,4 @@
+<%@page import="model.service.MemberService"%>
 <%@page import="model.service.ReplyService"%>
 <%@page import="dto.ReplyBean"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -23,7 +24,7 @@ String reRef = request.getParameter("reRef");
 				<img src='images/profiles/<%=id%>.png' width='10'
 					class='profile re-img' align='middle'
 					onerror="this.src='images/profiles/default.png'"> 
-				<span class='nickname'><%=id%></span>
+				<span class='nickname'><%=MemberService.getInstance().getUserInfo(id).getName()%></span>
 				<textarea id='writeReply' placeholder="<%=toWhom%>님에게 댓글 작성" name='content'></textarea>
 				<div align=right style='padding: 10px'>
 					<button class='mybtn' type='submit'>등록</button>
@@ -50,7 +51,7 @@ String pdsSeq = request.getParameter("pdsSeq");
 				<img src='images/profiles/<%=id%>.png' width='10'
 					class='profile re-img' align='middle'
 					onerror="this.src='images/profiles/default.png'"> 
-				<span class='nickname'><%=id%></span>
+				<span class='nickname'><%=MemberService.getInstance().getUserInfo(id).getName()%></span>
 				<textarea id='writeReply' name='content'><%=content%></textarea>
 				<div align=right style='padding: 10px'>
 					<button class='mybtn' type='submit'>수정</button>
@@ -78,7 +79,7 @@ String pdsSeq = request.getParameter("pdsSeq");
 	<%}else{ // 댓글 표시
 		if(loginId!=null && re.getId().equals(loginId)){ %> <!-- 작성자일 때 수정, 삭제 가능하게 -->  
 		<div class="mtooltip" align="right">
-			<img src="images/icons/more.png" width="3px" align="right" class="more img_clickable" > 
+			<span class="glyphicon glyphicon-option-vertical " aria-hidden="true" width="3px" align="right" style="cursor: pointer" ></span>
 			<span class="mtooltiptext"> 
 			<label onclick="modify('<%=re.getReSeq()%>','<%=re.getContent() %>')" id="<%=re.getReSeq()%>" class="aTag">수정</label><br> 
 			<label onclick="deleteReply(<%=re.getReSeq()%>)" class="aTag">삭제</label><br>
@@ -92,7 +93,7 @@ String pdsSeq = request.getParameter("pdsSeq");
 		<%} %>
 		<img src="<%=src%>" class="profile re-img img_clickable" width="10" onerror="this.src='<%=srcError%>'" 
 			onclick="location.href='MemberController?command=userPage&id=<%= re.getId()%>'">
-		<font style="font-size: 17px; font-weight: bold;"><%=re.getId()%></font>
+		<font style="font-size: 17px; font-weight: bold;"><%=MemberService.getInstance().getUserInfo(re.getId()).getName()%></font>
 			<% if(re.getId().equals(pdsWriter)){ %> <!-- 사진 올린사람 표시 -->
 				<img src="images/icons/writer.png" width="60" style="vertical-align: middle">
 			<%}%>

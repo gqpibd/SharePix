@@ -35,14 +35,16 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>SaGong</title>
+<title>SaGong'sa</title>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="js/jquery.row-grid.min.js"></script>
 <script src="js/imgGridFunction.js"></script>
+
 <link rel="stylesheet" href="style/imageArrange.css">
 <link rel="stylesheet" href="style/common.css">
 <link rel="stylesheet" href="style/mainfooter.css">
 <link rel="shortcut icon" href="images/icons/favicon.ico">
+<!-- <link rel="shortcut icon" href="images/icons/favicon1.jpg"> -->
 <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Jua" rel="stylesheet">
 
 </head>
@@ -53,7 +55,7 @@
 			<jsp:param name="goBackTo" value="main.jsp" />
 		</jsp:include>
 	</div>
-	<div style="margin-top: 10em"></div>
+	<div style="margin-top: 9em"></div>
 	<!-- 태그 출력 부분 -->
 	<div class="container" id="tags" align="center">
 		<%

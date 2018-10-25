@@ -175,11 +175,7 @@ public class FileController extends HttpServlet {
 				System.out.println(rate + " " + filename + " " + fsavename);			
 				BufferedOutputStream out = new BufferedOutputStream(resp.getOutputStream());
 				try {
-					 
-					// tomcat
-					//String filePath = mConfig.getServletContext().getRealPath("/images/pictures");
-					String filePath = mConfig.getServletContext().getRealPath("/images/pictures") +"\\"+ fsavename;		
-					//String filePath = PATH +"\\"+ fsavename;					
+					String filePath = mConfig.getServletContext().getRealPath("/images/pictures") +"\\"+ fsavename;	
 					
 					if(rate != 100) {
 						filePath = ImageResize.resize(filePath,rate);

@@ -80,8 +80,8 @@
 		follow = "images/icons/following.png";
 	}
 	
-	String whom = pageMemDto.getId();
-	String who = pageMemDto.getId();
+	String whom = pageMemDto.getName();
+	String who = pageMemDto.getName();
 	if(loginMemDto != null && pageMemDto.getId().equals(loginMemDto.getId())){
 		whom = "나";		
 		who = "내";

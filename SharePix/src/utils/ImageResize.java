@@ -7,10 +7,6 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-/*
- * @author mkyong
- *
- */
 public class ImageResize {
 	public static String resize(String imgSrc, int rate) { // rate : 사이즈 비율
 		int width = 0;

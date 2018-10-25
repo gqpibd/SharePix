@@ -45,7 +45,6 @@
 </style>
 <title>manager</title>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="js/jquery.row-grid.js"></script>
 <link rel="stylesheet" href="style/imageArrange.css">
 <link rel="shortcut icon" href="images/icons/favicon.ico">
 </head>

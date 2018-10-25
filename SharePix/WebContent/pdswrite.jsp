@@ -177,7 +177,7 @@ var loadImageFile = function () {
 		</div>
 	<script type="text/javascript">
 		function addTag(tagName) {
-			$("#tagArea").val($("#tagArea").val() + "#" + $(tagName).text);
+			$("#tagArea").val($("#tagArea").val() + $(tagName).text());
 		}
 		function checkAndSubmit(){
 			if($("select[name='category']").val() == "카테고리"){

@@ -119,7 +119,7 @@
 				<%} else { // 댓글 표시
 			 		if (ologin != null && re.getId().equals(ologin.getId())) { %> <!-- 작성자일 때 수정, 삭제 가능하게 -->
 					<div class="mtooltip" align="right">
-						<img src="images/icons/more.png" width="3px" align="right" class="more img_clickable" > 
+						<span class="glyphicon glyphicon-option-vertical " aria-hidden="true" width="3px" align="right" style="cursor: pointer" ></span>						
 						<span class="mtooltiptext">
 						<label onclick="modify('<%=re.getReSeq()%>','<%=re.getContent() %>')" id="<%=re.getReSeq()%>" class="aTag">수정</label><br>
 						<label onclick="deleteReply(<%=re.getReSeq()%>)" class="aTag">삭제</label><br>						
@@ -134,14 +134,14 @@
 						<div>
 					 	<img src="<%=src%>" class="profile re-img img_clickable" width="10" align="middle" 
 					 	onerror="this.src='<%=srcError%>'" onclick="location.href='MemberController?command=userPage&id=<%= re.getId()%>'">
-						<font style="font-size: 17px; font-weight: bold;" ><%=re.getId()%></font>
+						<font style="font-size: 17px; font-weight: bold;" ><%=MemberService.getInstance().getUserInfo(re.getId()).getName()%></font>
 						<% if (re.getId().equals(pds.getId())) { // 게시글 작성자 표시 %> 
 					 	<img src="images/icons/writer.png" width="60"> 
 					 	<%} %> 	
 					 	</div>
 					 	<div class="reply_content"> 	
 						 	<% if (re.getToWhom() != null & re.getToWhom() != "") { %> <!-- 다른 사람 호출하는 태그가 있을 때 --> 
-						 	<b>@<%=re.getToWhom()%></b> 
+						 	<b>@<%=MemberService.getInstance().getUserInfo(re.getToWhom()).getName()%></b> 
 						 	<% } %> 
 						 	<%=re.getContent()%>
 						<br> 
@@ -170,7 +170,7 @@
 				<div align=left style="margin-left:5px">
 					<img src='images/profiles/<%=ologin.getId()%>.png' width='10'
 						class='profile re-img' align='middle'
-						onerror="this.src='images/profiles/default.png'" ><font style="font-size: 20px; font-weight: bold;"><%=ologin.getId()%></font>
+						onerror="this.src='images/profiles/default.png'" ><font style="font-size: 20px; font-weight: bold;"><%=ologin.getName()%></font>
 				</div>
 				<textarea id="new_reply_content" placeholder="댓글을 작성해 주세요" name="content"></textarea>
 				<div align=right style="padding: 10px">
@@ -189,14 +189,14 @@
 				<img src="images/profiles/<%=pds.getId()%>.png" width="100"	class="profile img_clickable" align="middle"
 					 onerror="this.src='images/profiles/default.png'"
 					 onclick="location.href='MemberController?command=userPage&id=<%= pds.getId()%>'"> <!-- 작성자의 프로필 사진 -->
-				<font style="font-size: 35px; font-weight: bold; font-family: sans-serif;"> <%=pds.getId()%>	</font>
+				<font style="font-size: 35px; font-weight: bold; font-family: sans-serif;"> <%=MemberService.getInstance().getUserInfo(pds.getId()).getName()%>	</font>
 			</p>
 			
 			<hr>
 			<div align="center" style="vertical-align: middle;">	
 				<%
 				if((ologin != null && !pds.getId().equals(ologin.getId())&& ologin.getAuth() != 3) || ologin==null ){ //내가 로그인 한게 아닌 경우%>
-					<button onclick="doLike()" class="mybtn" title="컬렉션에 추가"> <!-- 좋아요 버튼 -->
+					<button onclick="doLike()" class="mybtn" title="좋아요"> <!-- 좋아요 버튼 -->
 						<img src="<%=like%>" width="20" id="like">
 						<span name="detailLarge">&nbsp;&nbsp;<span id="likeCount"><%=pds.getLikeCount()%></span></span>
 					</button>&nbsp;&nbsp;
@@ -214,8 +214,12 @@
 					</button><!-- 신고 버튼  -->
 				<%}%>	
 				<% if(ologin != null && pds.getId().equals(ologin.getId())&& ologin.getAuth() != 3){ %>
-					<button class="mybtn" onclick="location.href='updatePds.jsp?seq=<%=pds.getSeq()%>'">수  정</button>	
-					<button class="mybtn" onclick="deletePds()">삭  제</button>
+					<button onclick="doLike()" class="mybtn" title="좋아요"> <!-- 좋아요 버튼 -->
+						<img src="<%=like%>" width="20" id="like">
+						<span name="detailLarge">&nbsp;&nbsp;<span id="likeCount"><%=pds.getLikeCount()%></span></span>
+					</button>&nbsp;&nbsp;
+					<button class="mybtn" onclick="location.href='updatePds.jsp?seq=<%=pds.getSeq()%>'">수정</button>	&nbsp;&nbsp;
+					<button class="mybtn" onclick="deletePds()">삭제</button>
 				<%}else if(ologin != null && ologin.getAuth() == 3){ // 관리자 로그인인 경우	%>			
 					<button class="mybtn" onclick="deletePds()">삭  제</button>
 				<% if(pds.getReport() == 1){ %>

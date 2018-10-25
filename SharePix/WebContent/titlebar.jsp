@@ -58,76 +58,76 @@ function pwdCheck() {
 	});
 }
 
-function emailCheck() {
+function emailCheck(selector) {
 	$.ajax({
 		type:"get",
 		url:"MemberController?command=emailcheck&email="+$("#email").val(),
-		data:"email=" + $('#email').val(),
+		data:"email=" + $(selector).val(),
 	
 		success:function(data){
 			
-			var emailVal = $("#email").val();
+			var emailVal = $(selector).val();
 			var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 			
 			var emailCheck = false;
 			
 			if(emailVal.match(regExp) != null &&  data.trim() == "OK" ) { // 올바르게 입력한 경우
-				$("#email").css("color", "#0000ff");
+				$(selector).css("color", "#0000ff");
 				//$("#email").css("background", "linear-gradient(to top, #3366FF, white)");
 				/* alert("이메일을 올바르게 입력했습니다."); */
 				emailCheck = true;
 			}else if(emailVal.match(regExp) == null) { // 형식이 올바르지 않은 경우
-				$("#email").css("color", "#000");
+				$(selector).css("color", "#000");
 				//$("#email").css("background", "linear-gradient(to top, #FF6666, white)");
 				alert("이메일형식에 맞게 입력해주세요\nex)hello@sagong'ssi.com");
-				$("#email").val("");
-			    $("#email").focus();  
+				$(selector).val("");
+			    $(selector).focus();  
 				emailCheck = false;
 			}else { // 중복된 이메일
-				$("#email").css("color", "#000");
+				$(selector).css("color", "#000");
 				alert("사용 중인 id입니다.");
-				$("#email").val("");
-				$("#email").focus();
+				$(selector).val("");
+				$(selector).focus();
 				emailCheck = true;
 			}
 		}
 	});
 }
 
-function phoneCheck() {	
-	var phoneVal = $("#phone").val();	
+function phoneCheck(sel) {	
+	var phoneVal = $(sel).val();	
 	var regExp = /^\d{3}-\d{3,4}-\d{4}$/;
 
 	var phoneCheck = false;
 	
 	if (phoneVal.match(regExp) != null) {
-		$("#phone").css("color", "#0000ff");
+		$(sel).css("color", "#0000ff");
 		//$("#phone").css("background", "linear-gradient(to top, #3366FF, white)");
 		//alert("번호를 올바르게 입력했습니다.");
 		phoneCheck = true;
 	}
 	else {
-	  $("#phone").css("color", "#000");
+	  $(sel).css("color", "#000");
 	 //$("#phone").css("background", "linear-gradient(to top, #FF6666, white)");
 	  alert("번호를 올바르게 입력해주세요\nex)010-XXXX-XXXX");
-	  $("#phone").val("");
-	  $("#phone").focus();  
+	  $(sel).val("");
+	  $(sel).focus();  
 	  phoneCheck = false;
 	}
 }
 
 $(document).ready(function(){ 
-	$("#phone").focus(function () {
-		$("#phone").attr("placeholder","010-XXXX-XXXX");
+	$(".phone").focus(function () {
+		$(".phone").attr("placeholder","010-XXXX-XXXX");
 	});
-	$("#phone").focusout (function () {
-		$("#phone").attr("placeholder","");
+	$(".phone").focusout (function () {
+		$(".phone").attr("placeholder","");
 	});
-	$("#email").focus(function () {
-		$("#email").attr("placeholder","hello@sagong.com");
+	$(".email").focus(function () {
+		$(".email").attr("placeholder","hello@sagong.com");
 	});
-	$("#email").focusout (function () {
-		$("#email").attr("placeholder","");
+	$(".email").focusout (function () {
+		$(".email").attr("placeholder","");
 	});
 		
 	function checkWidth() { // 윈도우 사이즈가 바뀔 때 보여주는 아이템 변경
@@ -358,7 +358,7 @@ function loginView(){
 
 				<!-- Email input-->
 				<div class="group">
-					<input required="required" class="input" name="email" type="text" id="email" onchange="emailCheck()" placeholder="">
+					<input required="required" class="input email" name="email" type="text" id="email" onchange="emailCheck(this)" placeholder="">
 					<span class="highlight"></span>
 					<span class="bar"></span> 
 					<label class="label" for="date">EMAIL</label>
@@ -366,7 +366,7 @@ function loginView(){
 				
 				<!-- Tel input-->
 				<div class="group">
-					<input required="required" class="input" name="phone" type="text" id="phone" onchange="phoneCheck()" placeholder=""> <!-- pattern="\d{3}-\d{3,4}-\d{4}" -->
+					<input required="required" class="input phone" name="phone" type="text" id="phone" onchange="phoneCheck(this)" placeholder=""> <!-- pattern="\d{3}-\d{3,4}-\d{4}" -->
 					<span class="highlight"></span>
 					<span class="bar"></span> 
 					<label class="label" for="date">PHONE</label>
@@ -406,13 +406,13 @@ function loginView(){
 			<input type="hidden" name="command" value="findIdPwd">
 			<fieldset>
 				<div class="group">
-					<input required="required" class="input" name="email" type="email" id="findIdEmail">
+					<input required="required" class="input email" name="email" type="text" id="findIdEmail" onchange="emailCheck(this)">
 					<!-- 이메일 입력 -->
 					<span class="highlight"></span> <span class="bar"></span>
 					<label class="label" for="date">Email 입력</label>
 				</div>
 				<div class="group">
-					<input required="required" class="input" name="phone" type="tel" id="findIdPhone">
+					<input required="required" class="input phone" name="phone" type="text" id="findIdPhone" onchange="phoneCheck(this)"  >
 					<!-- 전화번호 입력 -->
 					<span class="highlight"></span> <span class="bar"></span> 
 					<label class="label" for="date">Phone 입력</label>

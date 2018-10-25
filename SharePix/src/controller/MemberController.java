@@ -226,7 +226,7 @@ public class MemberController extends HttpServlet {
 				if(isS) {
 					resp.setContentType("text/html; charset=UTF-8");
 					PrintWriter out = resp.getWriter();					
-					out.println("<script>alert('성공적으로 가입하셨습니다'); location.href='index.jsp';</script>");
+					out.println("<script>alert('성공적으로 가입하셨습니다'); location.href='main.jsp';</script>");
 					out.flush();				
 				}else {	
 					resp.setContentType("text/html; charset=UTF-8");

@@ -298,6 +298,7 @@ public class PdsManager implements iPdsManager {
       List<PdsBean> pdslist = new ArrayList<>();
       
       String kWord = "";
+      String choice2 = "";
       
       kWord = " WHERE (TAGS LIKE '%" + keyword + "%' OR CATEGORY LIKE '%" + keyword +  "%')";
       
@@ -322,22 +323,26 @@ public class PdsManager implements iPdsManager {
          rs.close();
          
          if(choice.equals("LIKECOUNT") ) {
-        	 choice = "LIKECOUNT";
+            choice = "LIKECOUNT";
+            choice2 = "SEQ";
          }else if(choice.equals("DOWNCOUNT")) {
-        	 choice = "DOWNCOUNT";
+            choice = "DOWNCOUNT";
+            choice2 = "SEQ";
          }else if(choice.equals("READCOUNT")) {
-        	 choice = "READCOUNT";
+            choice = "READCOUNT";
+            choice2 = "SEQ";
          }else {
-        	 choice = "SEQ";
+            choice = "SEQ";
+            choice2 = "READCOUNT";
          }
          
          String sql = " SELECT * FROM "
                + " ( SELECT * FROM "
                + "   (SELECT * FROM PDSALL "
                + " " + kWord
-               + " ORDER BY " + choice + ")"
+               + " ORDER BY " + choice + ", "+ choice2 +")"
                + " WHERE ROWNUM <=" + paging.getStartNum() + ""
-               + " ORDER BY " + choice + " DESC) "
+               + " ORDER BY " + choice + " DESC ,"+ choice2 + " DESC) "
                + " WHERE ROWNUM <=" + paging.getCountPerPage();
 
 
@@ -351,7 +356,7 @@ public class PdsManager implements iPdsManager {
          System.out.println("3/6 getBbsPagingList Success");
          
          while(rs.next()) {             
-        	 pdslist.add(getPdsFromRs(rs));
+            pdslist.add(getPdsFromRs(rs));
          }
          System.out.println("4/6 getBbsPagingList Success");
          

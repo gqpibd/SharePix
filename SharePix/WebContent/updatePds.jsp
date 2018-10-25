@@ -87,24 +87,23 @@
 		<div style="position:relative; float:left; text-align:left;">
 	    	<textarea class="form-control" id="tagArea" rows="3" cols="50" name="tags" style="overflow-x:hidden; overflow-y:auto"><%for(int i=0;i<dto.getTags().length;i++){ %>#<%=dto.getTags()[i]%><%}%></textarea>
 	    </div><br><br><br><br>
-					<p style="margin-top: 5px; margin-bottom: 5px; font-weight: bold;">이런 태그가 필요해요</p><br>
-				<div id="tags" align="center">
-						
-						<%
-						if(it!=null){
-						int iter = 0; // 지금 위치가 몇 번째인지 갯수를 세자
-						while(it.hasNext()) {		
-							String temp = (String) it.next();
-						%>
-							<span class="tag" onclick="addTag('<%=temp%>')" style="font-size: 15px; padding: 7px; margin: 2px">#<%=temp%></span>	
-						<%
-							iter++;
-							if(iter>18){ 
-							 	break;
-							}
-						}
-					}%>
-				</div>	
+			<p style="margin-top: 5px; margin-bottom: 5px; font-weight: bold;">이런 태그가 필요해요</p><br>
+			<div id="tags" align="center">
+				<%
+				if(it!=null){
+				int iter = 0; // 지금 위치가 몇 번째인지 갯수를 세자
+				while(it.hasNext()) {		
+					String temp = (String) it.next();
+				%>
+					<span class="tag" onclick="addTag(this)" style="font-size: 15px; padding: 7px; margin: 2px">#<%=temp%></span>	
+				<%
+					iter++;
+					if(iter>18){ 
+					 	break;
+					}
+				}
+				}%>
+			</div>	
 	   </td>
 	</tr>
 	
@@ -131,7 +130,7 @@
 	}
 	
 	function addTag(tagName) {
-		$("#tagArea").val($("#tagArea").val() + "#" + tagName);
+		$("#tagArea").val($("#tagArea").val() + $(tagName).text());
 	}
 	function checkAndSubmit(){
 		if($("select[name='category']").val() == "카테고리"){

@@ -1,3 +1,4 @@
+<%@page import="model.service.MemberService"%>
 <%@page import="dto.PdsBean"%>
 <%@page import="model.service.PdsService"%>
 <%@page import="dto.AlarmBean"%>
@@ -98,7 +99,7 @@
     color: #6C7A89;
     padding-right: 10px;
     content: attr(data-label);
-    flex-basis: 50%;
+    flex-basis: 40%;
     text-align: right;
     margin: auto 0;
   }
@@ -255,20 +256,18 @@ button:focus {
 			String type = "";
 			String content = aList.get(i).getContent();
 			PdsBean pds = pService.getPdsDetail(aList.get(i).getPdsSeq());
+			String userName = MemberService.getInstance().getUserInfo(aList.get(i).getFromId()).getName();
 			if(aList.get(i).getType()==AlarmBean.NEWPOST){
-				type = aList.get(i).getFromId()+"님의 새 게시글이 올라왔어요";
+				type = userName + "님의 새 게시글이 올라왔어요";
 			}else{
-				type = aList.get(i).getFromId()+"님이 댓글을 달았어요";
+				type = userName + "님이 댓글을 달았어요";
 			}
 			String fSaveName = pService.getPdsDetail(aList.get(i).getPdsSeq()).getfSaveName();
-			String smallSrc = fSaveName.substring(0,fSaveName.lastIndexOf('.')) + "_small" + fSaveName.substring(fSaveName.lastIndexOf('.'));
-
+			String smallSrc = fSaveName.substring(0,fSaveName.lastIndexOf('.')) + "_small" + fSaveName.substring(fSaveName.lastIndexOf('.'));			
 		%>		
-		<li class="table-row" >
-			
-			<div class="col col-1" data-label="작성자 프로필" onclick="veiwDetail(<%=aList.get(i).getSeq()%>,<%=aList.get(i).getPdsSeq()%>)"> 
-		 		<img class="profile_img" name="item" src="images/profiles/<%=aList.get(i).getFromId()%>.png"
-		 			 onerror="this.src='images/profiles/default.png'" >
+		<li class="table-row" >			
+			<div class="col col-1" data-label="작성자 프로필" onclick="veiwDetail(<%=aList.get(i).getSeq()%>,<%=aList.get(i).getPdsSeq()%>)">
+				<img class="profile_img" name="item" src="images/profiles/<%=aList.get(i).getFromId()%>.png" onerror="this.src='images/profiles/default.png'" >				
 		 	</div>
 			<div class="col col-2" data-label="알림" onclick="veiwDetail(<%=aList.get(i).getSeq()%>,<%=aList.get(i).getPdsSeq()%>)"> <%=type %><br>
 			<font class="mdate" style="font-size: 13px; font-weight: normal;"><%=aList.get(i).getDate()%></font></div>

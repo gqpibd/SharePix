@@ -299,8 +299,8 @@ public class MemberManager implements iMemberManager {
 	
 		
 		String sql = " SELECT ID, PWD, NAME, EMAIL, PHONE, AUTH "
-				+ " FROM MEMBER "
-				+ " WHERE EMAIL=? AND PHONE=? ";
+				   + " FROM MEMBER "
+				   + " WHERE EMAIL=? AND PHONE=? ";
 		
 		Connection conn = null;
 		PreparedStatement psmt = null;
@@ -312,8 +312,7 @@ public class MemberManager implements iMemberManager {
 			conn = DBConnection.getConnection();
 			psmt = conn.prepareStatement(sql);
 			System.out.println("1/6 getIdpwd Success");
-			
-			//psmt.setString(1, dto.getId());
+
 			psmt.setString(1, dto.getEmail());
 			psmt.setString(2, dto.getPhone());
 			System.out.println("2/6 getIdpwd Success");
@@ -321,14 +320,13 @@ public class MemberManager implements iMemberManager {
 			rs = psmt.executeQuery();
 			if (rs.next()) {
 				System.out.println("결과 있음");
-				String id = rs.getString(1);
-				String pwd = rs.getString(3);
-				String email = rs.getString(4);
-				String phone = rs.getString(5);
-				int auth = rs.getInt(6);
-				
-				mem = new MemberBean(id, null, pwd, email, phone, auth);
-
+				String id = rs.getString("ID");
+				String pwd = rs.getString("PWD");
+				String name = rs.getString("NAME");			
+				String email = rs.getString("EMAIL");
+				String phone = rs.getString("PHONE");
+				int auth = rs.getInt("AUTH");				
+				mem = new MemberBean(id, name, pwd, email, phone, auth);
 			}
 			System.out.println("3/6 getIdpwd Success");
 			
