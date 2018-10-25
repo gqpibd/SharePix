@@ -28,7 +28,9 @@ import model.service.PdsService;
 import utils.ImageResize;
 
 public class FileController extends HttpServlet {
-	//public static final String PATH =  "C:\\Users\\이호영\\git\\sharePix\\SharePix\\WebContent\\images\\pictures";
+	public static final String PATH =  "C:\\Users\\이호영\\git\\sharePix\\SharePix\\WebContent\\images\\pictures";
+	//public static final String PATH =  "http://13.125.193.248//var/lib/tomcat8/webapps/ROOT/images/pictures";
+
 	 
 	private ServletConfig mConfig = null; // 업로드 폴더의 realpath에 접근하기 위해서 필요하다
 	private static final int BUFFER_SIZE = 10000000; // 10Mb
@@ -44,10 +46,15 @@ public class FileController extends HttpServlet {
 			}
 			fileName = fileName.substring(idx+1); // 파일 이름부터 확장자까지 가져옴
 			
-			//File uploadedFile = new File(dir, fSaveName + fileName.substring(fileName.lastIndexOf(".")));
+			File uploadedFile = new File(dir, fSaveName + fileName.substring(fileName.lastIndexOf(".")));
 			File uploadedFile2 = new File(dir2, fSaveName + fileName.substring(fileName.lastIndexOf(".")));
 			try{
-				//fileItem.write(uploadedFile);
+				fileItem.write(uploadedFile);
+				
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			try{
 				fileItem.write(uploadedFile2);
 			}catch(Exception e){
 				e.printStackTrace();
@@ -93,11 +100,11 @@ public class FileController extends HttpServlet {
 
 			////////////////////// file
 			
-			//String fupload = PATH;
-			//System.out.println("파일업로드:" + fupload);
-			//String yourTempDirectory = fupload;
+			String fupload = PATH;
+			System.out.println("파일업로드:" + fupload);
+			String yourTempDirectory = fupload;
 			
-			String yourTempDirectory = filePathServer;
+			//String yourTempDirectory = filePathServer;
 			
 			int yourMaxRequestSize = 1000 * 1024 * 1024; // 10M
 			int yourMaxMemorySize = 1000 * 1024;
@@ -128,8 +135,8 @@ public class FileController extends HttpServlet {
 						}
 					} else { // fileload
 						if(item.getFieldName().equals("fileload")){
-							//filename = processUploadedFile(item, fupload, filePathServer, fSaveName);
-							filename = processUploadedFile(item, null, filePathServer, fSaveName);
+							filename = processUploadedFile(item, fupload, filePathServer, fSaveName);
+							//filename = processUploadedFile(item, null, filePathServer, fSaveName);
 						}
 						if(filename != null){
 							System.out.println("저장 파일 경로 및 파일명: " + filename);
@@ -138,7 +145,7 @@ public class FileController extends HttpServlet {
 								fSaveName = fSaveName+filename.substring(filename.lastIndexOf("."));
 							}
 							System.out.println("저장 파일명: " + fSaveName);
-							ImageResize.resize25(null,fSaveName, filePathServer);
+							ImageResize.resize25(fupload,fSaveName, filePathServer);
 						}
 					}
 				}
@@ -175,11 +182,18 @@ public class FileController extends HttpServlet {
 				System.out.println(rate + " " + filename + " " + fsavename);			
 				BufferedOutputStream out = new BufferedOutputStream(resp.getOutputStream());
 				try {
-					String filePath = mConfig.getServletContext().getRealPath("/images/pictures") +"\\"+ fsavename;	
+					//String filePath = mConfig.getServletContext().getRealPath("/images/pictures") +"\\"+ fsavename;
+					String filePath = PATH +"\\"+ fsavename;
+					
 					
 					if(rate != 100) {
 						filePath = ImageResize.resize(filePath,rate);
-						filename = filePath.substring(filePath.lastIndexOf("\\"));
+						
+						int idx = filePath.lastIndexOf("\\"); // 파일 경로 중 폴더의 끝. 즉, 파일명 시작 앞의 인덱스를 가져옴.
+						if(idx == -1){ // \를 못 찾으면
+							idx = filePath.lastIndexOf("/"); // /를 찾아라
+						}
+						filename = filePath.substring(idx+1); // 파일 이름부터 확장자까지 가져옴
 					}
 					File f = new File(filePath);
 					System.out.println("파일경로:" + filePath);

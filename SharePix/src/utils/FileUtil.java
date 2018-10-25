@@ -22,11 +22,12 @@ public class FileUtil {
 	public static boolean deleteFile(String path) {
 		boolean sDel = false;	
 		File f = new File(path);		
-
-		System.out.println("파일경로:" + path);
-
+		
 		if (f.exists() && f.canRead()) {
 			sDel = f.delete();
+			if(sDel) {
+				System.out.println("파일경로:" + path + " 지움");
+			}
 		} else {
 			System.out.println("파일이 존재하지 않습니다.");
 		}
@@ -34,7 +35,9 @@ public class FileUtil {
 		f = new File(smallPath);
 		if (f.exists() && f.canRead()) {
 			sDel = f.delete();
-			System.out.println("small 삭제");
+			if(sDel) {
+				System.out.println("small 지움");
+			}
 		} else {
 			System.out.println("파일이 존재하지 않습니다.");
 		}

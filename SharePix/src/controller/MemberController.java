@@ -29,7 +29,8 @@ import utils.FileUtil;
 
 public class MemberController extends HttpServlet {
 	
-	//public static final String PROFILEPATH = "C:\\Users\\이호영\\git\\sharePix\\SharePix\\WebContent\\images\\profiles";
+	public static final String PROFILEPATH = "C:\\Users\\이호영\\git\\sharePix\\SharePix\\WebContent\\images\\profiles";
+	//public static final String PROFILEPATH =  "13.125.193.248//var/lib/tomcat8/webapps/ROOT/images/profiles";
 	
 	private ServletConfig mConfig = null; // 업로드 폴더의 realpath에 접근하기 위해서 필요하다
 	
@@ -98,8 +99,10 @@ public class MemberController extends HttpServlet {
 
 			////////////////////// file
 			
-			//String fupload = PROFILEPATH;	
-			String yourTempDirectory = filePathServer;
+			String fupload = PROFILEPATH;	
+			//String yourTempDirectory = filePathServer;
+			String yourTempDirectory = PROFILEPATH;
+			
 			
 			int yourMaxRequestSize = 1000 * 1024 * 1024; // 10M
 			int yourMaxMemorySize = 1000 * 1024;
@@ -146,7 +149,7 @@ public class MemberController extends HttpServlet {
 								noNewImg = true;
 								continue;
 							}else { // 새로운 프로필 파일이 들어온 경우
-								filename = profileUploadFile(item, null, filePathServer, id);
+								filename = profileUploadFile(item, fupload, filePathServer, id);
 								System.out.println("item : profileUploadFile : " + item.getName());
 							}
 						}
@@ -156,6 +159,7 @@ public class MemberController extends HttpServlet {
 						if(Boolean.parseBoolean(profile_keep_or_default) == false) { 
 							//기본이미지로 변경합니다.
 							FileUtil.deleteFile(filePathServer + "\\" + id + ".png");
+							FileUtil.deleteFile(PROFILEPATH + "\\" + id + ".png");
 							System.out.println("filename : " + filename);
 						}
 					}

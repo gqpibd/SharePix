@@ -13,10 +13,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-	PdsBean pds = (PdsBean) request.getAttribute("pds");
-
-	List<PdsBean> list = (List<PdsBean>) request.getAttribute("list");
-
+	PdsBean pds = (PdsBean) request.getAttribute("pds"); // 현재 게시글 정보
+	List<PdsBean> list = (List<PdsBean>) request.getAttribute("list"); // 관련 게시글 정보
+	
 	// 로그인 아이디 받아서
 	// 기본적으로 비워진 하트임
 	String like = "images/icons/collection_empty.png";
@@ -56,7 +55,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>상세 화면</title><!-- 타이틀바 -->
+<title>사진 상세 정보</title><!-- 타이틀바 -->
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="js/jquery.row-grid.min.js"></script>
 <link rel="stylesheet" href="style/picDetail.css">
@@ -134,7 +133,7 @@
 						<div>
 					 	<img src="<%=src%>" class="profile re-img img_clickable" width="10" align="middle" 
 					 	onerror="this.src='<%=srcError%>'" onclick="location.href='MemberController?command=userPage&id=<%= re.getId()%>'">
-						<font style="font-size: 17px; font-weight: bold;" ><%=MemberService.getInstance().getUserInfo(re.getId()).getName()%></font>
+					 	<font style="font-size: 17px; font-weight: bold;" ><%=MemberService.getInstance().getUserInfo(re.getId()).getName()%></font>
 						<% if (re.getId().equals(pds.getId())) { // 게시글 작성자 표시 %> 
 					 	<img src="images/icons/writer.png" width="60"> 
 					 	<%} %> 	
@@ -251,7 +250,8 @@
 			<hr>
 			<!-- 추천 사진들(카테고리로 추천함) -->	
 			<div class="mcontainer" align="center">
-				<p style="font-size: 20px; margin: 5px; font-weight: bold;">이런 사진은 어때요?</p>
+				<!-- <p style="font-size: 20px; margin: 5px; font-weight: bold;">이런 사진은 어때요?</p> -->
+				<p style="font-family: 'Jua'; font-size: 23px; margin: 5px;"><font style="color: #FFAAAA;"><%=pds.getCategory()%></font> 카테고리의 다른 사진들</p>
 				<%for(PdsBean bean : list){ 
 					String fSavename = bean.getfSaveName();
 					String smallSrc = fSavename.substring(0,fSavename.lastIndexOf('.')) + "_small" + fSavename.substring(fSavename.lastIndexOf('.'));

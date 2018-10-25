@@ -95,6 +95,8 @@
 		keywordkey = "기타"; 
 	}else if(keyword.equalsIgnoreCase("음식")){
 		keywordkey = "음식"; 
+	}else if(keyword.equalsIgnoreCase("")){
+		keywordkey = "전체"; 
 	}
 	%>
 	<div class="menubar">
@@ -110,6 +112,7 @@
                  </li>
                  	<li><a href="#" id="current"><%=keywordkey %></a>
                     <ul>
+                     <li><a href="PdsController?command=keyword&tags=&choice=<%=choice %>">전체</a></li>
                      <li><a href="PdsController?command=keyword&tags=자연&choice=<%=choice %>">자연</a></li>
                      <li><a href="PdsController?command=keyword&tags=인물&choice=<%=choice %>">인물</a></li>
                      <li><a href="PdsController?command=keyword&tags=음식&choice=<%=choice %>">음식</a></li>

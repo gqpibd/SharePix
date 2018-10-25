@@ -263,13 +263,14 @@ button:focus {
 				type = userName + "님이 댓글을 달았어요";
 			}
 			String fSaveName = pService.getPdsDetail(aList.get(i).getPdsSeq()).getfSaveName();
-			String smallSrc = fSaveName.substring(0,fSaveName.lastIndexOf('.')) + "_small" + fSaveName.substring(fSaveName.lastIndexOf('.'));			
+			String smallSrc = fSaveName.substring(0,fSaveName.lastIndexOf('.')) + "_small" + fSaveName.substring(fSaveName.lastIndexOf('.'));
+						
 		%>		
 		<li class="table-row" >			
 			<div class="col col-1" data-label="작성자 프로필" onclick="veiwDetail(<%=aList.get(i).getSeq()%>,<%=aList.get(i).getPdsSeq()%>)">
-				<img class="profile_img" name="item" src="images/profiles/<%=aList.get(i).getFromId()%>.png" onerror="this.src='images/profiles/default.png'" >				
+				<img class="profile_img" name="item" src="images/profiles/<%=aList.get(i).getFromId()%>.png" onerror="this.src='images/profiles/default.png'">				
 		 	</div>
-			<div class="col col-2" data-label="알림" onclick="veiwDetail(<%=aList.get(i).getSeq()%>,<%=aList.get(i).getPdsSeq()%>)"> <%=type %><br>
+		 	<div class="col col-2" data-label="알림" onclick="veiwDetail(<%=aList.get(i).getSeq()%>,<%=aList.get(i).getPdsSeq()%>)"> <%=type %><br>
 			<font class="mdate" style="font-size: 13px; font-weight: normal;"><%=aList.get(i).getDate()%></font></div>
 			<div class="col col-3" data-label="관련 게시글" onclick="veiwDetail(<%=aList.get(i).getSeq()%>,<%=aList.get(i).getPdsSeq()%>)">
 				<img class="pds" name="item" src="images/pictures/<%=smallSrc%>" ></div>

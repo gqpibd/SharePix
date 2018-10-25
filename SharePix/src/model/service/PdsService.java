@@ -97,6 +97,7 @@ public class PdsService {
 	public boolean delPDS(int seq, String path) {
 		PdsBean delBean = PdsService.getInstance().getPdsDetail(seq); // 사진 파일을 삭제하기 위해서는 이름을 알아야 한다.
 		FileUtil.deleteFile(path + "/" + delBean.getfSaveName());
+		FileUtil.deleteFile(FileController.PATH + "/" + delBean.getfSaveName());
 		return pDao.delPDS(seq);
 	}
 	
