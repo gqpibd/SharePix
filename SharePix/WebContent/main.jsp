@@ -66,8 +66,11 @@
 		String temp = (String) it.next();        
 	    currCount = tagMap.get(temp);
 		//System.out.println(temp + " : " + currCount); 확인용 출력
-	    if(prevCount != -1 && prevCount > currCount){
-			size = size-3;       	
+	    if(prevCount != -1 && prevCount > currCount){	    	
+			size = size-3;
+			if(size < 13){
+				size=13;
+			}
 	    }
 	    if(iter<10){
 	%>

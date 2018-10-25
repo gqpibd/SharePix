@@ -2,6 +2,8 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import dto.PdsBean;
 import model.service.AlarmService;
 import model.service.PdsService;
+import utils.CollenctionUtil;
 
 public class PdsController extends HttpServlet {	
 		
@@ -171,7 +174,32 @@ public class PdsController extends HttpServlet {
 				out.flush();
 			}
 			
-		} 
+		} else if (command.equals("getCategoryTags")) {
+			resp.setCharacterEncoding("utf-8");
+			String category = req.getParameter("category");
+			List<PdsBean> list = PdsService.getInstance().getSearchPds(category); 
+			
+			 HashMap<String,Integer> tagMap = CollenctionUtil.getHashMap(list); // 전체 게시글의 태그 정보	
+			 Iterator<String> it = CollenctionUtil.sortByValueReverse(tagMap).iterator(); // 중 갯수가 가장 적은 애들
+			String data = "";
+			if(it!=null){
+				int iter = 0; // 지금 위치가 몇 번째인지 갯수를 세자			 
+				
+				while(it.hasNext()) {		
+					data += it.next();
+					if(iter > 18) {
+						break;
+					}else {
+						data +=  "#";
+					}
+					iter++;
+				}
+			}
+			
+			PrintWriter out = resp.getWriter();			
+			out.println(data);
+			out.flush();
+		}
 	}
 
 	public void dispatch(String urls, HttpServletRequest req, HttpServletResponse resp)

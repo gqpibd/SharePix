@@ -46,22 +46,7 @@ public class PdsManager implements iPdsManager {
          rs = psmt.executeQuery();
          System.out.println("3/6 getPdsDetail Success");
          
-         while (rs.next()) {
-            /*String regdate = rs.getString("UPLOADDATE");
-            regdate = regdate.substring(0, regdate.lastIndexOf('.'));
-            // SEQ, ID, TITLE, CONTENT, FILENAME, READCOUNT, DOWNCOUNT, REGDATE
-            PdsBean pds = new PdsBean(rs.getInt("SEQ"), 
-                          rs.getString("ID"), 
-                          rs.getString("CATEGORY"), 
-                          rs.getString("TAGS").substring(1).split("#"),
-                          regdate, 
-                          rs.getString("FILENAME"), 
-                          rs.getInt("READCOUNT"), 
-                          rs.getInt("DOWNCOUNT"), 
-                          rs.getInt("LIKECOUNT"),
-                          rs.getInt("REPLYCOUNT"),
-                          rs.getString("FSAVENAME")
-                          );*/
+         while (rs.next()) {            
             list.add(getPdsFromRs(rs));
          }
          System.out.println("4/6 getPdsDetail Success");
@@ -100,23 +85,7 @@ public class PdsManager implements iPdsManager {
          rs = psmt.executeQuery();
          System.out.println("3/6 getPdsDetail Success");
          
-         if (rs.next()) {
-            /*String regdate = rs.getString("UPLOADDATE");
-            regdate = regdate.substring(0, regdate.lastIndexOf('.'));
-            // SEQ, ID, TITLE, CONTENT, FILENAME, READCOUNT, DOWNCOUNT, REGDATE
-            pds = new PdsBean(rs.getInt("SEQ"), 
-                          rs.getString("ID"), 
-                          rs.getString("CATEGORY"), 
-                          rs.getString("TAGS").substring(1).split("#"),
-                          regdate, 
-                          rs.getString("FILENAME"), 
-                          rs.getInt("READCOUNT"), 
-                          rs.getInt("DOWNCOUNT"), 
-                          rs.getInt("LIKECOUNT"),
-                          rs.getInt("REPLYCOUNT"),
-                          rs.getString("FSAVENAME"),
-                          rs.getInt("REPORT")
-                          );*/
+         if (rs.next()) {           
         	 pds =  getPdsFromRs(rs);
          }
          System.out.println("4/6 getPdsDetail Success");
@@ -265,25 +234,8 @@ public class PdsManager implements iPdsManager {
          rs = psmt.executeQuery();
          System.out.println("2/6 getMyPdsAllList success");
          
-         while(rs.next()) {
-           /* 
-            String[] tag = rs.getString(4).substring(1).split("#");
-            
-            dto = new PdsBean(rs.getInt(1),             // seq
-                    rs.getString(2),        //   id
-                    rs.getString(3),       // CATEGORY
-                    tag,        
-                    rs.getString(5),     // uploaddate
-                    rs.getString(6),    // filename     
-                    rs.getInt(7),              // readcount    
-                    rs.getInt(8),              // downcount    
-                    rs.getInt(10),       // likeCount
-                    rs.getInt(11),      //replyCount
-                    rs.getString(9));      // fileSaveName
-            
-            list.add(dto);*/
-        	list.add(getPdsFromRs(rs));
-            
+         while(rs.next()) {          
+        	list.add(getPdsFromRs(rs));            
          }
          
          System.out.println("3/6 getMyPdsAllList success");
@@ -322,22 +274,7 @@ public class PdsManager implements iPdsManager {
          rs = psmt.executeQuery();
          System.out.println("3/6 getPdsDetail Success");
          
-         while (rs.next()) {
-        	 /*String regdate = rs.getString("UPLOADDATE");
-        	 regdate = regdate.substring(0, regdate.lastIndexOf('.'));
-        	 // SEQ, ID, TITLE, CONTENT, FILENAME, READCOUNT, DOWNCOUNT, REGDATE
-        	 PdsBean pds = new PdsBean(rs.getInt("SEQ"), 
-                          rs.getString("ID"), 
-                          rs.getString("CATEGORY"), 
-                          rs.getString("TAGS").substring(1).split("#"),
-                          regdate, 
-                          rs.getString("FILENAME"), 
-                          rs.getInt("READCOUNT"), 
-                          rs.getInt("DOWNCOUNT"), 
-                          rs.getInt("LIKECOUNT"),
-                          rs.getInt("REPLYCOUNT"),
-                          rs.getString("FSAVENAME")
-                          );*/
+         while (rs.next()) {        	
             list.add(getPdsFromRs(rs));
          }
          System.out.println("4/6 getPdsDetail Success");
@@ -413,29 +350,12 @@ public class PdsManager implements iPdsManager {
          rs = psmt.executeQuery();
          System.out.println("3/6 getBbsPagingList Success");
          
-         while(rs.next()) {
-             /*String regdate = rs.getString("UPLOADDATE");
-             regdate = regdate.substring(0, regdate.lastIndexOf('.'));
-             // SEQ, ID, TITLE, CONTENT, FILENAME, READCOUNT, DOWNCOUNT, REGDATE
-             PdsBean pds = new PdsBean(rs.getInt("SEQ"), 
-                           rs.getString("ID"), 
-                           rs.getString("CATEGORY"), 
-                           rs.getString("TAGS").substring(1).split("#"),
-                           regdate, 
-                           rs.getString("FILENAME"), 
-                           rs.getInt("READCOUNT"), 
-                           rs.getInt("DOWNCOUNT"), 
-                           rs.getInt("LIKECOUNT"),
-                           rs.getInt("REPLYCOUNT"),
-                           rs.getString("FSAVENAME")
-                           );
-             pdslist.add(pds);  */  
+         while(rs.next()) {             
         	 pdslist.add(getPdsFromRs(rs));
          }
          System.out.println("4/6 getBbsPagingList Success");
          
       } catch (Exception e) {
-         // TODO Auto-generated catch block
          e.printStackTrace();
       } finally {
          DBClose.close(psmt, conn, rs);         
@@ -452,8 +372,8 @@ public class PdsManager implements iPdsManager {
 	   System.out.println("pds : " + pds.toString());
       
       String sql = " INSERT INTO PICPDS( "
-            + " SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME) "
-            + " VALUES(PICPDS_SEQ.NEXTVAL, ?,?,?,CURRENT_DATE,?,0,0,?) ";
+            + " SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME, REPORT) "
+            + " VALUES(PICPDS_SEQ.NEXTVAL, ?,?,?,CURRENT_DATE,?,0,0,?,0) ";
       
       String tagStr ="";
       
@@ -697,8 +617,8 @@ public class PdsManager implements iPdsManager {
    @Override
 	public List<PdsBean> getMyLikeList(String id) {	// 내가 좋아요한 리스트
 	   	
-	 	String sql  = " SELECT DISTINCT P.SEQ, P.ID, P.CATEGORY, P.TAGS, P.UPLOADDATE, P.FILENAME, P.READCOUNT, P.DOWNCOUNT, P.FSAVENAME " 
-					+ " FROM PICPDS P, (SELECT * FROM PDSLIKE WHERE ID=?) L " 
+	 	String sql  = " SELECT DISTINCT P.SEQ, P.ID, P.CATEGORY, P.TAGS, P.UPLOADDATE, P.FILENAME, P.READCOUNT, P.DOWNCOUNT, P.FSAVENAME, P.LIKECOUNT, P.REPLYCOUNT, P.REPORT " 
+					+ " FROM PDSALL P, (SELECT * FROM PDSLIKE WHERE ID=?) L " 
 					+ " WHERE P.SEQ = L.PDSSEQ ";
 		 
 
@@ -722,30 +642,7 @@ public class PdsManager implements iPdsManager {
          rs = psmt.executeQuery();
          System.out.println("2/6 getMyLikeList Success");
          
-         while (rs.next()) {
-            /*String regdate = rs.getString("UPLOADDATE");
-            regdate = regdate.substring(0, regdate.lastIndexOf('.'));
-            
-            String tagStr =  rs.getString("TAGS");
-            int startIndex = 1;
-            if(tagStr.charAt(0) != '#') {
-            	startIndex = 0;
-            }
-            
-            // SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT         
-            PdsBean bean = new PdsBean(
-                              rs.getInt("SEQ"), 
-                              rs.getString("ID"), 
-                              rs.getString("CATEGORY"),
-                              tagStr.substring(startIndex).split("#"), 
-                              regdate, 
-                              rs.getString("FILENAME"),
-                              rs.getInt("READCOUNT"), 
-                              rs.getInt("DOWNCOUNT"), 
-                              0,   // LIKECOUNT
-                              0,   // REPLYCOUNT
-                              rs.getString("FSAVENAME")
-                        );*/
+         while (rs.next()) {           
         	 list.add(getPdsFromRs(rs));
          }
          System.out.println("3/6 getMyLikeList Success");
@@ -755,7 +652,6 @@ public class PdsManager implements iPdsManager {
       } finally {
          DBClose.close(psmt, conn, rs);
       }
-      
       return list;
    }
 
@@ -818,20 +714,19 @@ public class PdsManager implements iPdsManager {
 		}
 		return seq;
 	}
+	
 	@Override
 	   public List<PdsBean> getsingoPdsAllList() {// report 1에 해당하는 것들 list로 뽑아오기
 	      
 	      List<PdsBean> list = new ArrayList<>();
 	      
 	      String sql  = " SELECT * "
-	               + " FROM PICPDS "  
+	               + " FROM PDSALL "  
 	               + " WHERE REPORT=1 ";
 
 	      Connection conn = null;
 	      PreparedStatement psmt = null;
 	      ResultSet rs = null;
-	      
-	      PdsBean dto = null;
 	      
 	      try {
 	         conn = DBConnection.getConnection();
@@ -841,24 +736,8 @@ public class PdsManager implements iPdsManager {
 	         rs = psmt.executeQuery();
 	         System.out.println("2/6 getSingoPdsAllList success");
 	         
-	         while(rs.next()) {
-	            /*
-	            String[] tag = rs.getString(4).substring(1).split("#");
-	            
-	            dto = new PdsBean(rs.getInt(1),             // seq
-	                    rs.getString(2),        //   id
-	                    rs.getString(3),       // CATEGORY
-	                    tag,        
-	                    rs.getString(5),     // uploaddate
-	                    rs.getString(6),    // filename     
-	                    rs.getInt(7),              // readcount    
-	                    rs.getInt(8),              // downcount    
-	                    0,       // likeCount
-	                    0,      //replyCount
-	                    rs.getString(9));      // fileSaveName
-*/	            
-	            list.add(getPdsFromRs(rs));
-	            
+	         while(rs.next()) {	            	            
+	            list.add(getPdsFromRs(rs));	            
 	         }
 	         
 	         System.out.println("3/6 getSingoPdsAllList success");
@@ -870,7 +749,7 @@ public class PdsManager implements iPdsManager {
 	         DBClose.close(psmt, conn, rs);
 	      }
 	      return list;
-	   } // 여기는 된거같아요 ^-^굿 그 다른데 보여드릴게요 일단
+	   } 
 	
 	private PdsBean getPdsFromRs(ResultSet rs) throws SQLException {
 		String regdate = rs.getString("UPLOADDATE");
@@ -881,7 +760,7 @@ public class PdsManager implements iPdsManager {
    	 		startIndex = 0;
    	 	}
      
-   	 	// SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT         
+   	 	// SEQ, ID, CATEGORY, TAGS, UPLOADDATE, FILENAME, READCOUNT, DOWNCOUNT, FSAVENAME, LIKECOUNT, REPLYCOUNT, REPORT         
    	 	PdsBean bean = new PdsBean(
                        rs.getInt("SEQ"), 
                        rs.getString("ID"), 

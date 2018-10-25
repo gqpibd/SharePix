@@ -303,7 +303,7 @@ public class MemberController extends HttpServlet {
 				if(pageMemDto==null){
 					pageMemDto = new MemberBean();
 				}
-				List<PdsBean> list = pdsService.getMyPdsAllList(pageId); // 해당 페이지의 사용자 정보 list
+				List<PdsBean> list = pdsService.getMyPdsAllList(pageId); // 해당 페이지의 사용자가 올린 게시글 정보 list
 				if(list==null){
 					list = new ArrayList<>();
 				}

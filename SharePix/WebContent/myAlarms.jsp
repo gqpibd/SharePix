@@ -261,6 +261,8 @@ button:focus {
 				type = aList.get(i).getFromId()+"님이 댓글을 달았어요";
 			}
 			String fSaveName = pService.getPdsDetail(aList.get(i).getPdsSeq()).getfSaveName();
+			String smallSrc = fSaveName.substring(0,fSaveName.lastIndexOf('.')) + "_small" + fSaveName.substring(fSaveName.lastIndexOf('.'));
+
 		%>		
 		<li class="table-row" >
 			
@@ -271,7 +273,7 @@ button:focus {
 			<div class="col col-2" data-label="알림" onclick="veiwDetail(<%=aList.get(i).getSeq()%>,<%=aList.get(i).getPdsSeq()%>)"> <%=type %><br>
 			<font class="mdate" style="font-size: 13px; font-weight: normal;"><%=aList.get(i).getDate()%></font></div>
 			<div class="col col-3" data-label="관련 게시글" onclick="veiwDetail(<%=aList.get(i).getSeq()%>,<%=aList.get(i).getPdsSeq()%>)">
-				<img class="pds" name="item" src="images/pictures/<%=fSaveName%>" ></div>
+				<img class="pds" name="item" src="images/pictures/<%=smallSrc%>" ></div>
 			<div class="col col-4" data-label="내용" onclick="veiwDetail(<%=aList.get(i).getSeq()%>,<%=aList.get(i).getPdsSeq()%>)"><%=content %></div>	
 			<div class="col col-5" data-label=""><button class="circle" data-animation="xMarks" data-remove="3000" onclick="deleteAlarm(<%=aList.get(i).getSeq()%>,this)"></button></div>
 		</li>
