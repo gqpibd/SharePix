@@ -617,8 +617,8 @@ public class PdsManager implements iPdsManager {
    @Override
 	public List<PdsBean> getMyLikeList(String id) {	// 내가 좋아요한 리스트
 	   	
-	 	String sql  = " SELECT DISTINCT P.SEQ, P.ID, P.CATEGORY, P.TAGS, P.UPLOADDATE, P.FILENAME, P.READCOUNT, P.DOWNCOUNT, P.FSAVENAME " 
-					+ " FROM PICPDS P, (SELECT * FROM PDSLIKE WHERE ID=?) L " 
+	 	String sql  = " SELECT DISTINCT P.SEQ, P.ID, P.CATEGORY, P.TAGS, P.UPLOADDATE, P.FILENAME, P.READCOUNT, P.DOWNCOUNT, P.FSAVENAME, P.LIKECOUNT, P.REPLYCOUNT, P.REPORT " 
+					+ " FROM PDSALL P, (SELECT * FROM PDSLIKE WHERE ID=?) L " 
 					+ " WHERE P.SEQ = L.PDSSEQ ";
 		 
 
@@ -652,7 +652,6 @@ public class PdsManager implements iPdsManager {
       } finally {
          DBClose.close(psmt, conn, rs);
       }
-      
       return list;
    }
 

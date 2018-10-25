@@ -8,9 +8,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-   MemberBean user = (MemberBean)session.getAttribute("login"); // 로그인 정보
-   HashMap<String,Integer> tagMap = CollenctionUtil.getHashMap(PdsService.getInstance().getSearchPds("")); // 전체 게시글의 태그 정보	
-   Iterator<String> it = CollenctionUtil.sortByValueReverse(tagMap).iterator(); // 중 갯수가 가장 적은 애들
+	MemberBean user = (MemberBean)session.getAttribute("login"); // 로그인 정보
+	HashMap<String,Integer> tagMap = CollenctionUtil.getHashMap(PdsService.getInstance().getSearchPds("")); // 전체 게시글의 태그 정보	
+	Iterator<String> it = CollenctionUtil.sortByValueReverse(tagMap).iterator(); // 중 갯수가 가장 적은 애들   
 %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -148,22 +148,21 @@ var loadImageFile = function () {
 					<div style="width: 95%; margin: 15px">							
 						<textarea class="form-control" name="tags" id="tagArea" placeholder="태그(#구분)" style="overflow-x:hidden; overflow-y:auto"></textarea>
 					</div><br>
-					<p style="margin-top: 5px; margin-bottom: 5px; font-weight: bold;">이런 태그가 필요해요</p>
-					<div id="tags" align="center">
-						
-						<%
-						if(it!=null){
-						int iter = 0; // 지금 위치가 몇 번째인지 갯수를 세자
-						while(it.hasNext()) {		
-							String temp = (String) it.next();
-						%>
-							<span class="tag" onclick="addTag('<%=temp%>')" style="font-size: 15px; padding: 7px; margin: 2px">#<%=temp%></span>	
-						<%
-							iter++;
-							if(iter>18){ 
-							 	break;
-							}
-						}}%>
+						<p style="margin-top: 5px; margin-bottom: 5px; font-weight: bold;">이런 태그가 필요해요</p>
+						<div id="tags" align="center">
+							<%
+							if(it!=null){
+							int iter = 0; // 지금 위치가 몇 번째인지 갯수를 세자
+							while(it.hasNext()) {		
+								String temp = (String) it.next();
+							%>
+								<span class="tag" onclick="addTag('<%=temp%>')" style="font-size: 15px; padding: 7px; margin: 2px">#<%=temp%></span>	
+							<%
+								iter++;
+								if(iter>18){ 
+								 	break;
+								}
+							}}%>
 						</div>						
 					</td>
 				</tr>
@@ -183,12 +182,38 @@ var loadImageFile = function () {
 		function checkAndSubmit(){
 			if($("select[name='category']").val() == "카테고리"){
 				alert("카테고리를 입력해 주세요");
-				$("select[name='category']").focus();
+				$("select[name='category']").focus();				
+				return;
+			}else if(document.getElementById("original-Img").src == ""){
+				alert("이미지를 선택해 주세요");
 				return;
 			}else{
 				$("#pdswrite").submit();
 			}
 		}
+		
+		$(document).ready(function(
+			$.ajax({
+				url:"PdsController", // 접근대상
+				type:"get",		// 데이터 전송 방식
+				data:"command=getCategoryTags&category="", // 전송할 데이터
+				success:function(data, status, xhr){
+					/* console.log(data); */
+					var like = $("#ajax_hidden").html(data).find("like").text();
+					var count = $("#ajax_hidden").html(data).find("count").text();
+					if(like == "false"){
+						$("#like").attr("src",'images/icons/collection_empty.png');
+						$("#likeCount").text(count);
+					}else{
+						$("#like").attr("src",'images/icons/collection_fill.png');
+						$("#likeCount").text(count);
+					}
+				},
+				error:function(){ // 또는					 
+					console.log("통신실패!");
+				}
+			});	
+		});
 		
 	</script>
 </body>
