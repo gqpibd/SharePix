@@ -96,9 +96,9 @@ var loadImageFile = function () {
 		
 		//updateDto = (MemberBean)updateLogin;
 	%>
-	<script type="text/javascript">
+<!-- 	<script type="text/javascript">
 		location.href = "#";
-	</script>
+	</script> -->
 	<%
 		System.out.println("수정 후 updateDto = " + mem.toString());
 	%>

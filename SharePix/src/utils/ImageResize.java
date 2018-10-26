@@ -43,12 +43,13 @@ public class ImageResize {
 		int height = 0;
 		String newName = "";
 		
-		String path = imgPath;		
+		String path = saveAlso;		
 		
-		try {
+		try {			
 			
-			System.out.println(imgPath+"/"+fSaveName);
-			BufferedImage originalImage = ImageIO.read(new File(imgPath+"/"+fSaveName));
+			System.out.println("작은 사이즈:" + path+"\\"+fSaveName);
+			System.out.println("작은 사이즈:" + imgPath+"\\"+fSaveName);
+			BufferedImage originalImage = ImageIO.read(new File(path+"\\"+fSaveName));
 			System.out.println(originalImage.getWidth());
 			System.out.println(originalImage.getHeight());
 			width =(int) (originalImage.getWidth() * 25/100.0);
@@ -59,13 +60,15 @@ public class ImageResize {
 			String front = fSaveName.substring(0,fSaveName.lastIndexOf("."));
 			String rear =  fSaveName.substring(fSaveName.lastIndexOf("."));
 			
-			newName = imgPath + "/" + front + "_small" +  rear;
-			saveAlso = saveAlso + "/" + front + "_small" +  rear;
-			if(!new File(newName).exists()) {			
-				BufferedImage resizeImage = resizeImage(originalImage, type, width, height);
-				ImageIO.write(resizeImage, rear.substring(1), new File(newName));
-				ImageIO.write(resizeImage, rear.substring(1), new File(saveAlso));
-			}
+			newName = path + "/" + front + "_small" +  rear;
+			imgPath = imgPath + "/" + front + "_small" +  rear;
+			
+			BufferedImage resizeImage = resizeImage(originalImage, type, width, height);
+			ImageIO.write(resizeImage, rear.substring(1), new File(imgPath));
+			System.out.println("서버 경로:" + imgPath);
+			ImageIO.write(resizeImage, rear.substring(1), new File(newName));
+			System.out.println("로컬 경로:" + newName);
+			
 
 		} catch (IOException e) {
 			System.out.println(e.getMessage());

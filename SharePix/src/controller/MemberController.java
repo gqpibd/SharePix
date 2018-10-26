@@ -171,7 +171,12 @@ public class MemberController extends HttpServlet {
 			MemberService memberService = MemberService.getInstance();
 			MemberBean memDto = new MemberBean(id, name, pwd, email, phone, -1);
 			
-			boolean isS = memberService.updateUser(memDto);
+			HttpSession session = req.getSession();
+	         
+	        session.setAttribute("login", memDto);
+	        session.setMaxInactiveInterval(30*60);
+	         
+			boolean isS = memberService.updateUser(memDto);			
 
 			if (isS) { // update가 되면 true 반환
 				resp.setContentType("text/html; charset=UTF-8");

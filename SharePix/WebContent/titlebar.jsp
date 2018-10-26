@@ -250,20 +250,18 @@ $(document).ready(function(){
 </table>
 </div> 
 
-<script>
-var header = document.getElementById("top-menu");
-var sticky = header.offsetTop;
-function loginView(){
-	$("#titleBtn").click();
-}
-function updateAlarm(newCount){
-	$("[name='alarm']").text("새소식("+newCount+")");
-}
-function loginView(){
-	$("#titleBtn").click();
-}
-
-
+<script type="text/javascript">
+	var header = document.getElementById("top-menu");
+	var sticky = header.offsetTop;
+	function loginView(){
+		$("#titleBtn").click();
+	}
+	function updateAlarm(newCount){
+		$("[name='alarm']").text("새소식("+newCount+")");
+	}
+	function loginView(){
+		$("#titleBtn").click();
+	}
 </script>
 
 	<!-- 로그인 -->

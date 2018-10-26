@@ -49,16 +49,17 @@ public class FileController extends HttpServlet {
 			File uploadedFile = new File(dir, fSaveName + fileName.substring(fileName.lastIndexOf(".")));
 			File uploadedFile2 = new File(dir2, fSaveName + fileName.substring(fileName.lastIndexOf(".")));
 			try{
-				fileItem.write(uploadedFile);
-				
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-			try{
 				fileItem.write(uploadedFile2);
+				System.out.println("여기에 저장해줘(server) : " + dir2 + "/" + fSaveName + fileName.substring(fileName.lastIndexOf(".")));
 			}catch(Exception e){
 				e.printStackTrace();
 			}
+			/*try{
+				System.out.println("여기에 저장해(local) : " + dir + "/" + fSaveName + fileName.substring(fileName.lastIndexOf(".")));
+				fileItem.write(uploadedFile);
+			}catch(Exception e){
+				e.printStackTrace();
+			}*/
 		}
 		return fileName;
 	}
@@ -79,15 +80,12 @@ public class FileController extends HttpServlet {
 		doProcess(req, resp);
 	}
 
-	public void doProcess(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-		boolean isMultipart = ServletFileUpload.isMultipartContent(req);
-		
-		if (isMultipart) {
-			System.out.print("upload");					
+	public void doProcess(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {		
+		boolean isMultipart = ServletFileUpload.isMultipartContent(req);		
+		if (isMultipart) {				
 			
 			String filePathServer = mConfig.getServletContext().getRealPath("/images/pictures"); // 톰캣에도 저장하자
-			System.out.println(filePathServer);
+			System.out.println("ServerPath : " +filePathServer);
 			
 			// form field 에 데이터(String)
 			String id = "";
@@ -102,9 +100,9 @@ public class FileController extends HttpServlet {
 			
 			String fupload = PATH;
 			System.out.println("파일업로드:" + fupload);
-			String yourTempDirectory = fupload;
+			//String yourTempDirectory = fupload;
 			
-			//String yourTempDirectory = filePathServer;
+			String yourTempDirectory = filePathServer;
 			
 			int yourMaxRequestSize = 1000 * 1024 * 1024; // 10M
 			int yourMaxMemorySize = 1000 * 1024;
@@ -182,8 +180,8 @@ public class FileController extends HttpServlet {
 				System.out.println(rate + " " + filename + " " + fsavename);			
 				BufferedOutputStream out = new BufferedOutputStream(resp.getOutputStream());
 				try {
-					//String filePath = mConfig.getServletContext().getRealPath("/images/pictures") +"\\"+ fsavename;
-					String filePath = PATH +"\\"+ fsavename;
+					String filePath = mConfig.getServletContext().getRealPath("/images/pictures") +"\\"+ fsavename;
+					//String filePath = PATH +"\\"+ fsavename;
 					
 					
 					if(rate != 100) {

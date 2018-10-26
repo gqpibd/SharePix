@@ -59,14 +59,14 @@ a {
 @media only screen and (min-width: 120px) and (max-width: 1024px) {
   .page-numbers {
     padding: 0 14px;
-    display: none;
+    /* display: none; */
   }
   .page-numbers:nth-of-type(2) {
     position: relative;
-    padding-right: 50px;
+    /* padding-right: 50px; */
   }
   .page-numbers:nth-of-type(2)::after {
-    content: '...';
+   /*  content: '...'; */
     position: absolute;
     font-size: 25px;
     top: 0;
