@@ -39,7 +39,6 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="js/jquery.row-grid.min.js"></script>
 <script src="js/imgGridFunction.js"></script>
-
 <link rel="stylesheet" href="style/imageArrange.css">
 <link rel="stylesheet" href="style/common.css">
 <link rel="stylesheet" href="style/mainfooter.css">
