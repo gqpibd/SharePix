@@ -1,0 +1,108 @@
+@charset "EUC-KR";
+
+.tag {
+	margin : 5px;
+	background-color: #ededed;
+	-moz-border-radius: 17px;
+	-webkit-border-radius: 17px;+
+	border-radius: 17px;
+	border: 1px solid #dcdcdc;
+	display: inline-block;
+	cursor: pointer;
+	color: #777777;
+	font-family: 'Jua', sans-serif;
+	font-size: 22px;
+	padding: 6px 29px;
+	text-decoration: none;
+}
+
+.tag:hover {
+	background-color: #dfdfdf;
+}
+
+.clickable{
+	cursor: pointer;
+}
+
+.profile_img{   
+    float: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 33px;
+    margin: 5px;
+    vertical-align: middle;
+    object-fit: cover;
+}
+
+textarea {
+	/* margin-left: 20px; */
+	margin-top: 10px;
+	width:100%;
+	resize: none;
+	overflow-y: hidden; /* prevents scroll bar flash */
+	padding: 0.7em;  /* prevents text jump on Enter keypress */	
+	line-height: 1.1;
+	border-radius: 3px;
+	outline:none; /* 포커스 되었을 때 아웃라인 없앰 */	
+}
+
+/* 좋아요 버튼 */
+.mybtn {	
+	background:#dfeaef;
+	border-radius:4px;
+	border:1px solid #fff;
+	display:inline-block;
+	cursor:pointer;
+	color:#333333;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+}
+.mybtn:hover {	
+	background:linear-gradient(to bottom, #ecf9ff 5%, #cedde4 100%);	
+}
+
+/* 자료 없음 글씨 */
+.noNews {
+  font-size: 26px;
+  margin: 20px 0;
+  text-align: center;
+  font-family: 'Do Hyeon', sans-serif;
+}
+
+/* 사공 버튼 */
+.sagongBtn {
+  background: none;
+  border: 0px solid;
+  font: inherit;
+  border-radius: 12px;
+  line-height: 1;
+  margin: 0.5em;
+  padding: 0.5em 1em;
+}
+
+.sagongBtn:focus{
+	outline: none;
+}
+
+.sagongBtn {
+  color: var(--color);
+  transition: 0.25s;
+}
+
+.sagongBtn:hover, .sagongBtn:focus {
+  border-color: var(--hover);
+  color: #fff;
+}
+
+.fill:hover,
+.fill:focus {
+  box-shadow: inset 0 0 0 2em var(--hover);
+}
+
+.fill {
+  --color: #8C8C8C;
+  --hover: #1973bc;
+}

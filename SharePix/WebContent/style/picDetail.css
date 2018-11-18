@@ -1,0 +1,248 @@
+@charset "UTF-8";
+
+.main {
+  position: relative;
+  left: 0;
+  right: 0;
+  border-radius: 0;
+  width: 100%;   
+  max-width: 1400px;   
+  margin: 1rem auto;
+  overflow:hidden;  
+}
+
+@media screen and (min-width: 55em) {
+  .main {
+    overflow: visible;
+  }
+}
+
+.left {
+  width: 100%;
+  margin: 0 auto;
+  float: none;
+  background: #F6F6F6;
+  padding-bottom: 0.7rem;
+}
+
+@media screen and (min-width: 55em) {
+  .left {
+    position: absolute;
+    width: 70%;
+    float: left;
+    margin-bottom: 0;
+  }
+}
+
+.left .content {
+  padding: 2rem 1.5rem 2rem 4rem;
+  color: #040605;
+}
+
+.rightbar {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: stretch;
+  width: 100%;
+  float: none;
+  min-height: 580px;
+  height: 100%;
+  font-size: 12px;
+  padding: 0.8rem 0 1rem 1rem;
+  /* background: #F6F6F6; */
+}
+span[name='large']{
+	display: inline;
+}
+@media screen and (min-width: 55em) {
+  .rightbar {
+    width: 30%;
+    float: right;
+  }
+  
+}
+
+a{
+	color: black;
+	text-decoration: none;
+}
+
+.img {
+	max-width: 100%;
+	height: auto;
+}
+
+.profile {
+    width: 100px; 
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-left: 10px;
+}
+
+.more{
+	position: relative;
+	/* float: right; */
+}
+
+.reply{ /* 댓글 하나가 한 덩어리로 묶인다. */
+	position: relative;
+}
+
+.list_reply li {
+    overflow: hidden;
+    position: relative;
+    padding: 10px 20px 10px 20px;
+    border-bottom: 1px solid #fff;
+    width : 90%;
+}
+.re_reply { /* 대댓 */
+    margin-left: 60px;
+}
+
+.re-img{ /* 댓글 프로필 */	
+    width: 33px;
+    height: 33px;
+    border-radius: 33px;
+    margin: 5px;
+    vertical-align: middle;
+}
+.reply_content {
+    display: block;
+    float: none;
+    padding: 0 28px 0 40px;
+}
+.nickname {
+    font-size: 20px;   
+    font-weight: bold;
+}
+
+.download:focus{
+	outline: none;
+}
+
+/* 슬라이더 */
+.selectSize {
+  text-align: center;
+  font-weight: bold;
+  font-size: 3em;
+  width: 300px;
+  height: 80px;
+  line-height: 60px;
+  margin: 40px auto;
+  letter-spacing: -0.07em;
+  text-shadow: white 2px 2px 2px;
+}
+input[type="range"] {
+  display: block;
+  -webkit-appearance: none;
+  background-color: #bdc3c7;
+  width: 300px;
+  height: 5px;
+  border-radius: 5px;
+  margin: 0 auto;
+  outline: 0;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background-color: #7d7d91;
+  width: 30px;
+  height: 30px;
+  border-radius: 25%;
+  border: 2px solid white;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+​
+input[type="range"]::-webkit-slider-thumb:hover {
+  background-color: white;
+  border: 2px solid #e74c3c;
+}
+
+/*----------------툴팁----------------*/
+.mtooltip {
+    position: absolute;
+    right:0;
+    display: inline-block;
+}
+
+.mtooltip .mtooltiptext{
+    visibility: hidden;
+    width: 80px;
+    background-color: white;
+    text-align: center;
+    border-radius: 5px;
+    padding: 3px 0;
+    
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    top: -5px;
+    right: 105%;
+}
+
+.mtooltip:hover .mtooltiptext {
+    visibility: visible;
+}
+
+/*------------------------------------*/
+.aTag{
+	cursor: pointer
+}
+
+.img_clickable{
+	cursor: pointer;
+}
+
+/*------------------답변 버튼------------------*/
+.animate, .btn, .btn-border:before, 
+.btn-border:after {
+  transition: all 0.3s;
+}
+
+.btn {
+  display: inline-block;
+  /* line-height: 30px; */
+/*   padding: 0 10px; */
+  font-size: 12px;
+  position: relative;
+  opacity: .999;
+  border-radius: 3px;
+}
+
+.btn-border {
+  background-color: #e5e5e5;
+  border: 1px solid #e5e5e5;
+  color: #a6a6a6;
+}
+
+.btn-border:hover {
+  background-color: transparent;
+}
+
+.btn-border.btn-navy:after {
+  border-color: #34495e;
+}
+.btn-border.btn-navy:hover {
+  color: #34495e;
+}
+
+/*------------------다운로드 버튼------------------*/
+.download {
+	color: #3a3d44;
+	background: none;
+	border-radius: 0;
+	padding:7px 62px;
+	letter-spacing: 0.2em;
+	font-size:24px;
+	font-weight:bold;
+	transition: background-color 0.3s, box-shadow 0.3s, color 0.3s;
+	margin: 1em;
+	box-shadow: inset 0 0 0.5em rgba(32, 82, 163, 0.5), 0 0 0.5em rgba(49, 90, 158, 0.5);
+	border: #7d7d91 solid 2px;
+}
+.download:hover {
+  color: #abafbf;
+  background-color: #060606;
+  box-shadow: inset 0 0 0 rgba(158, 158, 158, 0.5), 0 0 1em rgba(198, 199, 205, 0.7);
+}
